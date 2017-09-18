@@ -1,0 +1,111 @@
+body{
+  margin: 0;
+}
+#game{
+  width: 100vw;
+  height: 100vh;
+  background: #e5f9e0;
+  overflow: hidden;
+}
+.board {
+  width: 100vw;
+  height: 75vh;
+  padding-top: 25vh;
+}
+.roll {
+  width: 50%;
+  height: 100%;
+  float: left;
+  font-size: 0;
+  background: #2C2C2C;
+  border: none;
+  outline: none;
+}
+.tile{
+  width: 10vw;
+  float: left;
+  box-sizing: border-box;
+  display: block;
+}
+.players{
+  float: left;
+}
+.des {
+  width: 33vw;
+  float: right;
+  height: 15vh;
+  display: flex;
+}
+.die {
+  width: 50%;
+  float: right;
+  text-align: center;
+  margin: auto;
+}
+p.card{
+  text-align: center;
+}
+.tile{
+  border-top: 20px solid white;
+}
+.tile:nth-child(2n){
+  border-right: 1px solid grey;
+  border-left: 1px solid grey;
+}
+.tile:nth-child(6), .tile:nth-child(16), .tile:nth-child(26), .tile:nth-child(36){
+  border-top: 20px solid #2C2C2C;
+}
+.tile:nth-child(2), .tile:nth-child(4){
+  border-top: 20px solid #722e81;
+}
+.tile:nth-child(7), .tile:nth-child(9), .tile:nth-child(10){
+  border-top: 20px solid #c7daf3;
+}
+.tile:nth-child(12), .tile:nth-child(14), .tile:nth-child(15){
+  border-top: 20px solid #c10a80;
+}
+.tile:nth-child(17), .tile:nth-child(19), .tile:nth-child(20){
+  border-top: 20px solid #fabd2a;
+}
+.tile:nth-child(22), .tile:nth-child(24), .tile:nth-child(25){
+  border-top: 20px solid #fc3b22;
+}
+.tile:nth-child(27), .tile:nth-child(29), .tile:nth-child(30){
+  border-top: 20px solid #f8fd0f;
+}
+.tile:nth-child(32), .tile:nth-child(34), .tile:nth-child(35){
+  border-top: 20px solid #43c42c;
+}
+.tile:nth-child(38), .tile:nth-child(39){
+  border-top: 20px solid #677db8;
+}
+
+.player1, .player2, .player3, .player4{
+  background: black;
+  height: 20px;
+  width: 20px;
+  display: block;
+  margin: 0 auto;
+}
+.player2{
+  background:   red;
+}
+.player3{
+  background:   pink;
+}
+.player4{
+  background:   green;
+}
+.not-active {
+ pointer-events: none;
+ cursor: default;
+}
+.overlay {
+  width: 50vw;
+  height: 40vh;
+  border: 1px solid black;
+  display: none;
+  background: white;
+  position: absolute;
+  left: 25vw;
+}
