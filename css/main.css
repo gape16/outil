@@ -80,21 +80,12 @@ p.card{
   border-top: 20px solid #677db8;
 }
 
-.player1, .player2, .player3, .player4{
+.player{
   background: black;
   height: 20px;
   width: 20px;
   display: block;
   margin: 0 auto;
-}
-.player2{
-  background:   red;
-}
-.player3{
-  background:   pink;
-}
-.player4{
-  background:   green;
 }
 .not-active {
  pointer-events: none;
