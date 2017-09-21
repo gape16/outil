@@ -1,14 +1,26 @@
 button.btn.dropdown-toggle.btn-secondary {
 	display: none;
 }
-
-.label-floating .form-control, .label-floating input {
-	padding: 1rem 0 0.5rem 0;
-}
-
 .registration-login-form {
 	min-height: auto;
 }
 a.btn.btn-purple.btn-lg.full-width {
 	margin-bottom: 0;
+}
+.form-control {
+	padding: 0;
+}
+select.selectpicker.form-control {
+	padding: 20px;
+}
+a.btn.btn-purple.btn-lg.full-width {
+	margin-top: 20px;
+}
+.form-group.label-floating:not(.is-empty) label.control-label {
+	top: inherit;
+	font-size: initial;
+	line-height: 3.2;
+}
+.label-floating .form-control, .label-floating input, .label-floating select {
+	line-height: 1;
 }

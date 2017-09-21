@@ -70,7 +70,7 @@
 
 	<div class="container">
 		<div class="row display-flex">
-			<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="landing-content">
 					<h1>Check ton site</h1>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis alias molestiae fuga accusantium, expedita nam natus in dolores dignissimos, repellat placeat necessitatibus porro unde sunt amet quasi, consequatur itaque repudiandae.
@@ -78,7 +78,7 @@
 				</div>
 			</div>
 
-			<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="registration-login-form">
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs" role="tablist">
@@ -130,14 +130,14 @@
 
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
-											<input name="datetimepicker" value="10/11/1984" />
+											<input name="datetimepicker" value="" />
 											<span class="input-group-addon">
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
 										</div>
 
 										<select class="selectpicker  form-control" size="auto">
-											<option value="MA">Graph</option>
+											<option value="MA">Graphiste</option>
 											<option value="FE">Chef d'équipe</option>
 										</select>
 
@@ -166,7 +166,7 @@
 											<div class="checkbox">
 												<label>
 													<input name="optionsCheckboxes" type="checkbox">
-													Remember Me
+													Se souvenir de moi
 												</label>
 											</div>
 											<a href="#" class="forgot">Mot de passe oublié</a>
