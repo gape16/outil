@@ -1,4 +1,4 @@
-<?php echo "ou25252i";?>
+<?php echo "test du pull";?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
