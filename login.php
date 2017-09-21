@@ -1,3 +1,4 @@
+<?php echo "oui";?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
