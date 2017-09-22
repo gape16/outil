@@ -11,4 +11,4 @@ try {
 	echo 'Connexion échouée : ' . $e->getMessage();
 }
 
-
+date_default_timezone_set('Europe/Paris');

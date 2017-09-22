@@ -22,16 +22,21 @@ if (isset($_POST['register'])) {
 	$query_test_user->execute();
 	$test_user = $query_test_user->fetch();
 	$nb_user = $query_test_user->rowCount();
+	$date = DateTime::createFromFormat('d/m/Y', $date_naissance);
+	$date_naissance = $date->format('Y-m-d');
+	$photo='';
+	$id_manager=0;
 	if($nb_user == 0){
 		//si 0 donc pas d'utilisateur avec l'email existant alors on ajoute l'utilisateur
-		$query_insert_user = $bdd->prepare("INSERT INTO email (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager) VALUES (:nom,:prenom,:date_naissance,'',:email,:mdp,:id_statut,:id_manager)");
-		$query_insert_user->bindParam(':nom', $nom);
-		$query_insert_user->bindParam(':prenom', $prenom);
-		$query_insert_user->bindParam(':date_naissance', $date_naissance);
-		$query_insert_user->bindParam(':email', $mail);
-		$query_insert_user->bindParam(':mdp', sha1($mdp));
-		$query_insert_user->bindParam(':id_statut', $statut);
-		$query_insert_user->bindParam(':id_manager', '0');
+		$query_insert_user = $bdd->prepare("INSERT INTO user (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager) VALUES (?,?,?,?,?,?,?,?)");
+		$query_insert_user->bindParam(1, $nom);
+		$query_insert_user->bindParam(2, $prenom);
+		$query_insert_user->bindParam(3, $date_naissance);
+		$query_insert_user->bindParam(4, $photo);
+		$query_insert_user->bindParam(5, $mail);
+		$query_insert_user->bindParam(6, sha1($mdp));
+		$query_insert_user->bindParam(7, $statut);
+		$query_insert_user->bindParam(8, $id_manager);
 		$query_insert_user->execute();
 	}else{
 		//sinon utilisateur trouvé
