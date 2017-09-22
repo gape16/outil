@@ -40,7 +40,7 @@ $(function(){
 		}
 
 	})
-	$(document).on('key', '.empty', function() {
+	$('.connect').on('keyup', '.empty', function(event) {
 		$(this).css('border', '1px solid #e6ecf5');
 	});
 })
