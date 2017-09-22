@@ -123,41 +123,41 @@ if (isset($_POST['register'])) {
 
 					<!-- Tab panes -->
 					<div class="tab-content">
-						<div class="tab-pane active" id="home" role="tabpanel" data-mh="log-tab">
+						<div class="tab-pane active connect" id="home" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connectez-vous</div>
-							<form class="content" method="POST" action="login.php">
+							<form class="content subscribe" method="POST" action="login.php">
 								<div class="row">
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Prénom</label>
-											<input class="form-control" placeholder="" type="text" name="prenom">
+											<input class="form-control check" placeholder="" type="text" name="prenom">
 										</div>
 									</div>
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Nom</label>
-											<input class="form-control" placeholder="" type="text" name="nom">
+											<input class="form-control check" placeholder="" type="text" name="nom">
 										</div>
 									</div>
 									<div class="col-xl-12 col-lg-12 col-md-12">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton email</label>
-											<input class="form-control" placeholder="" type="email" name="mail">
+											<input class="form-control check email" placeholder="" type="email" name="mail">
 										</div>
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton mot de passe</label>
-											<input class="form-control" placeholder="" type="password" name="mdp">
+											<input class="form-control check" placeholder="" type="password" name="mdp">
 										</div>
 
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
-											<input name="datetimepicker" value="10/11/1984" name="date_naissance" />
+											<input class="check" name="datetimepicker" value="10/11/1984" name="date_naissance" />
 											<span class="input-group-addon">
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
 										</div>
 										<input type="hidden" name="register" value="">
-										<select class="selectpicker  form-control" size="auto" name="statut">
+										<select class="form-control" size="auto" name="statut">
 											<option value="MA">Graph</option>
 											<option value="FE">Chef d'équipe</option>
 										</select>
