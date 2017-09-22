@@ -14,7 +14,7 @@ if (isset($_POST['register'])) {
 	$prenom=$_POST['prenom'];
 	$mail=$_POST['mail'];
 	$date_naissance=$_POST['datetimepicker'];
-	$mdp=$_POST['mdp'];
+	$mdp=password_hash($_POST['mdp'], PASSWORD_BCRYPT);
 	$statut=$_POST['statut'];
 	// test pour savoir si l'adresse email est déjà présente en base ce qui signifie de tester si l'utilisateur existe déjà
 	$query_test_user = $bdd->prepare("SELECT email FROM user WHERE email = :mail");
@@ -26,7 +26,7 @@ if (isset($_POST['register'])) {
 	$date_naissance = $date->format('Y-m-d');
 	$photo='';
 	$id_manager=0;
-	if($nb_user == 0){
+	if ($nb_user == 0){
 		//si 0 donc pas d'utilisateur avec l'email existant alors on ajoute l'utilisateur
 		$query_insert_user = $bdd->prepare("INSERT INTO user (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager) VALUES (?,?,?,?,?,?,?,?)");
 		$query_insert_user->bindParam(1, $nom);
@@ -34,15 +34,12 @@ if (isset($_POST['register'])) {
 		$query_insert_user->bindParam(3, $date_naissance);
 		$query_insert_user->bindParam(4, $photo);
 		$query_insert_user->bindParam(5, $mail);
-		$query_insert_user->bindParam(6, sha1($mdp));
+		$query_insert_user->bindParam(6, $mdp);
 		$query_insert_user->bindParam(7, $statut);
 		$query_insert_user->bindParam(8, $id_manager);
 		$query_insert_user->execute();
-	}else{
-		//sinon utilisateur trouvé
 	}
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +79,7 @@ if (isset($_POST['register'])) {
 	<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 	<!-- <embed type="image/svg+xml" src="icons.svg" /> -->
-	
+
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="css/main.css">
 
@@ -149,7 +146,15 @@ if (isset($_POST['register'])) {
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div class="tab-pane active connect" id="home" role="tabpanel" data-mh="log-tab">
-							<div class="title h6">Connectez-vous</div>
+							<div class="title h6">Connectez-vous
+								<?php
+								if (isset($_POST['register'])) {
+									if ($nb_user != 0){
+										echo "<br><span style='font-style:italic;color:red;'>Utilisateur déjà existant !</span>";
+									}
+								}
+								?>
+							</div>
 							<form class="content signin" method="POST" action="login.php">
 								<div class="row">
 									<div class="col-lg-6 col-md-6">
