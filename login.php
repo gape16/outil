@@ -125,7 +125,7 @@ if (isset($_POST['register'])) {
 					<div class="tab-content">
 						<div class="tab-pane active connect" id="home" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connectez-vous</div>
-							<form class="content subscribe" method="POST" action="login.php">
+							<form class="content signin" method="POST" action="login.php">
 								<div class="row">
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
