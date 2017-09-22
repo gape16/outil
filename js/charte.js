@@ -40,4 +40,7 @@ $(function(){
 		}
 
 	})
+	$(document).on('key', '.empty', function() {
+		$(this).css('border', '1px solid #e6ecf5');
+	});
 })
