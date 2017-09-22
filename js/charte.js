@@ -9,20 +9,35 @@ $(function(){
 			return pattern.test(emailAddress);
 		};
 		//var récup valeur de l'input email
-		var emailaddress = $(".email").val();
+		var emailAddress = $(".email").val();
 		//comparaison entre la valeur du mail et le format
-		if( !isValidEmailAddress( emailaddress ) ) { console.log("email faux"); }else{console.log('email vrai');}
+		if( !isValidEmailAddress(emailAddress) ) { console.log("email faux"); }else{console.log('email vrai');}
 
 		var has_empty = false;
 
 		$('.connect').find( 'input.check' ).each(function () {
 			if (!$(this).val()){ 
-				has_empty = true; console.log('pas rempli');
+				has_empty = true; 
+				console.log('pas rempli');
+				$(this).addClass('empty');
 			}else{
 				console.log('rempli!');
 			}
 		});
-		$( "form .signin" ).submit();
-		
+
+		if (has_empty == false){
+			if(isValidEmailAddress(emailAddress)){
+				if($('select.form-control[name="statut"]') != 0){
+					$( "form .signin" ).submit();
+				}else{
+					$('select.form-control[name="statut"]').css('border', '1px solid red');
+				}
+			}else{
+				$('.email').prev().html('Email pas bon').css('color', 'red');
+			}
+		}else{
+			$('.empty').css('border', '1px solid red');
+		}
+
 	})
 })
