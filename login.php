@@ -3,6 +3,11 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+
+//requète pour définir tous les statuts en options dans la partie inscription
+$query_statut = $bdd->query("SELECT * FROM statut");
+
+
 // enregistrement d'un utilisateur de login.php
 if (isset($_POST['register'])) {
 	$nom=$_POST['nom'];
@@ -27,7 +32,7 @@ if (isset($_POST['register'])) {
 		$query_insert_user->bindParam(':email', $mail);
 		$query_insert_user->bindParam(':mdp', sha1($mdp));
 		$query_insert_user->bindParam(':id_statut', $statut);
-		$query_insert_user->bindParam(':id_manager', $mail);
+		$query_insert_user->bindParam(':id_manager', '0');
 		$query_insert_user->execute();
 	}else{
 		//sinon utilisateur trouvé
@@ -174,8 +179,10 @@ if (isset($_POST['register'])) {
 										</div>
 										<input type="hidden" name="register" value="">
 										<select class="form-control" size="auto" name="statut">
-											<option value="MA">Graph</option>
-											<option value="FE">Chef d'équipe</option>
+											<option value="0">Choisir un statut</option>
+											<?php foreach ($query_statut as $key => $statut) {?>
+											<option value="<?php echo $statut['id_statut']?>"><?php echo utf8_encode($statut['nom_statut']);?></option>
+											<?php }?>
 										</select>
 
 										<a href="#" class="btn btn-purple btn-lg full-width inscription">Termine ton inscription !</a>
