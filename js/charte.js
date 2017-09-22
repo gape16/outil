@@ -27,8 +27,8 @@ $(function(){
 
 		if (has_empty == false){
 			if(isValidEmailAddress(emailAddress)){
-				if($('select.form-control[name="statut"]') != 0){
-					$( "form .signin" ).submit();
+				if($('select.form-control[name="statut"]').val() != 0){
+					$("form.signin").submit();
 				}else{
 					$('select.form-control[name="statut"]').css('border', '1px solid red');
 				}
