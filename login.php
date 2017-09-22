@@ -91,7 +91,7 @@ if (isset($_POST['register'])) {
 
 	<div class="container">
 		<div class="row display-flex">
-			<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="landing-content">
 					<h1>Check ton site</h1>
 					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis alias molestiae fuga accusantium, expedita nam natus in dolores dignissimos, repellat placeat necessitatibus porro unde sunt amet quasi, consequatur itaque repudiandae.
@@ -99,7 +99,7 @@ if (isset($_POST['register'])) {
 				</div>
 			</div>
 
-			<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="registration-login-form">
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs" role="tablist">
@@ -187,7 +187,7 @@ if (isset($_POST['register'])) {
 											<div class="checkbox">
 												<label>
 													<input name="optionsCheckboxes" type="checkbox">
-													Remember Me
+													Se souvenir de moi
 												</label>
 											</div>
 											<a href="#" class="forgot">Mot de passe oublié</a>
