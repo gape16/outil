@@ -8,12 +8,12 @@ if (isset($_POST['register'])) {
 	$nom=$_POST['nom'];
 	$prenom=$_POST['prenom'];
 	$mail=$_POST['mail'];
-	$date_naissance=$_POST['date_naissance'];
+	$date_naissance=$_POST['datetimepicker'];
 	$mdp=$_POST['mdp'];
 	$statut=$_POST['statut'];
 	// test pour savoir si l'adresse email est déjà présente en base ce qui signifie de tester si l'utilisateur existe déjà
 	$query_test_user = $bdd->prepare("SELECT email FROM user WHERE email = :mail");
-	$query_test_user = bindParam(':mail', $mail);
+	$query_test_user -> bindParam(':mail', $mail);
 	$query_test_user->execute();
 	var_dump($query_test_user);
 }
@@ -125,7 +125,7 @@ if (isset($_POST['register'])) {
 					<div class="tab-content">
 						<div class="tab-pane active" id="home" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connectez-vous</div>
-							<form class="content" method="POST" action="login.php">
+							<form class="content form_inscription" method="POST" action="login.php">
 								<div class="row">
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
@@ -151,7 +151,7 @@ if (isset($_POST['register'])) {
 
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
-											<input name="datetimepicker" value="10/11/1984" name="date_naissance" />
+											<input name="datetimepicker" value="10/11/1984"/>
 											<span class="input-group-addon">
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
