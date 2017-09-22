@@ -1,4 +1,5 @@
 $(function(){
+
 	$(".inscription").on('click', function(e){
 		e.preventDefault();
 
@@ -22,5 +23,6 @@ $(function(){
 			}
 		});
 		$( "form .signin" ).submit();
+		
 	})
 })

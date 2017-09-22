@@ -8,14 +8,30 @@ if (isset($_POST['register'])) {
 	$nom=$_POST['nom'];
 	$prenom=$_POST['prenom'];
 	$mail=$_POST['mail'];
-	$date_naissance=$_POST['date_naissance'];
+	$date_naissance=$_POST['datetimepicker'];
 	$mdp=$_POST['mdp'];
 	$statut=$_POST['statut'];
 	// test pour savoir si l'adresse email est déjà présente en base ce qui signifie de tester si l'utilisateur existe déjà
 	$query_test_user = $bdd->prepare("SELECT email FROM user WHERE email = :mail");
-	$query_test_user = bindParam(':mail', $mail);
+	$query_test_user->bindParam(':mail', $mail);
 	$query_test_user->execute();
-	var_dump($query_test_user);
+	$test_user = $query_test_user->fetch();
+	$nb_user = $query_test_user->rowCount();
+	if($nb_user == 0){
+		//si 0 donc pas d'utilisateur avec l'email existant alors on ajoute l'utilisateur
+		$query_insert_user = $bdd->prepare("INSERT INTO email (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager) VALUES (':nom':prenom,':date_naissance',':photo',':email',':mdp',':id_statut',':id_manager')");
+		$query_insert_user->bindParam(':nom', $nom);
+		$query_insert_user->bindParam(':prenom', $prenom);
+		$query_insert_user->bindParam(':date_naissance', $date_naissance);
+		$query_insert_user->bindParam(':photo', '');
+		$query_insert_user->bindParam(':email', $mail);
+		$query_insert_user->bindParam(':mdp', sha1($mdp));
+		$query_insert_user->bindParam(':id_statut', $statut);
+		$query_insert_user->bindParam(':id_manager', $mail);
+		$query_insert_user->execute();
+	}else{
+		//sinon utilisateur trouvé
+	}
 }
 
 ?>
@@ -151,7 +167,7 @@ if (isset($_POST['register'])) {
 
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
-											<input class="check" name="datetimepicker" value="10/11/1984" name="date_naissance" />
+											<input class="check" name="datetimepicker" value="10/11/1984" />
 											<span class="input-group-addon">
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
