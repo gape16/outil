@@ -1,3 +1,25 @@
+<?php
+
+// Connexion à la base de donnée et insertion de session_start
+include('connexion_session.php');
+
+// enregistrement d'un utilisateur de login.php
+if (isset($_POST['register'])) {
+	$nom=$_POST['nom'];
+	$prenom=$_POST['prenom'];
+	$mail=$_POST['mail'];
+	$date_naissance=$_POST['date_naissance'];
+	$mdp=$_POST['mdp'];
+	$statut=$_POST['statut'];
+	// test pour savoir si l'adresse email est déjà présente en base ce qui signifie de tester si l'utilisateur existe déjà
+	$query_test_user = $bdd->prepare("SELECT email FROM user WHERE email = :mail");
+	$query_test_user = bindParam(':mail', $mail);
+	$query_test_user->execute();
+	var_dump($query_test_user);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,44 +125,44 @@
 					<div class="tab-content">
 						<div class="tab-pane active" id="home" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connectez-vous</div>
-							<form class="content">
+							<form class="content" method="POST" action="login.php">
 								<div class="row">
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Prénom</label>
-											<input class="form-control" placeholder="" type="text">
+											<input class="form-control" placeholder="" type="text" name="prenom">
 										</div>
 									</div>
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Nom</label>
-											<input class="form-control" placeholder="" type="text">
+											<input class="form-control" placeholder="" type="text" name="nom">
 										</div>
 									</div>
 									<div class="col-xl-12 col-lg-12 col-md-12">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton email</label>
-											<input class="form-control" placeholder="" type="email">
+											<input class="form-control" placeholder="" type="email" name="mail">
 										</div>
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton mot de passe</label>
-											<input class="form-control" placeholder="" type="password">
+											<input class="form-control" placeholder="" type="password" name="mdp">
 										</div>
 
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
-											<input name="datetimepicker" value="10/11/1984" />
+											<input name="datetimepicker" value="10/11/1984" name="date_naissance" />
 											<span class="input-group-addon">
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
 										</div>
-
-										<select class="selectpicker  form-control" size="auto">
+										<input type="hidden" name="register" value="">
+										<select class="selectpicker  form-control" size="auto" name="statut">
 											<option value="MA">Graph</option>
 											<option value="FE">Chef d'équipe</option>
 										</select>
 
-										<a href="#" class="btn btn-purple btn-lg full-width">Termine ton inscription !</a>
+										<a href="#" class="btn btn-purple btn-lg full-width inscription">Termine ton inscription !</a>
 									</div>
 								</div>
 							</form>
@@ -206,7 +228,7 @@
 	<!-- Datepicker input field script-->
 	<script src="js/moment.min.js"></script>
 	<script src="js/daterangepicker.min.js"></script>
-
+	<script src="js/charte.js"></script>
 
 
 
