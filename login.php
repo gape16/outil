@@ -141,11 +141,8 @@ if (isset($_POST['register'])) {
 					<div class="tab-content">
 						<div class="tab-pane active connect" id="home" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connectez-vous</div>
-<<<<<<< HEAD
-							<form class="content form_inscription" method="POST" action="login.php">
-=======
+
 							<form class="content subscribe" method="POST" action="login.php">
->>>>>>> 8bef1ce11d50ea7798cd0dba01c8a820468f168a
 								<div class="row">
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
@@ -171,11 +168,7 @@ if (isset($_POST['register'])) {
 
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
-<<<<<<< HEAD
-											<input name="datetimepicker" value="10/11/1984"/>
-=======
-											<input class="check" name="datetimepicker" value="10/11/1984" name="date_naissance" />
->>>>>>> 8bef1ce11d50ea7798cd0dba01c8a820468f168a
+											<input class="check" name="datetimepicker" value="10/11/1984" />
 											<span class="input-group-addon">
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
