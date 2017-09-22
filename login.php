@@ -134,10 +134,9 @@
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
 										</div>
-
-										<select class="selectpicker  form-control" size="auto">
-											<option value="MA">Graphiste</option>
-											<option value="FE">Chef d'équipe</option>
+										<select class="form-control" size="auto">
+											<option value="GR">Graphiste</option>
+											<option value="CE">Chef d'équipe</option>
 										</select>
 
 										<a href="#" class="btn btn-purple btn-lg full-width">Termine ton inscription !</a>
