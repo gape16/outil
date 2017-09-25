@@ -251,10 +251,15 @@ if (isset($_POST['connect'])) {
 														Se souvenir de moi
 													</label>
 												</div>
-												<a href="#" class="forgot">Mot de passe oublié</a>
+												<a href="#" data-fancybox data-src="#hidden-content-b" class="forgot">Mot de passe oublié</a>
 											</div>
 											<input type="hidden" name="connect" value="">
 											<a href="#" class="btn btn-lg btn-primary full-width connec">Connecte toi!</a>
+											<div style="display: none;" id="hidden-content-b">
+												<h2>Rentrer l'adresse mail <span class="poste"></span></h2>
+												<input type="text" placeholder="Email" class="forgotemail">
+												<a href="#" class="btn btn-purple btn-lg full-width getpassword">Récupérer son mot de passe</a>
+											</div>
 										</div>
 									</div>
 								</form>
