@@ -26,9 +26,10 @@ if (isset($_POST['register'])) {
 	$date_naissance = $date->format('Y-m-d');
 	$photo='';
 	$id_manager=0;
+	$token='';
 	if ($nb_user == 0){
 		//si 0 donc pas d'utilisateur avec l'email existant alors on ajoute l'utilisateur
-		$query_insert_user = $bdd->prepare("INSERT INTO user (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager) VALUES (?,?,?,?,?,?,?,?)");
+		$query_insert_user = $bdd->prepare("INSERT INTO user (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager, token) VALUES (?,?,?,?,?,?,?,?)");
 		$query_insert_user->bindParam(1, $nom);
 		$query_insert_user->bindParam(2, $prenom);
 		$query_insert_user->bindParam(3, $date_naissance);
@@ -37,6 +38,7 @@ if (isset($_POST['register'])) {
 		$query_insert_user->bindParam(6, $mdp);
 		$query_insert_user->bindParam(7, $statut);
 		$query_insert_user->bindParam(8, $id_manager);
+		$query_insert_user->bindParam(9, $token);
 		$query_insert_user->execute();
 	}
 }
