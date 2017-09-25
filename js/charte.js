@@ -90,6 +90,8 @@ $(function() {
 
 
 	$('a.forgot').on('click', function(){
+		$('.token').css('display', 'none');
+		$('.newpassword').css('display', 'none');
 		$.fancybox({
 			href: '#hidden-content-b', // Source of the content
 			type: 'iframe',
@@ -98,23 +100,53 @@ $(function() {
 	});
 	$('.getpassword').on('click', function(){
 		var emailforgot = $('input.forgotemail').val();
+		if (!isValidEmailAddress(emailforgot)) {
+			$('.forgotemail').addClass('empty');
+		} else {
+			console.log('mail valide');
+			$('.token').css('display', 'block');
+			$('.forgotemail').css('display', 'none');
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {
+					idForgot : emailforgot,
+				}
+			}).done(function(data) {
+				console.log(data);
+				$('.hidden').val(data);
+				console.log($('.token').val());
+				$('.getpassword').css('display', 'none');
+				$('.newpassword').css('display', 'block');
+			})
+		}
 		console.log(emailforgot);
-		$.ajax({
-			url: 'formulaire.php',
-			type: 'POST',
-			data: {
-				idForgot : emailforgot,
-			}
-		}).done(function(data) {
-			$('.forgotemail').val('').attr('placeholder', 'Regarde ta boite mail');
-			//supprimer et en recréer un pourles novueaux mdp
-			data = "test";
-			if(data == emailforgot){
-				console.log('condition marche');
-				$('input.forgotemail').remove();
-				$('<input type="text" placeholder="Ton nouveau mot de passe" class="newpassword"> <input type="text" placeholder="Verifie ton nouveau mot de passe" class="newpasswordverify">').insertBefore('.getpassword')
-			}
-		})
 	})
+	$('.newpassword').on('click', function(){
+		data = $('.hidden').val();
+		if(data == $('.token').val()){
+			console.log('condition marche');
+			$('.token').remove();
+			$('<input type="text" placeholder="Ton nouveau mot de passe" class="password"> <input type="text" placeholder="Verifie ton nouveau mot de passe" class="passwordverify">').insertBefore('.getpassword')
+			var password = $('.password').val();
+			var passwordverify = $('.passwordverify').val();	
+			$('.newpassword').css('display', 'none');
+			$('<a href="#" class="btn btn-purple btn-lg full-width confirmpw" style="display: block;">Valider nouveau mot de passe<div class="ripple-container"></div></a>').insertAfter('input.passwordverify')
 
+			$('.confirmpw').on('click', function(){
+				if(password == passwordverify){
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {
+							newPassword : password,
+						}
+					}).done(function(data) {
+						console.log('ok');
+					})
+				}
+			})
+
+		}
+	})
 })

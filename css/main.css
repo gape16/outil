@@ -8,3 +8,7 @@
 .onchange{
 	border: 1px solid #e6ecf5;
 }
+
+#hidden-content-a .btn, #hidden-content-b .btn{
+	margin-top: 20px;
+}

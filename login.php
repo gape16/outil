@@ -258,7 +258,10 @@ if (isset($_POST['connect'])) {
 											<div style="display: none;" id="hidden-content-b">
 												<h2>Rentrer l'adresse mail <span class="poste"></span></h2>
 												<input type="text" placeholder="Email" class="forgotemail">
+												<input type="hidden" class="hidden">
+												<input type="text" placeholder="Regarde ta boite mail" class="token">
 												<a href="#" class="btn btn-purple btn-lg full-width getpassword">Récupérer son mot de passe</a>
+												<a href="#" class="btn btn-purple btn-lg full-width newpassword">Récupérer son mot de passe</a>
 											</div>
 										</div>
 									</div>
