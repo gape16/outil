@@ -1,5 +1,10 @@
 $(function(){
 
+	$(".connec").on('click', function(e){
+		e.preventDefault();
+		$("form.connexion").submit();
+	})
+
 	$(".inscription").on('click', function(e){
 		e.preventDefault();
 
