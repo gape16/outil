@@ -38,5 +38,5 @@ if (isset($_POST['newPassword'])) {
 	$query_insert_user->bindParam(1, $pass);
 	$query_insert_user->bindParam(2, $mail);
 	$query_insert_user->execute();
-	echo "good";
+	echo ;
 }
