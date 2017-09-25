@@ -30,3 +30,13 @@ if (isset($_POST['idForgot'])) {
 	// mail($to, $subject, $message, $headers);
 	echo $code;
 }
+
+if (isset($_POST['newPassword'])) {
+	$pass = $_POST['newPassword'];
+	$mail = $_POST['mailNewPassword'];
+	$query_insert_user = $bdd->prepare("UPDATE user SET mdp = ? where email = ?");
+	$query_insert_user->bindParam(1, $pass);
+	$query_insert_user->bindParam(2, $mail);
+	$query_insert_user->execute();
+	echo "good";
+}
