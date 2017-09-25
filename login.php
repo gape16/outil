@@ -97,6 +97,7 @@ if (isset($_POST['connect'])) {
 
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 
 </head>
 
@@ -209,12 +210,16 @@ if (isset($_POST['connect'])) {
 											<?php }?>
 										</select>
 
-										<a href="#" class="btn btn-purple btn-lg full-width inscription">Termine ton inscription !</a>
+										<a href="#" data-fancybox data-src="#hidden-content-a" class="btn btn-purple btn-lg full-width inscription fancybox">Termine ton inscription !</a>
+										<div style="display: none;" id="hidden-content-a">
+											<h2>Rentrer le code pour : <span class="poste"></span></h2>
+											<input type="text" placeholder="Code" class="code">
+											<a href="#" class="btn btn-purple btn-lg full-width submit">Termine ton inscription !</a>
+										</div>
 									</div>
 								</div>
 							</form>
 						</div>
-
 						<div class="tab-pane" id="profile" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connecte toi à ton compte
 								<?php 
@@ -230,13 +235,12 @@ if (isset($_POST['connect'])) {
 										<div class="col-xl-12 col-lg-12 col-md-12">
 											<div class="form-group label-floating is-empty">
 												<label class="control-label">Ton Email</label>
-												<input class="form-control" placeholder="" type="email" name="mail">
+												<input class="form-control email" placeholder="" type="email" name="mail">
 											</div>
 											<div class="form-group label-floating is-empty">
 												<label class="control-label">Ton mot de passe</label>
 												<input class="form-control" placeholder="" type="password" name="mdp">
 											</div>
-
 											<div class="remember">
 
 												<div class="checkbox">
@@ -285,7 +289,8 @@ if (isset($_POST['connect'])) {
 		<script src="js/daterangepicker.min.js"></script>
 		<script src="js/charte.js"></script>
 
-
+		<!-- Fancybox-->
+		<script src="js/jquery.fancybox.min.js"></script>
 
 
 	</body>
