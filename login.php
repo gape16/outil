@@ -200,14 +200,14 @@ if (isset($_POST['register'])) {
 							</form>
 						</div>
 
-						<div class="tab-pane" id="profile" role="tabpanel" data-mh="log-tab">
+						<div class="tab-pane login" id="profile" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connecte toi à ton compte</div>
-							<form class="content">
+							<form class="content connexion">
 								<div class="row">
 									<div class="col-xl-12 col-lg-12 col-md-12">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton Email</label>
-											<input class="form-control" placeholder="" type="email">
+											<input class="form-control email" placeholder="" type="email">
 										</div>
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton mot de passe</label>
