@@ -12,3 +12,7 @@
 #hidden-content-a .btn, #hidden-content-b .btn{
 	margin-top: 20px;
 }
+
+.token, .newpassword{
+	display: none;
+}

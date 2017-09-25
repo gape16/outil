@@ -90,8 +90,6 @@ $(function() {
 
 
 	$('a.forgot').on('click', function(){
-		$('.token').css('display', 'none');
-		$('.newpassword').css('display', 'none');
 		$.fancybox({
 			href: '#hidden-content-b', // Source of the content
 			type: 'iframe',
@@ -99,12 +97,12 @@ $(function() {
 		});	
 	});
 	$('.getpassword').on('click', function(){
+		$('.token').css('display', 'block');
 		var emailforgot = $('input.forgotemail').val();
 		if (!isValidEmailAddress(emailforgot)) {
 			$('.forgotemail').addClass('empty');
 		} else {
 			console.log('mail valide');
-			$('.token').css('display', 'block');
 			$('.forgotemail').css('display', 'none');
 			$.ajax({
 				url: 'formulaire.php',
@@ -124,25 +122,28 @@ $(function() {
 	})
 	$('.newpassword').on('click', function(){
 		data = $('.hidden').val();
+		var emailforgot = $('input.forgotemail').val();
 		if(data == $('.token').val()){
 			console.log('condition marche');
 			$('.token').remove();
 			$('<input type="text" placeholder="Ton nouveau mot de passe" class="password"> <input type="text" placeholder="Verifie ton nouveau mot de passe" class="passwordverify">').insertBefore('.getpassword')
-			var password = $('.password').val();
-			var passwordverify = $('.passwordverify').val();	
 			$('.newpassword').css('display', 'none');
 			$('<a href="#" class="btn btn-purple btn-lg full-width confirmpw" style="display: block;">Valider nouveau mot de passe<div class="ripple-container"></div></a>').insertAfter('input.passwordverify')
 
 			$('.confirmpw').on('click', function(){
+				var password = $('.password').val();
+				var passwordverify = $('.passwordverify').val();	
 				if(password == passwordverify){
 					$.ajax({
 						url: 'formulaire.php',
 						type: 'POST',
 						data: {
 							newPassword : password,
+							mailNewPassword : emailforgot
 						}
 					}).done(function(data) {
-						console.log('ok');
+						console.log(password);
+						$.fancybox.close();
 					})
 				}
 			})
