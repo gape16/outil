@@ -244,13 +244,6 @@ if (isset($_POST['connect'])) {
 												<input class="form-control" placeholder="" type="password" name="mdp">
 											</div>
 											<div class="remember">
-
-												<div class="checkbox">
-													<label>
-														<input name="optionsCheckboxes" type="checkbox">
-														Se souvenir de moi
-													</label>
-												</div>
 												<a href="#" data-fancybox data-src="#hidden-content-b" class="forgot">Mot de passe oublié</a>
 											</div>
 											<input type="hidden" name="connect" value="">

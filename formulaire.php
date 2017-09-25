@@ -32,11 +32,10 @@ if (isset($_POST['idForgot'])) {
 }
 
 if (isset($_POST['newPassword'])) {
-	$pass = $_POST['newPassword'];
+	$pass = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
 	$mail = $_POST['mailNewPassword'];
 	$query_insert_user = $bdd->prepare("UPDATE user SET mdp = ? where email = ?");
 	$query_insert_user->bindParam(1, $pass);
 	$query_insert_user->bindParam(2, $mail);
 	$query_insert_user->execute();
-	echo ;
 }
