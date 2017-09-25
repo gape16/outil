@@ -14,7 +14,7 @@ if (isset($_POST['register'])) {
 	$prenom=$_POST['prenom'];
 	$mail=$_POST['mail'];
 	$date_naissance=$_POST['datetimepicker'];
-	$mdp=password_hash($_POST['mdp'], PASSWORD_BCRYPT);
+	$mdp=password_hash($_POST['mdp'], PASSWORD_DEFAULT);
 	$statut=$_POST['statut'];
 	// test pour savoir si l'adresse email est déjà présente en base ce qui signifie de tester si l'utilisateur existe déjà
 	$query_test_user = $bdd->prepare("SELECT email FROM user WHERE email = :mail");
@@ -38,6 +38,21 @@ if (isset($_POST['register'])) {
 		$query_insert_user->bindParam(7, $statut);
 		$query_insert_user->bindParam(8, $id_manager);
 		$query_insert_user->execute();
+	}
+}
+
+//test connexion !
+if (isset($_POST['connect'])) {
+	$mail=$_POST['mail'];
+	$mdp=$_POST['mdp'];
+	$query_test_user = $bdd->prepare("SELECT mdp FROM user WHERE email = :mail");
+	$query_test_user->bindParam(':mail', $mail);
+	$query_test_user->execute();
+	$test_user = $query_test_user->fetch();
+	if(password_verify($mdp, $test_user['mdp'])){
+		//password correct donc redirection vers page d'accueil
+		$_SESSION['email']=$mail;
+		header('Location: accueil.php');
 	}
 }
 ?>
@@ -201,69 +216,77 @@ if (isset($_POST['register'])) {
 						</div>
 
 						<div class="tab-pane" id="profile" role="tabpanel" data-mh="log-tab">
-							<div class="title h6">Connecte toi à ton compte</div>
-							<form class="content">
-								<div class="row">
-									<div class="col-xl-12 col-lg-12 col-md-12">
-										<div class="form-group label-floating is-empty">
-											<label class="control-label">Ton Email</label>
-											<input class="form-control" placeholder="" type="email">
-										</div>
-										<div class="form-group label-floating is-empty">
-											<label class="control-label">Ton mot de passe</label>
-											<input class="form-control" placeholder="" type="password">
-										</div>
-
-										<div class="remember">
-
-											<div class="checkbox">
-												<label>
-													<input name="optionsCheckboxes" type="checkbox">
-													Se souvenir de moi
-												</label>
-											</div>
-											<a href="#" class="forgot">Mot de passe oublié</a>
-										</div>
-
-										<a href="#" class="btn btn-lg btn-primary full-width">Connecte toi!</a>
-									</div>
+							<div class="title h6">Connecte toi à ton compte
+								<?php 
+								if (isset($_POST['connect'])) {
+									if(!password_verify($mdp, $test_user['mdp'])){
+									//password incorrect
+										echo "<br><span style='font-style:italic;color:red;'>Impossible de se connecter</span>";
+									}}
+									?>
 								</div>
-							</form>
+								<form class="content connexion" method="POST">
+									<div class="row">
+										<div class="col-xl-12 col-lg-12 col-md-12">
+											<div class="form-group label-floating is-empty">
+												<label class="control-label">Ton Email</label>
+												<input class="form-control" placeholder="" type="email" name="mail">
+											</div>
+											<div class="form-group label-floating is-empty">
+												<label class="control-label">Ton mot de passe</label>
+												<input class="form-control" placeholder="" type="password" name="mdp">
+											</div>
+
+											<div class="remember">
+
+												<div class="checkbox">
+													<label>
+														<input name="optionsCheckboxes" type="checkbox">
+														Se souvenir de moi
+													</label>
+												</div>
+												<a href="#" class="forgot">Mot de passe oublié</a>
+											</div>
+											<input type="hidden" name="connect" value="">
+											<a href="#" class="btn btn-lg btn-primary full-width connec">Connecte toi!</a>
+										</div>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- ... end Login-Registration Form  -->
-
+		<!-- ... end Login-Registration Form  -->
 
 
 
 
-	<!-- jQuery first, then Other JS. -->
-	<script src="js/jquery-3.2.0.min.js"></script>
-	<!-- Js effects for material design. + Tooltips -->
-	<script src="js/material.min.js"></script>
-	<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-	<script src="js/theme-plugins.js"></script>
-	<!-- Init functions -->
-	<script src="js/main.js"></script>
 
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
+		<!-- jQuery first, then Other JS. -->
+		<script src="js/jquery-3.2.0.min.js"></script>
+		<!-- Js effects for material design. + Tooltips -->
+		<script src="js/material.min.js"></script>
+		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+		<script src="js/theme-plugins.js"></script>
+		<!-- Init functions -->
+		<script src="js/main.js"></script>
 
-	<!-- Swiper / Sliders -->
-	<script src="js/swiper.jquery.min.js"></script>
+		<!-- Select / Sorting script -->
+		<script src="js/selectize.min.js"></script>
 
-	<!-- Datepicker input field script-->
-	<script src="js/moment.min.js"></script>
-	<script src="js/daterangepicker.min.js"></script>
-	<script src="js/charte.js"></script>
+		<!-- Swiper / Sliders -->
+		<script src="js/swiper.jquery.min.js"></script>
+
+		<!-- Datepicker input field script-->
+		<script src="js/moment.min.js"></script>
+		<script src="js/daterangepicker.min.js"></script>
+		<script src="js/charte.js"></script>
 
 
 
 
-</body>
-</html>
+	</body>
+	</html>
