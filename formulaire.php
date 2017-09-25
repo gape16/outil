@@ -8,4 +8,4 @@ if (isset($_POST['jobUser'])) {
 	$query_test_code->execute();
 	$test_code = $query_test_code->fetch();
 	echo $test_code["code"];
-})
+}
