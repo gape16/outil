@@ -29,7 +29,7 @@ if (isset($_POST['register'])) {
 	$token='';
 	if ($nb_user == 0){
 		//si 0 donc pas d'utilisateur avec l'email existant alors on ajoute l'utilisateur
-		$query_insert_user = $bdd->prepare("INSERT INTO user (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager, token) VALUES (?,?,?,?,?,?,?,?)");
+		$query_insert_user = $bdd->prepare("INSERT INTO user (nom, prenom, date_naissance, photo, email, mdp, id_statut, id_manager, token) VALUES (?,?,?,?,?,?,?,?, ?)");
 		$query_insert_user->bindParam(1, $nom);
 		$query_insert_user->bindParam(2, $prenom);
 		$query_insert_user->bindParam(3, $date_naissance);

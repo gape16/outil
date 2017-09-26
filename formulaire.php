@@ -96,7 +96,7 @@ if (isset($_POST['numClient'])) {
 		$new_card.='			</div>';
 		$new_card.='			<div class="friend-avatar">';
 		$new_card.='				<div class="author-thumb">';
-		$new_card.='					<img src="img/logo.png" alt="Olympus">';
+		$new_card.='					<img src="img/crea_maquette.png" alt="Olympus">';
 		$new_card.='				</div>';
 		$new_card.='				<div class="author-content">';
 		$new_card.='					<a href="#" class="h5 author-name">'.$raisonSociale.'</a>';
