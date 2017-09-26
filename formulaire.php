@@ -99,8 +99,8 @@ if (isset($_POST['numClient'])) {
 		$new_card.='					<img src="img/logo.png" alt="Olympus">';
 		$new_card.='				</div>';
 		$new_card.='				<div class="author-content">';
-		$new_card.='					<a href="#" class="h5 author-name">My Family</a>';
-		$new_card.='					<div class="country">6 Friends in the Group</div>';
+		$new_card.='					<a href="#" class="h5 author-name">'.$raisonSociale.'</a>';
+		$new_card.='					<div class="country">'.$numClient.'</div>';
 		$new_card.='				</div>';
 		$new_card.='			</div>';
 
@@ -110,28 +110,13 @@ if (isset($_POST['numClient'])) {
 		$new_card.='						<img src="img/friend-harmonic5.jpg" alt="friend">';
 		$new_card.='					</a>';
 		$new_card.='				</li>';
-		$new_card.='				<li>';
-		$new_card.='					<a href="#">';
-		$new_card.='						<img src="img/friend-harmonic10.jpg" alt="friend">';
-		$new_card.='					</a>';
-		$new_card.='				</li>';
-		$new_card.='				<li>';
-		$new_card.='					<a href="#">';
-		$new_card.='						<img src="img/friend-harmonic7.jpg" alt="friend">';
-		$new_card.='					</a>';
-		$new_card.='				</li>';
-		$new_card.='				<li>';
-		$new_card.='					<a href="#">';
-		$new_card.='						<img src="img/friend-harmonic8.jpg" alt="friend">';
-		$new_card.='					</a>';
-		$new_card.='				</li>';	
 		$new_card.='			</ul>';
 		$new_card.='<div class="control-block-button">';
-		$new_card.='				<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">';
+		$new_card.='				<a href="'.$adresseCms.'" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">';
 		$new_card.='					<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>';
 		$new_card.='				</a>';
 
-		$new_card.='				<a href="#" class="btn btn-control btn-grey-lighter">';
+		$new_card.='				<a href="check.php" class="btn btn-control btn-grey-lighter">';
 		$new_card.='					<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>';
 		$new_card.='				</a>';
 
