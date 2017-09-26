@@ -40,15 +40,43 @@ if (isset($_POST['newPassword'])) {
 	$query_insert_user->execute();
 }
 
-if (isset($_POST['addClient'])) {
-	$numClient=$_POST['addClient'];
+if (isset($_POST['numClient'])) {
+	$numClient=$_POST['numClient'];
 	$date = date('Y-m-d H:i:s');
-	$raisonSocial=$_POST['raisonSocial'];
+	$raisonSociale=$_POST['raisonSociale'];
+	$dateRetourMaquette=NULL;
+	$dateRetourCq=NULL;
+	$idGraphMaquette=0;
+	$idControleurMaquette=0;
+	$idGraphCq=0;
+	$idControleurCq=0;
 	$idEtat=1;
-	$lienCms=$_POST['lienCms'];
+	$adresseCms=$_POST['adresseCms'];
 	//test savoir si client existe déjà ou non
-	$query_test_client = $bdd->prepare("UPDATE user SET mdp = ? where email = ?");
-	$query_test_client->bindParam(1, $pass);
-	$query_test_client->bindParam(2, $mail);
+	$query_test_client = $bdd->prepare("SELECT id_client FROM client where num_client = ? and lien_CMS = ?");
+	$query_test_client->bindParam(1, $numClient);
+	$query_test_client->bindParam(2, $adresseCms);
 	$query_test_client->execute();
+	$test_client= $query_test_client->fetch();
+	$nb_client=$test_client->rowCount();
+	if($nb_client==0){
+		//création du client
+		$query_ins_client = $bdd->prepare("INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
+		$query_ins_client->bindParam(1, $numClient);
+		$query_ins_client->bindParam(2, $date);
+		$query_ins_client->bindParam(3, $raisonSociale);
+		$query_ins_client->bindParam(4, $dateRetourMaquette);
+		$query_ins_client->bindParam(5, $dateRetourCq);
+		$query_ins_client->bindParam(6, $idGraphMaquette);
+		$query_ins_client->bindParam(7, $idControleurMaquette);
+		$query_ins_client->bindParam(8, $idGraphCq);
+		$query_ins_client->bindParam(9, $idControleurCq);
+		$query_ins_client->bindParam(10, $idEtat);
+		$query_ins_client->bindParam(11, $adresseCms);
+		$query_ins_client->execute();
+		echo "non existant";
+	}else{
+		//refus de création
+		echo "existant";
+	}
 }
