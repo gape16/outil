@@ -165,24 +165,22 @@ $(function() {
 			},
 		})
 		.done(function(data) {
-			console.log("success");
-			data = 1;
 			if(data == "existant"){
-				console.log("pas possible")
+				
 			}else{
-				console.log("Ajout du numéro client");
-				var newCard = '<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">'
-				newCard += '<div class="friend-item friend-groups create-group" data-mh="friend-groups-item">'
-				newCard += '<a href="#" class="  full-block" data-toggle="modal" data-target="#create-friend-group-1"></a>'
-				newCard += '<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-1">'
-				newCard += '<div class="author-content">';
-				newCard += '<a href="#" class="h5 author-name">Ajouter un client</a>'
-				newCard += '<div class="country">-</div>'
-				newCard += '</div></div></div></div>'
-				console.log(newCard);
+				var newCard = '<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+				newCard += '<div class="ui-block" data-mh="friend-groups-item>';
+				newCard += '<div class="friend-item friend-groups"><div class="friend-item-content"><div class="more">';
+				newCard += '<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>';
+				newCard += '<ul class="more-dropdown"><li><a href="#">Report Profile</a></li><li><a href="#">Block Profile</a></li><li><a href="#">Turn Off Notifications</a></li></ul></div>';
+				newCard += '<div class="friend-avatar"><div class="author-thumb"><img src="img/logo.png" alt="Olympus"></div><div class="author-content"><a href="#" class="h5 author-name">My Family</a><div class="country">6 Friends in the Group</div></div></div>';
+				newCard += '<ul class="friends-harmonic"><li><a href="#"><img src="img/friend-harmonic5.jpg" alt="friend"></a></li></ul>';
+				newCard += '<div class="control-block-button"><a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends"><svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg></a><a href="#" class="btn btn-control btn-grey-lighter"><svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg></a></div>';
+				newCard += '</div></div></div></div>';
 				$('div#create-friend-group-1').css('display', 'none');
 				$('.modal-backdrop.show').css('opacity', '0');
 				$(newCard).insertAfter('.col-xl-3.col-lg-6.col-md-6.col-sm-6.col-xs-6')
+				console.log(data);
 			}
 		})
 	});
