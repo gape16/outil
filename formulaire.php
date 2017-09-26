@@ -62,7 +62,7 @@ if (isset($_POST['numClient'])) {
 	// echo $nb_cligitteent;
 	if($nb_client==0){
 		//création du client
-		echo "INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES ('$numClient', '$date', '$raisonSociale', '$dateRetourMaquette', '$dateRetourCq', '$idGraphMaquette', '$idControleurMaquette', '$idGraphCq', '$idControleurCq', '$idEtat' ,'$adresseCms')";
+		// echo "INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES ('$numClient', '$date', '$raisonSociale', '$dateRetourMaquette', '$dateRetourCq', '$idGraphMaquette', '$idControleurMaquette', '$idGraphCq', '$idControleurCq', '$idEtat' ,'$adresseCms')";
 		$query_ins_client = $bdd->prepare("INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
 		$query_ins_client->bindParam(1, $numClient);
 		$query_ins_client->bindParam(2, $date);
@@ -140,10 +140,10 @@ if (isset($_POST['numClient'])) {
 		$new_card.='	</div>';
 		$new_card.='</div>';
 		$new_card.='</div>';
-		// echo $new_card;
+		echo $new_card;
 		// echo "non existant";
 	}else{
 		//refus de création
-		// echo "existant";
+		echo "existant";
 	}
 }
