@@ -24,7 +24,7 @@ if (isset($_POST['register'])) {
 	$nb_user = $query_test_user->rowCount();
 	$date = DateTime::createFromFormat('d/m/Y', $date_naissance);
 	$date_naissance = $date->format('Y-m-d');
-	$photo='';
+	$photo='img/friend-harmonic13.jpg';
 	$id_manager=0;
 	$token='';
 	if ($nb_user == 0){
@@ -55,6 +55,7 @@ if (isset($_POST['connect'])) {
 		//password correct donc redirection vers page d'accueil
 		$_SESSION['email']=$mail;
 		$_SESSION['id_graph']=$test_user['id_user'];
+		$_SESSION['id_statut']=$test_user['id_statut'];
 		header('Location: accueil.php');
 	}
 }

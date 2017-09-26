@@ -46,7 +46,7 @@ if (isset($_POST['numClient'])) {
 	$raisonSociale=$_POST['raisonSociale'];
 	$dateRetourMaquette=NULL;
 	$dateRetourCq=NULL;
-	$idGraphMaquette=0;
+	$idGraphMaquette=$_SESSION['id_graph'];
 	$idControleurMaquette=0;
 	$idGraphCq=0;
 	$idControleurCq=0;
