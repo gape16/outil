@@ -165,13 +165,13 @@ $(function() {
 			},
 		})
 		.done(function(data) {
+			console.log(data);
 			if(data == "existant"){
-				
+				console.log('existant');
 			}else{
-				var newCard = $('.clonecard').clone();
 				$('div#create-friend-group-1').modal('hide');
-				$(newCard).appendTo('.container.cards .row');
-				console.log(data);
+				$('.container.cards .row').append(data);
+
 			}
 		})
 	});
