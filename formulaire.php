@@ -74,7 +74,8 @@ if (isset($_POST['numClient'])) {
 		$query_ins_client->bindParam(10, $idEtat);
 		$query_ins_client->bindParam(11, $adresseCms);
 		$query_ins_client->execute();
-		echo "non existant";
+		echo "INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES ('$num_client', '$date', '$raison_social', '$dateRetourMaquette', '$dateRetourCq', '$idGraphMaquette', '$idControleurMaquette', '$idGraphCq', '$idControleurCq', '$idEtat' ,'$adresseCms')"
+		// echo "non existant";
 	}else{
 		//refus de création
 		echo "existant";
