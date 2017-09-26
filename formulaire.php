@@ -59,9 +59,10 @@ if (isset($_POST['numClient'])) {
 	$query_test_client->execute();
 	$test_client= $query_test_client->fetch();
 	$nb_client=$query_test_client->rowCount();
-	echo $nb_client;
+	// echo $nb_cligitent;
 	if($nb_client==0){
 		//création du client
+		echo "INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES ('$num_client', '$date', '$raison_social', '$dateRetourMaquette', '$dateRetourCq', '$idGraphMaquette', '$idControleurMaquette', '$idGraphCq', '$idControleurCq', '$idEtat' ,'$adresseCms')";
 		$query_ins_client = $bdd->prepare("INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
 		$query_ins_client->bindParam(1, $numClient);
 		$query_ins_client->bindParam(2, $date);
