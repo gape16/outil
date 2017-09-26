@@ -156,6 +156,17 @@ $(function() {
 		var numClient = $('.numclient').val();
 		var raisonSociale = $('.raisonsociale').val();
 		var adresseCms = $('.adressecms').val();
+
+		var splitAdresseCms = adresseCms.split('service/');
+		console.log(splitAdresseCms);
+
+
+		if(numClient.length == 8 && $.isNumeric(numClient)){
+
+		}
+
+
+
 		$.ajax({
 			url: 'formulaire.php',
 			type: 'POST',
@@ -167,7 +178,7 @@ $(function() {
 		.done(function(data) {
 			console.log(data);
 			if(data == "existant"){
-				console.log('existant');
+				console.log('ce projet existe déjà');
 			}else{
 				$('div#create-friend-group-1').modal('hide');
 				$('.container.cards .row').append(data);
