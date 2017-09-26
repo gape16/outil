@@ -32,7 +32,9 @@
 
 	<!-- Styles for plugins -->
 	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
-
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 
 </head>
 
@@ -112,8 +114,8 @@
 						</a>
 
 						<div class="author-content">
-							<a href="#" class="h5 author-name">My Family</a>
-							<div class="country">6 Friends in the Group</div>
+							<a href="#" class="h5 author-name">Ajouter un client</a>
+							<div class="country">-</div>
 						</div>
 
 					</div>
@@ -122,578 +124,106 @@
 
 			</div>
 
-			<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-				<div class="ui-block" data-mh="friend-groups-item">
-					<div class="friend-item friend-groups">
-
-						<div class="friend-item-content">
-
-							<div class="more">
-								<svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-								<ul class="more-dropdown">
-									<li>
-										<a href="#">Report Profile</a>
-									</li>
-									<li>
-										<a href="#">Block Profile</a>
-									</li>
-									<li>
-										<a href="#">Turn Off Notifications</a>
-									</li>
-								</ul>
-							</div>
-							<div class="friend-avatar">
-								<div class="author-thumb">
-									<img src="img/logo.png" alt="Olympus">
-								</div>
-								<div class="author-content">
-									<a href="#" class="h5 author-name">My Family</a>
-									<div class="country">6 Friends in the Group</div>
-								</div>
-							</div>
-
-							<ul class="friends-harmonic">
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic5.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic10.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic7.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic8.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic2.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/avatar30-sm.jpg" alt="author">
-									</a>
-								</li>
-							</ul>
 
 
-							<div class="control-block-button">
-								<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
-									<svg class="olymp-happy-faces-icon"><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-								</a>
+			<!-- ... end Main Content Groups -->
 
-								<a href="#" class="btn btn-control btn-grey-lighter">
-									<svg class="olymp-settings-icon"><use xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
-								</a>
 
-							</div>
-						</div>
+			<!-- Window-popup Create Friends Group -->
+			<div class="modal fade" id="create-friend-group-1">
+				<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-1">
+					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+					</a>
+
+					<div class="ui-block-title">
+						<h6 class="title">Ajouter un client</h6>
 					</div>
+
+					<div class="ui-block-content">
+						<form class="form-group label-floating is-empty addclient">
+							<div class="form-group is-empty label-floating ">
+								<label class="control-label">Numéro client</label>
+								<input class="form-control numclient" placeholder="" value="" type="text">
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Raison sociale</label>
+								<input class="form-control raisonsociale" placeholder="" value="" type="text">
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Adresse CMS</label>
+								<input class="form-control adressecms" placeholder="" value="" type="text">
+							</div>
+						</form>
+						<a href="#" class="btn btn-blue btn-lg full-width btn-addclient">Ajouter le client</a>
+					</div>
+
+
 				</div>
 			</div>
-			<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-				<div class="ui-block" data-mh="friend-groups-item">
-					<div class="friend-item friend-groups">
+			<!-- ... end Window-popup Create Friends Group -->
 
-						<div class="friend-item-content">
 
-							<div class="more">
-								<svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-								<ul class="more-dropdown">
-									<li>
-										<a href="#">Report Profile</a>
-									</li>
-									<li>
-										<a href="#">Block Profile</a>
-									</li>
-									<li>
-										<a href="#">Turn Off Notifications</a>
-									</li>
-								</ul>
-							</div>
-							<div class="friend-avatar">
-								<div class="author-thumb">
-									<img src="img/friend-group1.png" alt="photo">
-								</div>
-								<div class="author-content">
-									<a href="#" class="h5 author-name">Daydreams Coworkers</a>
-									<div class="country">24 Friends in the Group</div>
-								</div>
-							</div>
+			<!-- Window-popup Create Friends Group Add Friends -->
+			<div class="modal fade" id="create-friend-group-add-friends">
+				<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-add-friends">
+					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+					</a>
 
-							<ul class="friends-harmonic">
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic1.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic2.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic3.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic4.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic5.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic6.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic7.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic8.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic9.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#" class="all-users bg-blue">+15</a>
-								</li>
-							</ul>
-
-							<div class="control-block-button">
-								<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
-									<svg class="olymp-happy-faces-icon"><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control btn-grey-lighter">
-									<svg class="olymp-settings-icon"><use xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
-								</a>
-							</div>
-
-						</div>
+					<div class="ui-block-title">
+						<h6 class="title">Add Friends to “Freelance Clients” Group</h6>
 					</div>
-				</div>
-			</div>
-			<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-				<div class="ui-block" data-mh="friend-groups-item">
-					<div class="friend-item friend-groups">
 
-						<div class="friend-item-content">
+					<div class="ui-block-content">
+						<form class="form-group label-floating is-select">
 
-							<div class="more">
-								<svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-								<ul class="more-dropdown">
-									<li>
-										<a href="#">Report Profile</a>
-									</li>
-									<li>
-										<a href="#">Block Profile</a>
-									</li>
-									<li>
-										<a href="#">Turn Off Notifications</a>
-									</li>
-								</ul>
-							</div>
-							<div class="friend-avatar">
-								<div class="author-thumb">
-									<img src="img/friend-group2.jpg" alt="photo">
-								</div>
-								<div class="author-content">
-									<a href="#" class="h5 author-name">Close Friends</a>
-									<div class="country">4 Friends in the Group</div>
-								</div>
-							</div>
-
-							<ul class="friends-harmonic">
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic5.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic10.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic7.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<img src="img/friend-harmonic8.jpg" alt="friend">
-									</a>
-								</li>
-								<li>
-								</ul>
-
-
-								<div class="control-block-button">
-									<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
-										<svg class="olymp-happy-faces-icon"><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-									</a>
-
-									<a href="#" class="btn btn-control btn-grey-lighter">
-										<svg class="olymp-settings-icon"><use xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
-									</a>
-
-								</div>
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="ui-block" data-mh="friend-groups-item">
-						<div class="friend-item friend-groups">
-
-							<div class="friend-item-content">
-
-								<div class="more">
-									<svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Report Profile</a>
-										</li>
-										<li>
-											<a href="#">Block Profile</a>
-										</li>
-										<li>
-											<a href="#">Turn Off Notifications</a>
-										</li>
-									</ul>
-								</div>
-								<div class="friend-avatar">
+							<select class="selectpicker form-control style-2 show-tick" multiple data-max-options="2" data-live-search="true" size="auto">
+								<option title="Green Goo Rock" data-content='<div class="inline-items">
 									<div class="author-thumb">
-										<img src="img/friend-group3.jpg" alt="photo">
+										<img src="img/avatar52-sm.jpg" alt="author">
 									</div>
-									<div class="author-content">
-										<a href="#" class="h5 author-name">Freelance Clients</a>
-										<div class="country">15 Friends in the Group</div>
-									</div>
-								</div>
+									<div class="h6 author-title">Green Goo Rock</div>
 
-								<ul class="friends-harmonic">
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic1.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic2.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic3.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic4.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic5.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic6.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic7.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic8.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic9.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#" class="all-users bg-blue">+6</a>
-									</li>
-								</ul>
+								</div>'>
+							</option>
 
-								<div class="control-block-button">
-									<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
-										<svg class="olymp-happy-faces-icon"><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-									</a>
-
-									<a href="#" class="btn btn-control btn-grey-lighter">
-										<svg class="olymp-settings-icon"><use xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
-									</a>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="ui-block" data-mh="friend-groups-item">
-						<div class="friend-item friend-groups">
-
-							<div class="friend-item-content">
-
-								<div class="more">
-									<svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Report Profile</a>
-										</li>
-										<li>
-											<a href="#">Block Profile</a>
-										</li>
-										<li>
-											<a href="#">Turn Off Notifications</a>
-										</li>
-									</ul>
-								</div>
-								<div class="friend-avatar">
-									<div class="author-thumb">
-										<img src="img/friend-group4.jpg" alt="photo">
-									</div>
-									<div class="author-content">
-										<a href="#" class="h5 author-name">Running Buddies</a>
-										<div class="country">7 Friends in the Group</div>
-									</div>
-								</div>
-
-								<ul class="friends-harmonic">
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic5.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic10.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic7.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic8.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic2.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/avatar30-sm.jpg" alt="author">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic7.jpg" alt="friend">
-										</a>
-									</li>
-								</ul>
-
-								<div class="control-block-button">
-									<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
-										<svg class="olymp-happy-faces-icon"><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-									</a>
-
-									<a href="#" class="btn btn-control btn-grey-lighter">
-										<svg class="olymp-settings-icon"><use xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
-									</a>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-
-		<!-- ... end Main Content Groups -->
-
-
-		<!-- Window-popup Create Friends Group -->
-		<div class="modal fade" id="create-friend-group-1">
-			<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-1">
-				<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-					<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-				</a>
-
-				<div class="ui-block-title">
-					<h6 class="title">Create Friend Group</h6>
-				</div>
-
-				<div class="ui-block-content">
-					<form class="form-group label-floating">
-						<label class="control-label">Group Name</label>
-						<input class="form-control" placeholder="" value="Highschool Friends" type="text">
-					</form>
-
-					<form class="form-group with-button">
-						<input class="form-control" placeholder="" value="Group Avatar (120x120px min)" type="text">
-
-						<button class="bg-grey">
-							<svg class="olymp-computer-icon"><use xlink:href="icons/icons.svg#olymp-computer-icon"></use></svg>
-						</button>
-
-					</form>
-
-					<form class="form-group label-floating is-select">
-						<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-
-						<select class="selectpicker form-control style-2 show-tick" multiple data-max-options="2" data-live-search="true" size="auto">
-							<option title="Green Goo Rock" data-content='<div class="inline-items">
+							<option title="Mathilda Brinker" data-content='<div class="inline-items">
 								<div class="author-thumb">
-									<img src="img/avatar52-sm.jpg" alt="author">
+									<img src="img/avatar74-sm.jpg" alt="author">
 								</div>
-								<div class="h6 author-title">Green Goo Rock</div>
-
+								<div class="h6 author-title">Mathilda Brinker</div>
 							</div>'>
 						</option>
 
-						<option title="Mathilda Brinker" data-content='<div class="inline-items">
+						<option title="Marina Valentine" data-content='<div class="inline-items">
 							<div class="author-thumb">
-								<img src="img/avatar74-sm.jpg" alt="author">
+								<img src="img/avatar48-sm.jpg" alt="author">
 							</div>
-							<div class="h6 author-title">Mathilda Brinker</div>
+							<div class="h6 author-title">Marina Valentine</div>
 						</div>'>
 					</option>
 
-					<option title="Marina Valentine" data-content='<div class="inline-items">
+					<option title="Dave Marinara" data-content='<div class="inline-items">
 						<div class="author-thumb">
-							<img src="img/avatar48-sm.jpg" alt="author">
+							<img src="img/avatar75-sm.jpg" alt="author">
 						</div>
-						<div class="h6 author-title">Marina Valentine</div>
+						<div class="h6 author-title">Dave Marinara</div>
 					</div>'>
 				</option>
 
-				<option title="Dave Marinara" data-content='<div class="inline-items">
+				<option title="Rachel Howlett" data-content='<div class="inline-items">
 					<div class="author-thumb">
-						<img src="img/avatar75-sm.jpg" alt="author">
+						<img src="img/avatar76-sm.jpg" alt="author">
 					</div>
-					<div class="h6 author-title">Dave Marinara</div>
+					<div class="h6 author-title">Rachel Howlett</div>
 				</div>'>
 			</option>
 
-			<option title="Rachel Howlett" data-content='<div class="inline-items">
-				<div class="author-thumb">
-					<img src="img/avatar76-sm.jpg" alt="author">
-				</div>
-				<div class="h6 author-title">Rachel Howlett</div>
-			</div>'>
-		</option>
+		</select>
+	</form>
 
-	</select>
-</form>
-
-<a href="#" class="btn btn-blue btn-lg full-width">Create Group</a>
-</div>
-
-
-</div>
-</div>
-<!-- ... end Window-popup Create Friends Group -->
-
-
-<!-- Window-popup Create Friends Group Add Friends -->
-<div class="modal fade" id="create-friend-group-add-friends">
-	<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-add-friends">
-		<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-			<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-		</a>
-
-		<div class="ui-block-title">
-			<h6 class="title">Add Friends to “Freelance Clients” Group</h6>
-		</div>
-
-		<div class="ui-block-content">
-			<form class="form-group label-floating is-select">
-
-				<select class="selectpicker form-control style-2 show-tick" multiple data-max-options="2" data-live-search="true" size="auto">
-					<option title="Green Goo Rock" data-content='<div class="inline-items">
-						<div class="author-thumb">
-							<img src="img/avatar52-sm.jpg" alt="author">
-						</div>
-						<div class="h6 author-title">Green Goo Rock</div>
-
-					</div>'>
-				</option>
-
-				<option title="Mathilda Brinker" data-content='<div class="inline-items">
-					<div class="author-thumb">
-						<img src="img/avatar74-sm.jpg" alt="author">
-					</div>
-					<div class="h6 author-title">Mathilda Brinker</div>
-				</div>'>
-			</option>
-
-			<option title="Marina Valentine" data-content='<div class="inline-items">
-				<div class="author-thumb">
-					<img src="img/avatar48-sm.jpg" alt="author">
-				</div>
-				<div class="h6 author-title">Marina Valentine</div>
-			</div>'>
-		</option>
-
-		<option title="Dave Marinara" data-content='<div class="inline-items">
-			<div class="author-thumb">
-				<img src="img/avatar75-sm.jpg" alt="author">
-			</div>
-			<div class="h6 author-title">Dave Marinara</div>
-		</div>'>
-	</option>
-
-	<option title="Rachel Howlett" data-content='<div class="inline-items">
-		<div class="author-thumb">
-			<img src="img/avatar76-sm.jpg" alt="author">
-		</div>
-		<div class="h6 author-title">Rachel Howlett</div>
-	</div>'>
-</option>
-
-</select>
-</form>
-
-<a href="#" class="btn btn-blue btn-lg full-width">Save Changes</a>
+	<a href="#" class="btn btn-blue btn-lg full-width">Save Changes</a>
 </div>
 
 </div>
@@ -925,6 +455,8 @@
 
 	<script src="js/mediaelement-and-player.min.js"></script>
 	<script src="js/mediaelement-playlist-plugin.min.js"></script>
+
+	<script src="js/charte.js"></script>
 
 </body>
 </html>

@@ -178,33 +178,33 @@ if (isset($_POST['connect'])) {
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Prénom</label>
-											<input class="form-control check" placeholder="" type="text" name="prenom">
+											<input autocomplete="off" class="form-control check" placeholder="" type="text" name="prenom">
 										</div>
 									</div>
 									<div class="col-lg-6 col-md-6">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Nom</label>
-											<input class="form-control check" placeholder="" type="text" name="nom">
+											<input autocomplete="off" class="form-control check" placeholder="" type="text" name="nom">
 										</div>
 									</div>
 									<div class="col-xl-12 col-lg-12 col-md-12">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton email</label>
-											<input class="form-control check email" placeholder="" type="email" name="mail">
+											<input autocomplete="off" class="form-control check email" placeholder="" type="email" name="mail">
 										</div>
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Ton mot de passe</label>
-											<input class="form-control check" placeholder="" type="password" name="mdp">
+											<input autocomplete="off" class="form-control check" placeholder="" type="password" name="mdp">
 										</div>
 
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
-											<input class="check" name="datetimepicker" value="10/11/1984" />
-											<span class="input-group-addon">
+											<input autocomplete="off" class="check" name="datetimepicker" value="10/11/1984" />
+											<span class="input autocomplete="off"-group-addon">
 												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
 											</span>
 										</div>
-										<input type="hidden" name="register" value="">
+										<input autocomplete="off" type="hidden" name="register" value="">
 										<select class="form-control" size="auto" name="statut">
 											<option value="0">Choisir un statut</option>
 											<?php foreach ($query_statut as $key => $statut) {?>
@@ -215,7 +215,7 @@ if (isset($_POST['connect'])) {
 										<a href="#" data-fancybox data-src="#hidden-content-a" class="btn btn-purple btn-lg full-width inscription fancybox">Termine ton inscription !</a>
 										<div style="display: none;" id="hidden-content-a">
 											<h2>Rentrer le code pour : <span class="poste"></span></h2>
-											<input type="text" placeholder="Code" class="code">
+											<input autocomplete="off" type="text" placeholder="Code" class="code">
 											<a href="#" class="btn btn-purple btn-lg full-width submit">Termine ton inscription !</a>
 										</div>
 									</div>
@@ -237,22 +237,22 @@ if (isset($_POST['connect'])) {
 										<div class="col-xl-12 col-lg-12 col-md-12">
 											<div class="form-group label-floating is-empty">
 												<label class="control-label">Ton Email</label>
-												<input class="form-control email" placeholder="" type="email" name="mail">
+												<input autocomplete="off" class="form-control email" placeholder="" type="email" name="mail">
 											</div>
 											<div class="form-group label-floating is-empty">
 												<label class="control-label">Ton mot de passe</label>
-												<input class="form-control" placeholder="" type="password" name="mdp">
+												<input autocomplete="off" class="form-control" placeholder="" type="password" name="mdp">
 											</div>
 											<div class="remember">
 												<a href="#" data-fancybox data-src="#hidden-content-b" class="forgot">Mot de passe oublié</a>
 											</div>
-											<input type="hidden" name="connect" value="">
+											<input autocomplete="off" type="hidden" name="connect" value="">
 											<a href="#" class="btn btn-lg btn-primary full-width connec">Connecte toi!</a>
 											<div style="display: none;" id="hidden-content-b">
 												<h2>Rentrer l'adresse mail <span class="poste"></span></h2>
-												<input type="text" placeholder="Email" class="forgotemail">
-												<input type="hidden" class="hidden">
-												<input type="text" placeholder="Regarde ta boite mail" class="token">
+												<input autocomplete="off" type="text" placeholder="Email" class="forgotemail">
+												<input autocomplete="off" type="hidden" class="hidden">
+												<input autocomplete="off" type="text" placeholder="Regarde ta boite mail" class="token">
 												<a href="#" class="btn btn-purple btn-lg full-width getpassword">Récupérer son mot de passe</a>
 												<a href="#" class="btn btn-purple btn-lg full-width newpassword">Récupérer son mot de passe</a>
 											</div>
@@ -287,7 +287,7 @@ if (isset($_POST['connect'])) {
 		<!-- Swiper / Sliders -->
 		<script src="js/swiper.jquery.min.js"></script>
 
-		<!-- Datepicker input field script-->
+		<!-- Datepicker input autocomplete="off" field script-->
 		<script src="js/moment.min.js"></script>
 		<script src="js/daterangepicker.min.js"></script>
 		<script src="js/charte.js"></script>
