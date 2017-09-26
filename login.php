@@ -40,6 +40,7 @@ if (isset($_POST['register'])) {
 		$query_insert_user->bindParam(8, $id_manager);
 		$query_insert_user->bindParam(9, $token);
 		$query_insert_user->execute();
+		setcookie('register', 'blablabla', time()+3600 * 24 * 365);
 	}
 }
 
@@ -146,7 +147,7 @@ if (isset($_POST['connect'])) {
 					<!-- Nav tabs -->
 					<ul class="nav nav-tabs" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#home" role="tab">
+							<a class="nav-link <?php if(!isset($_COOKIE['register'])){ echo 'active';}?>" data-toggle="tab" href="#home" role="tab">
 								<svg id="olymp-login-icon" viewBox="0 0 29 32" width="100%" height="100%">
 									<title>login-icon</title>
 									<path d="M0 17.443c0 6.515 4.287 12.026 10.195 13.875v-3.081c-4.263-1.728-7.273-5.901-7.273-10.783 0-4.883 3.009-9.056 7.273-10.784v-3.1c-5.908 1.849-10.195 7.36-10.195 13.872zM18.922 3.578v3.092c4.263 1.728 7.273 5.901 7.273 10.783s-3.009 9.056-7.273 10.783v3.071c5.894-1.855 10.169-7.357 10.169-13.863 0-6.503-4.273-12.007-10.169-13.865zM13.104 14.545h2.909v-14.545h-2.909v14.545zM13.104 32h2.909v-2.909h-2.909v2.909z"></path>
@@ -154,7 +155,7 @@ if (isset($_POST['connect'])) {
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#profile" role="tab">
+							<a class="nav-link <?php if(isset($_COOKIE['register'])){ echo 'active';}?>" data-toggle="tab" href="#profile" role="tab">
 								<svg id="olymp-register-icon" viewBox="0 0 37 32" width="100%" height="100%">
 									<title>register-icon</title>
 									<path d="M16 3.213c3.24 0 6.192 1.214 8.446 3.2h4.346c-2.917-3.888-7.549-6.413-12.781-6.413-7.165 0-13.227 4.714-15.259 11.213h3.387c1.899-4.69 6.491-8 11.861-8zM16 28.813c-5.37 0-9.962-3.31-11.861-8h-3.378c2.040 6.485 8.094 11.187 15.25 11.187 5.222 0 9.842-2.515 12.762-6.387h-4.325c-2.256 1.986-5.208 3.2-8.448 3.2zM32 14.413v-4.8h-3.2v4.8h-4.8v3.2h4.8v4.8h3.2v-4.8h4.8v-3.2h-4.8zM3.2 14.413h-3.2v3.2h3.2v-3.2z"></path>
