@@ -112,7 +112,7 @@ if (isset($_POST['numClient'])) {
 		$new_card.='				</li>';
 		$new_card.='			</ul>';
 		$new_card.='<div class="control-block-button">';
-		$new_card.='				<a href="'.$adresseCms.'" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">';
+		$new_card.='				<a href="'.$adresseCms.'" class="  btn btn-control bg-blue">';
 		$new_card.='					<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>';
 		$new_card.='				</a>';
 
