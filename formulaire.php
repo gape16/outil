@@ -59,6 +59,7 @@ if (isset($_POST['numClient'])) {
 	$query_test_client->execute();
 	$test_client= $query_test_client->fetch();
 	$nb_client=$query_test_client->rowCount();
+	echo $nb_client;
 	if($nb_client==0){
 		//création du client
 		$query_ins_client = $bdd->prepare("INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
@@ -138,10 +139,10 @@ if (isset($_POST['numClient'])) {
 		$new_card.='	</div>';
 		$new_card.='</div>';
 		$new_card.='</div>';
-		echo $new_card;
+		// echo $new_card;
 		// echo "non existant";
 	}else{
 		//refus de création
-		echo "existant";
+		// echo "existant";
 	}
 }
