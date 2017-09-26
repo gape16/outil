@@ -77,7 +77,7 @@ if (isset($_POST['numClient'])) {
 		$query_ins_client->bindParam(11, $adresseCms);
 		$query_ins_client->execute();
 		$new_card= '<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">';
-		$new_card.='<div class="ui-block" data-mh="friend-groups-item" style="height: 396px;">';
+		$new_card.='<div class="ui-block" data-mh="friend-groups-item">';
 		$new_card.='<div class="friend-item friend-groups">';
 		$new_card.='<div class="friend-item-content">';
 		$new_card.='<div class="more">';
