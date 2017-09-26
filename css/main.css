@@ -16,3 +16,8 @@
 .token, .newpassword{
 	display: none;
 }
+
+.friend-item{
+	min-height: 450px;
+}
+

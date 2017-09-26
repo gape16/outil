@@ -118,11 +118,11 @@ if (isset($_SESSION['id_statut'])) {
 		// si c'est un graph qui se connect
 		if ($_SESSION['id_statut'] == 1) {?>
 
-		<div class="container">
+		<div class="container cards">
 			<div class="row">
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<div class="friend-item friend-groups create-group" data-mh="friend-groups-item">
-						<a href="#" class="  full-block" data-toggle="modal" data-target="#create-friend-group-1"></a>
+						<a href="#" class="full-block" data-toggle="modal" data-target="#create-friend-group-1"></a>
 						<div class="content">
 							<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-1">
 								<svg class="olymp-plus-icon"><use xlink:href="icons/icons.svg#olymp-plus-icon"></use></svg>

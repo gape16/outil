@@ -156,35 +156,43 @@ $(function() {
 		var numClient = $('.numclient').val();
 		var raisonSociale = $('.raisonsociale').val();
 		var adresseCms = $('.adressecms').val();
+		var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
 
-		var splitAdresseCms = adresseCms.split('service/');
-		console.log(splitAdresseCms);
+
+
 
 
 		if(numClient.length == 8 && $.isNumeric(numClient)){
-
+			if(adresseCms.indexOf(splitAdresseCms) != -1){
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {numClient : numClient,
+						raisonSociale : raisonSociale,
+						adresseCms : adresseCms
+					},
+				})
+				.done(function(data) {
+					console.log(data);
+					if(data == "existant"){
+						console.log('ce projet existe déjà');
+					}else{
+						$('div#create-friend-group-1').modal('hide');
+						$('.container.cards .row').append(data);
+					}
+				})
+			}else{
+				$('.adressecms').addClass('empty');
+				$('.adressecms').prev().html('L\'adresse n\'est pas valide');
+			}
+		}else{
+			$('.numclient').addClass('empty');
+			$('.numclient').prev().html('Le numéro client n\'est pas valide');
 		}
 
 
 
-		$.ajax({
-			url: 'formulaire.php',
-			type: 'POST',
-			data: {numClient : numClient,
-				raisonSociale : raisonSociale,
-				adresseCms : adresseCms
-			},
-		})
-		.done(function(data) {
-			console.log(data);
-			if(data == "existant"){
-				console.log('ce projet existe déjà');
-			}else{
-				$('div#create-friend-group-1').modal('hide');
-				$('.container.cards .row').append(data);
 
-			}
-		})
 	});
 
 })
