@@ -147,7 +147,44 @@ $(function() {
 					})
 				}
 			})
-
 		}
 	})
+
+
+
+	$('.btn-addclient').on('click', function(){
+		var numClient = $('.numclient').val();
+		var raisonSociale = $('.raisonsociale').val();
+		var adresseCms = $('.adressecms').val();
+		$.ajax({
+			url: 'formulaire.php',
+			type: 'POST',
+			data: {numClient : numClient,
+				raisonsociale : raisonSociale,
+				adresseCms : adresseCms
+			},
+		})
+		.done(function(data) {
+			console.log("success");
+			data = 1;
+			if(data == "existant"){
+				console.log("pas possible")
+			}else{
+				console.log("Ajout du numéro client");
+				var newCard = '<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">'
+				newCard += '<div class="friend-item friend-groups create-group" data-mh="friend-groups-item">'
+				newCard += '<a href="#" class="  full-block" data-toggle="modal" data-target="#create-friend-group-1"></a>'
+				newCard += '<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-1">'
+				newCard += '<div class="author-content">';
+				newCard += '<a href="#" class="h5 author-name">Ajouter un client</a>'
+				newCard += '<div class="country">-</div>'
+				newCard += '</div></div></div></div>'
+				console.log(newCard);
+				$('div#create-friend-group-1').css('display', 'none');
+				$('.modal-backdrop.show').css('opacity', '0');
+				$(newCard).insertAfter('.col-xl-3.col-lg-6.col-md-6.col-sm-6.col-xs-6')
+			}
+		})
+	});
+
 })
