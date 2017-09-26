@@ -47,13 +47,14 @@ if (isset($_POST['register'])) {
 if (isset($_POST['connect'])) {
 	$mail=$_POST['mail'];
 	$mdp=$_POST['mdp'];
-	$query_test_user = $bdd->prepare("SELECT mdp FROM user WHERE email = :mail");
+	$query_test_user = $bdd->prepare("SELECT * FROM user WHERE email = :mail");
 	$query_test_user->bindParam(':mail', $mail);
 	$query_test_user->execute();
 	$test_user = $query_test_user->fetch();
 	if(password_verify($mdp, $test_user['mdp'])){
 		//password correct donc redirection vers page d'accueil
 		$_SESSION['email']=$mail;
+		$_SESSION['id_graph']=$test_user['id_user'];
 		header('Location: accueil.php');
 	}
 }

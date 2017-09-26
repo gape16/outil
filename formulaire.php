@@ -39,3 +39,16 @@ if (isset($_POST['newPassword'])) {
 	$query_insert_user->bindParam(2, $mail);
 	$query_insert_user->execute();
 }
+
+if (isset($_POST['addClient'])) {
+	$numClient=$_POST['addClient'];
+	$date = date('Y-m-d H:i:s');
+	$raisonSocial=$_POST['raisonSocial'];
+	$idEtat=1;
+	$lienCms=$_POST['lienCms'];
+	//test savoir si client existe déjà ou non
+	$query_test_client = $bdd->prepare("UPDATE user SET mdp = ? where email = ?");
+	$query_test_client->bindParam(1, $pass);
+	$query_test_client->bindParam(2, $mail);
+	$query_test_client->execute();
+}
