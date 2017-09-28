@@ -1,6 +1,6 @@
 <div class="fixed-sidebar">
   <div class="fixed-sidebar-left sidebar--small" id="sidebar-left">
-    <a href="02-ProfilePage.html" class="logo">
+    <a href="" class="logo">
       <img src="img/logo.png" alt="Olympus">
     </a>
 
@@ -15,7 +15,7 @@
           </a>
         </li>
         <li>
-          <a href="03-Newsfeed.html">
+          <a href="#">
             <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="NEWSFEED"><svg id="olymp-newsfeed-icon" viewBox="0 0 29 32" width="100%" height="100%">
               <title>newsfeed-icon</title>
               <path d="M6.4 25.602v-3.202h9.6v3.202h-9.6zM6.4 16h16v3.2h-16v-3.2zM22.4 25.602v6.398h-22.4v-28.8c0-1.766 1.434-3.2 3.2-3.2h22.4c1.766 0 3.2 1.434 3.2 3.2v9.6h-25.6v16.002h16v-6.402h9.6v3.202h-6.4zM25.6 9.6v-6.4h-22.4v6.4h22.4zM8 8h-3.2v-3.2h3.2v3.2zM12.8 8h-3.2v-3.2h3.2v3.2zM17.6 8h-3.2v-3.2h3.2v3.2zM25.6 16h3.2v3.2h-3.2v-3.2z"></path>
@@ -23,7 +23,7 @@
           </a>
         </li>
         <li>
-          <a href="16-FavPagesFeed.html">
+          <a href="#">
             <svg class="olymp-star-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FAV PAGE"><svg id="olymp-star-icon" viewBox="0 0 32 32" width="100%" height="100%">
               <title>star-icon</title>
               <path d="M24.029 27.192h3.2v3.2h-3.2v-3.2z"></path>
@@ -32,7 +32,7 @@
           </a>
         </li>
         <li>
-          <a href="17-FriendGroups.html">
+          <a href="#">
             <svg class="olymp-happy-faces-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FRIEND GROUPS"><svg id="olymp-happy-faces-icon" viewBox="0 0 33 32" width="100%" height="100%">
               <title>happy-faces-icon</title>
               <path d="M13.329 5.357c-7.364 0-13.333 5.965-13.333 13.325 0 5.971 3.929 11.023 9.344 12.716v-2.823c-3.908-1.584-6.667-5.409-6.667-9.885 0-5.889 4.776-10.665 10.667-10.665s10.667 4.776 10.667 10.665c0 4.476-2.759 8.303-6.667 9.885v2.815c5.404-1.7 9.323-6.745 9.323-12.708 0-7.36-5.969-13.325-13.333-13.325zM9.34 16.025h-2.667v2.665h2.667v-2.665zM17.34 16.025v2.665h2.667v-2.665h-2.667zM9.328 21.495c0 1.395 1.788 2.527 3.995 2.527s3.995-1.132 3.995-2.527v-0.135h-7.989v0.135zM12.007 32.025h2.667v-2.668h-2.667v2.668zM13.805 2.691h8.868c0 0 1.495 0.417 2.183 0.697l2.397-1.797c-1.747-0.993-3.761-1.565-5.913-1.565-2.856 0-5.475 1.001-7.535 2.665zM32.472 7.56l-2.131 2.129c0.195 0.751 0.331 1.523 0.331 2.336 0 1.756-0.488 3.392-1.333 4.789v4.14c2.452-2.195 4-5.38 4-8.931 0.001-1.58-0.311-3.083-0.867-4.464zM30.673 4.025h-2.667v2.667h2.667v-2.667z"></path>
@@ -40,7 +40,7 @@
           </a>
         </li>
         <li>
-          <a href="18-MusicAndPlaylists.html">
+          <a href="#">
             <svg class="olymp-headphones-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="MUSIC&PLAYLISTS"><svg id="olymp-headphones-icon" viewBox="0 0 36 32" width="100%" height="100%">
               <title>headphones-icon</title>
               <path d="M9.792 17.78c0.491 0 0.889 0.398 0.889 0.889v8.891c0 0.489-0.398 0.885-0.889 0.885s-0.889-0.396-0.889-0.885v-8.891c0-0.491 0.398-0.889 0.889-0.889zM9.792 14.224c-2.452 0-4.444 1.995-4.444 4.444v8.891c0 2.448 1.993 4.441 4.444 4.441s4.444-1.993 4.444-4.441v-8.891c0-2.45-1.993-4.444-4.444-4.444v0z"></path>
@@ -54,7 +54,7 @@
           </a>
         </li>
         <li>
-          <a href="19-WeatherWidget.html">
+          <a href="#">
             <svg class="olymp-weather-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="WEATHER APP"><svg id="olymp-weather-icon" viewBox="0 0 38 32" width="100%" height="100%">
               <title>weather-icon</title>
               <path d="M18.909 29.091h2.909v2.909h-2.909v-2.909z"></path>
@@ -65,7 +65,7 @@
           </a>
         </li>
         <li>
-          <a href="20-CalendarAndEvents-MonthlyCalendar.html">
+          <a href="#">
             <svg class="olymp-calendar-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="CALENDAR AND EVENTS"><svg id="olymp-calendar-icon" viewBox="0 0 26 32" width="100%" height="100%">
               <title>calendar-icon</title>
               <path d="M23.273 32h2.909v-2.909h-2.909v2.909zM23.273 2.911h-2.909v-1.456c0-0.801-0.652-1.455-1.455-1.455-0.804 0-1.455 0.653-1.455 1.455v1.456h-8.727v-1.456c0-0.801-0.652-1.455-1.455-1.455-0.804 0-1.455 0.653-1.455 1.455v1.456h-2.909c-1.606 0-2.909 1.302-2.909 2.909v23.271c0 1.607 1.303 2.909 2.909 2.909h17.455v-2.909h-17.455v-23.271h2.909v1.453c0 0.803 0.65 1.455 1.455 1.455 0.803 0 1.455-0.652 1.455-1.455v-1.453h8.727v1.453c0 0.803 0.65 1.455 1.455 1.455 0.803 0 1.455-0.652 1.455-1.455v-1.453h2.909v20.362h2.909v-20.362c0-1.607-1.303-2.909-2.909-2.909zM7.273 26.182h2.909v-2.909h-2.909v2.909zM14.545 26.182v-2.909h-2.909v2.909h2.909zM16 26.182h2.909v-2.909h-2.909v2.909zM14.545 18.909h-7.273v2.909h7.273v-2.909zM18.909 18.909h-2.909v2.909h2.909v-2.909zM14.545 14.547h-7.273v2.908h7.273v-2.908zM18.909 14.547h-2.909v2.908h2.909v-2.908z"></path>
@@ -73,7 +73,7 @@
           </a>
         </li>
         <li>
-          <a href="24-CommunityBadges.html">
+          <a href="#">
             <svg class="olymp-badge-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Community Badges"><svg id="olymp-badge-icon" viewBox="0 0 32 32" width="100%" height="100%">
               <title>badge-icon</title>
               <path d="M25.6 16c0-5.302-4.299-9.6-9.6-9.6s-9.6 4.298-9.6 9.6c0 5.301 4.299 9.598 9.6 9.598s9.6-4.298 9.6-9.598zM9.6 16c0-3.534 2.866-6.4 6.4-6.4s6.4 2.867 6.4 6.4-2.866 6.402-6.4 6.402-6.4-2.867-6.4-6.402zM16 0c-8.837 0-16 7.163-16 16 0 7.163 4.709 13.227 11.2 15.266v-3.405c-4.69-1.899-8-6.491-8-11.861 0-7.069 5.731-12.8 12.8-12.8s12.8 5.731 12.8 12.8c0 5.37-3.31 9.962-8 11.861v3.405c6.491-2.038 11.2-8.102 11.2-15.266 0-8.837-7.165-16-16-16zM14.4 31.998h3.2v-3.198h-3.2v3.198z"></path>
@@ -81,7 +81,7 @@
           </a>
         </li>
         <li>
-          <a href="25-FriendsBirthday.html">
+          <a href="#">
             <svg class="olymp-cupcake-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Friends Birthdays"><svg id="olymp-cupcake-icon" viewBox="0 0 27 32" width="100%" height="100%">
               <title>cupcake-icon</title>
               <path d="M5.349 32h3.984v-2.667h-1.671l-0.933-6.541 12.959-0.063 0.312-0.063h-15.979z"></path>
@@ -93,7 +93,7 @@
           </a>
         </li>
         <li>
-          <a href="26-Statistics.html">
+          <a href="#">
             <svg class="olymp-stats-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Account Stats"><svg id="olymp-stats-icon" viewBox="0 0 32 32" width="100%" height="100%">
               <title>stats-icon</title>
               <path d="M23.273 10.182h-2.909v1.236l-3.873 12.589-0.765-5.1h-2.941l1.761 11.745v1.347h2.909v-1.236l4.313-14.015 1.505 5.271v1.252h2.909v-2.909l-2.909-8.932v-1.249zM14.416 10.182l-1.325-8.836v-1.345h-2.909v1.233l-5.818 17.673h-4.364v2.912h7.273v-1.455l3.873-12.371 0.49 2.189h2.78zM29.091 20.364v2.909h2.909v-2.909h-2.909zM14.545 13.091h-2.909v2.908h2.909v-2.908z"></path>
@@ -101,7 +101,7 @@
           </a>
         </li>
         <li>
-          <a href="27-ManageWidgets.html">
+          <a href="#">
             <svg class="olymp-manage-widgets-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Manage Widgets"><svg id="olymp-manage-widgets-icon" viewBox="0 0 39 32" width="100%" height="100%">
               <title>manage-widgets-icon</title>
               <path d="M0 3.554v24.891c0 1.963 1.593 3.556 3.556 3.556h14.222v-3.556h-14.222v-24.891h14.222v-3.556h-14.222c-1.963 0-3.556 1.593-3.556 3.556zM10.667 24.889v-17.778h-3.556v17.778h3.556zM14.222 24.889h3.556v-17.778h-3.556v17.778zM21.333 3.554h3.556v-3.556h-3.556v3.556zM28.444 3.554h3.556v-3.556h-3.556v3.556zM35.556-0.002v3.556h3.556v-3.556h-3.556zM35.556 10.665h3.556v-3.554h-3.556v3.554zM35.556 17.776h3.556v-3.556h-3.556v3.556zM35.556 24.889h3.556v-3.556h-3.556v3.556zM35.556 32h3.556v-3.556h-3.556v3.556zM28.444 32h3.556v-3.556h-3.556v3.556zM21.333 32h3.556v-3.556h-3.556v3.556z"></path>
@@ -113,7 +113,7 @@
   </div>
 
   <div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1">
-    <a href="02-ProfilePage.html" class="logo">
+    <a href="#" class="logo">
       <img src="img/logo.png" alt="Olympus">
       <h6 class="logo-title">olympus</h6>
     </a>
@@ -130,7 +130,7 @@
           </a>
         </li>
         <li>
-          <a href="03-Newsfeed.html">
+          <a href="#">
             <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="NEWSFEED"><svg id="olymp-newsfeed-icon" viewBox="0 0 29 32" width="100%" height="100%">
               <title>newsfeed-icon</title>
               <path d="M6.4 25.602v-3.202h9.6v3.202h-9.6zM6.4 16h16v3.2h-16v-3.2zM22.4 25.602v6.398h-22.4v-28.8c0-1.766 1.434-3.2 3.2-3.2h22.4c1.766 0 3.2 1.434 3.2 3.2v9.6h-25.6v16.002h16v-6.402h9.6v3.202h-6.4zM25.6 9.6v-6.4h-22.4v6.4h22.4zM8 8h-3.2v-3.2h3.2v3.2zM12.8 8h-3.2v-3.2h3.2v3.2zM17.6 8h-3.2v-3.2h3.2v3.2zM25.6 16h3.2v3.2h-3.2v-3.2z"></path>
@@ -139,7 +139,7 @@
           </a>
         </li>
         <li>
-          <a href="16-FavPagesFeed.html">
+          <a href="#">
             <svg class="olymp-star-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FAV PAGE"><svg id="olymp-star-icon" viewBox="0 0 32 32" width="100%" height="100%">
               <title>star-icon</title>
               <path d="M24.029 27.192h3.2v3.2h-3.2v-3.2z"></path>
@@ -149,7 +149,7 @@
           </a>
         </li>
         <li>
-          <a href="17-FriendGroups.html">
+          <a href="#">
             <svg class="olymp-happy-faces-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FRIEND GROUPS"><svg id="olymp-happy-faces-icon" viewBox="0 0 33 32" width="100%" height="100%">
               <title>happy-faces-icon</title>
               <path d="M13.329 5.357c-7.364 0-13.333 5.965-13.333 13.325 0 5.971 3.929 11.023 9.344 12.716v-2.823c-3.908-1.584-6.667-5.409-6.667-9.885 0-5.889 4.776-10.665 10.667-10.665s10.667 4.776 10.667 10.665c0 4.476-2.759 8.303-6.667 9.885v2.815c5.404-1.7 9.323-6.745 9.323-12.708 0-7.36-5.969-13.325-13.333-13.325zM9.34 16.025h-2.667v2.665h2.667v-2.665zM17.34 16.025v2.665h2.667v-2.665h-2.667zM9.328 21.495c0 1.395 1.788 2.527 3.995 2.527s3.995-1.132 3.995-2.527v-0.135h-7.989v0.135zM12.007 32.025h2.667v-2.668h-2.667v2.668zM13.805 2.691h8.868c0 0 1.495 0.417 2.183 0.697l2.397-1.797c-1.747-0.993-3.761-1.565-5.913-1.565-2.856 0-5.475 1.001-7.535 2.665zM32.472 7.56l-2.131 2.129c0.195 0.751 0.331 1.523 0.331 2.336 0 1.756-0.488 3.392-1.333 4.789v4.14c2.452-2.195 4-5.38 4-8.931 0.001-1.58-0.311-3.083-0.867-4.464zM30.673 4.025h-2.667v2.667h2.667v-2.667z"></path>
@@ -158,7 +158,7 @@
           </a>
         </li>
         <li>
-          <a href="18-MusicAndPlaylists.html">
+          <a href="#">
             <svg class="olymp-headphones-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="MUSIC&PLAYLISTS"><svg id="olymp-headphones-icon" viewBox="0 0 36 32" width="100%" height="100%">
               <title>headphones-icon</title>
               <path d="M9.792 17.78c0.491 0 0.889 0.398 0.889 0.889v8.891c0 0.489-0.398 0.885-0.889 0.885s-0.889-0.396-0.889-0.885v-8.891c0-0.491 0.398-0.889 0.889-0.889zM9.792 14.224c-2.452 0-4.444 1.995-4.444 4.444v8.891c0 2.448 1.993 4.441 4.444 4.441s4.444-1.993 4.444-4.441v-8.891c0-2.45-1.993-4.444-4.444-4.444v0z"></path>
@@ -173,7 +173,7 @@
           </a>
         </li>
         <li>
-          <a href="19-WeatherWidget.html">
+          <a href="#">
             <svg class="olymp-weather-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="WEATHER APP"><svg id="olymp-weather-icon" viewBox="0 0 38 32" width="100%" height="100%">
               <title>weather-icon</title>
               <path d="M18.909 29.091h2.909v2.909h-2.909v-2.909z"></path>
@@ -185,7 +185,7 @@
           </a>
         </li>
         <li>
-          <a href="20-CalendarAndEvents-MonthlyCalendar.html">
+          <a href="#">
             <svg class="olymp-calendar-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="CALENDAR AND EVENTS"><svg id="olymp-calendar-icon" viewBox="0 0 26 32" width="100%" height="100%">
               <title>calendar-icon</title>
               <path d="M23.273 32h2.909v-2.909h-2.909v2.909zM23.273 2.911h-2.909v-1.456c0-0.801-0.652-1.455-1.455-1.455-0.804 0-1.455 0.653-1.455 1.455v1.456h-8.727v-1.456c0-0.801-0.652-1.455-1.455-1.455-0.804 0-1.455 0.653-1.455 1.455v1.456h-2.909c-1.606 0-2.909 1.302-2.909 2.909v23.271c0 1.607 1.303 2.909 2.909 2.909h17.455v-2.909h-17.455v-23.271h2.909v1.453c0 0.803 0.65 1.455 1.455 1.455 0.803 0 1.455-0.652 1.455-1.455v-1.453h8.727v1.453c0 0.803 0.65 1.455 1.455 1.455 0.803 0 1.455-0.652 1.455-1.455v-1.453h2.909v20.362h2.909v-20.362c0-1.607-1.303-2.909-2.909-2.909zM7.273 26.182h2.909v-2.909h-2.909v2.909zM14.545 26.182v-2.909h-2.909v2.909h2.909zM16 26.182h2.909v-2.909h-2.909v2.909zM14.545 18.909h-7.273v2.909h7.273v-2.909zM18.909 18.909h-2.909v2.909h2.909v-2.909zM14.545 14.547h-7.273v2.908h7.273v-2.908zM18.909 14.547h-2.909v2.908h2.909v-2.908z"></path>
@@ -194,7 +194,7 @@
           </a>
         </li>
         <li>
-          <a href="24-CommunityBadges.html">
+          <a href="#">
             <svg class="olymp-badge-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Community Badges"><svg id="olymp-badge-icon" viewBox="0 0 32 32" width="100%" height="100%">
               <title>badge-icon</title>
               <path d="M25.6 16c0-5.302-4.299-9.6-9.6-9.6s-9.6 4.298-9.6 9.6c0 5.301 4.299 9.598 9.6 9.598s9.6-4.298 9.6-9.598zM9.6 16c0-3.534 2.866-6.4 6.4-6.4s6.4 2.867 6.4 6.4-2.866 6.402-6.4 6.402-6.4-2.867-6.4-6.402zM16 0c-8.837 0-16 7.163-16 16 0 7.163 4.709 13.227 11.2 15.266v-3.405c-4.69-1.899-8-6.491-8-11.861 0-7.069 5.731-12.8 12.8-12.8s12.8 5.731 12.8 12.8c0 5.37-3.31 9.962-8 11.861v3.405c6.491-2.038 11.2-8.102 11.2-15.266 0-8.837-7.165-16-16-16zM14.4 31.998h3.2v-3.198h-3.2v3.198z"></path>
@@ -203,7 +203,7 @@
           </a>
         </li>
         <li>
-          <a href="25-FriendsBirthday.html">
+          <a href="#">
             <svg class="olymp-cupcake-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Friends Birthdays"><svg id="olymp-cupcake-icon" viewBox="0 0 27 32" width="100%" height="100%">
               <title>cupcake-icon</title>
               <path d="M5.349 32h3.984v-2.667h-1.671l-0.933-6.541 12.959-0.063 0.312-0.063h-15.979z"></path>
@@ -216,7 +216,7 @@
           </a>
         </li>
         <li>
-          <a href="26-Statistics.html">
+          <a href="#">
             <svg class="olymp-stats-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Account Stats"><svg id="olymp-stats-icon" viewBox="0 0 32 32" width="100%" height="100%">
               <title>stats-icon</title>
               <path d="M23.273 10.182h-2.909v1.236l-3.873 12.589-0.765-5.1h-2.941l1.761 11.745v1.347h2.909v-1.236l4.313-14.015 1.505 5.271v1.252h2.909v-2.909l-2.909-8.932v-1.249zM14.416 10.182l-1.325-8.836v-1.345h-2.909v1.233l-5.818 17.673h-4.364v2.912h7.273v-1.455l3.873-12.371 0.49 2.189h2.78zM29.091 20.364v2.909h2.909v-2.909h-2.909zM14.545 13.091h-2.909v2.908h2.909v-2.908z"></path>
@@ -225,7 +225,7 @@
           </a>
         </li>
         <li>
-          <a href="27-ManageWidgets.html">
+          <a href="#">
             <svg class="olymp-manage-widgets-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="Manage Widgets"><svg id="olymp-manage-widgets-icon" viewBox="0 0 39 32" width="100%" height="100%">
               <title>manage-widgets-icon</title>
               <path d="M0 3.554v24.891c0 1.963 1.593 3.556 3.556 3.556h14.222v-3.556h-14.222v-24.891h14.222v-3.556h-14.222c-1.963 0-3.556 1.593-3.556 3.556zM10.667 24.889v-17.778h-3.556v17.778h3.556zM14.222 24.889h3.556v-17.778h-3.556v17.778zM21.333 3.554h3.556v-3.556h-3.556v3.556zM28.444 3.554h3.556v-3.556h-3.556v3.556zM35.556-0.002v3.556h3.556v-3.556h-3.556zM35.556 10.665h3.556v-3.554h-3.556v3.554zM35.556 17.776h3.556v-3.556h-3.556v3.556zM35.556 24.889h3.556v-3.556h-3.556v3.556zM35.556 32h3.556v-3.556h-3.556v3.556zM28.444 32h3.556v-3.556h-3.556v3.556zM21.333 32h3.556v-3.556h-3.556v3.556z"></path>

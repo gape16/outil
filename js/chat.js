@@ -55,7 +55,7 @@ $(function(){
 				}
 			})
 			charger();
-		}, 100);
+		}, 3000);
 	}
 
 	charger();

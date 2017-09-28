@@ -42,7 +42,7 @@ $result_equipe_chat=$query_equipe_chat->fetchAll();
       </a>
     </div>
 
-    <a href="34-YourAccount-ChatMessages.html" class="olympus-chat inline-items">
+    <a href="#">
       <svg class="olymp-chat---messages-icon"><svg id="olymp-chat---messages-icon" viewBox="0 0 40 32" width="100%" height="100%">
         <title>chat---messages-icon</title>
         <path d="M24.381 7.621h-21.333c-1.378 0-3.048 1.606-3.048 3.046v13.716c0 1.443 1.67 3.048 3.048 3.048v4.57l12.19-4.568v-3.051l-9.143 3.051v-3.051h-3.048v-13.714h21.333v16.763c1.378 0 3.048-1.605 3.048-3.048v-13.716c0-1.44-1.67-3.046-3.048-3.046zM18.286 27.432h3.048v-3.048h-3.048v3.048zM6.095 16.763h15.238v-3.046h-15.238v3.046zM6.095 21.336h9.143v-3.048h-9.143v3.048zM15.238 3.051h24.381c0-1.443-1.67-3.049-3.048-3.049h-21.333c-1.378 0-3.048 1.606-3.048 3.049v1.527h3.048v-1.527zM36.571 16.763l-4.571-0.002v3.051l-3.048-1.016v3.301l6.095 2.284v-4.568c0.779 0 1.524 0 1.524 0 1.378 0 3.048-1.606 3.048-3.049v-4.571h-3.048v4.571zM36.571 9.144h3.048v-3.048h-3.048v3.048z"></path>
@@ -622,7 +622,7 @@ $result_equipe_chat=$query_equipe_chat->fetchAll();
     <input class="form-control" placeholder="Search Friends..." value="" type="text">
   </form>
 
-  <a href="29-YourAccount-AccountSettings.html" class="settings">
+  <a href="#" class="settings">
     <svg class="olymp-settings-icon"><svg id="olymp-settings-icon" viewBox="0 0 32 32" width="100%" height="100%">
       <title>settings-icon</title>
       <path d="M7.111 3.881v-3.881h-3.556v3.883c-2.068 0.734-3.556 2.686-3.556 5.006s1.488 4.272 3.556 5.006v10.994h3.556v-10.996c2.068-0.734 3.556-2.686 3.556-5.004s-1.488-4.272-3.556-5.008zM7.111 10.667h-3.556v-3.556h3.556v3.556zM28.444 3.881v-3.881h-3.556v3.883c-2.066 0.734-3.556 2.686-3.556 5.006s1.49 4.27 3.556 5.006v18.105h3.556v-18.107c2.066-0.734 3.556-2.686 3.556-5.004s-1.49-4.272-3.556-5.008zM28.444 10.667h-3.556v-3.556h3.556v3.556zM17.778 18.105v-18.105h-3.556v18.105c-2.068 0.734-3.556 2.686-3.556 5.006 0 2.318 1.488 4.27 3.556 5.006v3.883h3.556v-3.883c2.066-0.736 3.556-2.69 3.556-5.006 0-2.32-1.49-4.272-3.556-5.006zM17.778 24.887h-3.556v-3.554h3.556v3.554zM3.556 32h3.556v-3.556h-3.556v3.556z"></path>
@@ -639,7 +639,7 @@ $result_equipe_chat=$query_equipe_chat->fetchAll();
 
 </div>
 
-<a href="34-YourAccount-ChatMessages.html" class="olympus-chat inline-items">
+<a href="#" class="olympus-chat inline-items">
 
   <h6 class="olympus-chat-title">OLYMPUS CHAT</h6>
   <svg class="olymp-chat---messages-icon"><svg id="olymp-chat---messages-icon" viewBox="0 0 40 32" width="100%" height="100%">

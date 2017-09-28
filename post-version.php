@@ -20,9 +20,9 @@
 	</script>
 
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-reboot.css">
-	<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-grid.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
 
 	<!-- Theme Styles CSS -->
 	<link rel="stylesheet" type="text/css" href="css/theme-styles.css">

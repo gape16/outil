@@ -110,7 +110,7 @@ img.illu {
 	left: calc(50% - 15px);
 	top: inherit;
 }
-.row > div {
+#fullpage .row > div {
 	min-height: 320px;
 }
 #fullpage p{

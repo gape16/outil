@@ -383,7 +383,7 @@ $nb_cards_client=$query_select_card->rowCount();
 
               <ul class="account-settings">
                 <li>
-                  <a href="29-YourAccount-AccountSettings.html">
+                  <a href="#">
 
                     <svg class="olymp-menu-icon"><svg id="olymp-menu-icon" viewBox="0 0 41 32" width="100%" height="100%">
                       <title>menu-icon</title>
@@ -394,7 +394,7 @@ $nb_cards_client=$query_select_card->rowCount();
                   </a>
                 </li>
                 <li>
-                  <a href="36-FavPage-SettingsAndCreatePopup.html">
+                  <a href="">
                     <svg class="olymp-star-icon left-menu-icon"  data-toggle="tooltip" data-placement="right"   data-original-title="FAV PAGE"><svg id="olymp-star-icon" viewBox="0 0 32 32" width="100%" height="100%">
                       <title>star-icon</title>
                       <path d="M24.029 27.192h3.2v3.2h-3.2v-3.2z"></path>
@@ -493,18 +493,18 @@ $nb_cards_client=$query_select_card->rowCount();
 
           </div>
         </div>
-        <a href="02-ProfilePage.html" class="author-name fn">
+        <a href="" class="author-name fn">
           <div class="author-title">
             James Spiegel <svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-            <title>dropdown-arrow-icon</title>
-            <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-          </svg></svg>
-        </div>
-        <span class="author-subtitle">SPACE COWBOY</span>
-      </a>
-    </div>
+              <title>dropdown-arrow-icon</title>
+              <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+            </svg></svg>
+          </div>
+          <span class="author-subtitle">SPACE COWBOY</span>
+        </a>
+      </div>
 
+    </div>
   </div>
-</div>
 
 </header>
