@@ -96,12 +96,21 @@ if (isset($_POST['envoi'])) {
 	$id_emet=$id_graph;
 	$message=utf8_decode($_POST['mess']);
 	$date=date('Y-m-d H:i:s');
+	$query_t_chat=$bdd->prepare("SELECT * FROM messages WHERE id_graph_emet= ? and id_graph_recep= ? and message=? and date = ?");
+	$query_t_chat->bindParam(1, $id_graph);
+	$query_t_chat->bindParam(2, $id_recep);
+	$query_t_chat->bindParam(3, $message);
+	$query_t_chat->bindParam(4, $date);
+	$query_t_chat->execute();
+	$nb_cha=$query_t_chat->rowCount();
 	$lu=0;
-	$query_insert_chat=$bdd->prepare("INSERT INTO messages (id_graph_emet, id_graph_recep, message, date, lu) VALUES (?,?,?,?,?) ");
-	$query_insert_chat->bindParam(1, $id_graph);
-	$query_insert_chat->bindParam(2, $id_recep);
-	$query_insert_chat->bindParam(3, $message);
-	$query_insert_chat->bindParam(4, $date);
-	$query_insert_chat->bindParam(5, $lu);
-	$query_insert_chat->execute();
+	if($nb_cha==0){
+		$query_insert_chat=$bdd->prepare("INSERT INTO messages (id_graph_emet, id_graph_recep, message, date, lu) VALUES (?,?,?,?,?) ");
+		$query_insert_chat->bindParam(1, $id_graph);
+		$query_insert_chat->bindParam(2, $id_recep);
+		$query_insert_chat->bindParam(3, $message);
+		$query_insert_chat->bindParam(4, $date);
+		$query_insert_chat->bindParam(5, $lu);
+		$query_insert_chat->execute();
+	}
 }
