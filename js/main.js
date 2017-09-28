@@ -341,7 +341,10 @@ var CRUMINA = {};
 		return false
 	});
 	_0xdf6ax2('.js-chat-open')['on']('click', function() {
+		var id_graph = $(this).find(".chat_graph").val();
+		_0xdf6ax2('.popup-chat-responsive').alterClass("ajout_*", '');
 		_0xdf6ax2('.popup-chat-responsive')['toggleClass']('open-chat');
+		_0xdf6ax2('.popup-chat-responsive').addClass("ajout_"+id_graph);
 		return false
 	});
 	_0xdf6ax2('.js-chat-close')['on']('click', function() {
