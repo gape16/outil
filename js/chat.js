@@ -47,7 +47,7 @@ $(function(){
 				data: {attente: 'test'},
 			})
 			.done(function(data) {
-				// console.log(data);
+				console.log(data);
 				var myObject = JSON.parse(data);
 				for (var i = 0; i <= myObject.length - 1; i++) {
 					$("."+myObject[i]['identifiant']).find('.label-avatar').html(myObject[i]['nombre']);
@@ -55,7 +55,7 @@ $(function(){
 				}
 			})
 			charger();
-		}, 3000);
+		}, 500);
 	}
 
 	charger();
@@ -84,7 +84,7 @@ $(function(){
 
 	$(".lemess").keypress(function(e) {
 		if(e.which == 13) {
-			$(".options-message").click();
+			$(".options-message").trigger( "click" );
 		}
 	});
 
