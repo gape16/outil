@@ -21,3 +21,251 @@
 	min-height: 450px;
 }
 
+.signinok{
+	background-color: #77df35;
+}
+
+.container.custom {
+	width: 100%;
+	padding: 0;
+	height: 93vh;
+}
+
+.container.custom > .row {
+	margin: 0;
+}
+.header-spacer.custom {
+	height: 70px;
+}
+#fullpage{
+	padding: 0 70px;
+}
+.loader{
+	width: 80%;
+}
+.slide {
+	padding: 0 80px;
+}
+#fullpage label > span:nth-child(6) {
+	display: none;
+}
+.fp-tableCell {
+	display: block;
+}
+.checkbox h4.title {
+	text-align: center;
+	border-bottom: 1px solid black;
+}
+img.illu {
+	display: block;
+	margin: 0 auto;
+	margin: 20px auto;
+	border-radius: 25px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	width: 50px;
+}
+.checkbox .checkbox-material .check {
+	width: 30px;
+	height: 30px;
+	margin: 0 auto;
+	display: block;
+}
+#fullpage span.checkbox-material {
+	display: block;
+}
+.checkbox .checkbox-material:before {
+	left: calc(50% - 12px);
+	top: 5px;
+}
+.checkbox .checkbox-material .check:before {
+	margin-top: 2px;
+	margin-left: 13px;
+}
+.voirplus {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+#fullpage .col-lg-3.col-md-6.col-sm-6.col-xs-12 {
+	margin: 10px 0;
+}
+#fullpage .ui-block {
+	margin-bottom: 0;
+	height: 100%;
+}
+#fullpage .available-widget, .checkbox label {
+	height: 100%;
+	width: 100%;
+}
+#fullpage .available-widget > * {
+	display: block;
+	height: 100%;
+}
+.checkbox label{
+	position: relative;
+}
+#fullpage span.checkbox-material {
+	bottom: 0;
+	position: absolute;
+	left: calc(50% - 15px);
+	top: inherit;
+}
+.row > div {
+	min-height: 320px;
+}
+#fullpage p{
+	margin-top: 5px;
+}
+h4.title{
+	line-height: 2.3;
+}
+#fullpage .fp-controlArrow.fp-next {
+	border-color: transparent transparent transparent #ff5e3a;
+}
+#fullpage .fp-controlArrow.fp-prev {
+	border-color: transparent #ff5e3a transparent transparent;
+}
+
+.fixed-sidebar{
+	z-index: 99999 !important;
+}
+header#site-header {
+	z-index: 9999 !important;
+}
+.section .slide{
+	margin-top: 70px;
+}
+
+/* LOADER */
+#loader-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1000;
+	margin: 0 70px;
+	box-sizing: border-box;
+}
+#loader {
+	display: block;
+	position: relative;
+	left: calc(50% - 75px);
+	top: 50%;
+	width: 150px;
+	height: 150px;
+	margin: -75px 0 0 -75px;
+	border-radius: 50%;
+	border: 3px solid transparent;
+	border-top-color: white;
+
+	-webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+	animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+	z-index: 1001;
+}
+
+#loader:before {
+	content: "";
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	right: 5px;
+	bottom: 5px;
+	border-radius: 50%;
+	border: 3px solid transparent;
+	border-top-color: #fc5c3a;
+
+	-webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+	animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+#loader:after {
+	content: "";
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	right: 15px;
+	bottom: 15px;
+	border-radius: 50%;
+	border: 3px solid transparent;
+	border-top-color: #38a9ff;
+
+	-webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+	animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+@-webkit-keyframes spin {
+	0%   { 
+		-webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+		-ms-transform: rotate(0deg);  /* IE 9 */
+		transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+	}
+	100% {
+		-webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+		-ms-transform: rotate(360deg);  /* IE 9 */
+		transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+	}
+}
+@keyframes spin {
+	0%   { 
+		-webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+		-ms-transform: rotate(0deg);  /* IE 9 */
+		transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+	}
+	100% {
+		-webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+		-ms-transform: rotate(360deg);  /* IE 9 */
+		transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+	}
+}
+
+#loader-wrapper .loader-section {
+	position: fixed;
+	top: 0;
+	width: 51%;
+	height: 100%;
+	background: #3f4257;
+	z-index: 1000;
+}
+
+#loader-wrapper .loader-section.section-left {
+	left: 0;
+}
+#loader-wrapper .loader-section.section-right {
+	right: 0;
+}
+
+/* Loaded styles */
+.loaded #loader-wrapper .loader-section.section-left {
+	-webkit-transform: translateX(-100%);  /* Chrome, Opera 15+, Safari 3.1+ */
+	-ms-transform: translateX(-100%);  /* IE 9 */
+	transform: translateX(-100%);  /* Firefox 16+, IE 10+, Opera */
+
+	-webkit-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+	transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
+}
+.loaded #loader-wrapper .loader-section.section-right {
+	-webkit-transform: translateX(100%);  /* Chrome, Opera 15+, Safari 3.1+ */
+	-ms-transform: translateX(100%);  /* IE 9 */
+	transform: translateX(100%);  /* Firefox 16+, IE 10+, Opera */
+
+	-webkit-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+	transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1.000);  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
+}
+.loaded #loader {
+	opacity: 0;
+
+	-webkit-transition: all 0.3s ease-out;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+	transition: all 0.3s ease-out;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
+
+}
+.loaded #loader-wrapper {
+	visibility: hidden;
+
+	-webkit-transform: translateY(-100%);  /* Chrome, Opera 15+, Safari 3.1+ */
+	-ms-transform: translateY(-100%);  /* IE 9 */
+	transform: translateY(-100%);  /* Firefox 16+, IE 10+, Opera */
+
+	-webkit-transition: all 0.3s 1s ease-out;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+	transition: all 0.3s 1s ease-out;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
+}

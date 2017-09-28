@@ -166,7 +166,7 @@ if (isset($_POST['connect'])) {
 
 					<!-- Tab panes -->
 					<div class="tab-content">
-						<div class="tab-pane active connect" id="home" role="tabpanel" data-mh="log-tab">
+						<div class="tab-pane <?php if(!isset($_COOKIE['register'])){ echo 'active';}?> connect" id="home" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connectez-vous
 								<?php
 								if (isset($_POST['register'])) {
@@ -225,7 +225,7 @@ if (isset($_POST['connect'])) {
 								</div>
 							</form>
 						</div>
-						<div class="tab-pane" id="profile" role="tabpanel" data-mh="log-tab">
+						<div class="tab-pane <?php if(isset($_COOKIE['register'])){ echo 'active';}?>" id="profile" role="tabpanel" data-mh="log-tab">
 							<div class="title h6">Connecte toi à ton compte
 								<?php 
 								if (isset($_POST['connect'])) {
