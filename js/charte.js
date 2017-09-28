@@ -158,10 +158,6 @@ $(function() {
 		var adresseCms = $('.adressecms').val();
 		var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
 
-
-
-
-
 		if(numClient.length == 8 && $.isNumeric(numClient)){
 			if(adresseCms.indexOf(splitAdresseCms) != -1){
 				$.ajax({
@@ -173,9 +169,8 @@ $(function() {
 					},
 				})
 				.done(function(data) {
-					console.log(data);
 					if(data == "existant"){
-						console.log('ce projet existe déjà');
+						alert('Ce projet existe déjà');
 					}else{
 						$('div#create-friend-group-1').modal('hide');
 						$('.container.cards .row').append(data);
