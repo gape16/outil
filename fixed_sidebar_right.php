@@ -1,78 +1,35 @@
+<?php
+$id_graph=$_SESSION['id_graph'];
+$query_equipe = $bdd->prepare("SELECT id_manager FROM user WHERE id_user = :graph");
+$query_equipe->bindParam(':graph', $id_graph);
+$query_equipe->execute();
+$result_equipe = $query_equipe->fetch();
+$equipe=$result_equipe['id_manager'];
+
+$query_equipe_chat = $bdd->prepare("SELECT id_user, photo_avatar FROM user WHERE id_manager = :equipe and id_user != :user");
+$query_equipe_chat->bindParam(':equipe', $equipe);
+$query_equipe_chat->bindParam(':user', $id_graph);
+$query_equipe_chat->execute();
+$result_equipe_chat=$query_equipe_chat->fetchAll();
+
+?>
 <div class="fixed-sidebar right">
   <div class="fixed-sidebar-right sidebar--small" id="sidebar-right">
 
     <div class="mCustomScrollbar" data-mcs-theme="dark">
       <ul class="chat-users">
-        <li class="inline-items js-chat-open">
+        <?php foreach ($result_equipe_chat as $key => $value_equipe) {?>
+        
+        <li class="inline-items js-chat-open <?php echo utf8_encode($value_equipe['id_user']);?>">
           <div class="author-thumb">
-            <img alt="author" src="img/avatar67-sm.jpg" class="avatar">
+            <input type="hidden" value="<?php echo utf8_encode($value_equipe['id_user']);?>" class="chat_graph">
+            <img alt="author" src="<?php echo utf8_encode($value_equipe['photo_avatar']);?>" class="avatar">
             <span class="icon-status online"></span>
-          </div>
-        </li>
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar62-sm.jpg" class="avatar">
-            <span class="icon-status online"></span>
+            <div class="label-avatar bg-primary" style="display: none;"></div>
           </div>
         </li>
 
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar68-sm.jpg" class="avatar">
-            <span class="icon-status online"></span>
-          </div>
-        </li>
-
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar69-sm.jpg" class="avatar">
-            <span class="icon-status away"></span>
-          </div>
-        </li>
-
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar70-sm.jpg" class="avatar">
-            <span class="icon-status disconected"></span>
-          </div>
-        </li>
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar64-sm.jpg" class="avatar">
-            <span class="icon-status online"></span>
-          </div>
-        </li>
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar71-sm.jpg" class="avatar">
-            <span class="icon-status online"></span>
-          </div>
-        </li>
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar72-sm.jpg" class="avatar">
-            <span class="icon-status away"></span>
-          </div>
-        </li>
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar63-sm.jpg" class="avatar">
-            <span class="icon-status status-invisible"></span>
-          </div>
-        </li>
-        <li class="inline-items js-chat-open">
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar72-sm.jpg" class="avatar">
-            <span class="icon-status away"></span>
-          </div>
-        </li>
-        <li class="inline-items js-chat-open">
-
-          <div class="author-thumb">
-            <img alt="author" src="img/avatar71-sm.jpg" class="avatar">
-            <span class="icon-status online"></span>
-          </div>
-        </li>
+        <?php }?>
       </ul>
     </div>
 

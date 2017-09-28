@@ -1,3 +1,11 @@
+<?php
+$id_graph=$_SESSION['id_graph'];
+$query_select_card = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and date_retour_maquette IS NULL and date_retour_cq IS NULL");
+$query_select_card->bindParam(1, $id_graph);
+$query_select_card->execute();
+$cards_client_select=$query_select_card->fetchAll();
+$nb_cards_client=$query_select_card->rowCount();
+?>
 <header class="header" id="site-header">
 
   <div class="page-title">
@@ -7,7 +15,7 @@
   <div class="header-content-wrapper">
     <form class="search-bar w-search notification-list friend-requests">
       <div class="form-group with-button">
-        <input class="form-control js-user-search" placeholder="Search here people or pages..." type="text">
+        <input class="form-control js-user-search" placeholder="Rechercher des clients..." type="text">
         <button>
           <svg class="olymp-magnifying-glass-icon"><svg id="olymp-magnifying-glass-icon" viewBox="0 0 34 32" width="100%" height="100%">
             <title>magnifying-glass-icon</title>
@@ -19,7 +27,7 @@
       </div>
     </form>
 
-    <a href="#" class="link-find-friend">Find Friends</a>
+    <a href="#" class="link-find-friend">Voir mon tableau de clients</a>
 
     <div class="control-block">
 
@@ -28,27 +36,27 @@
           <title>happy-face-icon</title>
           <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
         </svg></svg>
-        <div class="label-avatar bg-blue">6</div>
+        <div class="label-avatar bg-blue"><?php echo $nb_cards_client;?></div>
 
         <div class="more-dropdown more-with-triangle triangle-top-center">
           <div class="ui-block-title ui-block-title-small">
-            <h6 class="title">FRIEND REQUESTS</h6>
-            <a href="#">Find Friends</a>
-            <a href="#">Settings</a>
+            <h6 class="title">Retours en attentes</h6>
+            <a href="accueil.php">Allez aux retours</a>
           </div>
 
           <div class="mCustomScrollbar" data-mcs-theme="dark">
             <ul class="notification-list friend-requests">
+              <?php foreach ($cards_client_select as $key => $value_card) {?>
               <li>
                 <div class="author-thumb">
                   <img src="img/avatar55-sm.jpg" alt="author">
                 </div>
                 <div class="notification-event">
-                  <a href="#" class="h6 notification-friend">Tamara Romanoff</a>
-                  <span class="chat-message-item">Mutual Friend: Sarah Hetfield</span>
+                  <a href="accueil.php" class="h6 notification-friend"><?php echo utf8_encode($value_card['raison_social']);?></a>
+                  <span class="chat-message-item"><?php echo $value_card['num_client'];?></span>
                 </div>
                 <span class="notification-icon">
-                  <a href="#" class="accept-request">
+                  <a href="<?php echo $value_card['lien_CMS'];?>" class="accept-request">
                     <span class="icon-add without-text">
                       <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
                         <title>happy-face-icon</title>
@@ -57,7 +65,7 @@
                     </span>
                   </a>
 
-                  <a href="#" class="accept-request request-del">
+                  <a href="check.php?num_client=<?php echo $value_card['num_client'];?>" class="accept-request request-del">
                     <span class="icon-minus">
                       <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
                         <title>happy-face-icon</title>
@@ -67,119 +75,15 @@
                   </a>
 
                 </span>
-
-                <div class="more">
-                  <svg class="olymp-three-dots-icon"><svg id="olymp-three-dots-icon" viewBox="0 0 128 32" width="100%" height="100%">
-                    <title>three-dots-icon</title>
-                    <path d="M112-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM64-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM16-0.008c-8.832 0-16 7.16-16 16s7.168 15.992 16 15.992 16-7.16 16-15.992c0-8.84-7.16-16-16-16z"></path>
-                  </svg></svg>
-                </div>
               </li>
+              <?php }?>
 
-              <li>
-                <div class="author-thumb">
-                  <img src="img/avatar56-sm.jpg" alt="author">
-                </div>
-                <div class="notification-event">
-                  <a href="#" class="h6 notification-friend">Tony Stevens</a>
-                  <span class="chat-message-item">4 Friends in Common</span>
-                </div>
-                <span class="notification-icon">
-                  <a href="#" class="accept-request">
-                    <span class="icon-add without-text">
-                      <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
-                        <title>happy-face-icon</title>
-                        <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
-                      </svg></svg>
-                    </span>
-                  </a>
 
-                  <a href="#" class="accept-request request-del">
-                    <span class="icon-minus">
-                      <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
-                        <title>happy-face-icon</title>
-                        <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
-                      </svg></svg>
-                    </span>
-                  </a>
-
-                </span>
-
-                <div class="more">
-                  <svg class="olymp-three-dots-icon"><svg id="olymp-three-dots-icon" viewBox="0 0 128 32" width="100%" height="100%">
-                    <title>three-dots-icon</title>
-                    <path d="M112-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM64-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM16-0.008c-8.832 0-16 7.16-16 16s7.168 15.992 16 15.992 16-7.16 16-15.992c0-8.84-7.16-16-16-16z"></path>
-                  </svg></svg>
-                </div>
-              </li>
-
-              <li class="accepted">
-                <div class="author-thumb">
-                  <img src="img/avatar57-sm.jpg" alt="author">
-                </div>
-                <div class="notification-event">
-                  You and <a href="#" class="h6 notification-friend">Mary Jane Stark</a> just became friends. Write on <a href="#" class="notification-link">her wall</a>.
-                </div>
-                <span class="notification-icon">
-                  <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
-                    <title>happy-face-icon</title>
-                    <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
-                  </svg></svg>
-                </span>
-
-                <div class="more">
-                  <svg class="olymp-three-dots-icon"><svg id="olymp-three-dots-icon" viewBox="0 0 128 32" width="100%" height="100%">
-                    <title>three-dots-icon</title>
-                    <path d="M112-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM64-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM16-0.008c-8.832 0-16 7.16-16 16s7.168 15.992 16 15.992 16-7.16 16-15.992c0-8.84-7.16-16-16-16z"></path>
-                  </svg></svg>
-                  <svg class="olymp-little-delete"><svg id="olymp-little-delete" viewBox="0 0 32 32" width="100%" height="100%">
-                    <title>little-delete</title>
-                    <path d="M32 4.149l-3.973-3.979-11.936 11.941-11.941-11.941-3.979 3.979 11.941 11.936-11.941 11.936 3.979 3.979 11.941-11.936 11.936 11.936 3.973-3.979-11.936-11.936z"></path>
-                  </svg></svg>
-                </div>
-              </li>
-
-              <li>
-                <div class="author-thumb">
-                  <img src="img/avatar58-sm.jpg" alt="author">
-                </div>
-                <div class="notification-event">
-                  <a href="#" class="h6 notification-friend">Stagg Clothing</a>
-                  <span class="chat-message-item">9 Friends in Common</span>
-                </div>
-                <span class="notification-icon">
-                  <a href="#" class="accept-request">
-                    <span class="icon-add without-text">
-                      <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
-                        <title>happy-face-icon</title>
-                        <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
-                      </svg></svg>
-                    </span>
-                  </a>
-
-                  <a href="#" class="accept-request request-del">
-                    <span class="icon-minus">
-                      <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
-                        <title>happy-face-icon</title>
-                        <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
-                      </svg></svg>
-                    </span>
-                  </a>
-
-                </span>
-
-                <div class="more">
-                  <svg class="olymp-three-dots-icon"><svg id="olymp-three-dots-icon" viewBox="0 0 128 32" width="100%" height="100%">
-                    <title>three-dots-icon</title>
-                    <path d="M112-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM64-0.008c-8.84 0-16 7.16-16 16 0 8.832 7.16 15.992 16 15.992s16-7.16 16-15.992c0-8.84-7.16-16-16-16zM16-0.008c-8.832 0-16 7.16-16 16s7.168 15.992 16 15.992 16-7.16 16-15.992c0-8.84-7.16-16-16-16z"></path>
-                  </svg></svg>
-                </div>
-              </li>
 
             </ul>
           </div>
 
-          <a href="#" class="view-all bg-blue">Check all your Events</a>
+          <a href="accueil.php" class="view-all bg-blue">Voir tous les retours</a>
         </div>
       </div>
 
