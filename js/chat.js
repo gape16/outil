@@ -15,7 +15,7 @@ $(function(){
 				}
 				var last_message = $(".chat-message-field").find("li").last().attr('class');
 				var last_message_id = $(".chat-message-field").find("li").last().attr('id');
-				console.log(last_message_id);
+				// console.log(last_message_id);
 				$.ajax({
 					url: 'chat.php',
 					type: 'POST',
@@ -97,7 +97,7 @@ $(function(){
 			data: {lu: 'test', id_graph_emet: id_emet}
 		})
 		.done(function(data) {
-			console.log(data);
+			// console.log(data);
 			$("."+id_emet).find('.label-avatar').hide();
 					// console.log(data);
 					$(".ajout_"+id_emet).find('ul.chat-message-field').empty();
