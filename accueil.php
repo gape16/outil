@@ -222,104 +222,40 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- ... end Window-popup Create Friends Group -->
 
 
-		<!-- Window-popup Create Friends Group Add Friends -->
-		<div class="modal fade" id="create-friend-group-add-friends">
-			<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-add-friends">
-				<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-					<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-				</a>
+		<?php }?>
+		<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-				<div class="ui-block-title">
-					<h6 class="title">Add Friends to “Freelance Clients” Group</h6>
-				</div>
+		<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
-				<div class="ui-block-content">
-					<form class="form-group label-floating is-select">
+		<?php include('chat_box.php');?>
 
-						<select class="selectpicker form-control style-2 show-tick" multiple data-max-options="2" data-live-search="true" size="auto">
-							<option title="Green Goo Rock" data-content='<div class="inline-items">
-								<div class="author-thumb">
-									<img src="img/avatar52-sm.jpg" alt="author">
-								</div>
-								<div class="h6 author-title">Green Goo Rock</div>
-
-							</div>'>
-						</option>
-
-						<option title="Mathilda Brinker" data-content='<div class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar74-sm.jpg" alt="author">
-							</div>
-							<div class="h6 author-title">Mathilda Brinker</div>
-						</div>'>
-					</option>
-
-					<option title="Marina Valentine" data-content='<div class="inline-items">
-						<div class="author-thumb">
-							<img src="img/avatar48-sm.jpg" alt="author">
-						</div>
-						<div class="h6 author-title">Marina Valentine</div>
-					</div>'>
-				</option>
-
-				<option title="Dave Marinara" data-content='<div class="inline-items">
-					<div class="author-thumb">
-						<img src="img/avatar75-sm.jpg" alt="author">
-					</div>
-					<div class="h6 author-title">Dave Marinara</div>
-				</div>'>
-			</option>
-
-			<option title="Rachel Howlett" data-content='<div class="inline-items">
-				<div class="author-thumb">
-					<img src="img/avatar76-sm.jpg" alt="author">
-				</div>
-				<div class="h6 author-title">Rachel Howlett</div>
-			</div>'>
-		</option>
-
-	</select>
-</form>
-
-<a href="#" class="btn btn-blue btn-lg full-width">Save Changes</a>
-</div>
-
-</div>
-</div>
-<?php }?>
-<!-- ... end Window-popup Create Friends Group Add Friends -->
-
-<!-- Window-popup-CHAT for responsive min-width: 768px -->
-
-<?php include('chat_box.php');?>
-
-<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+		<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
 
-<!-- jQuery first, then Other JS. -->
-<script src="js/jquery-3.2.0.min.js"></script>
-<!-- Js effects for material design. + Tooltips -->
-<script src="js/material.min.js"></script>
-<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-<script src="js/theme-plugins.js"></script>
-<!-- Init functions -->
-<script src="js/main.js"></script>
-<script src="js/alterclass.js"></script>
-<script src="js/chat.js"></script>
-<!-- Select / Sorting script -->
-<script src="js/selectize.min.js"></script>
+		<!-- jQuery first, then Other JS. -->
+		<script src="js/jquery-3.2.0.min.js"></script>
+		<!-- Js effects for material design. + Tooltips -->
+		<script src="js/material.min.js"></script>
+		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+		<script src="js/theme-plugins.js"></script>
+		<!-- Init functions -->
+		<script src="js/main.js"></script>
+		<script src="js/alterclass.js"></script>
+		<script src="js/chat.js"></script>
+		<!-- Select / Sorting script -->
+		<script src="js/selectize.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-<script src="js/mediaelement-and-player.min.js"></script>
-<script src="js/mediaelement-playlist-plugin.min.js"></script>
+		<script src="js/mediaelement-and-player.min.js"></script>
+		<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
-<script src="js/charte.js"></script>
+		<script src="js/charte.js"></script>
 
-</body>
-</html>
-<?php }else{
-	header('Location: login.php');
-}
-?>
+	</body>
+	</html>
+	<?php }else{
+		header('Location: login.php');
+	}
+	?>
