@@ -159,7 +159,9 @@ $(function() {
 		var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
 
 		if(numClient.length == 8 && $.isNumeric(numClient)){
+			$('.numclient').removeClass('empty');
 			if(adresseCms.indexOf(splitAdresseCms) != -1){
+				$('.adressecms').removeClass('adressecms');
 				$.ajax({
 					url: 'formulaire.php',
 					type: 'POST',
@@ -218,27 +220,32 @@ $('input').on('click', function(){
 
 
 
-$('.btn-addproblem').click(function(){
+$('.valider_aide').click(function(){
 	var numClient = $('.numclient').val();
 	var adresseCms = $('.adressecms').val();
 	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
+	var descriptionProblem = $('textarea#description').val();
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
+		$('.numclient').removeClass('empty');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {numClient : numClient,
-					adresseCms : adresseCms
-				},
-			})
-			.done(function(data) {
-				if(data == "existant"){
-					alert('Ce projet existe déjà');
-				}else{
-					$('#askforhelp').modal('hide');
-				}
-			})
+			$('.adressecms').removeClass('empty');
+			if(descriptionProblem.length >= 140){
+				console.log(descriptionProblem.length);
+				$(".valider_aide").on('click', function(){	
+					swal(
+						'Demande validée!',
+						'Votre demande va être prise en compte !',
+						'success'
+						)
+				})
+				$('.swal2-confirm').on('click', function(){
+					location.reload();
+				})
+			}else{
+				$('textarea#description').addClass('empty');
+				$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
+			}
 		}else{
 			$('.adressecms').addClass('empty');
 			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
@@ -247,7 +254,17 @@ $('.btn-addproblem').click(function(){
 		$('.numclient').addClass('empty');
 		$('.numclient').prev().html('Le numéro client n\'est pas valide');
 	}
-
 })
+
+
+$('textarea#description').keyup(function() {
+	var descriptionProblem = $('textarea#description').val();
+	for (var i = 0, len = descriptionProblem.length; i < len; i++) {
+		console.log(descriptionProblem[i]);
+	}
+});
+
+
+
 
 })

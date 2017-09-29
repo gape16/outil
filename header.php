@@ -28,8 +28,7 @@ $nb_cards_client=$query_select_card->rowCount();
     </form>
 
     <a href="#" class="link-find-friend">Voir mon tableau de clients</a>
-    <a href="#" class="help" data-toggle="modal" data-target="#askforhelp">Demande d'aide</a>
-
+    
     <div class="control-block">
 
       <div class="control-icon more has-items">
@@ -504,40 +503,6 @@ $nb_cards_client=$query_select_card->rowCount();
           <span class="author-subtitle">SPACE COWBOY</span>
         </a>
       </div>
-
-    </div>
-  </div>
-
-
-  <!-- Window-popup Create Friends Group -->
-  <div class="modal fade" id="askforhelp">
-    <div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-1">
-      <a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-        <svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-      </a>
-
-      <div class="ui-block-title">
-        <h6 class="title">Demande d'aide</h6>
-      </div>
-
-      <div class="ui-block-content">
-        <form class="form-group label-floating is-empty addclient">
-          <div class="form-group is-empty label-floating ">
-            <label class="control-label">Numéro client</label>
-            <input class="form-control numclient" placeholder="" value="" type="text">
-          </div>
-          <div class="form-group label-floating is-empty">
-            <label class="control-label">Adresse CMS</label>
-            <input class="form-control adressecms" placeholder="" value="" type="text">
-          </div>
-          <div class="form-group label-floating is-empty">
-            <label class="control-label">Description du problème</label>
-            <textarea name="description" id="description" cols="30" rows="10"></textarea>
-          </div>
-        </form>
-        <a href="#" class="btn btn-blue btn-lg full-width btn-addproblem">Demander de l'aide</a>
-      </div>
-
 
     </div>
   </div>
