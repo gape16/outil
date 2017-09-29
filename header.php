@@ -1,6 +1,6 @@
 <?php
 $id_graph=$_SESSION['id_graph'];
-$query_select_card = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and date_retour_maquette IS NULL and date_retour_cq IS NULL");
+$query_select_card = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and (date_retour_maquette IS NOT NULL and date_retour_cq IS NOT NULL)");
 $query_select_card->bindParam(1, $id_graph);
 $query_select_card->execute();
 $cards_client_select=$query_select_card->fetchAll();
@@ -496,15 +496,15 @@ $nb_cards_client=$query_select_card->rowCount();
         <a href="" class="author-name fn">
           <div class="author-title">
             James Spiegel <svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-              <title>dropdown-arrow-icon</title>
-              <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-            </svg></svg>
-          </div>
-          <span class="author-subtitle">SPACE COWBOY</span>
-        </a>
-      </div>
-
+            <title>dropdown-arrow-icon</title>
+            <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+          </svg></svg>
+        </div>
+        <span class="author-subtitle">SPACE COWBOY</span>
+      </a>
     </div>
+
   </div>
+</div>
 
 </header>
