@@ -201,4 +201,53 @@ $(function() {
 			}
 		}
 	})
+
+
+// MODAL HELP
+$('textarea#description').on('click', function(){
+	$(this).parent().removeClass('is-empty').addClass('is-focused');
+})
+// FIX SMALL LABEL
+$('input').on('click', function(){
+	if($('textarea#description').val().length != 0){
+		$('textarea#description').parent().removeClass('is-focused');
+	}else{
+		$('textarea#description').parent().removeClass('is-focused').addClass('is-empty');
+	}
+})
+
+
+
+$('.btn-addproblem').click(function(){
+	var numClient = $('.numclient').val();
+	var adresseCms = $('.adressecms').val();
+	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
+
+	if(numClient.length == 8 && $.isNumeric(numClient)){
+		if(adresseCms.indexOf(splitAdresseCms) != -1){
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {numClient : numClient,
+					adresseCms : adresseCms
+				},
+			})
+			.done(function(data) {
+				if(data == "existant"){
+					alert('Ce projet existe déjà');
+				}else{
+					$('#askforhelp').modal('hide');
+				}
+			})
+		}else{
+			$('.adressecms').addClass('empty');
+			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
+		}
+	}else{
+		$('.numclient').addClass('empty');
+		$('.numclient').prev().html('Le numéro client n\'est pas valide');
+	}
+
+})
+
 })

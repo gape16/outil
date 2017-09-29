@@ -319,3 +319,23 @@ header#site-header {
 	-webkit-transition: all 0.3s 1s ease-out;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
 	transition: all 0.3s 1s ease-out;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
 }
+
+
+
+
+
+
+
+textarea#description {
+	width: 100%;
+	border: 1px solid #e6ecf5;
+	border-radius: 5px;
+}
+
+
+@media (min-width: 540px){
+	.modal-dialog {
+		max-width: 500px;
+		margin: 200px auto;
+	}
+}
