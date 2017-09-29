@@ -20,6 +20,82 @@ if (isset($_POST['attente'])) {
 	print_r(json_encode($tab));
 }
 
+if (isset($_POST['ajout_message'])) {
+	$id_graph_emet=$_POST['ajout_message'];
+	$query_photo_emet=$bdd->prepare("SELECT prenom, photo_avatar FROM user WHERE id_user = ?");
+	$query_photo_emet->bindParam(1, $id_graph_emet);
+	$query_photo_emet->execute();
+	$photo_emet=$query_photo_emet->fetch();
+	$query_photo_recep=$bdd->prepare("SELECT prenom, photo_avatar FROM user WHERE id_user = ?");
+	$query_photo_recep->bindParam(1, $id_graph);
+	$query_photo_recep->execute();
+	$photo_recep=$query_photo_recep->fetch();
+	$date_sql="( NOW() - INTERVAL 3 DAY )";
+	$id_last=$_POST['id_last'];
+	$lu=0;
+	$query_message=$bdd->prepare("SELECT * FROM `messages` WHERE ((id_graph_emet = ? and id_graph_recep = ?) OR (id_graph_recep=? and id_graph_emet=?)) and date >= ? and lu = ? and id_messages>? order by date ASC");
+	$query_message->bindParam(1, $id_graph_emet);
+	$query_message->bindParam(2, $id_graph);
+	$query_message->bindParam(3, $id_graph_emet);
+	$query_message->bindParam(4, $id_graph);
+	$query_message->bindParam(5, $date_sql);
+	$query_message->bindParam(6, $lu);
+	$query_message->bindParam(7, $id_last);
+	$query_message->execute();
+	$lu=1;
+	$query_up_chat=$bdd->prepare("UPDATE `messages` SET lu = ? WHERE id_graph_emet = ?");
+	$query_up_chat->bindParam(1, $lu);
+	$query_up_chat->bindParam(2, $id_graph_emet);
+	$query_up_chat->execute();
+	// $resu=$query_message->fetchAll(PDO::FETCH_ASSOC);
+	// // print_r($resu);
+	// $nb_resu=$query_message->rowCount();
+	// var_dump($resu);
+	$before="";
+	$message="";
+	$message_tab=array();
+	$u=0;
+	$t=0;
+	foreach ($query_message as $key => $value) {
+		// var_dump($query_message);
+		$id_messages=$value["id_messages"];
+		$query_message_lu=$bdd->prepare("UPDATE `messages` SET lu = 1 WHERE id_messages = ?");
+		$query_message_lu->bindParam(1, $id_messages);
+		$query_message_lu->execute();
+		if($_POST['recep']=="emet" && $value['id_graph_emet']==$id_graph){
+			$message.='<span class="chat-message-item">'.utf8_encode($value["message"]).'</span>';
+			$message.='<span class="notification-date"><time class="entry-date updated" datetime="'.$value["date"].'">'.$value["date"].'</time></span>';
+		}elseif( $_POST['recep']=="emet" && $value['id_graph_emet']==$id_graph_emet ){
+			$message.='<li class="recep" id="'.$value["id_messages"].'">';
+			$message.='<div class="author-thumb">';
+			$message.='<img src="'.$photo_recep["photo_avatar"].'" alt="author" class="mCS_img_loaded">';
+			$message.='</div>';
+			$message.='<div class="notification-event">';
+			$message.='<span class="chat-message-item">'.utf8_encode($value["message"]).'</span>';
+			$message.='<span class="notification-date"><time class="entry-date updated" datetime="'.$value["date"].'">'.$value["date"].'</time></span>';
+			$message.='<input type="hidden" value="'.$photo_emet["prenom"].'" class="lemet" >';
+			$message.='</div>';
+			$message.='</li>';
+		}elseif ($_POST['recep']=="recep" && $value['id_graph_emet']==$id_graph ) {
+			$message.='<li class="emet" id="'.$value["id_messages"].'">';
+			$message.='<div class="author-thumb">';
+			$message.='<img src="'.$photo_recep["photo_avatar"].'" alt="author" class="mCS_img_loaded">';
+			$message.='</div>';
+			$message.='<div class="notification-event">';
+			$message.='<span class="chat-message-item">'.utf8_encode($value["message"]).'</span>';
+			$message.='<span class="notification-date"><time class="entry-date updated" datetime="'.$value["date"].'">'.$value["date"].'</time></span>';
+			$message.='<input type="hidden" value="'.$photo_emet["prenom"].'" class="lemet" >';
+			$message.='</div>';
+			$message.='</li>';
+		}elseif($_POST['recep']=="recep" && $value['id_graph_emet']==$id_graph_emet){
+			$message.='<span class="chat-message-item">'.utf8_encode($value["message"]).'</span>';
+			$message.='<span class="notification-date"><time class="entry-date updated" datetime="'.$value["date"].'">'.$value["date"].'</time></span>';
+		}
+
+	}
+	print_r($message);
+}
+
 if (isset($_POST['id_graph_emet'])) {
 	// si on ouvre la chat box
 	$id_graph_emet=$_POST['id_graph_emet'];
@@ -31,11 +107,6 @@ if (isset($_POST['id_graph_emet'])) {
 	$query_photo_recep->bindParam(1, $id_graph);
 	$query_photo_recep->execute();
 	$photo_recep=$query_photo_recep->fetch();
-	$lu=1;
-	$query_up_chat=$bdd->prepare("UPDATE `messages` SET lu = ? WHERE id_graph_emet = ?");
-	$query_up_chat->bindParam(1, $lu);
-	$query_up_chat->bindParam(2, $id_graph_emet);
-	$query_up_chat->execute();
 	$date_sql="( NOW() - INTERVAL 3 DAY )";
 	$query_message=$bdd->prepare("SELECT * FROM `messages` WHERE (id_graph_emet = ? and id_graph_recep = ?) OR (id_graph_recep=? and id_graph_emet=?) and date >= ? order by date ASC");
 	$query_message->bindParam(1, $id_graph_emet);
@@ -44,6 +115,7 @@ if (isset($_POST['id_graph_emet'])) {
 	$query_message->bindParam(4, $id_graph);
 	$query_message->bindParam(5, $date_sql);
 	$query_message->execute();
+	
 
 	$before="";
 	$message="";
@@ -51,8 +123,15 @@ if (isset($_POST['id_graph_emet'])) {
 	$u=0;
 	$t=0;
 	$resu=$query_message->fetchAll(PDO::FETCH_ASSOC);
+	// print_r($resu);
 	$nb_resu=$query_message->rowCount();
 	for ($i=0; $i < $nb_resu ; $i++) {
+		$id_messages=$resu[$i]["id_messages"];
+		$query_message_lu=$bdd->prepare("UPDATE `messages` SET lu = 1 WHERE id_messages = ? and id_graph_emet=?");
+		$query_message_lu->bindParam(1, $id_messages);
+		$query_message_lu->bindParam(2, $id_graph);
+		$query_message_lu->execute();
+		
 		if($i==0){
 			$message_tab[$i][$u]=$resu[$i]["message"];
 		}elseif($resu[$i]["id_graph_emet"]==$resu[$i-1]["id_graph_emet"]){
@@ -63,13 +142,13 @@ if (isset($_POST['id_graph_emet'])) {
 			$message_tab[$i][$u]=$resu[$i]["message"];
 			$t=$i;
 		}
-		// var_dump($t);
 	}
 	for ($i=0; $i < $nb_resu ; $i++) {
+
 		if($resu[$i]['id_graph_emet']==$id_graph){
-			$message.="<li class='emet'>";
+			$message.='<li class="emet" id="'.$resu[$i]["id_messages"].'">';
 		}else{	
-			$message.="<li class='recep'>";
+			$message.='<li class="recep" id="'.$resu[$i]["id_messages"].'">';
 		}	
 		$message.='<div class="author-thumb">';
 		if ($resu[$i]['id_graph_emet']==$id_graph) {
