@@ -83,7 +83,7 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- Responsive Header -->
 
 		<?php include('responsive_header.php');?>
-
+		
 		<!-- ... end Responsive Header -->
 
 		<!-- ... end Responsive Header -->
@@ -306,7 +306,7 @@ if (isset($_SESSION['id_statut'])) {
 <script src="js/main.js"></script>
 <script src="js/alterclass.js"></script>
 <script src="js/chat.js"></script>
---><!-- Select / Sorting script
+<!-- Select / Sorting script -->
 <script src="js/selectize.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">

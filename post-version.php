@@ -81,8 +81,6 @@
 
 	<!-- ... end Responsive Header -->
 
-	<!-- <div class="header-spacer custom"></div> -->
-
 
 	<div class="container custom">
 		<div class="row">

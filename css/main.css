@@ -37,6 +37,9 @@
 .header-spacer.custom {
 	height: 70px;
 }
+
+
+/*FULL PAGE*/
 #fullpage{
 	padding: 0 70px;
 }
@@ -134,6 +137,53 @@ header#site-header {
 }
 .section .slide{
 	margin-top: 70px;
+}
+
+
+
+/* CHAT */
+.popup-chat .chat-message-field li:nth-child(2n) .author-thumb, .popup-chat .chat-message-field li:nth-child(2n) .notification-event {
+	float: inherit;
+}
+
+
+.emet .author-thumb, .emet .notification-event {
+	float: right !important;
+}
+
+.emet .author-thumb, .emet .notification-event {
+	float: right !important;
+}
+.emet span.chat-message-item{
+	background: #7c5ac2 !important;
+	color: white !important;
+}
+.recep span.chat-message-item{
+	background: #f0f4f9 !important;
+	color: #2C2C2C !important;
+}
+.popup-chat .chat-message-field li:nth-child(2n) .chat-message-item {
+	background-color: initial;
+	color: inherit;
+}
+.popup-chat .notification-event {
+	padding-left: 20px;
+	width: 80%;
+}
+
+.emet span.chat-message-item{
+	background: #7c5ac2 !important;
+	color: white !important;
+}
+.recep span.chat-message-item{
+	background: #f0f4f9 !important;
+	color: #2C2C2C !important;
+}
+.emet .notification-event{
+	padding-right: 10px !important;
+}
+.recep .notification-event{
+	padding-left: 20px !important;
 }
 
 /* LOADER */
