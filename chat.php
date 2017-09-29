@@ -42,11 +42,11 @@ if (isset($_POST['ajout_message'])) {
 	$query_message->bindParam(6, $lu);
 	$query_message->bindParam(7, $id_last);
 	$query_message->execute();
-	$lu=1;
-	$query_up_chat=$bdd->prepare("UPDATE `messages` SET lu = ? WHERE id_graph_emet = ?");
-	$query_up_chat->bindParam(1, $lu);
-	$query_up_chat->bindParam(2, $id_graph_emet);
-	$query_up_chat->execute();
+	// $lu=1;
+	// $query_up_chat=$bdd->prepare("UPDATE `messages` SET lu = ? WHERE id_graph_emet = ?");
+	// $query_up_chat->bindParam(1, $lu);
+	// $query_up_chat->bindParam(2, $id_graph_emet);
+	// $query_up_chat->execute();
 	// $resu=$query_message->fetchAll(PDO::FETCH_ASSOC);
 	// // print_r($resu);
 	// $nb_resu=$query_message->rowCount();
