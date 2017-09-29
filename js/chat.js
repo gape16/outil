@@ -15,7 +15,7 @@ $(function(){
 				}
 				var last_message = $(".chat-message-field").find("li").last().attr('class');
 				var last_message_id = $(".chat-message-field").find("li").last().attr('id');
-
+				console.log(last_message_id);
 				$.ajax({
 					url: 'chat.php',
 					type: 'POST',
