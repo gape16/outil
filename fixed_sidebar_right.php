@@ -12,6 +12,7 @@ $query_equipe_chat->bindParam(':user', $id_graph);
 $query_equipe_chat->execute();
 $result_equipe_chat=$query_equipe_chat->fetchAll();
 
+
 ?>
 <div class="fixed-sidebar right">
   <div class="fixed-sidebar-right sidebar--small" id="sidebar-right">

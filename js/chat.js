@@ -15,7 +15,6 @@ $(function(){
 				}
 				var last_message = $(".chat-message-field").find("li").last().attr('class');
 				var last_message_id = $(".chat-message-field").find("li").last().attr('id');
-				console.log(last_message_id);
 				$.ajax({
 					url: 'chat.php',
 					type: 'POST',
@@ -23,7 +22,7 @@ $(function(){
 				})
 				.done(function(data) {
 					$("."+id_emet).find('.label-avatar').hide();
-					// console.log(data);
+					console.log(data);
 					if(data==""){
 						console.log('test');
 					}else if(data.match("^<li")){
@@ -71,6 +70,7 @@ $(function(){
 		})
 		.done(function(data) {
 			$(".options-message").parent().parent().find("textarea").val('');
+			console.log(data);
 			var $target = $('.scc'); 
 			$target.animate({scrollTop: $(".chat-message-field").height()}, 200);
 		})
@@ -97,11 +97,10 @@ $(function(){
 			data: {lu: 'test', id_graph_emet: id_emet}
 		})
 		.done(function(data) {
-			console.log(data);
 			$("."+id_emet).find('.label-avatar').hide();
-					// console.log(data);
-					$(".ajout_"+id_emet).find('ul.chat-message-field').empty();
-					$(".ajout_"+id_emet).find('ul.chat-message-field').append(data);
+			console.log(data);
+			$(".ajout_"+id_emet).find('ul.chat-message-field').empty();
+			$(".ajout_"+id_emet).find('ul.chat-message-field').append(data);
 					// var bot = JSON.parse(data);
 					var gars_du_chat = $(".lemet").val();
 					$(".ajout_"+id_emet).find(".title").html(gars_du_chat);

@@ -11,7 +11,7 @@ if (isset($_POST['attente'])) {
 	$query_test_chat->bindParam(1, $id_graph);
 	$query_test_chat->bindParam(2, $lu);
 	$query_test_chat->execute();
-	$chat = $query_test_chat->execute();
+	// $chat = $query_test_chat->execute();
 	$tab=array();
 	foreach ($query_test_chat as $key => $value) {
 		$tab[$key]['identifiant'] = $value['id_graph_emet'];
@@ -34,6 +34,8 @@ if (isset($_POST['ajout_message'])) {
 	$id_last=$_POST['id_last'];
 	$lu=0;
 	$query_message=$bdd->prepare("SELECT * FROM `messages` WHERE ((id_graph_emet = ? and id_graph_recep = ?) OR (id_graph_recep=? and id_graph_emet=?)) and date >= ? and lu = ? and id_messages>? order by date ASC");
+	$requete = ("SELECT * FROM `messages` WHERE (id_graph_emet = $id_graph_emet and id_graph_recep = $id_graph) OR (id_graph_recep=$id_graph_emet and id_graph_emet=$id_graph) and date >= $date_sql and lu = $lu and id_messages> $id_last order by date ASC");
+	print_r($requete);
 	$query_message->bindParam(1, $id_graph_emet);
 	$query_message->bindParam(2, $id_graph);
 	$query_message->bindParam(3, $id_graph_emet);
@@ -115,7 +117,6 @@ if (isset($_POST['id_graph_emet'])) {
 	$query_message->bindParam(4, $id_graph);
 	$query_message->bindParam(5, $date_sql);
 	$query_message->execute();
-	
 
 	$before="";
 	$message="";
@@ -127,10 +128,10 @@ if (isset($_POST['id_graph_emet'])) {
 	$nb_resu=$query_message->rowCount();
 	for ($i=0; $i < $nb_resu ; $i++) {
 		$id_messages=$resu[$i]["id_messages"];
-		$query_message_lu=$bdd->prepare("UPDATE `messages` SET lu = 1 WHERE id_messages = ? and id_graph_emet=?");
-		$query_message_lu->bindParam(1, $id_messages);
-		$query_message_lu->bindParam(2, $id_graph);
-		$query_message_lu->execute();
+		// $query_message_lu=$bdd->prepare("UPDATE `messages` SET lu = 1 WHERE id_messages = ? and id_graph_emet=?");
+		// $query_message_lu->bindParam(1, $id_messages);
+		// $query_message_lu->bindParam(2, $id_graph);
+		// $query_message_lu->execute();
 		
 		if($i==0){
 			$message_tab[$i][$u]=$resu[$i]["message"];

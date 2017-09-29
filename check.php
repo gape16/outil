@@ -1,3 +1,7 @@
+<?php
+// Connexion à la base de donnée et insertion de session_start
+include('connexion_session.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
