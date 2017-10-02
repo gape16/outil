@@ -148,3 +148,26 @@ if (isset($_POST['numClient'])) {
 		echo "existant";
 	}
 }
+
+if (isset($_POST['categorie'])) {
+	$categorie=utf8_decode($_POST['categorie']);
+	$lien=$_POST['lien'];
+	$id_client=$_POST['id_client'];
+	$date_achat=$date=date('Y-m-d H:i:s');
+	$id_etat_achat=1;
+	$id_controleur=0;
+	$id_graph=$_SESSION['id_graph'];
+	$commentaire_controleur="";
+	$lien_we="";
+	$query_ins_achat=$bdd->prepare("INSERT INTO achat_photos (categorie, id_client, lien, date_achat, id_graph, id_etat_achat, id_controleur, commentaire_controleur, lien_we) VALUES (?,?,?,?,?,?,?,?,?)");
+	$query_ins_achat->bindParam(1, $categorie);
+	$query_ins_achat->bindParam(2, $id_client);
+	$query_ins_achat->bindParam(3, $lien);
+	$query_ins_achat->bindParam(4, $date_achat);
+	$query_ins_achat->bindParam(5, $id_graph);
+	$query_ins_achat->bindParam(6, $id_etat_achat);
+	$query_ins_achat->bindParam(7, $id_controleur);
+	$query_ins_achat->bindParam(8, $commentaire_controleur);
+	$query_ins_achat->bindParam(9, $lien_we);
+	$query_ins_achat->execute();
+}
