@@ -289,14 +289,15 @@ if (isset($_SESSION['id_statut'])) {
 								type: 'POST',
 								data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
 							})
-							.done(function() {
-								swal(
-									'Validation transmise!',
-									'Le graphiste va reçevoir votre validation!',
-									'success'
-									).then(function () {
-										location.reload();
-									})
+							.done(function(data) {
+								console.log(data);
+								// swal(
+								// 	'Validation transmise!',
+								// 	'Le graphiste va reçevoir votre validation!',
+								// 	'success'
+								// 	).then(function () {
+								// 		location.reload();
+								// 	})
 								})
 							
 						})

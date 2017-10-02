@@ -16,6 +16,7 @@ if(isset($_POST['achat_client'])){
 	$query_update_achat->bindParam(4, $lien_wetrans);
 	$query_update_achat->bindParam(5, $id_achat);
 	$query_update_achat->execute();
+	echo "UPDATE achat_photos SET id_etat_achat = $etat_achat, id_controleur = $id_control, commentaire_controleur = $commentaire_achat, lien_we = $lien_wetrans where id_achat = $id_achat";
 }
 
 if (isset($_POST['jobUser'])) {
