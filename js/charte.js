@@ -5,8 +5,9 @@ $(function() {
 		return pattern.test(emailAddress);
 	};
 
-	$(".connec").on('click', function(e) {
-		e.preventDefault();
+//CONNEXION
+$(".connec").on('click', function(e) {
+	e.preventDefault();
 		//var récup valeur de l'input email
 		var emailAddress = $(".connexion .email").val();
 		console.log(emailAddress);
@@ -20,8 +21,10 @@ $(function() {
 			console.log('mail valide');
 		}
 	})
-	$(".inscription").on('click', function(e) {
-		e.preventDefault();
+
+//INSCRIPTION
+$(".inscription").on('click', function(e) {
+	e.preventDefault();
 		//var récup valeur de l'input email
 		var emailAddress = $(".signin .email").val();
 		var has_empty = false;
@@ -63,134 +66,142 @@ $(function() {
 		}
 		return false;
 	})
-	$('.connect').on('keyup', '.empty', function(event) {
-		$(this).addClass('onchange');
-	});
-	$('.submit').on('click', function() {
-		var poste = $('.form-control').find(":selected").val();
-		console.log(poste);
-		var code = $('.code').val();
-		$.ajax({
-			url: 'formulaire.php',
-			type: 'POST',
-			data: {
-				codeInput: code,
-				jobUser: poste
-			}
-		}).done(function(data) {
-			if (data == code) {
-				$('.signin').submit();
-			} else {
-				$('.code').val('').attr('placeholder', 'Code éronné');
-			}
-		})
+$('.connect').on('keyup', '.empty', function(event) {
+	$(this).addClass('onchange');
+});
+
+//CONNEXION	
+$('.submit').on('click', function() {
+	var poste = $('.form-control').find(":selected").val();
+	console.log(poste);
+	var code = $('.code').val();
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {
+			codeInput: code,
+			jobUser: poste
+		}
+	}).done(function(data) {
+		if (data == code) {
+			$('.signin').submit();
+		} else {
+			$('.code').val('').attr('placeholder', 'Code éronné');
+		}
 	})
+})
 
 
 
-
-	$('a.forgot').on('click', function(){
-		$.fancybox({
+//MDP OUBLIE
+$('a.forgot').on('click', function(){
+	$.fancybox({
 			href: '#hidden-content-b', // Source of the content
 			type: 'iframe',
 			modal: true
 		});	
-	});
-	$('.getpassword').on('click', function(){
-		$('.token').css('display', 'block');
-		var emailforgot = $('input.forgotemail').val();
-		if (!isValidEmailAddress(emailforgot)) {
-			$('.forgotemail').addClass('empty');
-		} else {
-			console.log('mail valide');
-			$('.forgotemail').css('display', 'none');
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {
-					idForgot : emailforgot,
-				}
-			}).done(function(data) {
-				console.log(data);
-				$('.hidden').val(data);
-				console.log($('.token').val());
-				$('.getpassword').css('display', 'none');
-				$('.newpassword').css('display', 'block');
-			})
-		}
-		console.log(emailforgot);
-	})
-	$('.newpassword').on('click', function(){
-		data = $('.hidden').val();
-		var emailforgot = $('input.forgotemail').val();
-		if(data == $('.token').val()){
-			console.log('condition marche');
-			$('.token').remove();
-			$('<input type="text" placeholder="Ton nouveau mot de passe" class="password"> <input type="text" placeholder="Verifie ton nouveau mot de passe" class="passwordverify">').insertBefore('.getpassword')
-			$('.newpassword').css('display', 'none');
-			$('<a href="#" class="btn btn-purple btn-lg full-width confirmpw" style="display: block;">Valider nouveau mot de passe<div class="ripple-container"></div></a>').insertAfter('input.passwordverify')
+});
 
-			$('.confirmpw').on('click', function(){
-				var password = $('.password').val();
-				var passwordverify = $('.passwordverify').val();	
-				if(password == passwordverify){
-					$.ajax({
-						url: 'formulaire.php',
-						type: 'POST',
-						data: {
-							newPassword : password,
-							mailNewPassword : emailforgot
-						}
-					}).done(function(data) {
-						console.log(password);
-						$.fancybox.close();
-					})
-				}
-			})
-		}
-	})
+//GET PASSWORD
+$('.getpassword').on('click', function(){
+	$('.token').css('display', 'block');
+	var emailforgot = $('input.forgotemail').val();
+	if (!isValidEmailAddress(emailforgot)) {
+		$('.forgotemail').addClass('empty');
+	} else {
+		console.log('mail valide');
+		$('.forgotemail').css('display', 'none');
+		$.ajax({
+			url: 'formulaire.php',
+			type: 'POST',
+			data: {
+				idForgot : emailforgot,
+			}
+		}).done(function(data) {
+			console.log(data);
+			$('.hidden').val(data);
+			console.log($('.token').val());
+			$('.getpassword').css('display', 'none');
+			$('.newpassword').css('display', 'block');
+		})
+	}
+	console.log(emailforgot);
+})
 
+//NEW PW
+$('.newpassword').on('click', function(){
+	data = $('.hidden').val();
+	var emailforgot = $('input.forgotemail').val();
+	if(data == $('.token').val()){
+		console.log('condition marche');
+		$('.token').remove();
+		$('<input type="text" placeholder="Ton nouveau mot de passe" class="password"> <input type="text" placeholder="Verifie ton nouveau mot de passe" class="passwordverify">').insertBefore('.getpassword')
+		$('.newpassword').css('display', 'none');
+		$('<a href="#" class="btn btn-purple btn-lg full-width confirmpw" style="display: block;">Valider nouveau mot de passe<div class="ripple-container"></div></a>').insertAfter('input.passwordverify')
 
-
-	$('.btn-addclient').on('click', function(){
-		var numClient = $('.numclient').val();
-		var raisonSociale = $('.raisonsociale').val();
-		var adresseCms = $('.adressecms').val();
-		var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
-
-		if(numClient.length == 8 && $.isNumeric(numClient)){
-			$('.numclient').removeClass('empty');
-			if(adresseCms.indexOf(splitAdresseCms) != -1){
-				$('.adressecms').removeClass('adressecms');
+		$('.confirmpw').on('click', function(){
+			var password = $('.password').val();
+			var passwordverify = $('.passwordverify').val();	
+			if(password == passwordverify){
 				$.ajax({
 					url: 'formulaire.php',
 					type: 'POST',
-					data: {numClient : numClient,
-						raisonSociale : raisonSociale,
-						adresseCms : adresseCms
-					},
-				})
-				.done(function(data) {
-					if(data == "existant"){
-						alert('Ce projet existe déjà');
-					}else{
-						$('div#create-friend-group-1').modal('hide');
-						$('.container.cards .row').append(data);
+					data: {
+						newPassword : password,
+						mailNewPassword : emailforgot
 					}
+				}).done(function(data) {
+					console.log(password);
+					$.fancybox.close();
 				})
-			}else{
-				$('.adressecms').addClass('empty');
-				$('.adressecms').prev().html('L\'adresse n\'est pas valide');
 			}
+		})
+	}
+})
+
+
+//AJOUT CLIENT
+$('.btn-addclient').on('click', function(){
+	var numClient = $('.numclient').val();
+	var raisonSociale = $('.raisonsociale').val();
+	var adresseCms = $('.adressecms').val();
+	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
+
+	if(numClient.length == 8 && $.isNumeric(numClient)){
+		$('.numclient').removeClass('empty');
+		if(adresseCms.indexOf(splitAdresseCms) != -1){
+			$('.adressecms').removeClass('adressecms');
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {numClient : numClient,
+					raisonSociale : raisonSociale,
+					adresseCms : adresseCms
+				},
+			})
+			.done(function(data) {
+				if(data == "existant"){
+					alert('Ce projet existe déjà');
+				}else{
+					$('div#create-friend-group-1').modal('hide');
+					$('.container.cards .row').append(data);
+				}
+			})
 		}else{
-			$('.numclient').addClass('empty');
-			$('.numclient').prev().html('Le numéro client n\'est pas valide');
+			$('.adressecms').addClass('empty');
+			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
 		}
+	}else{
+		$('.numclient').addClass('empty');
+		$('.numclient').prev().html('Le numéro client n\'est pas valide');
+	}
 
 
 
 
-	});
+});
+
+	//BIND ENTER TO LOG
 	$(document).keypress(function(e) {
 		if($('#home').hasClass('active')){
 			if(e.which == 13) {
@@ -220,6 +231,53 @@ $('input').on('click', function(){
 
 
 
+
+
+
+
+//RESET
+$(".reset").on('click', function(){
+	$(".ajout_photo").find('.form-control').val('');
+	$(".help").find('.form-control').val('');
+})
+
+//ACHAT PHOTOS
+$('.valider_achat').click(function(){
+	var id = $(this).data('id');
+	var lien = $(this).data('lien');
+	var achat = $(this).data('achat');
+	$(".id_client").html( id );
+	$(".lien_getty").attr("href",lien );
+	$(".id_achat").val( achat );
+	var numClient = $(this).data('achat');
+	var adresseGetty = $('.liengetty').val();
+	var splitAdresseGetty = 'http://www.gettyimages.fr/collaboration/boards/';
+	var descriptionProblem = $('textarea#description').val();
+
+	if(numClient.length == 8 && $.isNumeric(numClient)){
+		$('.numclient').removeClass('empty');
+		if(adresseGetty.indexOf(splitAdresseGetty) != -1){
+			$('.liengetty').removeClass('empty');
+			swal(
+				'Demande validée!',
+				'Votre demande va être prise en compte!',
+				'success'
+				).then(function () {
+				// location.reload();
+				$(".ajout_photo").submit();
+			})
+			}else{
+				$('.liengetty').addClass('empty');
+				$('.liengetty').prev().html('L\'adresse n\'est pas valide');
+			}
+		}else{
+			$('.numclient').addClass('empty');
+			$('.numclient').prev().html('Le numéro client n\'est pas valide');
+		}
+	})
+
+
+//HELP
 $('.valider_aide').click(function(){
 	var numClient = $('.numclient').val();
 	var adresseCms = $('.adressecms').val();
@@ -231,40 +289,64 @@ $('.valider_aide').click(function(){
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
 			$('.adressecms').removeClass('empty');
 			if(descriptionProblem.length >= 140){
-				console.log(descriptionProblem.length);
-				$(".valider_aide").on('click', function(){	
-					swal(
-						'Demande validée!',
-						'Votre demande va être prise en compte !',
-						'success'
-						)
-				})
-				$('.swal2-confirm').on('click', function(){
-					location.reload();
-				})
+				swal(
+					'Demande validée!',
+					'Votre demande va être prise en compte!',
+					'success'
+					).then(function () {
+				// location.reload();
+				$(".help").submit();
+			})
+				}else{
+					$('textarea#description').addClass('empty');
+					$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
+				}
 			}else{
-				$('textarea#description').addClass('empty');
-				$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
+				$('.adressecms').addClass('empty');
+				$('.adressecms').prev().html('L\'adresse n\'est pas valide');
 			}
 		}else{
-			$('.adressecms').addClass('empty');
-			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
+			$('.numclient').addClass('empty');
+			$('.numclient').prev().html('Le numéro client n\'est pas valide');
 		}
-	}else{
-		$('.numclient').addClass('empty');
-		$('.numclient').prev().html('Le numéro client n\'est pas valide');
-	}
+	})
+
+//VALIDER ACHAT
+$(".reset").on('click', function(){
+	$(".ajout_photo").find('.form-control').val('');
+})
+$(".validation_achat").on('click', function(e){
+	e.preventDefault();
+	id_client=$(".id_client").text();
+	lien_we=$(".lien_we").val();
+	commentaires=$(".commentaires").val();
+	etat_select=$(".etat_select").val();
+	id_achat=$(".id_achat").val();							
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
+	})
+	.done(function(data) {
+		swal(
+			'Validation transmise!',
+			'Le graphiste va reçevoir votre validation!',
+			'success'
+			).then(function () {
+				location.reload();
+			})
+		})
+
 })
 
+//COUNT TEXTAREA
+var text_min = 0;
+$('#description').keyup(function() {
+	var text_length = $('#description').val().length;
+	var text_remaining = text_min + text_length;
 
-$('textarea#description').keyup(function() {
-	var descriptionProblem = $('textarea#description').val();
-	for (var i = 0, len = descriptionProblem.length; i < len; i++) {
-		console.log(descriptionProblem[i]);
-	}
+	$('label.count').html(text_remaining);
 });
-
-
 
 
 })
