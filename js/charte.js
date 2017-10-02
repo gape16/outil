@@ -253,7 +253,6 @@ $('.valider_achat').click(function(){
 	var adresseGetty = $('.liengetty').val();
 	var splitAdresseGetty = 'http://www.gettyimages.fr/collaboration/boards/';
 	var descriptionProblem = $('textarea#description').val();
-	console.log(achat);
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
@@ -329,7 +328,6 @@ $(".validation_achat").on('click', function(e){
 		data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
 	})
 	.done(function(data) {
-		// console.log(data);
 		swal(
 			'Validation transmise!',
 			'Le graphiste va reçevoir votre validation!',
@@ -337,7 +335,7 @@ $(".validation_achat").on('click', function(e){
 			).then(function () {
 				location.reload();
 			})
-	})
+		})
 
 })
 
