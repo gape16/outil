@@ -177,7 +177,7 @@ if (isset($_SESSION['id_statut'])) {
 												</ul>
 											</td>
 											<td class="add-event">
-												<a data-toggle="modal" data-target="#create-achat" data-id="<?php echo $value['id_client'];?>" data-lien="<?php echo $value['lien'];?>" data-achat="<?php echo $value['id_achat'];?>" class="btn btn-breez btn-sm valider_achat" style="background:#1ed760;color:white;cursor:pointer;">Acheter (ou pas)</a>
+												<a data-toggle="modal" data-target="#create-achat" data-id="<?php echo $value['id_client'];?>" data-lien="<?php echo $value['lien'];?>" data-achat="<?php echo $value['id_achat'];?>" class="btn btn-breez btn-sm valider_achat_admin" style="background:#1ed760;color:white;cursor:pointer;">Acheter (ou pas)</a>
 											</td>
 
 										</tr>

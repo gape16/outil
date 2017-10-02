@@ -243,38 +243,46 @@ $(".reset").on('click', function(){
 
 //ACHAT PHOTOS
 $('.valider_achat').click(function(){
-	var id = $(this).data('id');
-	var lien = $(this).data('lien');
-	var achat = $(this).data('achat');
-	$(".id_client").html( id );
-	$(".lien_getty").attr("href",lien );
-	$(".id_achat").val( achat );
-	var numClient = $(this).data('achat');
+	var numClient = $('.numclient').val();
 	var adresseGetty = $('.liengetty').val();
 	var splitAdresseGetty = 'http://www.gettyimages.fr/collaboration/boards/';
 	var descriptionProblem = $('textarea#description').val();
+
+	var categorie = $('.categorie').val();
+	var lien = $('.liengetty').val();
+	var id_client = $('.numclient').val();
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
 		if(adresseGetty.indexOf(splitAdresseGetty) != -1){
 			$('.liengetty').removeClass('empty');
-			swal(
-				'Demande validée!',
-				'Votre demande va être prise en compte!',
-				'success'
-				).then(function () {
-				// location.reload();
-				$(".ajout_photo").submit();
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {categorie: categorie,
+					lien: lien,
+					id_client: id_client
+				}
 			})
-			}else{
-				$('.liengetty').addClass('empty');
-				$('.liengetty').prev().html('L\'adresse n\'est pas valide');
-			}
+			.done(function(data) {
+				console.log(data);
+				swal(
+					'Demande validée!',
+					'Votre demande va être prise en compte!',
+					'success'
+					).then(function () {
+						location.reload();
+					})
+				})
 		}else{
-			$('.numclient').addClass('empty');
-			$('.numclient').prev().html('Le numéro client n\'est pas valide');
+			$('.liengetty').addClass('empty');
+			$('.liengetty').prev().html('L\'adresse n\'est pas valide');
 		}
-	})
+	}else{
+		$('.numclient').addClass('empty');
+		$('.numclient').prev().html('Le numéro client n\'est pas valide');
+	}
+})
 
 
 //HELP
@@ -312,6 +320,14 @@ $('.valider_aide').click(function(){
 	})
 
 //VALIDER ACHAT
+$(".valider_achat_admin").on('click', function(){	
+	var id = $(this).data('id');
+	var lien = $(this).data('lien');
+	var achat = $(this).data('achat');
+	$(".id_client").html( id );
+	$(".lien_getty").attr("href",lien );
+	$(".id_achat").val( achat );
+})
 $(".reset").on('click', function(){
 	$(".ajout_photo").find('.form-control').val('');
 })

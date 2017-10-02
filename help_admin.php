@@ -112,54 +112,6 @@ if (isset($_SESSION['id_statut'])) {
 		</div>
 
 		<!-- Main Content Groups -->
-		<?php 
-		// si c'est un graph qui se connect
-		if ($_SESSION['id_statut'] == 1) {?>
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="ui-block">
-						<div class="ui-block-title">
-							<h6 class="title">Demande d'achat de photos / vidéos</h6>
-						</div>
-						<div class="ui-block-content">
-							<form method="POST" action="achat_photos.php" class="ajout_photo">
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Identifiant client</label>
-									<input class="form-control numclient" type="text" placeholder="" name="id_client">
-									<span class="material-input"></span>
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Catégorie(s) du site</label>
-									<input class="form-control categorie" type="text" placeholder="" name="categorie">
-									<span class="material-input"></span>
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Lien du tableau getty</label>
-									<input class="form-control liengetty" type="text" placeholder="" name="lien">
-									<span class="material-input"></span>
-								</div>
-							</form>
-
-							<p class="m-t-50">Vous avez un problème ? <a href="#" class="c-green">Faites le nous savoir</a></p>
-
-							<div class="row">
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-secondary btn-lg full-width reset" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
-								</div>
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_achat"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-									Valider la demande</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -262,7 +214,3 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="js/charte.js"></script>
 		</body>
 		</html>
-		<?php }else{
-			header('Location: login.php');
-		}
-		?>
