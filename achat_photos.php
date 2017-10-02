@@ -8,7 +8,7 @@ $id_graph=$_SESSION['id_graph'];
 if (isset($_SESSION['id_statut'])) {
 	// print_r($_POST);
 	if (isset($_POST['categorie'])) {
-		$categorie=$_POST['categorie'];
+		$categorie=utf8_decode($_POST['categorie']);
 		$lien=$_POST['lien'];
 		$id_client=$_POST['id_client'];
 		$date_achat=$date=date('Y-m-d H:i:s');

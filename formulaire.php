@@ -6,7 +6,7 @@ if(isset($_POST['achat_client'])){
 	$id_client=$_POST['achat_client'];
 	$id_achat=$_POST['achat'];
 	$lien_wetrans=$_POST['lien_wetrans'];
-	$commentaire_achat=$_POST['commentaire_achat'];
+	$commentaire_achat=utf8_decode($_POST['commentaire_achat']);
 	$etat_achat=$_POST['etat_achat'];
 	$id_control=$_SESSION['id_graph'];
 	$query_update_achat = $bdd->prepare("UPDATE achat_photos SET id_etat_achat = ?, id_controleur = ?, commentaire_controleur = ?, lien_we = ? where id_achat = ?");
@@ -16,7 +16,7 @@ if(isset($_POST['achat_client'])){
 	$query_update_achat->bindParam(4, $lien_wetrans);
 	$query_update_achat->bindParam(5, $id_achat);
 	$query_update_achat->execute();
-	echo "UPDATE achat_photos SET id_etat_achat = $etat_achat, id_controleur = $id_control, commentaire_controleur = $commentaire_achat, lien_we = $lien_wetrans where id_achat = $id_achat";
+	// echo "UPDATE achat_photos SET id_etat_achat = $etat_achat, id_controleur = $id_control, commentaire_controleur = $commentaire_achat, lien_we = $lien_wetrans where id_achat = $id_achat";
 }
 
 if (isset($_POST['jobUser'])) {

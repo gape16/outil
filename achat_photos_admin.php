@@ -265,43 +265,6 @@ if (isset($_SESSION['id_statut'])) {
 
 				<script src="js/charte.js"></script>
 				<script>
-					$(function(){
-						$(".valider_achat").on('click', function(){	
-							var id = $(this).data('id');
-							var lien = $(this).data('lien');
-							var achat = $(this).data('achat');
-							$(".id_client").html( id );
-							$(".lien_getty").attr("href",lien );
-							$(".id_achat").val( achat );
-						})
-						$(".reset").on('click', function(){
-							$(".ajout_photo").find('.form-control').val('');
-						})
-						$(".validation_achat").on('click', function(e){
-							e.preventDefault();
-							id_client=$(".id_client").text();
-							lien_we=$(".lien_we").val();
-							commentaires=$(".commentaires").val();
-							etat_select=$(".etat_select").val();
-							id_achat=$(".id_achat").val();							
-							$.ajax({
-								url: 'formulaire.php',
-								type: 'POST',
-								data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
-							})
-							.done(function(data) {
-								console.log(data);
-								// swal(
-								// 	'Validation transmise!',
-								// 	'Le graphiste va reçevoir votre validation!',
-								// 	'success'
-								// 	).then(function () {
-								// 		location.reload();
-								// 	})
-								})
-							
-						})
-					})
 				</script>
 			</body>
 			</html>
