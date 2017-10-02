@@ -2,6 +2,21 @@
 include('connexion_session.php');
 
 
+if(isset($_POST['achat_client'])){
+	$id_client=$_POST['achat_client'];
+	$id_achat=$_POST['achat'];
+	$lien_wetrans=$_POST['lien_wetrans'];
+	$commentaire_achat=$_POST['commentaire_achat'];
+	$etat_achat=$_POST['etat_achat'];
+	$id_control=$_SESSION['id_graph'];
+	$query_update_achat = $bdd->prepare("UPDATE achat_photos SET id_etat_achat = ?, id_controleur = ?, commentaire_controleur = ?, lien_we = ? where id_achat = ?");
+	$query_update_achat->bindParam(1, $etat_achat);
+	$query_update_achat->bindParam(2, $id_control);
+	$query_update_achat->bindParam(3, $commentaire_achat);
+	$query_update_achat->bindParam(4, $lien_wetrans);
+	$query_update_achat->bindParam(5, $id_achat);
+	$query_update_achat->execute();
+}
 
 if (isset($_POST['jobUser'])) {
 	$job = $_POST['jobUser'];
