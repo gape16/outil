@@ -337,10 +337,32 @@ textarea#description {
 	border-radius: 5px;
 }
 
-
+.moproblem{
+	cursor: pointer;
+}
+.hax {
+	display: block;
+}
+.event-private-public .mCustomScrollbar {
+	max-height: 435px;
+}
+.comment-form .form-group {
+	width: 97%;
+}
+#problemos .modal-dialog {
+	margin: auto;
+	width: 80vw;
+	max-width: 80vw;
+	margin-top: 10vh;
+}
 @media (min-width: 540px){
 	.modal-dialog {
 		max-width: 500px;
 		margin: 200px auto;
 	}
 }
+
+
+
+
+

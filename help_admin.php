@@ -3,14 +3,35 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
-$id_graph=$_SESSION['id_graph'];
+
+// truncate string at word
+function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad = "...") {  
+	
+	if (strlen($string) <= $limit) return $string;
+	
+	if (false !== ($max = strpos($string, $break, $limit))) {
+
+		if ($max < strlen($string) - 1) {
+			
+			$string = substr($string, 0, $max) . $pad;
+			
+		}
+		
+	}
+	
+	return $string;
+	
+}
 
 if (isset($_SESSION['id_statut'])) {
-	// print_r($_POST);
-	$query_achat=$bdd->prepare("SELECT * FROM achat_photos inner join etat_achat on achat_photos.id_etat_achat = etat_achat.id_etat_achat where id_graph = ? order by date_achat DESC");
-	$query_achat->bindParam(1, $id_graph);
-	$query_achat->execute();
+
+	$date_aide="( NOW() - INTERVAL 3 DAY )";
+	$query_select_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide where date_aide >= ? order by date_aide DESC");
+	$query_select_aide->bindParam(1, $date_aide);
+	$query_select_aide->execute();
+
 	?>
+
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -121,8 +142,8 @@ if (isset($_SESSION['id_statut'])) {
 						</div>
 						<table class="event-item-table">
 							<tbody>
-								<?php foreach ($query_achat as $key => $value) {
-									$date_tab=explode("-", $value['date_achat']);
+								<?php foreach ($query_select_aide as $key => $value) {
+									$date_tab=explode("-", $value['date_aide']);
 									$jour_tab=explode(" ",$date_tab[2]);
 									$jour=$jour_tab[0];
 
@@ -140,77 +161,228 @@ if (isset($_SESSION['id_statut'])) {
 										</td>
 										<td class="author">
 											<div class="event-author inline-items">
-												<div class="author-thumb">
-													<img src="img/avatar43-sm.jpg" alt="author">
-												</div>
 												<div class="author-date">
-													<a class="author-name h6"><?php echo $value['id_client'];?></a>
+													<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+													<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
 												</div>
 											</div>
 										</td>
 										<td class="location">
 											<div class="place inline-items">
 												<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<a href="<?php echo $value['lien'];?>" target="_blank" style="color:inherit;"><span>Lien Getty</span></a>
+												<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
 											</div>
 										</td>
-										<td class="users">
-											<p class="description"><span style="font-weight: bold;">Catégorie:</span> <?php echo utf8_encode($value['categorie']);?></p>
-										</td>
-										<?php if(!empty($value['commentaire_controleur'])){?>
 										<td class="description">
-											<p class="description"><span style="font-weight: bold;">Commentaire contrôleur</span>: <?php echo utf8_encode($value['commentaire_controleur']);?></p>
+											<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 										</td>
-										<?php }else{?>
-										<td class="description"></td>
-										<?php }?>
 										<td class="add-event">
-											<a <?php if($value['id_etat_achat']==3){echo "href='".$value['lien_we']."' target='_blank'";}?> class="btn btn-breez btn-sm" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat']);?></a>
+											<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
 										</td>
-
 									</tr>
 									<?php }?>
 								</tbody>
 							</table>
-
-
-
-
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<?php }?>
-			<!-- ... end Window-popup Create Friends Group Add Friends -->
+			<!-- Window-popup Event Private Public -->
+			<div class="modal fade show" id="problemos">
+				<div class="modal-dialog ui-block window-popup event-private-public private-event">
+					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+					</a>
+					<article class="hentry post has-post-thumbnail thumb-full-width private-event">
 
-			<!-- Window-popup-CHAT for responsive min-width: 768px -->
+						<div class="row">
+							<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+								<div class="post__author author vcard inline-items">
+									<img src="img/author-page.jpg" alt="author">
 
-			<?php include('chat_box.php');?>
+									<div class="author-date">
+										<a class="h6 post__author-name fn" href="#">USER</a>
+										<div class="post__date">
+											<time class="published" datetime="2017-03-24T18:18">
+												DATE
+											</time>
+										</div>
+									</div>
 
-			<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+								</div>
+								<h1 class="titreproblemos">
+									Titre du probleme
+								</h1>
+								<p class="descproblemos">
+									Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the
+									new design project we have been working on. Cheers!
+								</p>
+							</div>
+							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+								<div class="event-description">
+									<h6 class="event-description-title">Infos pratiques</h6>
+									<div class="place inline-items">
+										<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+											<span>Lien CMS</span></div>
+											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+												<span>Fichiers sources</span></div>
+											</div>
+
+											<a href="#" class="btn btn-green btn-sm full-width">Demande d'aide traitée</a>
+										</div>
+									</div>
+								</div>
+
+								<div class="control-block-button post-control-button">
+
+									<a href="#" class="btn btn-control">
+										<svg class="olymp-like-post-icon"><use xlink:href="icons/icons.svg#olymp-like-post-icon"></use></svg>
+									</a>
+
+									<a href="#" class="btn btn-control">
+										<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
+									</a>
+
+								</div>
+
+							</article>
+
+							<div class="mCustomScrollbar" data-mcs-theme="dark">
+
+								<ul class="comments-list">
+									<li>
+										<div class="post__author author vcard inline-items">
+											<img src="img/author-page.jpg" alt="author">
+
+											<div class="author-date">
+												<a class="h6 post__author-name fn" href="02-ProfilePage.html">James Graphiste</a>
+												<div class="post__date">
+													<time class="published" datetime="2017-03-24T18:18">
+														38 mins ago
+													</time>
+												</div>
+											</div>
+
+											<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+
+										</div>
+
+										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
+
+										<a href="#" class="post-add-icon inline-items">
+											<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+											<span>3</span>
+										</a>
+										<a href="#" class="reply">Reply</a>
+									</li>
+									<li>
+										<div class="post__author author vcard inline-items">
+											<img src="img/avatar1-sm.jpg" alt="author">
+
+											<div class="author-date">
+												<a class="h6 post__author-name fn" href="#">Controleur</a>
+												<div class="post__date">
+													<time class="published" datetime="2017-03-24T18:18">
+														1 hour ago
+													</time>
+												</div>
+											</div>
+
+											<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+
+										</div>
+
+										<p>Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum
+											quia dolor sit amet, consectetur adipisci velit en lorem ipsum duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
+										</p>
+
+										<a href="#" class="post-add-icon inline-items">
+											<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+											<span>8</span>
+										</a>
+										<a href="#" class="reply">Reply</a>
+									</li>
+									<li>
+										<div class="post__author author vcard inline-items">
+											<img src="img/avatar10-sm.jpg" alt="author">
+
+											<div class="author-date">
+												<a class="h6 post__author-name fn" href="#">Elaine Graphiste</a>
+												<div class="post__date">
+													<time class="published" datetime="2017-03-24T18:18">
+														5 mins ago
+													</time>
+												</div>
+											</div>
+
+											<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+
+										</div>
+
+										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
+
+										<a href="#" class="post-add-icon inline-items">
+											<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+											<span>8</span>
+										</a>
+										<a href="#" class="reply">Reply</a>
+									</li>
+								</ul>
+
+							</div>
+
+							<form class="comment-form inline-items">
+
+								<div class="post__author author vcard inline-items">
+									<img src="img/author-page.jpg" alt="author">
+								</div>
+
+								<div class="form-group with-icon-right ">
+									<textarea class="form-control" placeholder=""  ></textarea>
+									<div class="add-options-message">
+										<a href="#" class="options-message">
+											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-camera-icon"></use></svg>
+										</a>
+									</div>
+
+									<span class="material-input"></span><span class="material-input"></span></div>
+
+								</form>
+							</div>
+						</div>
 
 
-			<!-- jQuery first, then Other JS. -->
-			<script src="js/jquery-3.2.0.min.js"></script>
-			<!-- Js effects for material design. + Tooltips -->
-			<script src="js/material.min.js"></script>
-			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-			<script src="js/theme-plugins.js"></script>
-			<!-- Init functions -->
-			<script src="js/main.js"></script>
-			<script src="js/alterclass.js"></script>
-			<script src="js/chat.js"></script>
-			<!-- Select / Sorting script -->
-			<script src="js/selectize.min.js"></script>
+						<?php }?>
+						<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+						<!-- Window-popup-CHAT for responsive min-width: 768px -->
+
+						<?php include('chat_box.php');?>
+
+						<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
 
-			<script src="js/mediaelement-and-player.min.js"></script>
-			<script src="js/mediaelement-playlist-plugin.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+						<!-- jQuery first, then Other JS. -->
+						<script src="js/jquery-3.2.0.min.js"></script>
+						<!-- Js effects for material design. + Tooltips -->
+						<script src="js/material.min.js"></script>
+						<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+						<script src="js/theme-plugins.js"></script>
+						<!-- Init functions -->
+						<script src="js/main.js"></script>
+						<script src="js/alterclass.js"></script>
+						<script src="js/chat.js"></script>
+						<!-- Select / Sorting script -->
+						<script src="js/selectize.min.js"></script>
 
-			<script src="js/charte.js"></script>
-		</body>
-		</html>
+						<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+
+
+						<script src="js/mediaelement-and-player.min.js"></script>
+						<script src="js/mediaelement-playlist-plugin.min.js"></script>
+						<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+
+						<script src="js/charte.js"></script>
+					</body>
+					</html>
