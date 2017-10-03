@@ -286,38 +286,55 @@ $('.valider_achat').click(function(){
 
 
 //HELP
-$('.valider_aide').click(function(){
+$('.valider_aide').click(function(e){
+	e.preventDefault();
+	var files = $("#file-select").prop("files");
 	var numClient = $('.numclient').val();
+	var titre = $('.titre_probleme').val();
 	var adresseCms = $('.adressecms').val();
 	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
 	var descriptionProblem = $('textarea#description').val();
+
+	var names = $.map(files, function (val) { return val.name; });
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
 			$('.adressecms').removeClass('empty');
 			if(descriptionProblem.length >= 140){
-				swal(
-					'Demande validée!',
-					'Votre demande va être prise en compte!',
-					'success'
-					).then(function () {
-				// location.reload();
-				$(".help").submit();
-			})
-				}else{
-					$('textarea#description').addClass('empty');
-					$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
-				}
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {aide: numClient,
+						adresse_aide: adresseCms,
+						descriptionProblem: descriptionProblem,
+						capture: names,
+						titre: titre
+					}
+				})
+				.done(function(data) {
+					console.log(data);
+					swal(
+						'Demande validée!',
+						'Votre demande va être prise en compte!',
+						'success'
+						).then(function () {
+							location.reload();
+						})
+					})
 			}else{
-				$('.adressecms').addClass('empty');
-				$('.adressecms').prev().html('L\'adresse n\'est pas valide');
+				$('textarea#description').addClass('empty');
+				$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
 			}
 		}else{
-			$('.numclient').addClass('empty');
-			$('.numclient').prev().html('Le numéro client n\'est pas valide');
+			$('.adressecms').addClass('empty');
+			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
 		}
-	})
+	}else{
+		$('.numclient').addClass('empty');
+		$('.numclient').prev().html('Le numéro client n\'est pas valide');
+	}
+})
 
 //VALIDER ACHAT
 $(".valider_achat_admin").on('click', function(){	
@@ -361,7 +378,7 @@ $('#description').keyup(function() {
 	var text_length = $('#description').val().length;
 	var text_remaining = text_min + text_length;
 
-	$('label.count').html(text_remaining);
+	$('span.count').html(text_remaining);
 });
 
 

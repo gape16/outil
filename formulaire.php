@@ -171,3 +171,35 @@ if (isset($_POST['categorie'])) {
 	$query_ins_achat->bindParam(9, $lien_we);
 	$query_ins_achat->execute();
 }
+
+if (isset($_POST['aide'])) {
+	$titre=utf8_decode($_POST['titre']);
+	$descriptionProblem=utf8_decode($_POST['descriptionProblem']);
+	$cms=$_POST['adresse_aide'];
+	$capture_arr=$_POST['capture'];
+	$capture="";
+	$i=0;
+	foreach ($capture_arr as $key => $value) {
+		if ($i!=0) {
+			$capture.=";";
+		}
+		$capture.=$value;
+		$i++;
+	}
+	$id_etat_aide=1;
+	$id_client=$_POST['aide'];
+	$date_aide=$date=date('Y-m-d H:i:s');
+	$id_graph=$_SESSION['id_graph'];
+	$query_ins_aide=$bdd->prepare("INSERT INTO aide (id_client, adresse_cms, titre, description, date_aide, id_user, id_etat_aide, capture) VALUES (?,?,?,?,?,?,?,?)");
+	$query_ins_aide->bindParam(1, $id_client);
+	$query_ins_aide->bindParam(2, $cms);
+	$query_ins_aide->bindParam(3, $titre);
+	$query_ins_aide->bindParam(4, $descriptionProblem);
+	$query_ins_aide->bindParam(5, $date_aide);
+	$query_ins_aide->bindParam(6, $id_graph);
+	$query_ins_aide->bindParam(7, $id_etat_aide);
+	$query_ins_aide->bindParam(8, $capture);
+	$query_ins_aide->execute();
+	// echo $query_ins_aide->debugDumpParams();
+	// echo "INSERT INTO aide (id_client, adresse_cms, description, date_aide, id_user, id_etat_aide, capture) VALUES ('$id_client','$cms','$descriptionProblem','$date_aide','$id_graph','$id_etat_aide','$capture')";
+}

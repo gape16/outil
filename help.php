@@ -4,12 +4,32 @@
 include('connexion_session.php');
 
 
+// truncate string at word
+function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad = "...") {  
+	
+	if (strlen($string) <= $limit) return $string;
+	
+	if (false !== ($max = strpos($string, $break, $limit))) {
+
+		if ($max < strlen($string) - 1) {
+			
+			$string = substr($string, 0, $max) . $pad;
+			
+		}
+		
+	}
+	
+	return $string;
+	
+}
+
 if (isset($_SESSION['id_statut'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and date_retour_maquette IS NULL and date_retour_cq IS NULL");
-	$query_select_card_crea_maquette->bindParam(1, $id_graph);
-	$query_select_card_crea_maquette->execute();
-	$cards_client=$query_select_card_crea_maquette->fetchAll();
+
+	$date_aide="( NOW() - INTERVAL 3 DAY )";
+	$query_select_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide where date_aide >= ? order by date_aide DESC");
+	$query_select_aide->bindParam(1, $date_aide);
+	$query_select_aide->execute();
+
 	?>
 
 	<!DOCTYPE html>
@@ -133,9 +153,17 @@ if (isset($_SESSION['id_statut'])) {
 									<input class="form-control adressecms" placeholder="" value="" type="text">
 								</div>
 								<div class="form-group label-floating is-empty">
+									<label class="control-label">Titre du problème</label>
+									<input class="form-control titre_probleme" placeholder="" value="" type="text">
+								</div>
+								<div class="form-group label-floating is-empty">
 									<label class="control-label">Description du problème</label>
-									<label class="count">0</label>
 									<textarea name="description" id="description" cols="30" rows="10"></textarea>
+									<p><span class="count">0</span> / 140 caractères</p>
+								</div>
+								<div class="form-group label-floating is-empty">
+									<input type="file" id="file-select" name="photos" multiple />
+									<p id="status"></p>
 								</div>
 							</form>
 							<p class="m-t-50">Vous avez un problème ? <a href="#" class="c-green">Faites le nous savoir</a></p>
@@ -145,68 +173,110 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-									Valider la demande</a>
+										Valider la demande</a>
+									</div>
 								</div>
 							</div>
 						</div>
+
 					</div>
 
 				</div>
-
 			</div>
-		</div>
 
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="ui-block">
-						<div class="ui-block-title">
-							<h6 class="title">Historique des demandes d'aide</h6>
-						</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="ui-block">
+							<div class="ui-block-title">
+								<h6 class="title">Historique des demandes d'aide</h6>
+							</div>
+							<table class="event-item-table">
+								<tbody>
+									<?php foreach ($query_select_aide as $key => $value) {
+										$date_tab=explode("-", $value['date_aide']);
+										$jour_tab=explode(" ",$date_tab[2]);
+										$jour=$jour_tab[0];
 
-						<div class="no-past-events">
-							<svg class="olymp-month-calendar-icon"><use xlink:href="icons/icons.svg#olymp-month-calendar-icon"></use></svg>
-							<span>Il n'y a pas d'ancienne <br/>demande</span>
+										$m=$date_tab[1];
+										$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+
+										?>
+										<tr class="event-item">
+											<td class="upcoming">
+												<div class="date-event">
+													<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+													<span class="day"><?php echo $jour;?></span>
+													<span class="month"><?php echo $months[(int)$m]; ?></span>
+												</div>
+											</td>
+											<td class="author">
+												<div class="event-author inline-items">
+													<div class="author-thumb">
+														<img src="img/avatar43-sm.jpg" alt="author">
+													</div>
+													<div class="author-date">
+														<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+														<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
+													</div>
+												</div>
+											</td>
+											<td class="location">
+												<div class="place inline-items">
+													<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+													<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+												</div>
+											</td>
+											<td class="description">
+												<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+											</td>
+											<td class="add-event">
+												<a class="btn btn-breez btn-sm" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+											</td>
+
+										</tr>
+										<?php }?>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
 
-		<?php }?>
-		<!-- ... end Window-popup Create Friends Group Add Friends -->
+				<?php }?>
+				<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-		<!-- Window-popup-CHAT for responsive min-width: 768px -->
+				<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
-		<?php include('chat_box.php');?>
+				<?php include('chat_box.php');?>
 
-		<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+				<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
 
-		<!-- jQuery first, then Other JS. -->
-		<script src="js/jquery-3.2.0.min.js"></script>
-		<!-- Js effects for material design. + Tooltips -->
-		<script src="js/material.min.js"></script>
-		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-		<script src="js/theme-plugins.js"></script>
-		<!-- Init functions -->
-		<script src="js/main.js"></script>
-		<script src="js/alterclass.js"></script>
-		<script src="js/chat.js"></script>
-		<!-- Select / Sorting script -->
-		<script src="js/selectize.min.js"></script>
+				<!-- jQuery first, then Other JS. -->
+				<script src="js/jquery-3.2.0.min.js"></script>
+				<!-- Js effects for material design. + Tooltips -->
+				<script src="js/material.min.js"></script>
+				<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+				<script src="js/theme-plugins.js"></script>
+				<!-- Init functions -->
+				<script src="js/main.js"></script>
+				<script src="js/alterclass.js"></script>
+				<script src="js/chat.js"></script>
+				<!-- Select / Sorting script -->
+				<script src="js/selectize.min.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+				<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-		<script src="js/mediaelement-and-player.min.js"></script>
-		<script src="js/mediaelement-playlist-plugin.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+				<script src="js/mediaelement-and-player.min.js"></script>
+				<script src="js/mediaelement-playlist-plugin.min.js"></script>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-		<script src="js/charte.js"></script>
-	</body>
-	</html>
-	<?php }else{
-		header('Location: login.php');
-	}
-	?>
+				<script src="js/charte.js"></script>
+			</body>
+			</html>
+			<?php }else{
+				header('Location: login.php');
+			}
+			?>

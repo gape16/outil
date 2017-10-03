@@ -14,7 +14,7 @@ $result_equipe_chat=$query_equipe_chat->fetchAll();
 
 
 ?>
-<div class="fixed-sidebar right">
+<div class="fixed-sidebar right" style="z-index: 9!important;">
   <div class="fixed-sidebar-right sidebar--small" id="sidebar-right">
 
     <div class="mCustomScrollbar" data-mcs-theme="dark">

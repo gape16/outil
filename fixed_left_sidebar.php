@@ -2,15 +2,15 @@
 
   <div class="fixed-sidebar-left sidebar--small" id="sidebar-left-responsive">
     <a href="#" class="logo js-sidebar-open">
-      <img src="img/logo.png" alt="Olympus">
+      <img src="img/logo.png" alt="Solocal">
     </a>
 
   </div>
 
   <div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1-responsive">
     <a href="#" class="logo">
-      <img src="img/logo.png" alt="Olympus">
-      <h6 class="logo-title">olympus</h6>
+      <img src="img/logo.png" alt="Solocal">
+      <h6 class="logo-title">SOLOCAL</h6>
     </a>
 
     <div class="mCustomScrollbar" data-mcs-theme="dark">
