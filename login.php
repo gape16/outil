@@ -123,7 +123,7 @@ if (isset($_POST['connect'])) {
 				<div id="site-header-landing" class="header-landing">
 					<a href="02-ProfilePage.html" class="logo">
 						<img src="img/logo.png" alt="Olympus">
-						<h5 class="logo-title">olympus</h5>
+						<h5 class="logo-title">SOLOCAL</h5>
 					</a>
 				</div>
 			</div>
