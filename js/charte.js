@@ -214,6 +214,12 @@ $('.btn-addclient').on('click', function(){
 			}
 		}
 	})
+		//BIND ENTER COMMENTAIRE
+		$("textarea.form-control.envoi_message_aide").keypress(function(e) {
+			if(e.which == 13) {
+				$(".aide_envoi").trigger( "click" );
+			}
+		}); 
 
 
 // MODAL HELP
@@ -467,6 +473,35 @@ $(".aide_envoi").on('click', function(e){
 		$(".comments-list").empty();
 		$(".comments-list").append(liste);
 	})
+})
+
+$('a.logout').on('click', function(){
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {logOut: '1'},
+	})
+	.done(function() {
+		$(location).attr('href', 'login.php');
+	})
+	
+})
+
+
+
+$('.changepassword').on('click', function(e){
+	e.preventDefault();
+	e.stopPropagation();
+	var lienAccount = $(this).attr('href');
+	$.ajax({
+		url: lienAccount,
+		type: 'POST'
+	})
+	.done(function(data) {
+		$('.ui-block.multitab').html('');
+		$('.ui-block.multitab').append(data);
+	})
+	return false;
 })
 
 })

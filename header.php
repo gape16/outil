@@ -225,7 +225,7 @@ $nb_cards_client=$query_select_card->rowCount();
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="#" class="logout">
                     <svg class="olymp-logout-icon"><svg id="olymp-logout-icon" viewBox="0 0 43 32" width="100%" height="100%">
                       <title>logout-icon</title>
                       <path d="M26.667 3.557c4.962 0 9.232 2.91 11.23 7.111h3.838c-2.197-6.212-8.105-10.668-15.068-10.668s-12.873 4.457-15.070 10.667h3.84c1.998-4.199 6.268-7.109 11.23-7.109zM26.667 28.446c-4.962 0-9.232-2.91-11.23-7.111h-3.84c2.199 6.21 8.107 10.665 15.070 10.665 6.962 0 12.871-4.455 15.070-10.665h-3.838c-2 4.201-6.27 7.111-11.232 7.111zM23.111 17.778v-3.556h-16.306l3.252-3.25-2.514-2.514-7.543 7.541 7.543 7.543 2.514-2.514-3.252-3.252h16.306zM39.111 14.224v3.556h3.556v-3.556h-3.556z"></path>
@@ -276,15 +276,15 @@ $nb_cards_client=$query_select_card->rowCount();
         <a href="" class="author-name fn">
           <div class="author-title">
             <?php echo utf8_encode($infos["prenom"]." ".$infos['nom']);?><svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-            <title>dropdown-arrow-icon</title>
-            <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-          </svg></svg>
-        </div>
-        <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
-      </a>
-    </div>
+              <title>dropdown-arrow-icon</title>
+              <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+            </svg></svg>
+          </div>
+          <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
+        </a>
+      </div>
 
+    </div>
   </div>
-</div>
 
 </header>

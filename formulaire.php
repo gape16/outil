@@ -268,3 +268,8 @@ if (isset($_POST['envoi_com_aide'])) {
 	}
 	print_r(json_encode($tabf));
 }
+
+if(isset($_POST['logOut'])){
+	unset($_SESSION['id_statut']);
+	unset($_SESSION['id_graph']);
+}
