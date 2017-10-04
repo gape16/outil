@@ -177,7 +177,7 @@ if (isset($_SESSION['id_statut'])) {
 											<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 										</td>
 										<td class="add-event">
-											<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+											<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
 										</td>
 									</tr>
 									<?php }?>
@@ -202,8 +202,8 @@ if (isset($_SESSION['id_statut'])) {
 									<img src="img/author-page.jpg" alt="author">
 
 									<div class="author-date">
-										<a class="h6 post__author-name fn" href="#">USER</a>
-										<div class="post__date">
+										<a class="h6 post__author-name fn user_popup" href="#">USER</a>
+										<div class="post__date date_popup">
 											<time class="published" datetime="2017-03-24T18:18">
 												DATE
 											</time>
@@ -224,7 +224,7 @@ if (isset($_SESSION['id_statut'])) {
 									<h6 class="event-description-title">Infos pratiques</h6>
 									<div class="place inline-items">
 										<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-											<span>Lien CMS</span></div>
+											<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
 											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
 												<span>Fichiers sources</span></div>
 											</div>
@@ -251,83 +251,7 @@ if (isset($_SESSION['id_statut'])) {
 							<div class="mCustomScrollbar" data-mcs-theme="dark">
 
 								<ul class="comments-list">
-									<li>
-										<div class="post__author author vcard inline-items">
-											<img src="img/author-page.jpg" alt="author">
-
-											<div class="author-date">
-												<a class="h6 post__author-name fn" href="02-ProfilePage.html">James Graphiste</a>
-												<div class="post__date">
-													<time class="published" datetime="2017-03-24T18:18">
-														38 mins ago
-													</time>
-												</div>
-											</div>
-
-											<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-										</div>
-
-										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
-
-										<a href="#" class="post-add-icon inline-items">
-											<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-											<span>3</span>
-										</a>
-										<a href="#" class="reply">Reply</a>
-									</li>
-									<li>
-										<div class="post__author author vcard inline-items">
-											<img src="img/avatar1-sm.jpg" alt="author">
-
-											<div class="author-date">
-												<a class="h6 post__author-name fn" href="#">Controleur</a>
-												<div class="post__date">
-													<time class="published" datetime="2017-03-24T18:18">
-														1 hour ago
-													</time>
-												</div>
-											</div>
-
-											<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-										</div>
-
-										<p>Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum
-											quia dolor sit amet, consectetur adipisci velit en lorem ipsum duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
-										</p>
-
-										<a href="#" class="post-add-icon inline-items">
-											<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-											<span>8</span>
-										</a>
-										<a href="#" class="reply">Reply</a>
-									</li>
-									<li>
-										<div class="post__author author vcard inline-items">
-											<img src="img/avatar10-sm.jpg" alt="author">
-
-											<div class="author-date">
-												<a class="h6 post__author-name fn" href="#">Elaine Graphiste</a>
-												<div class="post__date">
-													<time class="published" datetime="2017-03-24T18:18">
-														5 mins ago
-													</time>
-												</div>
-											</div>
-
-											<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-										</div>
-
-										<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
-
-										<a href="#" class="post-add-icon inline-items">
-											<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-											<span>8</span>
-										</a>
-										<a href="#" class="reply">Reply</a>
-									</li>
+									
 								</ul>
 
 							</div>
@@ -342,7 +266,7 @@ if (isset($_SESSION['id_statut'])) {
 									<textarea class="form-control" placeholder=""  ></textarea>
 									<div class="add-options-message">
 										<a href="#" class="options-message">
-											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-camera-icon"></use></svg>
+											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
 										</a>
 									</div>
 

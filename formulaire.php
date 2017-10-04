@@ -203,3 +203,39 @@ if (isset($_POST['aide'])) {
 	// echo $query_ins_aide->debugDumpParams();
 	// echo "INSERT INTO aide (id_client, adresse_cms, description, date_aide, id_user, id_etat_aide, capture) VALUES ('$id_client','$cms','$descriptionProblem','$date_aide','$id_graph','$id_etat_aide','$capture')";
 }
+
+if(isset($_POST['popup_aide'])){
+	$id_aide=$_POST['popup_aide'];
+	$tab=array();
+	$query_popup_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide where id_aide = ?");
+	$query_popup_aide->bindParam(1, $id_aide);
+	$query_popup_aide->execute();
+	foreach ($query_popup_aide as $key => $value)
+	{
+		$tab[$key]['id_client'] = $value['id_client'];
+		$tab[$key]['adresse_cms'] = $value['adresse_cms'];
+		$tab[$key]['titre'] = utf8_encode($value['titre']);
+		$tab[$key]['description'] = utf8_encode($value['description']);
+		$tab[$key]['date_aide'] = $value['date_aide'];
+		$tab[$key]['capture'] = utf8_encode($value['capture']);
+		$tab[$key]['nom'] = utf8_encode($value['nom']);
+		$tab[$key]['prenom'] = utf8_encode($value['prenom']);
+		$tab[$key]['photo'] = $value['photo'];
+		$tab[$key]['etat_aide'] = utf8_encode($value['etat_aide']);
+	}
+	
+
+	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire DESC");
+	$query_com_aide->bindParam(1, $id_aide);
+	$query_com_aide->execute();
+	foreach ($query_com_aide as $key_com => $value_com)
+	{
+		$tab[$key_com+1]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
+		$tab[$key_com+1]['commentaire'] = utf8_encode($value_com['commentaire']);
+		$tab[$key_com+1]['date_commentaire'] = $value_com['date_commentaire'];
+		$tab[$key_com+1]['photo'] = $value_com['photo'];
+		$tab[$key_com+1]['like'] = $value_com['like_com'];
+	}
+	print_r(json_encode($tab));
+
+}
