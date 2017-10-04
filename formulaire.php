@@ -225,7 +225,7 @@ if(isset($_POST['popup_aide'])){
 	}
 	
 
-	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire DESC");
+	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
 	$query_com_aide->bindParam(1, $id_aide);
 	$query_com_aide->execute();
 	foreach ($query_com_aide as $key_com => $value_com)
@@ -238,4 +238,33 @@ if(isset($_POST['popup_aide'])){
 	}
 	print_r(json_encode($tab));
 
+}
+
+if (isset($_POST['envoi_com_aide'])) {
+	$commentaire=$_POST['envoi_com_aide'];
+	$id_graph=$_SESSION['id_graph'];
+	$id_aide = $_POST['id_aide_com'];
+	$date_com=$date=date('Y-m-d H:i:s');
+	$like=0;
+	$tabf=array();
+	$query_ins_com = $bdd->prepare("INSERT INTO commentaires_aide (id_aide, commentaire, id_user, date_commentaire, like_com) VALUES (?, ?, ?, ?, ?)");
+	$query_ins_com->bindParam(1, $id_aide);
+	$query_ins_com->bindParam(2, $commentaire);
+	$query_ins_com->bindParam(3, $id_graph);
+	$query_ins_com->bindParam(4, $date_com);
+	$query_ins_com->bindParam(5, $like);
+	$query_ins_com->execute();
+
+	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
+	$query_com_aide->bindParam(1, $id_aide);
+	$query_com_aide->execute();
+	foreach ($query_com_aide as $key_com => $value_com)
+	{
+		$tabf[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
+		$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
+		$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
+		$tabf[$key_com]['photo'] = $value_com['photo'];
+		$tabf[$key_com]['like'] = $value_com['like_com'];
+	}
+	print_r(json_encode($tabf));
 }

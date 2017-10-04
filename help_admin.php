@@ -234,18 +234,6 @@ if (isset($_SESSION['id_statut'])) {
 									</div>
 								</div>
 
-								<div class="control-block-button post-control-button">
-
-									<a href="#" class="btn btn-control">
-										<svg class="olymp-like-post-icon"><use xlink:href="icons/icons.svg#olymp-like-post-icon"></use></svg>
-									</a>
-
-									<a href="#" class="btn btn-control">
-										<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
-									</a>
-
-								</div>
-
 							</article>
 
 							<div class="mCustomScrollbar" data-mcs-theme="dark">
@@ -263,9 +251,10 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 
 								<div class="form-group with-icon-right ">
-									<textarea class="form-control" placeholder=""  ></textarea>
+									<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
+									<input type="hidden" class="id_aide">
 									<div class="add-options-message">
-										<a href="#" class="options-message">
+										<a href="#" class="options-message aide_envoi">
 											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
 										</a>
 									</div>

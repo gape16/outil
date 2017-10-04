@@ -384,6 +384,7 @@ $('#description').keyup(function() {
 
 $(".moproblem").on('click', function(e){
 	var id_aide = $(this).data("id");
+	$(".id_aide").val(id_aide);
 	$.ajax({
 		url: 'formulaire.php',
 		type: 'POST',
@@ -399,6 +400,49 @@ $(".moproblem").on('click', function(e){
 		$(".lien_cms").attr("href",infos[0]['adresse_cms']);
 		var liste = "";
 		for (var i = 1; i <= infos.length - 1; i++) {
+			liste+="<li>";
+			liste+='<div class="post__author author vcard inline-items">';
+			liste+='<img src="'+infos[i]['photo']+'" alt="author">';
+			liste+='<div class="author-date">';
+			liste+='<a class="h6 post__author-name fn" href="02-ProfilePage.html">'+infos[i]['nom_commentaire']+'</a>';
+			liste+='<div class="post__date">';
+			liste+='<time class="published" datetime="'+infos[i]['date_commentaire']+'">';
+			liste+=''+infos[i]['date_commentaire']+'';
+			liste+='</time>';
+			liste+='</div></div>';
+			liste+='<a href="#" class="more">';
+			liste+='<svg class="olymp-three-dots-icon">';
+			liste+='<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use>';
+			liste+='</svg></a></div>';
+			liste+='<p>'+infos[i]['commentaire']+'</p>';
+			liste+='<a href="#" class="post-add-icon inline-items">';
+			liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
+			liste+='<span>'+infos[i]['like']+'</span>';
+			liste+='</a>';
+			liste+='</li>';
+		}
+		$(".comments-list").empty();
+		$(".comments-list").append(liste);
+	})
+})
+
+
+$(".aide_envoi").on('click', function(e){
+	e.preventDefault();
+	var mess = $(".envoi_message_aide").val();
+	var id_aide_com = $(".id_aide").val();
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {envoi_com_aide: mess, id_aide_com:id_aide_com}
+	})
+	.done(function(data) {
+		$(".envoi_message_aide").val('');
+		$(".envoi_message_aide").html('');
+		var liste = "";
+		var infos = JSON.parse(data);
+		console.log(infos.length);
+		for (var i = 0; i <= infos.length - 1; i++) {
 			liste+="<li>";
 			liste+='<div class="post__author author vcard inline-items">';
 			liste+='<img src="'+infos[i]['photo']+'" alt="author">';
