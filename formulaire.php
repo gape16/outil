@@ -233,8 +233,19 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key_com+1]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
 		$tab[$key_com+1]['commentaire'] = utf8_encode($value_com['commentaire']);
 		$tab[$key_com+1]['date_commentaire'] = $value_com['date_commentaire'];
+		$tab[$key_com+1]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
 		$tab[$key_com+1]['photo'] = $value_com['photo'];
 		$tab[$key_com+1]['like'] = $value_com['like_com'];
+		$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
+		$query_sel_lik->bindParam(1, $_SESSION['id_graph']);
+		$query_sel_lik->bindParam(2, $value_com['id_commentaires_aide']);
+		$query_sel_lik->execute();
+		$nb_lik = $query_sel_lik->rowCount();
+		if($nb_lik ==0){
+			$tab[$key_com+1]['like_test'] = "";
+		}else{
+			$tab[$key_com+1]['like_test'] = "style=\"fill: #ff5e3a;color: #ff5e3a;\"";
+		}
 	}
 	print_r(json_encode($tab));
 
@@ -255,21 +266,85 @@ if (isset($_POST['envoi_com_aide'])) {
 	$query_ins_com->bindParam(5, $like);
 	$query_ins_com->execute();
 
-	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
-	$query_com_aide->bindParam(1, $id_aide);
-	$query_com_aide->execute();
-	foreach ($query_com_aide as $key_com => $value_com)
-	{
-		$tabf[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
-		$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
-		$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
-		$tabf[$key_com]['photo'] = $value_com['photo'];
-		$tabf[$key_com]['like'] = $value_com['like_com'];
-	}
-	print_r(json_encode($tabf));
+	// $query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
+	// $query_com_aide->bindParam(1, $id_aide);
+	// $query_com_aide->execute();
+	// foreach ($query_com_aide as $key_com => $value_com)
+	// {
+	// 	$tabf[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
+	// 	$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
+	// 	$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
+	// 	$tabf[$key_com]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
+	// 	$tabf[$key_com]['photo'] = $value_com['photo'];
+	// 	$tabf[$key_com]['like'] = $value_com['like_com'];
+	// 	$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
+	// 	$query_sel_lik->bindParam(1, $_SESSION['id_graph']);
+	// 	$query_sel_lik->bindParam(2, $value_com['id_commentaires_aide']);
+	// 	$query_sel_lik->execute();
+	// 	$nb_lik = $query_sel_lik->rowCount();
+	// 	if($nb_lik ==0){
+	// 		$tabf[$key_com]['like_test'] = "";
+	// 	}else{
+	// 		$tabf[$key_com]['like_test'] = "style=\"fill: #ff5e3a;color: #ff5e3a;\"";
+	// 	}
+	// }
+	// print_r(json_encode($tabf));
 }
 
 if(isset($_POST['logOut'])){
 	unset($_SESSION['id_statut']);
 	unset($_SESSION['id_graph']);
+}
+
+if(isset($_POST['likelecommentaire'])){
+	$id_com=$_POST['likelecommentaire'];
+	$nb_like=$_POST['nb_like']+1;
+	$id_graph=$_SESSION['id_graph'];
+	$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
+	$query_sel_lik->bindParam(1, $id_graph);
+	$query_sel_lik->bindParam(2, $id_com);
+	$query_sel_lik->execute();
+	$nb_lik = $query_sel_lik->rowCount();
+	// echo $nb_lik;
+	if($nb_lik ==0){
+		$query_ins_lik = $bdd->prepare("INSERT INTO like_com (id_graph, id_com) VALUES (?, ?)");
+		$query_ins_lik->bindParam(1, $id_graph);
+		$query_ins_lik->bindParam(2, $id_com);
+		$query_ins_lik->execute();
+		echo "ok";
+		$query_up_lik = $bdd->prepare("UPDATE commentaires_aide SET like_com = ? where id_commentaires_aide = ?");
+		$query_up_lik->bindParam(1, $nb_like);
+		$query_up_lik->bindParam(2, $id_com);
+		$query_up_lik->execute();
+	}
+}
+
+if (isset($_POST['id_timer_aide'])) {
+	$id_aide=$_POST['id_timer_aide'];
+	$id_com=$_POST['id_timer_com'];
+	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? and id_commentaires_aide > ? order by date_commentaire ASC");
+	$query_com_aide->bindParam(1, $id_aide);
+	$query_com_aide->bindParam(2, $id_com);
+	$query_com_aide->execute();	
+	$tabf=array();
+	foreach ($query_com_aide as $key_com => $value_com)
+	{
+		$tabf[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
+		$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
+		$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
+		$tabf[$key_com]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
+		$tabf[$key_com]['photo'] = $value_com['photo'];
+		$tabf[$key_com]['like'] = $value_com['like_com'];
+		$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
+		$query_sel_lik->bindParam(1, $_SESSION['id_graph']);
+		$query_sel_lik->bindParam(2, $value_com['id_commentaires_aide']);
+		$query_sel_lik->execute();
+		$nb_lik = $query_sel_lik->rowCount();
+		if($nb_lik ==0){
+			$tabf[$key_com]['like_test'] = "";
+		}else{
+			$tabf[$key_com]['like_test'] = "style=\"fill: #ff5e3a;color: #ff5e3a;\"";
+		}
+	}
+	print_r(json_encode($tabf));
 }
