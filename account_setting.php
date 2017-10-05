@@ -102,10 +102,8 @@ if (isset($_SESSION['id_statut'])) {
 				<div class="row">
 					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 						<div class="main-header-content">
-							<h1>Your Account Dashboard</h1>
-							<p>Welcome to your account dashboard! Here you’ll find everything you need to change your
-								profile information, settings, read notifications and requests, view your latest messages,
-								change your pasword and much more! Also you can create or manage your own favourite page, have fun!
+							<h1>Parametre du compte</h1>
+							<p>Ici vous allez pouvoir changer votre mot de passe, votre image, activer/désactiver les notifications.
 							</p>
 						</div>
 					</div>
@@ -126,127 +124,72 @@ if (isset($_SESSION['id_statut'])) {
 				<div class="col-xl-9 push-xl-3 col-lg-9 push-lg-3 col-md-12 col-sm-12 col-xs-12">
 					<div class="ui-block multitab">
 						<div class="ui-block-title">
-							<h6 class="title">Account Settings</h6>
+							<h6 class="title">Parametre du compte</h6>
 						</div>
 						<div class="ui-block-content">
 							<form>
 								<div class="row">
-
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<div class="form-group label-floating is-select">
-											<label class="control-label">Who Can Friend You?</label>
-											<select class="selectpicker form-control" size="auto">
-												<option value="EO">Everyone</option>
-												<option value="NO">No One</option>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="form-group">
+											<select class="form-control" size="0" name="statut">
+												<option value="0">Changer de leader</option>
+												<option value="1">Amélie</option>
+												<option value="2">Aurélie</option>
+												<option value="3">Catherine</option>
+												<option value="4">Edith</option>
+												<option value="5">Jennifer</option>
+												<option value="6">Julie</option>
+												<option value="7">Kévin</option>
+												<option value="8">Laure</option>
+												<option value="9">Melody</option>
+												<option value="10">Quentin</option>
+												<option value="11">Tiffany</option>
 											</select>
 										</div>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<div class="form-group label-floating is-select">
-											<label class="control-label">Who Can View Your Posts</label>
-											<select class="selectpicker form-control" size="auto">
-												<option value="US">Friends Only</option>
-												<option value="EO">Everyone</option>
-											</select>
+										<div class="form-group label-floating is-empty">
+											<label class="control-label">Confirm New Password</label>
+											<input class="form-control" placeholder="" type="password">
+											<span class="material-input"></span></div>
 										</div>
+
 									</div>
-
-									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Notifications Sound</div>
-												<p>A sound will be played each time you receive a new activity notification</p>
-											</div>
-
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
-											</div>
-										</div>
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Notifications Email</div>
-												<p>We’ll send you an email to your account each time you receive a new activity notification</p>
-											</div>
-
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
-											</div>
-										</div>
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Friend’s Birthdays</div>
-												<p>Choose wheather or not receive notifications about your friend’s birthdays on your newsfeed</p>
-											</div>
-
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
-											</div>
-										</div>
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Chat Message Sound</div>
-												<p>A sound will be played each time you receive a new message on an inactive chat window</p>
-											</div>
-
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
-									</div>
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<button class="btn btn-primary btn-lg full-width">Save all Changes</button>
-									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
-					<div class="ui-block">
-						<div class="your-profile">
+					<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
+						<div class="ui-block">
+							<div class="your-profile">
 
-							<div id="accordion" role="tablist" aria-multiselectable="true">
-								<div class="card">
-									<div class="card-header" role="tab" id="headingOne">
-										<h6 class="mb-0">
-											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-												Parametre profil
-												<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-											</a>
-										</h6>
-									</div>
+								<div id="accordion" role="tablist" aria-multiselectable="true">
+									<div class="card">
+										<div class="card-header" role="tab" id="headingOne">
+											<h6 class="mb-0">
+												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+													Parametre profil
+													<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+												</a>
+											</h6>
+										</div>
 
-									<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-										<ul class="your-profile-menu">
-											<li>
-												<a href="28-YourAccount-PersonalInformation.html">Informations personnelles</a>
-											</li>
-											<li>
-												<a href="29-YourAccount-AccountSettings.html">Parametre du compte</a>
-											</li>
-											<li>
-												<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
-											</li>
-											<li>
-												<a href="30-YourAccount-ChangePassword.html">Notifications</a>
-											</li>
-										</ul>
+										<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+											<ul class="your-profile-menu">
+												<li>
+													<a href="29-YourAccount-AccountSettings.html">Parametre du compte</a>
+												</li>
+												<li>
+													<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
+												</li>
+												<li>
+													<a href="30-YourAccount-ChangePassword.html">Notifications</a>
+												</li>
+											</ul>
+										</div>
 									</div>
 								</div>
-							</div>
 
 
 							<!--<div class="ui-block-title">

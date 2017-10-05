@@ -491,7 +491,6 @@ $('a.logout').on('click', function(){
 
 $('.changepassword').on('click', function(e){
 	e.preventDefault();
-	e.stopPropagation();
 	var lienAccount = $(this).attr('href');
 	$.ajax({
 		url: lienAccount,
@@ -501,7 +500,6 @@ $('.changepassword').on('click', function(e){
 		$('.ui-block.multitab').html('');
 		$('.ui-block.multitab').append(data);
 	})
-	return false;
 })
 
 })
