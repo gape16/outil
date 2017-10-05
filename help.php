@@ -231,7 +231,7 @@ if (isset($_SESSION['id_statut'])) {
 												<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 											</td>
 											<td class="add-event">
-												<a class="btn btn-breez btn-sm" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+												<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
 											</td>
 
 										</tr>
@@ -243,40 +243,118 @@ if (isset($_SESSION['id_statut'])) {
 					</div>
 				</div>
 
-				<?php }?>
-				<!-- ... end Window-popup Create Friends Group Add Friends -->
+				<!-- Window-popup Event Private Public -->
+				<div class="modal fade show" id="problemos">
+					<div class="modal-dialog ui-block window-popup event-private-public private-event">
+						<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+							<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+						</a>
+						<article class="hentry post has-post-thumbnail thumb-full-width private-event">
 
-				<!-- Window-popup-CHAT for responsive min-width: 768px -->
+							<div class="row">
+								<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+									<div class="post__author author vcard inline-items">
+										<img src="img/author-page.jpg" alt="author">
 
-				<?php include('chat_box.php');?>
+										<div class="author-date">
+											<a class="h6 post__author-name fn user_popup" href="#">USER</a>
+											<div class="post__date date_popup">
+												<time class="published" datetime="2017-03-24T18:18">
+													DATE
+												</time>
+											</div>
+										</div>
 
-				<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+									</div>
+									<h1 class="titreproblemos">
+										Titre du probleme
+									</h1>
+									<p class="descproblemos">
+										Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the
+										new design project we have been working on. Cheers!
+									</p>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+									<div class="event-description">
+										<h6 class="event-description-title">Infos pratiques</h6>
+										<div class="place inline-items">
+											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+												<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
+												<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+													<span>Fichiers sources</span></div>
+												</div>
+
+												<a href="#" class="btn btn-green btn-sm full-width">Demande d'aide traitée</a>
+											</div>
+										</div>
+									</div>
+
+								</article>
+
+								<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
+
+									<ul class="comments-list">
+
+									</ul>
+
+								</div>
+
+								<form class="comment-form inline-items">
+
+									<div class="post__author author vcard inline-items">
+										<img src="img/author-page.jpg" alt="author">
+									</div>
+
+									<div class="form-group with-icon-right ">
+										<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
+										<input type="hidden" class="id_aide">
+										<div class="add-options-message">
+											<a href="#" class="options-message aide_envoi">
+												<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+											</a>
+										</div>
+
+										<span class="material-input"></span><span class="material-input"></span></div>
+
+									</form>
+								</div>
+							</div>
 
 
-				<!-- jQuery first, then Other JS. -->
-				<script src="js/jquery-3.2.0.min.js"></script>
-				<!-- Js effects for material design. + Tooltips -->
-				<script src="js/material.min.js"></script>
-				<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-				<script src="js/theme-plugins.js"></script>
-				<!-- Init functions -->
-				<script src="js/main.js"></script>
-				<script src="js/alterclass.js"></script>
-				<script src="js/chat.js"></script>
-				<!-- Select / Sorting script -->
-				<script src="js/selectize.min.js"></script>
+							<?php }?>
+							<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-				<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+							<!-- Window-popup-CHAT for responsive min-width: 768px -->
+
+							<?php include('chat_box.php');?>
+
+							<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
 
-				<script src="js/mediaelement-and-player.min.js"></script>
-				<script src="js/mediaelement-playlist-plugin.min.js"></script>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+							<!-- jQuery first, then Other JS. -->
+							<script src="js/jquery-3.2.0.min.js"></script>
+							<!-- Js effects for material design. + Tooltips -->
+							<script src="js/material.min.js"></script>
+							<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+							<script src="js/theme-plugins.js"></script>
+							<!-- Init functions -->
+							<script src="js/main.js"></script>
+							<script src="js/alterclass.js"></script>
+							<script src="js/chat.js"></script>
+							<!-- Select / Sorting script -->
+							<script src="js/selectize.min.js"></script>
 
-				<script src="js/charte.js"></script>
-			</body>
-			</html>
-			<?php }else{
-				header('Location: login.php');
-			}
-			?>
+							<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+
+
+							<script src="js/mediaelement-and-player.min.js"></script>
+							<script src="js/mediaelement-playlist-plugin.min.js"></script>
+							<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+
+							<script src="js/charte.js"></script>
+						</body>
+						</html>
+						<?php }else{
+							header('Location: login.php');
+						}
+						?>

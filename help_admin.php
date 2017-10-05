@@ -236,8 +236,7 @@ if (isset($_SESSION['id_statut'])) {
 
 							</article>
 
-							<div class="mCustomScrollbar" data-mcs-theme="dark">
-
+							<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
 								<ul class="comments-list">
 									
 								</ul>
