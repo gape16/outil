@@ -461,7 +461,7 @@ $('a.logout').on('click', function(){
 })
 
 
-
+//PARAM COMPTE
 $('.changepassword').on('click', function(e){
 	e.preventDefault();
 	var lienAccount = $(this).attr('href');
@@ -474,6 +474,71 @@ $('.changepassword').on('click', function(e){
 		$('.ui-block.multitab').append(data);
 	})
 })
+$('.accountsetting').on('click', function(e){
+	e.preventDefault();
+	var lienAccount = $(this).attr('href');
+	$.ajax({
+		url: lienAccount,
+		type: 'POST'
+	})
+	.done(function(data) {
+		$('.ui-block.multitab').html('');
+		$('.ui-block.multitab').append(data);
+	})
+})
+$('.notification').on('click', function(e){
+	e.preventDefault();
+	var lienAccount = $(this).attr('href');
+	$.ajax({
+		url: lienAccount,
+		type: 'POST'
+	})
+	.done(function(data) {
+		$('.ui-block.multitab').html('');
+		$('.ui-block.multitab').append(data);
+	})
+})
+
+
+$('.confirmpw').on('click', function(){
+	var password = $('.password').val();
+	var passwordverify = $('.passwordverify').val();	
+	if(password == passwordverify){
+		$.ajax({
+			url: 'formulaire.php',
+			type: 'POST',
+			data: {
+				newPassword : password
+			}
+		}).done(function(data) {
+			$('.confirmpw').html('Mot de passe changé')
+		})
+	}else{
+		$('.password').prev().html('Les mot de passes ne correspondent pas');
+		$('.password').addClass('empty');
+		$('.passwordverify').prev().html('Les mot de passes ne correspondent pas');
+		$('.passwordverify').addClass('empty');
+	}
+})
+
+
+
+$('body').on('click', '.togglebutton .toggle', function(){
+	if(!$(this).prev().prop('checked')){
+		//recup quelles notifs l'utilisateur veut
+	}
+})
+
+
+
+
+
+
+
+
+
+
+
 
 $("body").on('click', "*[class*='like_commentaire_']", function(e){
 	var check="like_commentaire_";

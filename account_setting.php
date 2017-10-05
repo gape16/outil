@@ -16,7 +16,7 @@ if (isset($_SESSION['id_statut'])) {
 	<html lang="en">
 	<head>
 
-		<title>Your Account - Account Settings</title>
+		<title>Parametre du compte</title>
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -48,6 +48,8 @@ if (isset($_SESSION['id_statut'])) {
 		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		<!-- Custom -->
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 
 
 	</head>
@@ -124,72 +126,73 @@ if (isset($_SESSION['id_statut'])) {
 				<div class="col-xl-9 push-xl-3 col-lg-9 push-lg-3 col-md-12 col-sm-12 col-xs-12">
 					<div class="ui-block multitab">
 						<div class="ui-block-title">
-							<h6 class="title">Parametre du compte</h6>
+							<h6 class="title">Modifier le mot de passe</h6>
 						</div>
 						<div class="ui-block-content">
 							<form>
 								<div class="row">
-									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<div class="form-group">
-											<select class="form-control" size="0" name="statut">
-												<option value="0">Changer de leader</option>
-												<option value="1">Amélie</option>
-												<option value="2">Aurélie</option>
-												<option value="3">Catherine</option>
-												<option value="4">Edith</option>
-												<option value="5">Jennifer</option>
-												<option value="6">Julie</option>
-												<option value="7">Kévin</option>
-												<option value="8">Laure</option>
-												<option value="9">Melody</option>
-												<option value="10">Quentin</option>
-												<option value="11">Tiffany</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="form-group label-floating is-empty">
-											<label class="control-label">Confirm New Password</label>
+											<label class="control-label">Mot de passe actuel</label>
 											<input class="form-control" placeholder="" type="password">
 											<span class="material-input"></span></div>
 										</div>
 
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
+										<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+											<div class="form-group label-floating is-empty">
+												<label class="control-label">Nouveau mot de passe</label>
+												<input class="form-control password" placeholder="" type="password">
+												<span class="material-input"></span></div>
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+												<div class="form-group label-floating is-empty">
+													<label class="control-label">Confirmer le nouveau mot de passe</label>
+													<input class="form-control passwordverify" placeholder="" type="password">
+													<span class="material-input"></span></div>
+												</div>
 
-					<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
-						<div class="ui-block">
-							<div class="your-profile">
+												<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<a href="#" class="btn btn-green btn-lg full-width confirmpw">
+													Changer le mot de passe</a>
+												</div>
 
-								<div id="accordion" role="tablist" aria-multiselectable="true">
-									<div class="card">
-										<div class="card-header" role="tab" id="headingOne">
-											<h6 class="mb-0">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-													Parametre profil
-													<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-												</a>
-											</h6>
-										</div>
-
-										<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-											<ul class="your-profile-menu">
-												<li>
-													<a href="29-YourAccount-AccountSettings.html">Parametre du compte</a>
-												</li>
-												<li>
-													<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
-												</li>
-												<li>
-													<a href="30-YourAccount-ChangePassword.html">Notifications</a>
-												</li>
-											</ul>
-										</div>
+											</div>
+										</form>
 									</div>
 								</div>
+							</div>
+
+							<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
+								<div class="ui-block">
+									<div class="your-profile">
+
+										<div id="accordion" role="tablist" aria-multiselectable="true">
+											<div class="card">
+												<div class="card-header" role="tab" id="headingOne">
+													<h6 class="mb-0">
+														<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+															Parametre profil
+															<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+														</a>
+													</h6>
+												</div>
+
+												<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+													<ul class="your-profile-menu">
+														<li>
+															<a class="accountsetting" href="accountsetting.html">Parametre du compte</a>
+														</li>
+														<li>
+															<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
+														</li>
+														<li>
+															<a class="notification" href="notifications.html">Notifications</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
 
 
 							<!--<div class="ui-block-title">

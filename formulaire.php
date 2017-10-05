@@ -68,18 +68,22 @@ if (isset($_POST['numClient'])) {
 	$idControleurCq=0;
 	$idEtat=1;
 	$adresseCms=$_POST['adresseCms'];
+	$exploded=explode('cms.site-privilege.pagesjaunes.fr/workflow/service/', $adresseCms);
+	$idgpp= end($exploded);
+	$idgpp = rtrim($idgpp, '/');
 	//test savoir si client existe déjà ou non
-	$query_test_client = $bdd->prepare("SELECT id_client FROM client where num_client = ? and lien_CMS = ?");
+	$query_test_client = $bdd->prepare("SELECT id_client FROM client where num_client = ? and IDGPP = ?");
 	$query_test_client->bindParam(1, $numClient);
-	$query_test_client->bindParam(2, $adresseCms);
+	$query_test_client->bindParam(2, $idgpp);
 	$query_test_client->execute();
 	$test_client= $query_test_client->fetch();
 	$nb_client=$query_test_client->rowCount();
+	$envoi_maquette = 0;
 	// echo $nb_cligitteent;
 	if($nb_client==0){
 		//création du client
 		// echo "INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES ('$numClient', '$date', '$raisonSociale', '$dateRetourMaquette', '$dateRetourCq', '$idGraphMaquette', '$idControleurMaquette', '$idGraphCq', '$idControleurCq', '$idEtat' ,'$adresseCms')";
-		$query_ins_client = $bdd->prepare("INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)");
+		$query_ins_client = $bdd->prepare("INSERT INTO client (num_client, date_integration, raison_social, date_retour_maquette, date_retour_cq, id_graph_maquette, id_controleur_maquette, id_graph_cq, id_controleur_cq, id_etat, lien_CMS, IDGPP, envoi_maquette) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?)");
 		$query_ins_client->bindParam(1, $numClient);
 		$query_ins_client->bindParam(2, $date);
 		$query_ins_client->bindParam(3, $raisonSociale);
@@ -91,6 +95,8 @@ if (isset($_POST['numClient'])) {
 		$query_ins_client->bindParam(9, $idControleurCq);
 		$query_ins_client->bindParam(10, $idEtat);
 		$query_ins_client->bindParam(11, $adresseCms);
+		$query_ins_client->bindParam(12, $idgpp);
+		$query_ins_client->bindParam(13, $envoi_maquette);
 		$query_ins_client->execute();
 		$new_card= '<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">';
 		$new_card.='<div class="ui-block" data-mh="friend-groups-item">';
@@ -347,4 +353,13 @@ if (isset($_POST['id_timer_aide'])) {
 		}
 	}
 	print_r(json_encode($tabf));
+}
+
+if (isset($_POST['idGpp'])){
+	$idGpp = $_POST['idGpp'];
+	$valueCheck = $_POST['valueCheck'];
+	$idCheck = $_POST['idCheck'];
+	while ($valueCheck) {
+		echo "oui";
+	}
 }
