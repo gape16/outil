@@ -252,7 +252,7 @@ if(isset($_POST['popup_aide'])){
 }
 
 if (isset($_POST['envoi_com_aide'])) {
-	$commentaire=$_POST['envoi_com_aide'];
+	$commentaire=utf8_decode($_POST['envoi_com_aide']);
 	$id_graph=$_SESSION['id_graph'];
 	$id_aide = $_POST['id_aide_com'];
 	$date_com=$date=date('Y-m-d H:i:s');

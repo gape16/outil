@@ -545,8 +545,11 @@ function charger_commentaires(){
 					liste+='<span>'+infos[i]['like']+'</span>';
 					liste+='</a>';
 					liste+='</li>';
+					var $target = $('.comments-list').parent(); 
+					$target.animate({scrollTop: $(".comments-list").height()}, 200);
 				}
 				$(".comments-list").append(liste);
+
 			})
 		}
 		charger_commentaires();
