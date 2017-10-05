@@ -10,7 +10,7 @@ $(".connec").on('click', function(e) {
 	e.preventDefault();
 		//var récup valeur de l'input email
 		var emailAddress = $(".connexion .email").val();
-		console.log(emailAddress);
+		// console.log(emailAddress);
 		//comparaison entre la valeur du mail et le format
 		if (!isValidEmailAddress(emailAddress)) {
 			$('.connexion .email').addClass('empty');
@@ -73,7 +73,7 @@ $('.connect').on('keyup', '.empty', function(event) {
 //CONNEXION	
 $('.submit').on('click', function() {
 	var poste = $('.form-control').find(":selected").val();
-	console.log(poste);
+	// console.log(poste);
 	var code = $('.code').val();
 	$.ajax({
 		url: 'formulaire.php',
@@ -118,14 +118,14 @@ $('.getpassword').on('click', function(){
 				idForgot : emailforgot,
 			}
 		}).done(function(data) {
-			console.log(data);
+			// console.log(data);
 			$('.hidden').val(data);
-			console.log($('.token').val());
+			// console.log($('.token').val());
 			$('.getpassword').css('display', 'none');
 			$('.newpassword').css('display', 'block');
 		})
 	}
-	console.log(emailforgot);
+	// console.log(emailforgot);
 })
 
 //NEW PW
@@ -133,7 +133,7 @@ $('.newpassword').on('click', function(){
 	data = $('.hidden').val();
 	var emailforgot = $('input.forgotemail').val();
 	if(data == $('.token').val()){
-		console.log('condition marche');
+		// console.log('condition marche');
 		$('.token').remove();
 		$('<input type="text" placeholder="Ton nouveau mot de passe" class="password"> <input type="text" placeholder="Verifie ton nouveau mot de passe" class="passwordverify">').insertBefore('.getpassword')
 		$('.newpassword').css('display', 'none');
@@ -151,7 +151,7 @@ $('.newpassword').on('click', function(){
 						mailNewPassword : emailforgot
 					}
 				}).done(function(data) {
-					console.log(password);
+					// console.log(password);
 					$.fancybox.close();
 				})
 			}
@@ -206,7 +206,7 @@ $('.btn-addclient').on('click', function(){
 		if($('#home').hasClass('active')){
 			if(e.which == 13) {
 				$('.inscription').trigger('click');
-				console.log('test');
+				// console.log('test');
 			}
 		}if($('#profile').hasClass('active')){
 			if(e.which == 13) {
@@ -271,7 +271,7 @@ $('.valider_achat').click(function(){
 				}
 			})
 			.done(function(data) {
-				console.log(data);
+				// console.log(data);
 				swal(
 					'Demande validée!',
 					'Votre demande va être prise en compte!',
@@ -319,7 +319,7 @@ $('.valider_aide').click(function(e){
 					}
 				})
 				.done(function(data) {
-					console.log(data);
+					// console.log(data);
 					swal(
 						'Demande validée!',
 						'Votre demande va être prise en compte!',
@@ -391,6 +391,8 @@ $('#description').keyup(function() {
 $(".moproblem").on('click', function(e){
 	var id_aide = $(this).data("id");
 	$(".id_aide").val(id_aide);
+	$("#problemos").alterClass("dial_*", '');
+	$("#problemos").addClass('dial_'+id_aide);
 	$.ajax({
 		url: 'formulaire.php',
 		type: 'POST',
@@ -398,7 +400,7 @@ $(".moproblem").on('click', function(e){
 	})
 	.done(function(data) {
 		var infos = JSON.parse(data);
-		console.log(infos);
+		// console.log(infos);
 		$(".user_popup").html(infos[0]['prenom']+" "+infos[0]['nom']);
 		$(".date_popup").html(infos[0]['date_aide']);
 		$(".titreproblemos").html(infos[0]['titre']);
@@ -406,7 +408,7 @@ $(".moproblem").on('click', function(e){
 		$(".lien_cms").attr("href",infos[0]['adresse_cms']);
 		var liste = "";
 		for (var i = 1; i <= infos.length - 1; i++) {
-			liste+="<li>";
+			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 			liste+='<div class="post__author author vcard inline-items">';
 			liste+='<img src="'+infos[i]['photo']+'" alt="author">';
 			liste+='<div class="author-date">';
@@ -416,12 +418,9 @@ $(".moproblem").on('click', function(e){
 			liste+=''+infos[i]['date_commentaire']+'';
 			liste+='</time>';
 			liste+='</div></div>';
-			liste+='<a href="#" class="more">';
-			liste+='<svg class="olymp-three-dots-icon">';
-			liste+='<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use>';
-			liste+='</svg></a></div>';
+			liste+='</div>';
 			liste+='<p>'+infos[i]['commentaire']+'</p>';
-			liste+='<a href="#" class="post-add-icon inline-items">';
+			liste+='<a href="#" class="post-add-icon inline-items like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
 			liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
 			liste+='<span>'+infos[i]['like']+'</span>';
 			liste+='</a>';
@@ -445,33 +444,7 @@ $(".aide_envoi").on('click', function(e){
 	.done(function(data) {
 		$(".envoi_message_aide").val('');
 		$(".envoi_message_aide").html('');
-		var liste = "";
-		var infos = JSON.parse(data);
-		console.log(infos.length);
-		for (var i = 0; i <= infos.length - 1; i++) {
-			liste+="<li>";
-			liste+='<div class="post__author author vcard inline-items">';
-			liste+='<img src="'+infos[i]['photo']+'" alt="author">';
-			liste+='<div class="author-date">';
-			liste+='<a class="h6 post__author-name fn" href="02-ProfilePage.html">'+infos[i]['nom_commentaire']+'</a>';
-			liste+='<div class="post__date">';
-			liste+='<time class="published" datetime="'+infos[i]['date_commentaire']+'">';
-			liste+=''+infos[i]['date_commentaire']+'';
-			liste+='</time>';
-			liste+='</div></div>';
-			liste+='<a href="#" class="more">';
-			liste+='<svg class="olymp-three-dots-icon">';
-			liste+='<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use>';
-			liste+='</svg></a></div>';
-			liste+='<p>'+infos[i]['commentaire']+'</p>';
-			liste+='<a href="#" class="post-add-icon inline-items">';
-			liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
-			liste+='<span>'+infos[i]['like']+'</span>';
-			liste+='</a>';
-			liste+='</li>';
-		}
-		$(".comments-list").empty();
-		$(".comments-list").append(liste);
+		
 	})
 })
 
@@ -501,5 +474,83 @@ $('.changepassword').on('click', function(e){
 		$('.ui-block.multitab').append(data);
 	})
 })
+
+$("body").on('click', "*[class*='like_commentaire_']", function(e){
+	var check="like_commentaire_";
+	var nb_like = $(this).find("span").html();
+	var cls = $(this).attr('class').split(' ');
+	for (var i = 0; i < cls.length; i++) {
+		if (cls[i].indexOf(check) > -1) {
+			var id_emet = cls[i].slice(check.length, cls[i].length);
+		}
+	}
+	$.ajax({
+		url: "formulaire.php",
+		type: 'POST',
+		context: this,
+		data: {likelecommentaire:id_emet, nb_like:nb_like}
+	})
+	.done(function(data) {
+		console.log(data);
+		if (data == "ok") {
+			$(this).css("fill", "#ff5e3a");
+			$(this).css("color", "#ff5e3a");
+			var valeur = $(this).find("span").html();
+			$(this).find("span").html(valeur * 1 + 1 *1);
+		}
+	})
+})
+
+function charger_commentaires(){
+	setTimeout( function(){
+		if($("#problemos").is('[class*="show"]')){
+			var check="dial_";
+			var cls = $("#problemos").attr('class').split(' ');
+			for (var i = 0; i < cls.length; i++) {
+				if (cls[i].indexOf(check) > -1) {
+					var id_emet = cls[i].slice(check.length, cls[i].length);
+				}
+			}
+			var id_commentair = $("#problemos").find("li").last().attr('id');
+			if(id_commentair==undefined){
+				id_commentair=0;
+			}
+			console.log(id_commentair);
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {id_timer_aide: id_emet, id_timer_com:id_commentair},
+			})
+			.done(function(data) {
+				// console.log(data);
+				var liste = "";
+				var infos = JSON.parse(data);
+				for (var i = 0; i <= infos.length - 1; i++) {
+					liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
+					liste+='<div class="post__author author vcard inline-items">';
+					liste+='<img src="'+infos[i]['photo']+'" alt="author">';
+					liste+='<div class="author-date">';
+					liste+='<a class="h6 post__author-name fn" href="02-ProfilePage.html">'+infos[i]['nom_commentaire']+'</a>';
+					liste+='<div class="post__date">';
+					liste+='<time class="published" datetime="'+infos[i]['date_commentaire']+'">';
+					liste+=''+infos[i]['date_commentaire']+'';
+					liste+='</time>';
+					liste+='</div></div>';
+					liste+='</div>';
+					liste+='<p>'+infos[i]['commentaire']+'</p>';
+					liste+='<a href="#" class="post-add-icon inline-items like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
+					liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
+					liste+='<span>'+infos[i]['like']+'</span>';
+					liste+='</a>';
+					liste+='</li>';
+				}
+				$(".comments-list").append(liste);
+			})
+		}
+		charger_commentaires();
+	}, 500);
+}
+
+charger_commentaires();
 
 })
