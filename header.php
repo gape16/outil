@@ -103,7 +103,6 @@ $nb_cards_client=$query_select_card->rowCount();
           <div class="ui-block-title ui-block-title-small">
             <h6 class="title">Veille / Newsletter</h6>
             <a href="#">Tout marquer comme lu</a>
-            <a href="#">Configuration</a>
           </div>
 
           <div class="mCustomScrollbar" data-mcs-theme="dark">
@@ -173,7 +172,6 @@ $nb_cards_client=$query_select_card->rowCount();
           <div class="ui-block-title ui-block-title-small">
             <h6 class="title">Achats de photos</h6>
             <a href="#">Tout marquer comme lu</a>
-            <a href="#">configuration</a>
           </div>
 
           <div class="mCustomScrollbar" data-mcs-theme="dark">
@@ -198,7 +196,7 @@ $nb_cards_client=$query_select_card->rowCount();
             </ul>
           </div>
 
-          <a href="#" class="view-all bg-primary">View All Notifications</a>
+          <a href="#" class="view-all bg-primary">Voir tous les achats de photos</a>
         </div>
       </div>
 
@@ -214,7 +212,7 @@ $nb_cards_client=$query_select_card->rowCount();
 
               <ul class="account-settings">
                 <li>
-                  <a href="#">
+                  <a href="account_setting.php">
 
                     <svg class="olymp-menu-icon"><svg id="olymp-menu-icon" viewBox="0 0 41 32" width="100%" height="100%">
                       <title>menu-icon</title>

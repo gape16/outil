@@ -1,6 +1,9 @@
 <?php
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
+$requete = $bdd->prepare('SELECT * from categorie');
+$requete->execute();
+$etat = 'maquette';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,659 +100,57 @@ include('connexion_session.php');
 
 				</div>
 				<div class="section">
-					<div class="slide">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="ui-block">
-								<div class="ui-block-title">
-									<h3 class="title">Header</h3>
+					<input class="idgpp" type="hidden" value="<?php echo $_GET['idgpp']; ?>">
+					<?php 
+					foreach ($requete as $key => $value) {
+						$valueetat = 1;
+						$content = $bdd->prepare('SELECT * from pointcheck where '. $etat .' = ? and id_categorie = ?');
+						$content->bindParam(1, $valueetat);
+						$content->bindParam(2, $value['id_categorie']);
+						$content->execute();
+						?>
+						<div class="slide">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="ui-block">
+									<div class="ui-block-title">
+										<h3 class="title"><?php echo  utf8_encode($value['nom_categorie']); ?></h3>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="container custom">
-							<div class="row">
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Le favicon</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le favicon est-il identifiable et cohérent avec le logo et charte graphique du client ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
+							<div class="container custom">
+								<div class="row">
+									<?php foreach ($content as $card){ ?>
+									<!-- point check -->
+									<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  utf8_encode($card['id_check']); ?>">
+										<div class="ui-block">
+											<div class="available-widget">
+												<div class="checkbox">
+													<label>
+														<h4 class="title"><?php echo  utf8_encode($card['titre']); ?></h4>
+														<img alt="" class="illu" src="<?php echo  utf8_encode($card['picto']); ?>">
+														<p class="desc"><?php echo  utf8_encode($card['description']); ?></p>
+														<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
+														<div class="voirplus">
+															<a href="<?php echo  utf8_encode($card['lien']); ?>">En savoir plus</a>
+														</div>
+													</label>
+												</div>
 											</div>
 										</div>
+										<!--end point check-->
 									</div>
-									<!--end point check-->
+									<?php } ?>
+									<!--end row au dessous-->	
 								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">La barre d'action</h4>
-													<img alt="" class="illu" src="img/exemple-barre-action.jpg">
-													<p class="desc">La barre d'action permet-elle d'avoir les coordonées du client et un moyen de contact accessible rapidement ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Le logo</h4>
-													<img alt="" class="illu" src="img/exemple-logo.jpg">
-													<p class="desc">Le logo est-il détouré et exporté au bon format dans la bonne résolution ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Le menu</h4>
-													<img alt="" class="illu" src="img/exemple-menu.jpg">
-													<p class="desc">Le menu est il interactif afin de renseigner l'utilisateur ? (changement de couleur au hover, de taille, la li active a-t-elle une couleur, une graisse, une taille différente ?)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Les li du menu</h4>
-													<img alt="" class="illu" src="img/exemple-li.jpg">
-													<p class="desc">Les li du menu sont-elles alignées ou centrées verticalement par rapport au logo ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!--end row au dessous-->	
+								<!-- end container-->
 							</div>
-							<!-- end container-->
+							<!-- end slide-->
 						</div>
-						<!-- end slide-->
-					</div>
-					<!-- new slide -->
-					<div class="slide">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="ui-block">
-								<div class="ui-block-title">
-									<h3 class="title">Slider & images</h3>
-								</div>
-							</div>
+						<?php } ?>
+						<!-- new slide -->
+						<div class="slide">
+							<!-- end slide-->
 						</div>
-						<div class="container custom">
-							<div class="row">
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Identification</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Peut-on identifier l'activité du client, son moyen de contact et sa localité/zone d'intervention au dessus de la ligne de flottaison ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Contact</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Peut-on contacter le client au dessus de la ligne de flottaison ? (soit barre d'action, soit slider)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Images</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Les images sont-elles redimensionnées, compressées et exportées dans le bon format et aux bonnes dimensions et qui ne sont pas floues ? </p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!--end row au dessous-->	
-							</div>
-							<!-- end container-->
-						</div>
-						<!-- end slide-->
-					</div>
-					<!-- new slide -->
-					<div class="slide">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="ui-block">
-								<div class="ui-block-title">
-									<h3 class="title">Body</h3>
-								</div>
-							</div>
-						</div>
-						<div class="container custom">
-							<div class="row">
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Pertinence</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le design est-il pertinent avec l'activité du client ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Harmonie du design</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le design est il harmonieux dans son ensemble ? (bon compromis entre les images, les textes et les espaces blancs)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Couleurs</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le choix des couleurs est-il cohérent par rapport à la charte graphique du client ? (3 à 7 couleurs par site)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Typographie</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Utilisation pertinente de la typographie ? (3 typos max, jeu de contraste/couleur)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Les marges</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Les marges sont-elles équilibrées et suffisantes pour permettre une lecture aisée ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Texture</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le design joue-t-il sur le relief, les textures, les fonds en aplat ou tramés ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Cohérence des PA</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Les pages du sites sont elles cohérentes entre elles ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Footer</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le design du footer est-il équilibré ? A-t-il des icones, des jeux de couleur, de contraste ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!--end row au dessous-->	
-							</div>
-							<!-- end container-->
-						</div>
-						<!-- end slide-->
-					</div>
-					<!-- new slide -->
-					<div class="slide">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="ui-block">
-								<div class="ui-block-title">
-									<h3 class="title">Responsive</h3>
-								</div>
-							</div>
-						</div>
-						<div class="container custom">
-							<div class="row">
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Breakpoints</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le responsive a-t-il été verifié ? (laptop, 1024px, 768px, 767px et moins)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Grille</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">La grille est-elle respectée ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Burger menu</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">La couleur du burger menu est-elle cohérente avec le reste du site ? <br> L'ouverture du burger menu fonctionne t-elle ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Mise en page</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">La mise en page des différentes résolutions est-elle adaptée au support ? </p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Hierarchie de l'information</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">L'ordre texte > img est-il respecté ? (il faut alterner entre un texte et une image, ne pas avoir deux images à la suite)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">La lecture</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">La lecture est-elle facilitée par la design (Aligné à gauche, bloc suffisement large pour ne pas avoir que 2 ou 3 mots par lignes) </p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Titres</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Les tailles des titres et du texte sont-elles adaptées au device ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Largeur</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Sur les petits devices, la largeur de la fenêtre est-elle utilisée à son maximum ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!--end row au dessous-->	
-							</div>
-							<!-- end container-->
-						</div>
-						<!-- end slide-->
-					</div>
-					<!-- new slide -->
-					<div class="slide">
-						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="ui-block">
-								<div class="ui-block-title">
-									<h3 class="title">UX</h3>
-								</div>
-							</div>
-						</div>
-						<div class="container custom">
-							<div class="row">
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Elements interactifs</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Les éléments cliquables ressortent-ils du design ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Navigation</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">La navigation est elle efficace ? (animations qui se déclenchent au bon moment, les ancres vont aux bons endroits, pas deux menus sur chaque pages, navigation pas trop longue etc)</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Contraste</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Le contraste entre le background et le texte est-il suffisant ? </p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Elements rédactionnels</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Les éléments rédactionnels incitatifs sont ils mis en avant ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Label ou agrément</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Des éléments de type label ou agrément ou partenaires ou réferences clients sont ils présents sur le site ? </p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!-- point check -->
-								<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-									<div class="ui-block">
-										<div class="available-widget">
-											<div class="checkbox">
-												<label>
-													<h4 class="title">Titres</h4>
-													<img alt="" class="illu" src="img/exemple-favicon.jpg">
-													<p class="desc">Les titres de niveaux sont ils mis en avant de façon propre et réfléchi ?</p>
-													<input name="optionsCheckboxes" type="checkbox"><span class="checkbox-material"><span class="check"></span></span>
-													<div class="voirplus">
-														<a href="#">En savoir plus</a>
-													</div>
-												</label>
-											</div>
-										</div>
-									</div>
-									<!--end point check-->
-								</div>
-								<!--end row au dessous-->	
-							</div>
-							<!-- end container-->
-						</div>
-						<!-- end slide-->
 					</div>
 					<!-- end section-->
 				</div>
@@ -783,7 +184,61 @@ include('connexion_session.php');
 	<script src="js/jquery.fullPage.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#fullpage').fullpage();
+			$('#fullpage').fullpage({
+				onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
+					var leavingSlide = $(this);
+
+		//leaving the first slide of the 2nd Section to the right
+		if(index == 1 && slideIndex == 4 && direction == 'right'){
+			var checked = new Array();
+			var i = 0;
+			var idCheck = [];
+			var valueCheck = [];
+			var arrayCheck = [];
+			var idGpp = $('.idgpp').val();
+			$("div[class*='card_']").each(function(){
+				var check = "card_";
+				checked[i] = new Array();
+				var cls = $(this).attr('class').split(' ');
+				for (var i = 0; i < cls.length; i++) {
+					if (cls[i].indexOf(check) > -1) {
+						var id_emet = cls[i].slice(check.length, cls[i].length);
+					}
+				} 
+				console.log($(this).find('.checkbox').attr('class'));
+				if($(this).find('.checkbox').hasClass('clicked')){
+					alert('lol');
+					idCheck.push(id_emet);
+					valueCheck.push(1);
+				}else{
+					idCheck.push(id_emet);	
+					valueCheck.push(0);			
+				}
+				i++;
+			});
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp},
+			})
+			.done(function(data) {
+				console.log("success");
+				console.log(data);
+			})
+
+			
+			console.log(idCheck);
+			console.log(valueCheck);
+			return false;
+		}
+
+		//leaving the 3rd slide of the 2nd Section to the left
+		if(index == 1 && slideIndex == 2 && direction == 'left'){
+
+		}
+	}
+});
+
 			$(document).ready(function() {
 				setTimeout(function(){
 					$('body').addClass('loaded');

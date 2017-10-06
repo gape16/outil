@@ -16,7 +16,7 @@ if (isset($_SESSION['id_statut'])) {
 	<html lang="en">
 	<head>
 
-		<title>Your Account - Account Settings</title>
+		<title>Parametre du compte</title>
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -48,6 +48,8 @@ if (isset($_SESSION['id_statut'])) {
 		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		<!-- Custom -->
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 
 
 	</head>
@@ -102,10 +104,8 @@ if (isset($_SESSION['id_statut'])) {
 				<div class="row">
 					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 						<div class="main-header-content">
-							<h1>Your Account Dashboard</h1>
-							<p>Welcome to your account dashboard! Here you’ll find everything you need to change your
-								profile information, settings, read notifications and requests, view your latest messages,
-								change your pasword and much more! Also you can create or manage your own favourite page, have fun!
+							<h1>Parametre du compte</h1>
+							<p>Ici vous allez pouvoir changer votre mot de passe, votre image, activer/désactiver les notifications.
 							</p>
 						</div>
 					</div>
@@ -126,127 +126,73 @@ if (isset($_SESSION['id_statut'])) {
 				<div class="col-xl-9 push-xl-3 col-lg-9 push-lg-3 col-md-12 col-sm-12 col-xs-12">
 					<div class="ui-block multitab">
 						<div class="ui-block-title">
-							<h6 class="title">Account Settings</h6>
+							<h6 class="title">Modifier le mot de passe</h6>
 						</div>
 						<div class="ui-block-content">
 							<form>
 								<div class="row">
 
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<div class="form-group label-floating is-select">
-											<label class="control-label">Who Can Friend You?</label>
-											<select class="selectpicker form-control" size="auto">
-												<option value="EO">Everyone</option>
-												<option value="NO">No One</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<div class="form-group label-floating is-select">
-											<label class="control-label">Who Can View Your Posts</label>
-											<select class="selectpicker form-control" size="auto">
-												<option value="US">Friends Only</option>
-												<option value="EO">Everyone</option>
-											</select>
-										</div>
-									</div>
-
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Notifications Sound</div>
-												<p>A sound will be played each time you receive a new activity notification</p>
-											</div>
-
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
-											</div>
+										<div class="form-group label-floating is-empty">
+											<label class="control-label">Mot de passe actuel</label>
+											<input class="form-control" placeholder="" type="password">
+											<span class="material-input"></span></div>
 										</div>
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Notifications Email</div>
-												<p>We’ll send you an email to your account each time you receive a new activity notification</p>
+
+										<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+											<div class="form-group label-floating is-empty">
+												<label class="control-label">Nouveau mot de passe</label>
+												<input class="form-control password" placeholder="" type="password">
+												<span class="material-input"></span></div>
 											</div>
+											<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+												<div class="form-group label-floating is-empty">
+													<label class="control-label">Confirmer le nouveau mot de passe</label>
+													<input class="form-control passwordverify" placeholder="" type="password">
+													<span class="material-input"></span></div>
+												</div>
 
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
+												<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<a href="#" class="btn btn-green btn-lg full-width confirmpw">
+													Changer le mot de passe</a>
+												</div>
+
 											</div>
-										</div>
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Friend’s Birthdays</div>
-												<p>Choose wheather or not receive notifications about your friend’s birthdays on your newsfeed</p>
-											</div>
-
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
-											</div>
-										</div>
-										<div class="description-toggle">
-											<div class="description-toggle-content">
-												<div class="h6">Chat Message Sound</div>
-												<p>A sound will be played each time you receive a new message on an inactive chat window</p>
-											</div>
-
-											<div class="togglebutton">
-												<label>
-													<input type="checkbox" checked="">
-												</label>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<button class="btn btn-secondary btn-lg full-width">Restore all Attributes</button>
-									</div>
-									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-										<button class="btn btn-primary btn-lg full-width">Save all Changes</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
-					<div class="ui-block">
-						<div class="your-profile">
-
-							<div id="accordion" role="tablist" aria-multiselectable="true">
-								<div class="card">
-									<div class="card-header" role="tab" id="headingOne">
-										<h6 class="mb-0">
-											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-												Parametre profil
-												<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-											</a>
-										</h6>
-									</div>
-
-									<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-										<ul class="your-profile-menu">
-											<li>
-												<a href="28-YourAccount-PersonalInformation.html">Informations personnelles</a>
-											</li>
-											<li>
-												<a href="29-YourAccount-AccountSettings.html">Parametre du compte</a>
-											</li>
-											<li>
-												<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
-											</li>
-											<li>
-												<a href="30-YourAccount-ChangePassword.html">Notifications</a>
-											</li>
-										</ul>
+										</form>
 									</div>
 								</div>
 							</div>
+
+							<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
+								<div class="ui-block">
+									<div class="your-profile">
+
+										<div id="accordion" role="tablist" aria-multiselectable="true">
+											<div class="card">
+												<div class="card-header" role="tab" id="headingOne">
+													<h6 class="mb-0">
+														<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+															Parametre profil
+															<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+														</a>
+													</h6>
+												</div>
+
+												<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+													<ul class="your-profile-menu">
+														<li>
+															<a class="accountsetting" href="accountsetting.html">Parametre du compte</a>
+														</li>
+														<li>
+															<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
+														</li>
+														<li>
+															<a class="notification" href="notifications.html">Notifications</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
 
 
 							<!--<div class="ui-block-title">

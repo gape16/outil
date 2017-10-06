@@ -6,7 +6,7 @@ include('connexion_session.php');
 
 if (isset($_SESSION['id_statut'])) {
 	$id_graph=$_SESSION['id_graph'];
-	$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and date_retour_maquette IS NULL and date_retour_cq IS NULL");
+	$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo, IDGPP FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and date_retour_maquette IS NULL and date_retour_cq IS NULL");
 	$query_select_card_crea_maquette->bindParam(1, $id_graph);
 	$query_select_card_crea_maquette->execute();
 	$cards_client=$query_select_card_crea_maquette->fetchAll();
@@ -173,7 +173,7 @@ if (isset($_SESSION['id_statut'])) {
 									<a href="<?php echo utf8_encode($value['lien_CMS']);?>" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
 										<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
 									</a>
-									<a href="#check.php" class="btn btn-control btn-grey-lighter">
+									<a href="check.php?idgpp=<?php echo $value['IDGPP'];?>" class="btn btn-control btn-grey-lighter">
 										<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
 									</a>
 								</div>

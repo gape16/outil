@@ -320,7 +320,9 @@ header#site-header {
 	transition: all 0.3s 1s ease-out;  /* Chrome 26, Firefox 16+, iOS 7+, IE 10+, Opera, Safari 6.1+  */
 }
 
-
+.mb{
+	margin-bottom: 25px;
+}
 
 
 
@@ -349,6 +351,7 @@ textarea#description {
 .comment-form .form-group {
 	width: 97%;
 }
+
 #problemos .modal-dialog {
 	margin: auto;
 	width: 80vw;
