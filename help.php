@@ -231,7 +231,7 @@ if (isset($_SESSION['id_statut'])) {
 												<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 											</td>
 											<td class="add-event">
-												<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+												<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
 											</td>
 
 										</tr>
@@ -284,7 +284,7 @@ if (isset($_SESSION['id_statut'])) {
 													<span>Fichiers sources</span></div>
 												</div>
 
-												<a href="#" class="btn btn-green btn-sm full-width">Demande d'aide traitée</a>
+												<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
 											</div>
 										</div>
 									</div>

@@ -222,6 +222,7 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key]['prenom'] = utf8_encode($value['prenom']);
 		$tab[$key]['photo'] = $value['photo'];
 		$tab[$key]['etat_aide'] = utf8_encode($value['etat_aide']);
+		$tab[$key]['couleur'] = utf8_encode($value['couleur']);
 	}
 	
 
@@ -347,4 +348,29 @@ if (isset($_POST['id_timer_aide'])) {
 		}
 	}
 	print_r(json_encode($tabf));
+}
+
+if (isset($_POST['changement_etat_id_ok'])) {
+	$etat=2;
+	$id_aide=$_POST['changement_etat_id_ok'];
+	$query_up_aide_etat = $bdd->prepare("UPDATE aide SET id_etat_aide = ? where id_aide = ?");
+	$query_up_aide_etat->bindParam(1, $etat);
+	$query_up_aide_etat->bindParam(2, $id_aide);
+	$query_up_aide_etat->execute();
+}
+if (isset($_POST['changement_etat_id_cours'])) {
+	$etat=1;
+	$id_aide=$_POST['changement_etat_id_cours'];
+	$query_up_aide_etat = $bdd->prepare("UPDATE aide SET id_etat_aide = ? where id_aide = ?");
+	$query_up_aide_etat->bindParam(1, $etat);
+	$query_up_aide_etat->bindParam(2, $id_aide);
+	$query_up_aide_etat->execute();
+}
+if (isset($_POST['changement_etat_id_non'])) {
+	$etat=3;
+	$id_aide=$_POST['changement_etat_id_non'];
+	$query_up_aide_etat = $bdd->prepare("UPDATE aide SET id_etat_aide = ? where id_aide = ?");
+	$query_up_aide_etat->bindParam(1, $etat);
+	$query_up_aide_etat->bindParam(2, $id_aide);
+	$query_up_aide_etat->execute();
 }

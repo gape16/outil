@@ -299,7 +299,7 @@ $('.valider_aide').click(function(e){
 	var titre = $('.titre_probleme').val();
 	var adresseCms = $('.adressecms').val();
 	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
-	var descriptionProblem = $('textarea#description').val();
+	var descriptionProblem = $('textarea#description').val().replace(/\n/gi,'<br />');
 
 	var names = $.map(files, function (val) { return val.name; });
 
@@ -406,6 +406,9 @@ $(".moproblem").on('click', function(e){
 		$(".titreproblemos").html(infos[0]['titre']);
 		$(".descproblemos").html(infos[0]['description']);
 		$(".lien_cms").attr("href",infos[0]['adresse_cms']);
+		$(".etat").html(infos[0]['etat_aide']);
+		$(".etat").css("background",infos[0]['couleur']);
+		$(".etat").css("color","white");
 		var liste = "";
 		for (var i = 1; i <= infos.length - 1; i++) {
 			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
@@ -558,4 +561,74 @@ function charger_commentaires(){
 
 charger_commentaires();
 
+
+$(".validation_aide_ok").on('click', function(e){
+	e.preventDefault();
+	var check="dial_";
+	var cls = $("#problemos").attr('class').split(' ');
+	for (var i = 0; i < cls.length; i++) {
+		if (cls[i].indexOf(check) > -1) {
+			var id_emet = cls[i].slice(check.length, cls[i].length);
+		}
+	}
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {changement_etat_id_ok: id_emet}
+	})
+	.done(function() {
+		swal(
+			'Demande d\'aide résolue!',
+			'L\'etat résolu va être partagé avec tout le monde!',
+			'success'
+			)
+	})
+})
+
+$(".validation_aide_cours").on('click', function(e){
+	e.preventDefault();
+	var check="dial_";
+	var cls = $("#problemos").attr('class').split(' ');
+	for (var i = 0; i < cls.length; i++) {
+		if (cls[i].indexOf(check) > -1) {
+			var id_emet = cls[i].slice(check.length, cls[i].length);
+		}
+	}
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {changement_etat_id_cours: id_emet}
+	})
+	.done(function() {
+		swal(
+			'Demande d\'aide en cours!',
+			'L\'etat en cours va être partagé avec tout le monde!',
+			'info '
+			)
+	})
+})
+
+$(".validation_aide_non").on('click', function(e){
+	e.preventDefault();
+	var check="dial_";
+	var cls = $("#problemos").attr('class').split(' ');
+	for (var i = 0; i < cls.length; i++) {
+		if (cls[i].indexOf(check) > -1) {
+			var id_emet = cls[i].slice(check.length, cls[i].length);
+		}
+	}
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {changement_etat_id_non: id_emet}
+	})
+	.done(function(data) {
+		console.log(data);
+		swal(
+			'Demande d\'aide impossible!',
+			'L\'etat impossible va être partagé avec tout le monde!',
+			'error'
+			)
+	})
+})
 })
