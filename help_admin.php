@@ -230,11 +230,11 @@ if (isset($_SESSION['id_statut'])) {
 											</div>
 
 											<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
 												marquer comme résolue</a>
-												<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
+												<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
 													marquer comme en cours</a>
-													<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;"><i class="fa fa-trash-o" aria-hidden="true"></i>
+													<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-trash-o" aria-hidden="true"></i>
 														marquer comme impossible</a>
 													</div>
 												</div>

@@ -170,7 +170,6 @@ $('.btn-addclient').on('click', function(){
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
-			$('.adressecms').removeClass('adressecms');
 			$.ajax({
 				url: 'formulaire.php',
 				type: 'POST',
@@ -400,7 +399,7 @@ $(".moproblem").on('click', function(e){
 	})
 	.done(function(data) {
 		var infos = JSON.parse(data);
-		// console.log(infos);
+		// console.log(data);
 		$(".user_popup").html(infos[0]['prenom']+" "+infos[0]['nom']);
 		$(".date_popup").html(infos[0]['date_aide']);
 		$(".titreproblemos").html(infos[0]['titre']);
@@ -503,32 +502,14 @@ $('.notification').on('click', function(e){
 })
 
 
-$('.confirmpw').on('click', function(){
-	var password = $('.password').val();
-	var passwordverify = $('.passwordverify').val();	
-	if(password == passwordverify){
-		$.ajax({
-			url: 'formulaire.php',
-			type: 'POST',
-			data: {
-				newPassword : password
-			}
-		}).done(function(data) {
-			$('.confirmpw').html('Mot de passe changé')
-		})
-	}else{
-		$('.password').prev().html('Les mot de passes ne correspondent pas');
-		$('.password').addClass('empty');
-		$('.passwordverify').prev().html('Les mot de passes ne correspondent pas');
-		$('.passwordverify').addClass('empty');
-	}
-})
 
 
-
-$('body').on('click', '.togglebutton .toggle', function(){
+$('body').on('click', '.togglebutton .notifAccount', function(){
 	if(!$(this).prev().prop('checked')){
+		alert('oui');
 		//recup quelles notifs l'utilisateur veut
+	}else{
+		//decochés
 	}
 })
 
