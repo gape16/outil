@@ -170,6 +170,11 @@ $('.btn-addclient').on('click', function(){
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
+<<<<<<< HEAD
+			console.log(adresseCms);
+			$('.adressecms').removeClass('adressecms');
+=======
+>>>>>>> ba1599bf14833e0bfec6c799265007f020cc7bc1
 			$.ajax({
 				url: 'formulaire.php',
 				type: 'POST',
@@ -226,7 +231,7 @@ $('textarea#description').on('click', function(){
 	$(this).parent().removeClass('is-empty').addClass('is-focused');
 })
 // FIX SMALL LABEL
-$('input').on('click', function(){
+$('.help input').on('click', function(){
 	if($('textarea#description').val().length != 0){
 		$('textarea#description').parent().removeClass('is-focused');
 	}else{
@@ -392,6 +397,7 @@ $(".moproblem").on('click', function(e){
 	$(".id_aide").val(id_aide);
 	$("#problemos").alterClass("dial_*", '');
 	$("#problemos").addClass('dial_'+id_aide);
+	charger_commentaires();
 	$.ajax({
 		url: 'formulaire.php',
 		type: 'POST',
@@ -564,14 +570,12 @@ function charger_commentaires(){
 			if(id_commentair==undefined){
 				id_commentair=0;
 			}
-			console.log(id_commentair);
 			$.ajax({
 				url: 'formulaire.php',
 				type: 'POST',
 				data: {id_timer_aide: id_emet, id_timer_com:id_commentair},
 			})
 			.done(function(data) {
-				// console.log(data);
 				var liste = "";
 				var infos = JSON.parse(data);
 				for (var i = 0; i <= infos.length - 1; i++) {
@@ -603,6 +607,8 @@ function charger_commentaires(){
 	}, 500);
 }
 
+<<<<<<< HEAD
+=======
 charger_commentaires();
 
 
@@ -675,4 +681,5 @@ $(".validation_aide_non").on('click', function(e){
 			)
 	})
 })
+>>>>>>> ba1599bf14833e0bfec6c799265007f020cc7bc1
 })

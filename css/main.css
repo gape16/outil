@@ -484,6 +484,41 @@ textarea#description {
 	max-width: 80vw;
 	margin-top: 10vh;
 }
+a.showlastweek {
+	float: right;
+	color: inherit;
+}
+.modal h6.title {
+	text-align: center;
+}
+.accept{
+	background : #1ed760;
+}
+#check_design .window-popup .form-group {
+	margin-bottom: 0;
+}
+#check_design .ui-block {
+	margin-bottom: 0;
+}
+.modalcheck {
+	padding: 0 15px;
+	margin-bottom: 15px;
+}
+.modalcheck > div {
+	width: 100%;
+}
+select#graphiste,  select.categorie{
+	padding: 1.1rem;
+}
+.sorting-item{
+	position: relative;
+}
+.sorting-item a.post-add-icon.inline-items{
+	position: absolute;
+	bottom: 40px;
+	right: 40px;
+}
+
 @media (min-width: 540px){
 	.modal-dialog {
 		max-width: 500px;
