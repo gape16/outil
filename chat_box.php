@@ -1,5 +1,5 @@
 
-<div class="ui-block popup-chat popup-chat-responsive">
+<div class="ui-block popup-chat popup-chat-responsive" style="position: fixed;">
 	<div class="ui-block-title">
 		<span class="icon-status online"></span>
 		<h6 class="title" >Chat</h6>
