@@ -394,6 +394,41 @@ select#graphiste,  select.categorie{
 	bottom: 40px;
 	right: 40px;
 }
+div#code {
+	width: 100vw;
+	height: 92.9vh;
+	padding: 0 70px;
+}
+.rendu {
+	height: 50vh;
+	margin-top: 2.9vh;
+}
+.code {
+	height: 40vh;
+}
+.code textarea, .code .form-group{
+	height: 100%;
+}
+.code textarea {
+	width: 100%;
+	border-radius: 5px;
+	background: #272822;
+	color: white;
+}
+textarea#description:focus {
+	outline: none;
+}
+body#prop-code {
+	overflow-y: hidden;
+}
+iframe#rendu-code {
+	width: 99%;
+	height: 100%;
+	width: 100%;
+	border: 1px solid #e6ecf5;
+	border-radius: 5px;
+	background: white;
+}
 
 @media (min-width: 540px){
 	.modal-dialog {
