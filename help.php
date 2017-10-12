@@ -221,6 +221,7 @@ if (isset($_SESSION['id_statut'])) {
 													<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
 													<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
 												</div>
+<<<<<<< HEAD
 											</div>
 										</td>
 										<td class="location">
@@ -240,6 +241,21 @@ if (isset($_SESSION['id_statut'])) {
 									<?php }?>
 								</tbody>
 							</table>
+=======
+											</td>
+											<td class="description">
+												<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+											</td>
+											<td class="add-event">
+												<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
+											</td>
+
+										</tr>
+										<?php }?>
+									</tbody>
+								</table>
+							</div>
+>>>>>>> ba1599bf14833e0bfec6c799265007f020cc7bc1
 						</div>
 					</div>
 				</div>
@@ -283,7 +299,16 @@ if (isset($_SESSION['id_statut'])) {
 										<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
 											<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
 											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+<<<<<<< HEAD
 												<span>Fichiers sources</span></div>
+=======
+												<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
+												<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+													<span>Fichiers sources</span></div>
+												</div>
+
+												<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
+>>>>>>> ba1599bf14833e0bfec6c799265007f020cc7bc1
 											</div>
 
 											<a href="#" class="btn btn-green btn-sm full-width">Demande d'aide traitée</a>

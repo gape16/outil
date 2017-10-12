@@ -91,9 +91,8 @@ if (isset($_POST['numClient'])) {
 	$idgpp= end($exploded);
 	$idgpp = rtrim($idgpp, '/');
 	//test savoir si client existe déjà ou non
-	$query_test_client = $bdd->prepare("SELECT id_client FROM client where num_client = ? and IDGPP = ?");
-	$query_test_client->bindParam(1, $numClient);
-	$query_test_client->bindParam(2, $idgpp);
+	$query_test_client = $bdd->prepare("SELECT id_client FROM client where IDGPP = ?");
+	$query_test_client->bindParam(1, $idgpp);
 	$query_test_client->execute();
 	$test_client= $query_test_client->fetch();
 	$nb_client=$query_test_client->rowCount();
@@ -153,11 +152,11 @@ if (isset($_POST['numClient'])) {
 		$new_card.='				</li>';
 		$new_card.='			</ul>';
 		$new_card.='<div class="control-block-button">';
-		$new_card.='				<a href="'.$adresseCms.'" class="  btn btn-control bg-blue">';
+		$new_card.='				<a href="'.$adresseCms.'" target="_blank" class="btn btn-control bg-blue">';
 		$new_card.='					<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>';
 		$new_card.='				</a>';
 
-		$new_card.='				<a href="check.php" class="btn btn-control btn-grey-lighter">';
+		$new_card.='				<a href="check.php?idgpp='.$idgpp.'" class="btn btn-control btn-grey-lighter">';
 		$new_card.='					<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>';
 		$new_card.='				</a>';
 
@@ -247,6 +246,7 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key]['prenom'] = utf8_encode($value['prenom']);
 		$tab[$key]['photo'] = $value['photo'];
 		$tab[$key]['etat_aide'] = utf8_encode($value['etat_aide']);
+		$tab[$key]['couleur'] = utf8_encode($value['couleur']);
 	}
 	
 
@@ -374,12 +374,145 @@ if (isset($_POST['id_timer_aide'])) {
 	print_r(json_encode($tabf));
 }
 
+if (isset($_POST['changement_etat_id_ok'])) {
+	$etat=2;
+	$id_aide=$_POST['changement_etat_id_ok'];
+	$query_up_aide_etat = $bdd->prepare("UPDATE aide SET id_etat_aide = ? where id_aide = ?");
+	$query_up_aide_etat->bindParam(1, $etat);
+	$query_up_aide_etat->bindParam(2, $id_aide);
+	$query_up_aide_etat->execute();
+}
+if (isset($_POST['changement_etat_id_cours'])) {
+	$etat=1;
+	$id_aide=$_POST['changement_etat_id_cours'];
+	$query_up_aide_etat = $bdd->prepare("UPDATE aide SET id_etat_aide = ? where id_aide = ?");
+	$query_up_aide_etat->bindParam(1, $etat);
+	$query_up_aide_etat->bindParam(2, $id_aide);
+	$query_up_aide_etat->execute();
+}
+if (isset($_POST['changement_etat_id_non'])) {
+	$etat=3;
+	$id_aide=$_POST['changement_etat_id_non'];
+	$query_up_aide_etat = $bdd->prepare("UPDATE aide SET id_etat_aide = ? where id_aide = ?");
+	$query_up_aide_etat->bindParam(1, $etat);
+	$query_up_aide_etat->bindParam(2, $id_aide);
+	$query_up_aide_etat->execute();
+}
+
 if (isset($_POST['idGpp'])){
 	$idGpp = $_POST['idGpp'];
 	$valueCheck = $_POST['valueCheck'];
 	$idCheck = $_POST['idCheck'];
-	while ($valueCheck) {
-		echo "oui";
+	$etatFinal = $_POST['etatFinal'];
+	$id_graph=$_SESSION['id_graph'];
+	$com_contr=$_POST['com_contr'];
+	$com_graph=$_POST['com_graph'];
+	$date = date('Y-m-d H:i:s');
+	$envoi=$_POST['envoi'];
+	$pret=0;
+	foreach ($valueCheck as $key => $value) {
+		$commentaire_controleur=utf8_decode($com_contr[$key]);
+		$commentaire_graph=utf8_decode($com_graph[$key]);
+		$query_test_checked=$bdd->prepare("SELECT id_controle FROM controle WHERE id_check = ? and id_gpp = ?");
+		$query_test_checked->bindParam(1, $idCheck[$key]);
+		$query_test_checked->bindParam(2, $idGpp);
+		$query_test_checked->execute();
+		$nb_query = $query_test_checked->rowCount();
+		if($etatFinal == 1 || $etatFinal == 4){
+			$query_ins_checked=$bdd->prepare("INSERT INTO controle (id_gpp, id_check, reponse, id_graph, etat, commentaire_controleur, commentaire_graph) VALUES (?,?,?,?,?,?,?)");
+			$query_ins_checked->bindParam(1, $idGpp);
+			$query_ins_checked->bindParam(2, $idCheck[$key]);
+			$query_ins_checked->bindParam(3, $valueCheck[$key]);
+			$query_ins_checked->bindParam(4, $id_graph);
+			$query_ins_checked->bindParam(5, $etatFinal);
+			$query_ins_checked->bindParam(6, $commentaire_controleur);
+			$query_ins_checked->bindParam(7, $commentaire_graph);
+			$query_ins_checked->execute();
+			$fin=$etatFinal+1;
+			$query_up_cl=$bdd->prepare("UPDATE client SET envoi_maquette=?, id_etat = ? where IDGPP = ?");
+			$query_up_cl->bindParam(1, $pret);
+			$query_up_cl->bindParam(2, $fin);
+			$query_up_cl->bindParam(3, $idGpp);
+			$query_up_cl->execute();
+		}else{
+			if($etatFinal > 1 && $etatFinal < 4){
+				$etat_cont=1;
+				$query_ins_checked=$bdd->prepare("UPDATE controle SET commentaire_controleur = ?,commentaire_graph = ? where id_gpp = ? and id_check = ? and etat = ?");
+				$query_ins_checked->bindParam(1, $commentaire_controleur);
+				$query_ins_checked->bindParam(2, $commentaire_graph);
+				$query_ins_checked->bindParam(3, $idGpp);
+				$query_ins_checked->bindParam(4, $idCheck[$key]);
+				$query_ins_checked->bindParam(5, $etat_cont);
+				$query_ins_checked->execute();
+				if($etatFinal == 2 && $envoi=="ok"){
+					$etat=4;
+					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?,envoi_maquette=?,id_etat = ? where IDGPP = ?");
+					$query_up_cl->bindParam(1, $date);
+					$query_up_cl->bindParam(2, $id_graph);
+					$query_up_cl->bindParam(3, $pret);
+					$query_up_cl->bindParam(4, $etat);
+					$query_up_cl->bindParam(5, $idGpp);
+					$query_up_cl->execute();
+				}elseif($etatFinal == 2 && $envoi=="retour"){
+					$etat=2;
+					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
+					$query_up_cl->bindParam(1, $date);
+					$query_up_cl->bindParam(2, $id_graph);
+					$query_up_cl->bindParam(3, $pret);
+					$query_up_cl->bindParam(4, $etat);
+					$query_up_cl->bindParam(5, $idGpp);
+					$query_up_cl->execute();
+				}
+			}elseif ($etatFinal > 4 && $etatFinal < 7) {
+				$etat_cont=4;
+				$query_ins_checked=$bdd->prepare("UPDATE controle SET commentaire_controleur = ?, commentaire_graph = ? where id_gpp = ? and id_check = ? and etat = ?");
+				$query_ins_checked->bindParam(1, $commentaire_controleur);
+				$query_ins_checked->bindParam(2, $commentaire_graph);
+				$query_ins_checked->bindParam(3, $idGpp);
+				$query_ins_checked->bindParam(4, $idCheck[$key]);
+				$query_ins_checked->bindParam(5, $etat_cont);
+				$query_ins_checked->execute();
+				if($etatFinal == 5 && $envoi=="ok"){
+					$etat=7;
+					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
+					$query_up_cl->bindParam(1, $date);
+					$query_up_cl->bindParam(2, $id_graph);
+					$query_up_cl->bindParam(3, $pret);
+					$query_up_cl->bindParam(4, $etat);
+					$query_up_cl->bindParam(5, $idGpp);
+					$query_up_cl->execute();
+				}elseif($etatFinal == 5 && $envoi=="retour"){
+					$etat=5;
+					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
+					$query_up_cl->bindParam(1, $date);
+					$query_up_cl->bindParam(2, $id_graph);
+					$query_up_cl->bindParam(3, $pret);
+					$query_up_cl->bindParam(4, $etat);
+					$query_up_cl->bindParam(5, $idGpp);
+					$query_up_cl->execute();
+				}
+			}
+
+		}
+		// $valueCheck[$key];
+	}
+}
+
+if (isset($_POST['ancienPasswordAccount'])) {
+	$ancien = $_POST['ancienPasswordAccount'];
+	// echo $ancien;
+	$mdp=password_hash($_POST['newPasswordAccount'], PASSWORD_DEFAULT);
+	$id_graph=$_SESSION['id_graph'];
+	$query_test_user = $bdd->prepare("SELECT mdp FROM user WHERE id_user = ?");
+	$query_test_user->bindParam(1, $id_graph);
+	$query_test_user->execute();
+	$test_user = $query_test_user->fetch();
+	if(password_verify($ancien, $test_user['mdp'])){
+		$query_update_user = $bdd->prepare("UPDATE user set mdp = ? WHERE id_user = ?");
+		$query_update_user->bindParam(1, $mdp);
+		$query_update_user->bindParam(2, $id_graph);
+		$query_update_user->execute();
+		echo "ok";
 	}
 }
 

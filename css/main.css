@@ -16,7 +16,9 @@
 .token, .newpassword{
 	display: none;
 }
-
+div.fp-controlArrow.fp-prev { 
+	display: none; 
+}
 .friend-item{
 	min-height: 450px;
 }

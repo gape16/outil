@@ -24,13 +24,14 @@ if (isset($_SESSION['id_statut'])) {
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-reboot.css">
-		<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-grid.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
 
 		<!-- Theme Styles CSS -->
 		<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
 		<link rel="stylesheet" type="text/css" href="css/blocks.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
 
 		<!-- Main Font -->
 		<script src="js/webfontloader.min.js"></script>
@@ -45,11 +46,10 @@ if (isset($_SESSION['id_statut'])) {
 		<link rel="stylesheet" type="text/css" href="css/fonts.css">
 
 		<!-- Styles for plugins -->
-		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
-		<!-- Custom -->
-		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 
 
 	</head>
@@ -105,7 +105,7 @@ if (isset($_SESSION['id_statut'])) {
 					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 						<div class="main-header-content">
 							<h1>Parametre du compte</h1>
-							<p>Ici vous allez pouvoir changer votre mot de passe, votre image, activer/désactiver les notifications.
+							<p>Ici vous allez pouvoir changer votre mot de passe, votre avatar, activer/désactiver les notifications.
 							</p>
 						</div>
 					</div>
@@ -135,7 +135,7 @@ if (isset($_SESSION['id_statut'])) {
 									<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Mot de passe actuel</label>
-											<input class="form-control" placeholder="" type="password">
+											<input class="form-control mdpActuel" placeholder="" type="password">
 											<span class="material-input"></span></div>
 										</div>
 
@@ -154,45 +154,45 @@ if (isset($_SESSION['id_statut'])) {
 
 												<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 													<a href="#" class="btn btn-green btn-lg full-width confirmpw">
-													Changer le mot de passe</a>
-												</div>
+														Changer le mot de passe</a>
+													</div>
 
-											</div>
-										</form>
+												</div>
+											</form>
+										</div>
 									</div>
 								</div>
-							</div>
 
-							<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
-								<div class="ui-block">
-									<div class="your-profile">
+								<div class="col-xl-3 pull-xl-9 col-lg-3 pull-lg-9 col-md-12 col-sm-12 col-xs-12 responsive-display-none">
+									<div class="ui-block">
+										<div class="your-profile">
 
-										<div id="accordion" role="tablist" aria-multiselectable="true">
-											<div class="card">
-												<div class="card-header" role="tab" id="headingOne">
-													<h6 class="mb-0">
-														<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-															Parametre profil
-															<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-														</a>
-													</h6>
-												</div>
+											<div id="accordion" role="tablist" aria-multiselectable="true">
+												<div class="card">
+													<div class="card-header" role="tab" id="headingOne">
+														<h6 class="mb-0">
+															<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+																Parametre profil
+																<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
+															</a>
+														</h6>
+													</div>
 
-												<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-													<ul class="your-profile-menu">
-														<li>
-															<a class="accountsetting" href="accountsetting.html">Parametre du compte</a>
-														</li>
-														<li>
-															<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
-														</li>
-														<li>
-															<a class="notification" href="notifications.html">Notifications</a>
-														</li>
-													</ul>
+													<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+														<ul class="your-profile-menu">
+															<li>
+																<a class="accountsetting" href="accountsetting.html">Parametre du compte</a>
+															</li>
+															<li>
+																<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
+															</li>
+															<li>
+																<a class="notification" href="notifications.html">Notifications</a>
+															</li>
+														</ul>
+													</div>
 												</div>
 											</div>
-										</div>
 
 
 							<!--<div class="ui-block-title">
@@ -437,18 +437,20 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="js/theme-plugins.js"></script>
 			<!-- Init functions -->
 			<script src="js/main.js"></script>
-
+			<script src="js/alterclass.js"></script>
+			<script src="js/chat.js"></script>
 			<!-- Select / Sorting script -->
 			<script src="js/selectize.min.js"></script>
 
-			<!-- Datepicker input field script-->
-			<script src="js/moment.min.js"></script>
-			<script src="js/daterangepicker.min.js"></script>
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+
 
 			<script src="js/mediaelement-and-player.min.js"></script>
 			<script src="js/mediaelement-playlist-plugin.min.js"></script>
-			<script src="js/charte.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
+			<script src="js/charte.js"></script>
+			<script src="js/account.js"></script>
 		</body>
 		</html>
 		<?php }else{

@@ -6,17 +6,33 @@ include('connexion_session.php');
 
 if (isset($_SESSION['id_statut'])) {
 	$id_graph=$_SESSION['id_graph'];
-	$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo, IDGPP FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and date_retour_maquette IS NULL and date_retour_cq IS NULL");
-	$query_select_card_crea_maquette->bindParam(1, $id_graph);
-	$query_select_card_crea_maquette->execute();
-	$cards_client=$query_select_card_crea_maquette->fetchAll();
+	// si c'est un graph qui se connect
+	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 2) {
+		$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo, IDGPP FROM client inner join user on client.id_graph_maquette=user.id_user where client.id_graph_maquette=? and (id_etat = 1 or id_etat= 3 or id_etat = 4 or id_etat = 6)");
+		$query_select_card_crea_maquette->bindParam(1, $id_graph);
+		$query_select_card_crea_maquette->execute();
+		$cards_client=$query_select_card_crea_maquette->fetchAll();
+	}else{
+		$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo, IDGPP FROM client inner join user on client.id_graph_maquette=user.id_user where id_etat = 2 or id_etat= 5");
+		$query_select_card_crea_maquette->bindParam(1, $id_graph);
+		$query_select_card_crea_maquette->execute();
+		$cards_client=$query_select_card_crea_maquette->fetchAll();
+	}
+	$envoid=0;
+	$requete_up_pret = $bdd->prepare('UPDATE client set envoi_maquette=? where id_graph_maquette = ? or id_graph_cq = ? or id_controleur_maquette = ? or id_controleur_cq = ?');
+	$requete_up_pret->bindParam(1, $envoid);
+	$requete_up_pret->bindParam(2, $id_graph);
+	$requete_up_pret->bindParam(3, $id_graph);
+	$requete_up_pret->bindParam(4, $id_graph);
+	$requete_up_pret->bindParam(5, $id_graph);
+	$requete_up_pret->execute();
 	?>
 
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
 
-		<title>Friend Groups</title>
+		<title>Les clients</title>
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -83,7 +99,7 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- Responsive Header -->
 
 		<?php include('responsive_header.php');?>
-		
+
 		<!-- ... end Responsive Header -->
 
 		<!-- ... end Responsive Header -->
@@ -100,10 +116,8 @@ if (isset($_SESSION['id_statut'])) {
 				<div class="row">
 					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 						<div class="main-header-content">
-							<h1>Manage your Friend Groups</h1>
-							<p>Welcome to your friends groups! Do you wanna know what your close friends have been up to? Groups
-								will let you easily manage your friends and put the into categories so when you enter you’ll only
-								see a newsfeed of those friends that you placed inside the group. Just click on the plus button below and start now!
+							<h1>Suivez vos clients</h1>
+							<p>Cette page vous permettra de checker les sites de vos clients à l'aide d'une checklist. Vous y retrouverez l'ensemble des tutoriels si vous bloquez sur un point. L'utilisation est simple il vous suffit d'ajouter un client et c'est parti !
 							</p>
 						</div>
 					</div>
@@ -114,9 +128,7 @@ if (isset($_SESSION['id_statut'])) {
 		</div>
 
 		<!-- Main Content Groups -->
-		<?php 
-		// si c'est un graph qui se connect
-		if ($_SESSION['id_statut'] == 1) {?>
+
 
 		<div class="container cards">
 			<div class="row">
@@ -170,7 +182,7 @@ if (isset($_SESSION['id_statut'])) {
 									</li>
 								</ul>
 								<div class="control-block-button">
-									<a href="<?php echo utf8_encode($value['lien_CMS']);?>" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+									<a href="<?php echo utf8_encode($value['lien_CMS']);?>" target="_blank" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
 										<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
 									</a>
 									<a href="check.php?idgpp=<?php echo $value['IDGPP'];?>" class="btn btn-control btn-grey-lighter">
@@ -222,7 +234,6 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- ... end Window-popup Create Friends Group -->
 
 
-		<?php }?>
 		<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 		<!-- Window-popup-CHAT for responsive min-width: 768px -->
