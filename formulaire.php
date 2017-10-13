@@ -454,6 +454,15 @@ if (isset($_POST['idGpp'])){
 					$query_up_cl->bindParam(5, $idGpp);
 					$query_up_cl->execute();
 				}elseif($etatFinal == 2 && $envoi=="retour"){
+					$etat=3;
+					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
+					$query_up_cl->bindParam(1, $date);
+					$query_up_cl->bindParam(2, $id_graph);
+					$query_up_cl->bindParam(3, $pret);
+					$query_up_cl->bindParam(4, $etat);
+					$query_up_cl->bindParam(5, $idGpp);
+					$query_up_cl->execute();
+				}elseif($etatFinal == 3){
 					$etat=2;
 					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
 					$query_up_cl->bindParam(1, $date);
@@ -482,7 +491,7 @@ if (isset($_POST['idGpp'])){
 					$query_up_cl->bindParam(5, $idGpp);
 					$query_up_cl->execute();
 				}elseif($etatFinal == 5 && $envoi=="retour"){
-					$etat=5;
+					$etat=6;
 					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
 					$query_up_cl->bindParam(1, $date);
 					$query_up_cl->bindParam(2, $id_graph);

@@ -150,10 +150,9 @@ if (isset($_SESSION['id_statut'])) {
 								<input class="use_nom" type="hidden" value="<?php echo utf8_encode($user['prenom']); ?> <?php echo utf8_encode($user['nom']); ?>">
 								<?php 
 								if($etat_test['envoi_maquette']==0){
-									$requete_up_pret = $bdd->prepare('UPDATE client set envoi_maquette=?, id_graph_maquette=? where IDGPP = ?');
+									$requete_up_pret = $bdd->prepare('UPDATE client set envoi_maquette=? where IDGPP = ?');
 									$requete_up_pret->bindParam(1, $id_graph);
-									$requete_up_pret->bindParam(2, $id_graph);
-									$requete_up_pret->bindParam(3, $_GET['idgpp']);
+									$requete_up_pret->bindParam(2, $_GET['idgpp']);
 									$requete_up_pret->execute();
 								}
 								foreach ($requete as $key => $value) {
@@ -186,17 +185,17 @@ if (isset($_SESSION['id_statut'])) {
 												<!-- point check -->
 												<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  utf8_encode($card['id_check']); ?>">
 													<div class="flip-container">
-														<div class="ui-block box-diagonal front">
+														<div class="ui-block box-diagonal front <?php if(isset($card['commentaire_controleur'])){if($card['commentaire_controleur']!=''){echo 'box-orange';}} ?>">
 															<div class="available-widget">
 																<div>
 																	<div class="infos-check">
 																		<h4 class="title"><?php echo  utf8_encode($card['titre']); ?></h4>
 																		<img alt="" class="illu" src="<?php echo  utf8_encode($card['picto']); ?>">
-																		<p class="desc">Le favicon est-il identifiable et cohérent avec le logo et charte graphique du client ?</p>
+																		<p class="desc"><?php echo utf8_encode($card['description']);?></p>
 																	</div>
-																	<label class="checkbox">
+																	<label class="checkbox <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { echo 'impossible'; }?>">
 																		<input name="optionsCheckboxes" type="checkbox" <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {
-																			if($card['reponse']==1){echo "checked";}
+																			if($card['reponse']==1){echo "checked ";}
 																			echo "disabled";}?>>
 																			<span class="checkbox-material"><span class="check"></span></span>
 																			<div class="voirplus">
@@ -212,9 +211,19 @@ if (isset($_SESSION['id_statut'])) {
 																		<h4 class="title">Votre commentaire</h4>
 																		<div class="fermer">&#735;</div>
 																		<div class="form-group label-floating is-empty">
-																			<label class="control-label">Description du retour</label>
-																			<textarea name="description" id="description" cols="30" rows="10"></textarea>
-																			<p><span class="count">0</span> / 140 caractères</p>
+																			<label class="control-label"></label>
+																			<?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) {?>
+																			<?php echo "Commentaire Graph:<br><span style='color:red;'>".utf8_encode($card['commentaire_graph'])."</span><br><br>";?>
+																			réponse: 
+																			<textarea name="description" id="description_control" cols="30" rows="10"><?php echo utf8_encode($card['commentaire_controleur']);?></textarea>
+																			<input type="hidden" id="description_graph" value="<?php echo utf8_encode($card['commentaire_graph']);?>">
+																			<?php }?>
+																			<?php if ($etat_test['id_etat'] == 3 || $etat_test['id_etat'] == 6) {?>
+																			<?php echo "Commentaire Contrôleur:<br><span style='color:red;'>".utf8_encode($card['commentaire_controleur'])."</span><br><br>";?>
+																			réponse: 
+																			<textarea name="description" id="description_graph" cols="30" rows="10"><?php echo utf8_encode($card['commentaire_graph']);?></textarea>
+																			<input type="hidden" id="description_control" value="<?php echo utf8_encode($card['commentaire_controleur']);?>">
+																			<?php }?>
 																		</div>
 																		<div class="voirplus">
 																			<a href="<?php echo  utf8_encode($card['lien']); ?>">En savoir plus</a>
@@ -307,16 +316,16 @@ if (isset($_SESSION['id_statut'])) {
 											var id_emet = cls[i].slice(check.length, cls[i].length);
 										}
 									} 
-									if($(this).find('.checkbox').hasClass('clicked')){
+									if($(this).find('.checkbox').hasClass('box-valide')){
 										idCheck.push(id_emet);
 										valueCheck.push(1);
-										arraycom_contr.push($(this).find('.com_contr textarea').val());
-										arraycom_graph.push($(this).find('.com_graph textarea').val());
+										arraycom_contr.push($(this).find('#description_control').val());
+										arraycom_graph.push($(this).find('#description_graph').val());
 									}else{
 										idCheck.push(id_emet);	
 										valueCheck.push(0);	
-										arraycom_contr.push($(this).find('.com_contr textarea').val());
-										arraycom_graph.push($(this).find('.com_graph textarea').val());		
+										arraycom_contr.push($(this).find('#description_control').val());
+										arraycom_graph.push($(this).find('#description_graph').val());		
 									}
 									i++;
 								});
@@ -326,8 +335,8 @@ if (isset($_SESSION['id_statut'])) {
 										text: "Vous ne pourrez pas revenir en arrière!",
 										type: 'warning',
 										showCancelButton: true,
-										confirmButtonColor: '#3085d6',
-										cancelButtonColor: '#d33',
+										confirmButtonColor: '#d33',
+										cancelButtonColor: '#3085d6',
 										confirmButtonText: 'Retour maquette',
 										cancelButtonText: 'Maquette OK!',
 										confirmButtonClass: 'btn btn-success',
@@ -373,26 +382,43 @@ if (isset($_SESSION['id_statut'])) {
 									$.ajax({
 										url: 'formulaire.php',
 										type: 'POST',
-										data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph},
+										data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal},
 									})
 									.done(function(data) {
 										swal(
 											'Validation faite!',
 											'Votre maquette va être transmise aux contrôleurs !',
 											'success'
-											).then(function () {
+											).then(function (data) {
 												$(location).attr('href', 'accueil.php');
 											})
 										})
+								}else if(etatFinal==3) {
+										//retour maquette
+										$.ajax({
+											url: 'formulaire.php',
+											type: 'POST',
+											data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph},
+										})
+										.done(function(data) {
+											swal(
+												'Renvoi maquette fait!',
+												'La maquette va être renvoyée aux contrôleurs !',
+												'success'
+												).then(function () {
+													$(location).attr('href', 'accueil.php');
+												})
+											})
+
+									}
+									return false;
 								}
-								return false;
-							}
 
 
-						},
+							},
 
-						afterSlideLoad: function( anchorLink, index, slideAnchor, slideIndex){
-							var loadedSlide = $(this);
+							afterSlideLoad: function( anchorLink, index, slideAnchor, slideIndex){
+								var loadedSlide = $(this);
     						//after loadin;g the 0th (first) slide
     						if (slideIndex == 0){
     							$('div.fp-controlArrow.fp-prev').hide()
@@ -408,24 +434,28 @@ $(document).ready(function() {
 		$('body').addClass('loaded');
 		$('h1').css('color','#222222');
 	}, 2000);
+	if($('.etat_final').val() != 1){
+		$(".flip-container").on("click", function (e) {
+			$(this).addClass("flipped");
+		});
+		$(".fermer").on("click", function (e) {
+			e.stopPropagation();
+			$(this).parent().parent().parent().parent().removeClass("flipped");
+		});
+	}
 
-	$(".flip-container").on("click", function (e) {
-		$(this).addClass("flipped");
-	});
-	$(".fermer").on("click", function (e) {
-		e.stopPropagation();
-		$(".flip-container").removeClass("flipped");
-	});
 
 	$(".box-diagonal label").click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$(this).toggleClass("box-valide");
-		$(this).find(".checkbox").toggleClass("clicked");
-		if ($(this).find("input").attr('checked')) {
-			$(this).find("input").removeAttr('checked');
-		} else {
-			$(this).find("input").attr("checked","true");
+		if(!$(this).hasClass('impossible')){
+			$(this).toggleClass("box-valide");
+			$(this).find(".checkbox").toggleClass("clicked");
+			if ($(this).find("input").attr('checked')) {
+				$(this).find("input").removeAttr('checked');
+			} else {
+				$(this).find("input").attr("checked","true");
+			}
 		}
 	});
 });
