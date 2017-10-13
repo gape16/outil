@@ -170,8 +170,6 @@ $('.btn-addclient').on('click', function(){
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
-			console.log(adresseCms);
-			$('.adressecms').removeClass('adressecms');
 			$.ajax({
 				url: 'formulaire.php',
 				type: 'POST',
@@ -603,7 +601,6 @@ function charger_commentaires(){
 		charger_commentaires();
 	}, 500);
 }
-
 
 $(".validation_aide_ok").on('click', function(e){
 	e.preventDefault();

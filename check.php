@@ -141,14 +141,17 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 							<div class="section">
 								<input class="idgpp" type="hidden" value="<?php echo $_GET['idgpp']; ?>">
-								<input class="use" type="hidden" value="<?php echo $etat_test['envoi_maquette']; ?>">
+								<?php if($etat_test['envoi_maquette'] == $id_graph || $etat_test['envoi_maquette'] == 0){?>
+								<input class="use" type="hidden" value="0">
+								<?php }else{ ?>
+								<input class="use" type="hidden" value="1">
+								<?php } ?>
 								<input class="etat_final" type="hidden" value="<?php echo $etat_test['id_etat']; ?>">
 								<input class="use_nom" type="hidden" value="<?php echo utf8_encode($user['prenom']); ?> <?php echo utf8_encode($user['nom']); ?>">
 								<?php 
 								if($etat_test['envoi_maquette']==0){
-									$envoid=1;
 									$requete_up_pret = $bdd->prepare('UPDATE client set envoi_maquette=?, id_graph_maquette=? where IDGPP = ?');
-									$requete_up_pret->bindParam(1, $envoid);
+									$requete_up_pret->bindParam(1, $id_graph);
 									$requete_up_pret->bindParam(2, $id_graph);
 									$requete_up_pret->bindParam(3, $_GET['idgpp']);
 									$requete_up_pret->execute();
@@ -182,33 +185,41 @@ if (isset($_SESSION['id_statut'])) {
 												<?php foreach ($content as $card){ ?>
 												<!-- point check -->
 												<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  utf8_encode($card['id_check']); ?>">
-													<div class="ui-block">
-														<div class="available-widget">
-															<div class="checkbox">
-																<label>
-																	<h4 class="title"><?php echo  utf8_encode($card['titre']); ?></h4>
-																	<img alt="" class="illu" src="<?php echo  utf8_encode($card['picto']); ?>">
-																	<p class="desc"><?php echo  utf8_encode($card['description']); ?></p>
-																	<?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {?>
-																	<div class="form-group label-floating com_contr" style="min-height: 80px;">
-																		<label class="control-label">Commentaire contrôleur</label>
-																		<textarea class="form-control" ></textarea>
-																		<span class="material-input"></span>
+													<div class="flip-container">
+														<div class="ui-block box-diagonal front">
+															<div class="available-widget">
+																<div>
+																	<div class="infos-check">
+																		<h4 class="title"><?php echo  utf8_encode($card['titre']); ?></h4>
+																		<img alt="" class="illu" src="<?php echo  utf8_encode($card['picto']); ?>">
+																		<p class="desc">Le favicon est-il identifiable et cohérent avec le logo et charte graphique du client ?</p>
 																	</div>
-																	<div class="form-group label-floating com_graph" style="min-height: 80px;">
-																		<label class="control-label">Commentaire graphiste</label>
-																		<textarea class="form-control" ></textarea>
-																		<span class="material-input"></span>
+																	<label class="checkbox">
+																		<input name="optionsCheckboxes" type="checkbox" <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {
+																			if($card['reponse']==1){echo "checked";}
+																			echo "disabled";}?>>
+																			<span class="checkbox-material"><span class="check"></span></span>
+																			<div class="voirplus">
+																				<a href="<?php echo  utf8_encode($card['lien']); ?>">En savoir plus</a>
+																			</div>
+																		</label>
 																	</div>
-																	<?php }?>
-																	<input name="optionsCheckboxes" type="checkbox" <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {
-																		if($card['reponse']==1){echo "checked";}
-																		echo "disabled";}?>>
-																		<span class="checkbox-material"><span class="check"></span></span>
+																</div>
+															</div>
+															<div class="ui-block box-diagonal back">
+																<div class="available-widget">
+																	<div class="checkbox">
+																		<h4 class="title">Votre commentaire</h4>
+																		<div class="fermer">&#735;</div>
+																		<div class="form-group label-floating is-empty">
+																			<label class="control-label">Description du retour</label>
+																			<textarea name="description" id="description" cols="30" rows="10"></textarea>
+																			<p><span class="count">0</span> / 140 caractères</p>
+																		</div>
 																		<div class="voirplus">
 																			<a href="<?php echo  utf8_encode($card['lien']); ?>">En savoir plus</a>
 																		</div>
-																	</label>
+																	</div>
 																</div>
 															</div>
 														</div>
@@ -398,6 +409,25 @@ $(document).ready(function() {
 		$('h1').css('color','#222222');
 	}, 2000);
 
+	$(".flip-container").on("click", function (e) {
+		$(this).addClass("flipped");
+	});
+	$(".fermer").on("click", function (e) {
+		e.stopPropagation();
+		$(".flip-container").removeClass("flipped");
+	});
+
+	$(".box-diagonal label").click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$(this).toggleClass("box-valide");
+		$(this).find(".checkbox").toggleClass("clicked");
+		if ($(this).find("input").attr('checked')) {
+			$(this).find("input").removeAttr('checked');
+		} else {
+			$(this).find("input").attr("checked","true");
+		}
+	});
 });
 </script>
 </body>
