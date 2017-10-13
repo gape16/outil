@@ -21,6 +21,23 @@
 	min-height: 450px;
 }
 
+.box-orange{
+	box-shadow: 0 0px 25px #ff5e3a;
+	animation-duration: 1s;
+	animation-name: changewidth;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+@keyframes changewidth {
+	from {
+		box-shadow: 0 0px 25px #ff5e3a;
+	}
+
+	to {
+		box-shadow: 0 0px 0px #ff5e3a;
+	}
+}
+
 .signinok{
 	background-color: #77df35;
 }
@@ -450,7 +467,9 @@ header#site-header {
 }
 
 
-
+.fp-prev{
+	display: none;
+}
 
 
 label.count {
@@ -460,7 +479,7 @@ label.count {
 	right: 10px;
 }
 
-textarea#description {
+textarea#description_control, textarea#description_graph {
 	width: 100%;
 	border: 1px solid #e6ecf5;
 	border-radius: 5px;
