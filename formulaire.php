@@ -775,3 +775,20 @@ if(isset($_POST['lienveille'])){
 	<?php
 }
 }
+
+
+if(isset($_POST['titre_code'])){
+	$titre_code=$_POST['titre_code'];
+	$description_code=$_POST['description_code'];
+	$codeHTML=$_POST['codeHTML'];
+	$codeCSS=$_POST['codeCSS'];
+	$codeJS=$_POST['codeJS'];
+	$query_update_achat = $bdd->prepare("INSERT INTO code SET code_html = ?, code_css = ?, code_js = ?, titre = ?, description = ?");
+	$query_update_achat->bindParam(1, $codeHTML);
+	$query_update_achat->bindParam(2, $codeCSS);
+	$query_update_achat->bindParam(3, $codeJS);
+	$query_update_achat->bindParam(4, $titre_code);
+	$query_update_achat->bindParam(5, $description_code);
+	$query_update_achat->execute();
+	var_dump($query_update_achat);
+}

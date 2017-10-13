@@ -526,11 +526,15 @@ a.showlastweek {
 .modalcheck > div {
 	width: 100%;
 }
-select#graphiste,  select.categorie{
+select#graphiste,  select.categorie, select#categorie{
 	padding: 1.1rem;
 }
 .sorting-item{
 	position: relative;
+}
+#check_code textarea {
+	width: 100%;
+	border: 1px solid #e6ecf5;
 }
 .sorting-item a.post-add-icon.inline-items{
 	position: absolute;
@@ -569,6 +573,9 @@ textarea#description:focus {
 }
 body#prop-code {
 	overflow-y: hidden;
+}
+#check_code .ui-block {
+	margin-bottom: 0;
 }
 iframe#rendu-code {
 	width: 99%;

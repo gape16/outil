@@ -46,6 +46,7 @@ include('connexion_session.php');
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 	<link rel="stylesheet" href="http://codemirror.net/lib/codemirror.css">
+	<link rel="stylesheet" href="css/monokai.css">
 
 	<style>
 	* {
@@ -76,6 +77,7 @@ include('connexion_session.php');
 	#code_editors .code_box {
 		height: 33%; width: 100%;
 		position: relative;
+		z-index: 9;
 	}
 	.code_box h3 {
 		font-size: 13px;
@@ -111,6 +113,7 @@ include('connexion_session.php');
 	}
 	.CodeMirror-scroll {
 		background: #1d1f20;
+		padding-bottom: initial;
 	}
 
 	#output iframe {
@@ -121,6 +124,25 @@ include('connexion_session.php');
 		background-color: #1d1f20;
 		white-space: nowrap;
 		border-right: inherit;
+	}
+	::-webkit-scrollbar {
+		width: 12px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		-webkit-box-shadow: inset 0 0 20px rgb(0, 0, 0);
+	}
+
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	}
+	.CodeMirror pre, .CodeMirror-linenumber {
+		font-size: 13px;
+	}
+	.option{
+		position: absolute;
+		bottom: 10px;
+		right: 80px;
 	}
 </style>
 
@@ -189,64 +211,100 @@ include('connexion_session.php');
 	<!-- Sandboxing -->
 	<section id="output">
 		<iframe></iframe>
-	</section>
-	
-</div>
+		<a href="#" class="option" data-toggle="modal" data-target="#check_code">CLIC</div>
+		</section>
+
+	</div>
+
+	<div class="modal fade show" id="check_code">
+		<div class="modal-dialog ui-block window-popup edit-widget edit-widget-pool">
+			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+				<svg class="olymp-close-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+			</a>
+			<div class="ui-block-title">
+				<h6 class="title">Valider le code</h6>
+			</div>
+			<div class="ui-block">
+				<div class="ui-block-content">
+					<div class="row modalcheck">	
+						<div class="form-group is-empty label-floating ">
+							<label class="control-label">Titre</label>
+							<input class="form-control titre" placeholder="" value="" type="text">
+						</div>
+						<div class="form-group is-empty label-floating ">
+							<select id="categorie">
+								<option value="1">HTML</option>
+								<option value="2">CSS</option>
+								<option value="3">JS</option>
+							</select>
+						</div>
+						<div class="form-group is-empty label-floating ">
+							<label class="control-label">Description</label>
+							<textarea name="" id="" cols="30" rows="10"></textarea>
+						</div>
+					</div>
+					<div class="row">	
+						<div class="col-lg-12 col-sm-12">
+							<a href="#" data-dismiss="modal" class="btn btn-md full-width accept">Accepter</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<?php }?>
+	<!-- ... end Window-popup Create Friends Group Add Friends -->
+
+	<!-- Window-popup-CHAT for responsive min-width: 768px -->
+
+	<?php include('chat_box.php');?>
+
+	<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
 
+	<!-- jQuery first, then Other JS. -->
+	<script src="js/jquery-3.2.0.min.js"></script>
+	<!-- Js effects for material design. + Tooltips -->
+	<script src="js/material.min.js"></script>
+	<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+	<script src="js/theme-plugins.js"></script>
+	<!-- Init functions -->
+	<script src="js/main.js"></script>
+	<script src="js/alterclass.js"></script>
+	<script src="js/chat.js"></script>
+	<!-- Select / Sorting script -->
+	<script src="js/selectize.min.js"></script>
 
-<?php }?>
-<!-- ... end Window-popup Create Friends Group Add Friends -->
+	<!-- Select / Sorting script -->
+	<script src="js/selectize.min.js"></script>
 
-<!-- Window-popup-CHAT for responsive min-width: 768px -->
+	<!-- Swiper / Sliders -->
+	<script src="js/swiper.jquery.min.js"></script>
 
-<?php include('chat_box.php');?>
+	<script src="js/isotope.pkgd.min.js"></script>
 
-<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+	<script src="js/mediaelement-and-player.min.js"></script>
+	<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
+	<script src="js/mediaelement-and-player.min.js"></script>
+	<script src="js/mediaelement-playlist-plugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-<!-- jQuery first, then Other JS. -->
-<script src="js/jquery-3.2.0.min.js"></script>
-<!-- Js effects for material design. + Tooltips -->
-<script src="js/material.min.js"></script>
-<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-<script src="js/theme-plugins.js"></script>
-<!-- Init functions -->
-<script src="js/main.js"></script>
-<script src="js/alterclass.js"></script>
-<script src="js/chat.js"></script>
-<!-- Select / Sorting script -->
-<script src="js/selectize.min.js"></script>
+	<script src="http://codemirror.net/lib/codemirror.js"></script>
 
-<!-- Select / Sorting script -->
-<script src="js/selectize.min.js"></script>
+	<!-- For HTML/XML -->
+	<script src="http://codemirror.net/mode/xml/xml.js"></script>
+	<script src="http://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
 
-<!-- Swiper / Sliders -->
-<script src="js/swiper.jquery.min.js"></script>
+	<!-- For CSS -->
+	<script src="http://codemirror.net/mode/css/css.js"></script>
 
-<script src="js/isotope.pkgd.min.js"></script>
+	<!-- For JS -->
+	<script src="http://codemirror.net/mode/javascript/javascript.js"></script>
 
-<script src="js/mediaelement-and-player.min.js"></script>
-<script src="js/mediaelement-playlist-plugin.min.js"></script>
-
-<script src="js/mediaelement-and-player.min.js"></script>
-<script src="js/mediaelement-playlist-plugin.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-
-<script src="http://codemirror.net/lib/codemirror.js"></script>
-
-<!-- For HTML/XML -->
-<script src="http://codemirror.net/mode/xml/xml.js"></script>
-<script src="http://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
-
-<!-- For CSS -->
-<script src="http://codemirror.net/mode/css/css.js"></script>
-
-<!-- For JS -->
-<script src="http://codemirror.net/mode/javascript/javascript.js"></script>
-
-<script>
-	(function() {
+	<script>
+		(function() {
 
 	// Base template
 	var base_tpl =
@@ -255,6 +313,7 @@ include('connexion_session.php');
 	"<head>\n\t\t" +
 	"<meta charset=\"utf-8\">\n\t\t" +
 	"<title>Test</title>\n\n\t\t\n\t" +
+	"<script src='https://code.jquery.com/jquery-3.2.1.min.js'><\/script>\n\t\t" + 
 	"</head>\n\t" +
 	"<body>\n\t\n\t" +
 	"</body>\n" +
@@ -299,6 +358,7 @@ include('connexion_session.php');
 		mode: 'text/html',
 		gutter: true,
 		lineNumbers: true,
+		theme: 'monokai'
 	};
 	
 	// HTML EDITOR
@@ -330,6 +390,7 @@ include('connexion_session.php');
 	// SETTING CODE EDITORS INITIAL CONTENT
 	html_editor.setValue('<p>Hello World</p>');
 	css_editor.setValue('body { color: red; }');
+	js_editor.setValue('$(document).ready(function(){\n});');
 	
 	// RENDER CALL ON PAGE LOAD
 	// NOT NEEDED ANYMORE, SINCE WE RELY
@@ -347,7 +408,7 @@ include('connexion_session.php');
 		of JS and override the styles from the main
 		codemirror.css
 		*/
-		var cms = document.querySelectorAll('.CodeMirror');
+		var cms = document.querySelectorAll('.CodeMirror .cm-s-monokai');
 		for (var i = 0; i < cms.length; i++) {
 
 			cms[i].style.position = 'absolute';
@@ -363,6 +424,30 @@ include('connexion_session.php');
 	}*/
 
 }());
-</script>
+		$('#check_code textarea').on('click', function(){
+			$(this).parent().removeClass('is-empty');
+		})
+
+		$('#check_code .accept').on('click', function(){
+			//recup info à propos du code
+			var titre = $('.titre').val();
+			var categorie = $('select#categorie').val();
+			var description = $('#check_code textarea').val();
+			//recup code
+			var html = $('#html .CodeMirror-line').text();
+			var css = $('#css .CodeMirror-line').text();
+			var js = $('#js .CodeMirror-line').text();
+
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {titre_code: titre, categorie_code: categorie, description_code: description, codeHTML: html, codeCSS: css, codeJS: js}
+			})
+			.done(function(data) {
+				console.log(data);
+			})
+		});
+
+	</script>
 </body>
 </html>
