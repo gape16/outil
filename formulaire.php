@@ -778,12 +778,12 @@ if(isset($_POST['lienveille'])){
 
 
 if(isset($_POST['titre_code'])){
-	$titre_code=$_POST['titre_code'];
-	$description_code=$_POST['description_code'];
-	$categorie=$_POST['categorie_code'];
-	$codeHTML=$_POST['codeHTML'];
-	$codeCSS=$_POST['codeCSS'];
-	$codeJS=$_POST['codeJS'];
+	$titre_code=utf8_decode($_POST['titre_code']);
+	$description_code=utf8_decode($_POST['description_code']);
+	$categorie=utf8_decode($_POST['categorie_code']);
+	$codeHTML=utf8_decode($_POST['codeHTML']);
+	$codeCSS=utf8_decode($_POST['codeCSS']);
+	$codeJS=utf8_decode($_POST['codeJS']);
 	$date_code = date('Y-m-d H:i:s');
 	$id_graph=$_SESSION['id_graph'];
 	$query_code = $bdd->prepare("INSERT INTO code (code_html, code_css, code_js, titre, description, date_code, id_user, categorie_code)	VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -796,4 +796,5 @@ if(isset($_POST['titre_code'])){
 	$query_code->bindParam(7, $id_graph);
 	$query_code->bindParam(8, $categorie);
 	$query_code->execute();
+	echo $codeHTML;
 }

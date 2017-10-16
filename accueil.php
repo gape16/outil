@@ -154,17 +154,19 @@ if (isset($_SESSION['id_statut'])) {
 					<div class="ui-block" data-mh="friend-groups-item">
 						<div class="friend-item friend-groups">
 							<div class="friend-item-content">
+								<?php if ($_SESSION['id_statut'] != 1 && $_SESSION['id_statut'] != 2){ ?>
 								<div class="more">
 									<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
 									<ul class="more-dropdown">
 										<li>
-											<a href="#">Commencer le check</a>
+											<a href="#">Modifier la carte</a>
 										</li>
 										<li>
-											<a href="#">Rapporter un problème</a>
+											<a href="#">Supprimer la carte</a>
 										</li>
 									</ul>
 								</div>
+								<?php }?>
 								<div class="friend-avatar">
 									<div class="author-thumb">
 										<img src="img/crea_maquette.png" alt="Olympus">

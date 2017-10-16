@@ -59,7 +59,19 @@ if (isset($_POST['connect'])) {
 		$_SESSION['email']=$mail;
 		$_SESSION['id_graph']=$test_user['id_user'];
 		$_SESSION['id_statut']=$test_user['id_statut'];
-		header('Location: accueil.php');
+		if($test_user['id_statut']==1 || $test_user['id_statut']==2){
+			//page graphistes redacteurs
+			header('Location: accueil.php');
+		}elseif ($test_user['id_statut']==3) {
+			//page leader
+			header('Location: accueil_leader.php');
+		}elseif ($test_user['id_statut']==4) {
+			//page controleur
+			header('Location: accueil_controleur.php');
+		}elseif($test_user['id_statut']==5){
+			//page admin
+			header('Location: accueil_admin.php');
+		}
 	}
 }
 ?>
@@ -68,7 +80,7 @@ if (isset($_POST['connect'])) {
 <html lang="en">
 <head>
 
-	<title>Landing Page</title>
+	<title>Inscription / connexion</title>
 
 	<!-- Required meta tags always come first -->
 	<meta charset="utf-8">
@@ -138,8 +150,10 @@ if (isset($_POST['connect'])) {
 		<div class="row display-flex">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="landing-content">
-					<h1>Check ton site</h1>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis alias molestiae fuga accusantium, expedita nam natus in dolores dignissimos, repellat placeat necessitatibus porro unde sunt amet quasi, consequatur itaque repudiandae.
+					<h1>Inscription et connexion</h1>
+					<p>
+						Cette page vous permettra de vous inscrire et de vous connecter à l'ensemble des fonctionnalités de l'outil en fonction de votre statut.
+						Bonne navigation à tous !
 					</p>
 				</div>
 			</div>
@@ -151,7 +165,7 @@ if (isset($_POST['connect'])) {
 						<li class="nav-item">
 							<a class="nav-link <?php if(!isset($_COOKIE['register'])){ echo 'active';}?>" data-toggle="tab" href="#home" role="tab">
 								<svg id="olymp-login-icon" viewBox="0 0 29 32" width="100%" height="100%">
-									<title>login-icon</title>
+									<title>Connexion</title>
 									<path d="M0 17.443c0 6.515 4.287 12.026 10.195 13.875v-3.081c-4.263-1.728-7.273-5.901-7.273-10.783 0-4.883 3.009-9.056 7.273-10.784v-3.1c-5.908 1.849-10.195 7.36-10.195 13.872zM18.922 3.578v3.092c4.263 1.728 7.273 5.901 7.273 10.783s-3.009 9.056-7.273 10.783v3.071c5.894-1.855 10.169-7.357 10.169-13.863 0-6.503-4.273-12.007-10.169-13.865zM13.104 14.545h2.909v-14.545h-2.909v14.545zM13.104 32h2.909v-2.909h-2.909v2.909z"></path>
 								</svg>
 							</a>
@@ -159,7 +173,7 @@ if (isset($_POST['connect'])) {
 						<li class="nav-item">
 							<a class="nav-link <?php if(isset($_COOKIE['register'])){ echo 'active';}?>" data-toggle="tab" href="#profile" role="tab">
 								<svg id="olymp-register-icon" viewBox="0 0 37 32" width="100%" height="100%">
-									<title>register-icon</title>
+									<title>Inscription</title>
 									<path d="M16 3.213c3.24 0 6.192 1.214 8.446 3.2h4.346c-2.917-3.888-7.549-6.413-12.781-6.413-7.165 0-13.227 4.714-15.259 11.213h3.387c1.899-4.69 6.491-8 11.861-8zM16 28.813c-5.37 0-9.962-3.31-11.861-8h-3.378c2.040 6.485 8.094 11.187 15.25 11.187 5.222 0 9.842-2.515 12.762-6.387h-4.325c-2.256 1.986-5.208 3.2-8.448 3.2zM32 14.413v-4.8h-3.2v4.8h-4.8v3.2h4.8v4.8h3.2v-4.8h4.8v-3.2h-4.8zM3.2 14.413h-3.2v3.2h3.2v-3.2z"></path>
 								</svg>
 							</a>
@@ -205,9 +219,7 @@ if (isset($_POST['connect'])) {
 										<div class="form-group date-time-picker label-floating">
 											<label class="control-label">Ta date de naissance</label>
 											<input autocomplete="off" class="check" name="datetimepicker" value="10/11/1984" />
-											<span class="input autocomplete="off"-group-addon">
-												<svg class="olymp-calendar-icon"><use xlink:href="#olymp-calendar-icon"></use></svg>
-											</span>
+											
 										</div>
 										<input autocomplete="off" type="hidden" name="register" value="">
 										<select class="form-control" size="auto" name="statut">
@@ -254,7 +266,7 @@ if (isset($_POST['connect'])) {
 											<input autocomplete="off" type="hidden" name="connect" value="">
 											<a href="#" class="btn btn-lg btn-primary full-width connec">Connecte toi!</a>
 											<div style="display: none;" id="hidden-content-b">
-												<h2>Rentrer l'adresse mail <span class="poste"></span></h2>
+												<h2><span class="changement">Rentrer l'adresse mail</span> <span class="poste"></span></h2>
 												<input autocomplete="off" type="text" placeholder="Email" class="forgotemail">
 												<input autocomplete="off" type="hidden" class="hidden">
 												<input autocomplete="off" type="text" placeholder="Regarde ta boite mail" class="token">

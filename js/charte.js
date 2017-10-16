@@ -104,7 +104,6 @@ $('a.forgot').on('click', function(){
 
 //GET PASSWORD
 $('.getpassword').on('click', function(){
-	$('.token').css('display', 'block');
 	var emailforgot = $('input.forgotemail').val();
 	if (!isValidEmailAddress(emailforgot)) {
 		$('.forgotemail').addClass('empty');
@@ -119,6 +118,8 @@ $('.getpassword').on('click', function(){
 			}
 		}).done(function(data) {
 			// console.log(data);
+			$(".changement").html('Entrer le token');
+			$('.token').css('display', 'block');
 			$('.hidden').val(data);
 			// console.log($('.token').val());
 			$('.getpassword').css('display', 'none');
