@@ -538,8 +538,12 @@ select#graphiste,  select.categorie, select#categorie{
 }
 .sorting-item a.post-add-icon.inline-items{
 	position: absolute;
-	bottom: 40px;
+	bottom: 20px;
 	right: 40px;
+}
+textarea#description {
+	width: 100%;
+	border-color: #e6ecf5;
 }
 div#code {
 	width: 100vw;

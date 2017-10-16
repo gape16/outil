@@ -437,6 +437,7 @@ include('connexion_session.php');
 			var html = $('#html .CodeMirror-line').text();
 			var css = $('#css .CodeMirror-line').text();
 			var js = $('#js .CodeMirror-line').text();
+			console.log(categorie);
 
 			$.ajax({
 				url: 'formulaire.php',

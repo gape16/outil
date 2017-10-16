@@ -40,7 +40,7 @@ if (isset($_SESSION['id_statut'])) {
 	<html lang="en">
 	<head>
 
-		<title>Friend Groups</title>
+		<title>Veille</title>
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -157,7 +157,7 @@ if (isset($_SESSION['id_statut'])) {
 							<?php }
 							?>
 						</ul>
-						<div class="row sorting-container" id="clients-grid-1" data-layout="masonry">
+						<div class="row sorting-container" id="veille_code" data-layout="masonry">
 							<?php foreach ($selection_article_veille as $key => $value) {?>
 							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
 								<div class="ui-block">
@@ -213,9 +213,6 @@ if (isset($_SESSION['id_statut'])) {
 	<script src="js/main.js"></script>
 	<script src="js/alterclass.js"></script>
 	<script src="js/chat.js"></script>
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
-
 	<!-- Select / Sorting script -->
 	<script src="js/selectize.min.js"></script>
 
