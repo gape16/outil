@@ -3,7 +3,17 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+if(isset($_GET['id_code'])){
+	$id_code = $_GET['id_code'];
+	$query_show_code = $bdd->prepare("SELECT * FROM code WHERE id_code = ?");
+	$query_show_code->bindParam(1, $id_code);
+	$query_show_code->execute();
+	$code = $query_show_code->fetch();
+}
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +36,8 @@ include('connexion_session.php');
 	<link rel="stylesheet" type="text/css" href="css/blocks.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	
 
 
 	<!-- Main Font -->
@@ -196,15 +208,15 @@ include('connexion_session.php');
 	<section id="code_editors">
 		<div id="html" class="code_box">
 			<h3>HTML</h3>
-			<textarea name="html"></textarea>
+			<textarea name="html"><?php if(isset($_GET['id_code'])) {echo utf8_encode($code['code_html']); }?></textarea>
 		</div>
 		<div id="css" class="code_box">
 			<h3>CSS</h3>
-			<textarea name="css"></textarea>
+			<textarea name="css"><?php if(isset($_GET['id_code'])) {echo utf8_encode($code['code_css']); }?></textarea>
 		</div>
 		<div id="js" class="code_box">
 			<h3>JavaScript</h3>
-			<textarea name="js"></textarea>
+			<textarea name="js"><?php if(isset($_GET['id_code'])) {echo utf8_encode($code['code_js']); }?></textarea>
 		</div>
 	</section>
 	
@@ -387,12 +399,16 @@ include('connexion_session.php');
 		render();
 	});
 	
-
+	<?php if(!isset($_GET['id_code'])){?>
 	// SETTING CODE EDITORS INITIAL CONTENT
 	html_editor.setValue('<p>Hello World</p>');
 	css_editor.setValue('body { color: red; }');
 	js_editor.setValue('$(document).ready(function(){\n});');
 	
+	<?php }else{?>
+		render();
+		<?php }	?>
+
 	// RENDER CALL ON PAGE LOAD
 	// NOT NEEDED ANYMORE, SINCE WE RELY
 	// ON CODEMIRROR'S onChange OPTION THAT GETS

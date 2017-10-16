@@ -786,7 +786,8 @@ if(isset($_POST['titre_code'])){
 	$codeJS=utf8_decode($_POST['codeJS']);
 	$date_code = date('Y-m-d H:i:s');
 	$id_graph=$_SESSION['id_graph'];
-	$query_code = $bdd->prepare("INSERT INTO code (code_html, code_css, code_js, titre, description, date_code, id_user, categorie_code)	VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+	$accept_code = 0;
+	$query_code = $bdd->prepare("INSERT INTO code (code_html, code_css, code_js, titre, description, date_code, id_user, categorie_code, accept_code)	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	$query_code->bindParam(1, $codeHTML);
 	$query_code->bindParam(2, $codeCSS);
 	$query_code->bindParam(3, $codeJS);
@@ -795,6 +796,7 @@ if(isset($_POST['titre_code'])){
 	$query_code->bindParam(6, $date_code);
 	$query_code->bindParam(7, $id_graph);
 	$query_code->bindParam(8, $categorie);
+	$query_code->bindParam(9, $accept_code);
 	$query_code->execute();
 	echo $codeHTML;
 }
