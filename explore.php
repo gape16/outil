@@ -139,7 +139,7 @@ $query_code->execute();
 							<div class="ui-block">
 								<article class="hentry blog-post">
 									<div class="post-content">
-										<a href="code.php" class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></a>
+										<a target="_blank" href="code.php" class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></a>
 										<h4><?php echo utf8_encode($value['titre']);?></h4>
 										<p><?php echo utf8_encode($value['description']);?></p>
 
@@ -208,7 +208,7 @@ $query_code->execute();
 			var id_code = $(this).find('input.id_code').val();
 			$(this).on('click', function(){
 				$(this).find('a.post-category').attr('href', function(){
-					return this.href + '&id_code=' + id_code + '';
+					return this.href + '?id_code=' + id_code + '';
 				})
 			})
 		});

@@ -3,7 +3,17 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+if(isset($_GET['id_code'])){
+	$id_code = $_GET['id_code'];
+	$query_show_code = $bdd->prepare("SELECT * FROM code WHERE id_code = ?");
+	$query_show_code->bindParam(1, $id_code);
+	$query_show_code->execute();
+	$code = $query_show_code->fetch();
+}
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +36,8 @@ include('connexion_session.php');
 	<link rel="stylesheet" type="text/css" href="css/blocks.css">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	
 
 
 	<!-- Main Font -->
@@ -196,15 +208,15 @@ include('connexion_session.php');
 	<section id="code_editors">
 		<div id="html" class="code_box">
 			<h3>HTML</h3>
-			<textarea name="html"></textarea>
+			<textarea name="html"><?php if(isset($_GET['id_code'])) {echo utf8_encode($code['code_html']); }?></textarea>
 		</div>
 		<div id="css" class="code_box">
 			<h3>CSS</h3>
-			<textarea name="css"></textarea>
+			<textarea name="css"><?php if(isset($_GET['id_code'])) {echo utf8_encode($code['code_css']); }?></textarea>
 		</div>
 		<div id="js" class="code_box">
 			<h3>JavaScript</h3>
-			<textarea name="js"></textarea>
+			<textarea name="js"><?php if(isset($_GET['id_code'])) {echo utf8_encode($code['code_js']); }?></textarea>
 		</div>
 	</section>
 	
@@ -272,7 +284,7 @@ include('connexion_session.php');
 	<!-- Init functions -->
 	<script src="js/main.js"></script>
 	<script src="js/alterclass.js"></script>
-	<script src="js/chat.js"></script>
+	<!-- <script src="js/chat.js"></script> -->
 	<!-- Select / Sorting script -->
 	<script src="js/selectize.min.js"></script>
 
@@ -387,11 +399,16 @@ include('connexion_session.php');
 		render();
 	});
 	
+	<?php if(!isset($_GET['id_code'])){?>
 	// SETTING CODE EDITORS INITIAL CONTENT
 	html_editor.setValue('<p>Hello World</p>');
 	css_editor.setValue('body { color: red; }');
 	js_editor.setValue('$(document).ready(function(){\n});');
 	
+	<?php }else{?>
+		render();
+		<?php }	?>
+
 	// RENDER CALL ON PAGE LOAD
 	// NOT NEEDED ANYMORE, SINCE WE RELY
 	// ON CODEMIRROR'S onChange OPTION THAT GETS
@@ -423,22 +440,17 @@ include('connexion_session.php');
 		cms[i].style.height = '100%';
 	}*/
 
-}());
-		$('#check_code textarea').on('click', function(){
-			$(this).parent().removeClass('is-empty');
-		})
+	$('#check_code .accept').on('click', function(){
 
-		$('#check_code .accept').on('click', function(){
 			//recup info à propos du code
 			var titre = $('.titre').val();
 			var categorie = $('select#categorie').val();
 			var description = $('#check_code textarea').val();
 			//recup code
-			var html = $('#html .CodeMirror-line').text();
-			var css = $('#css .CodeMirror-line').text();
-			var js = $('#js .CodeMirror-line').text();
-			console.log(categorie);
-
+			var html = html_editor.getValue();
+			var css = css_editor.getValue();
+			var js = js_editor.getValue();
+			console.log(html);
 			$.ajax({
 				url: 'formulaire.php',
 				type: 'POST',
@@ -448,7 +460,12 @@ include('connexion_session.php');
 				console.log(data);
 			})
 		});
+	$('#check_code textarea').on('click', function(){
+		$(this).parent().removeClass('is-empty');
+	})
+}());
 
-	</script>
+
+</script>
 </body>
 </html>
