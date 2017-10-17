@@ -1,6 +1,7 @@
 <div class="fixed-sidebar">
   <div class="fixed-sidebar-left sidebar--small" id="sidebar-left">
     <a href="" class="logo">
+      <img src="img/logo.png" alt="Solocal">
     </a>
 
     <div class="mCustomScrollbar" data-mcs-theme="dark">
