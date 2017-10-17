@@ -17,6 +17,14 @@
 	display: none;
 }
 
+.rond-card {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: -55px;
+    left: -55px;
+}
+
 .friend-item{
 	min-height: 450px;
 }

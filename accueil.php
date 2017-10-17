@@ -151,8 +151,8 @@ if (isset($_SESSION['id_statut'])) {
 				<?php foreach ($cards_client as $key => $value) {?>
 
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="ui-block card-accueil" data-mh="friend-groups-item">
-						<div class="friend-item friend-groups">
+					<div class="ui-block box-diagonal" data-mh="friend-groups-item">
+						<div class="friend-item friend-groups card-accueil">
 							<div class="friend-item-content">
 								<div class="more">
 									<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
