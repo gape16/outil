@@ -718,6 +718,123 @@ if(isset($_POST['search_empty'])){
 	}
 }
 
+if(isset($_POST['admin_search'])){
+	$search = $_POST['admin_search'];
+	$varsearch = "%" . $search . "%";
+	$requete_search = $bdd->prepare("SELECT * FROM client WHERE raison_social LIKE ? or num_client LIKE ? order by date_integration DESC");
+	$requete_search->bindParam(1, $varsearch);
+	$requete_search->bindParam(2, $varsearch);
+	$requete_search->execute();
+	$nb_result = $requete_search->rowCount();
+	$tab_search = array();
+	foreach ($requete_search as $key => $value) {
+		$date_tab=explode("-", $value['date_integration']);
+		$jour_tab=explode(" ",$date_tab[2]);
+		$jour=$jour_tab[0];
+
+		$m=$date_tab[1];
+		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+
+		?>
+		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="ui-block" data-mh="friend-groups-item">
+				<div class="friend-item friend-groups">
+					<div class="friend-item-content">
+						<div class="more">
+							<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Modifier la carte</a>
+								</li>
+								<li>
+									<a href="#">Supprimer la carte</a>
+								</li>
+							</ul>
+						</div>
+						<div class="friend-avatar">
+							<div class="author-thumb">
+								<img src="img/crea_maquette.png" alt="Olympus">
+							</div>
+							<div class="author-content">
+								<a href="#" class="h5 author-name"><?php echo $value['raison_social'];?></a>
+								<div class="country"><?php echo $value['num_client'];?></div>
+							</div>
+						</div>
+						<ul class="friends-harmonic">
+							<li>
+								<a href="#">
+									<img src="image" alt="friend">
+								</a>
+							</li>
+						</ul>
+						<div class="control-block-button">
+							<a href="<?php echo $value['lien_CMS'];?><" target="_blank" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+								<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
+							</a>
+							<a href="check.php?idgpp=<?php echo $value['IDGPP'];?><" class="btn btn-control btn-grey-lighter">
+								<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+}
+
+
+if(isset($_POST['admin_search_empty'])){
+	$requete_search = $bdd->prepare("SELECT * FROM client order by date_integration DESC");
+	$requete_search->execute();
+	$nb_result = $requete_search->rowCount();
+	$tab_search = array();
+	foreach ($requete_search as $key => $value) {
+		$date_tab=explode("-", $value['date_integration']);
+		$jour_tab=explode(" ",$date_tab[2]);
+		$jour=$jour_tab[0];
+
+		$m=$date_tab[1];
+		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+
+		?>
+		<tr class="event-item">
+			<td class="upcoming">
+				<div class="date-event">
+					<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+					<span class="day"><?php echo $jour;?></span>
+					<span class="month"><?php echo $months[(int)$m]; ?></span>
+				</div>
+			</td>
+			<td class="author">
+				<div class="event-author inline-items">
+					<div class="author-thumb">
+						<img src="img/avatar43-sm.jpg" alt="author">
+					</div>
+					<div class="author-date">
+						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+						<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
+					</div>
+				</div>
+			</td>
+			<td class="location">
+				<div class="place inline-items">
+					<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+					<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+				</div>
+			</td>
+			<td class="description">
+				<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+			</td>
+			<td class="add-event">
+				<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+			</td>
+
+		</tr>
+		<?php
+	}
+}
+
 if(isset($_POST['lienveille'])){
 	$lienveille = $_POST['lienveille'];
 	$titreveille = $_POST['titreveille'];

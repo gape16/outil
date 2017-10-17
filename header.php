@@ -19,7 +19,6 @@ $nb_cards_client=$query_select_card->rowCount();
   </div>
 
   <div class="header-content-wrapper">
-   
     <div class="control-block">
 
       <div class="control-icon more has-items">
@@ -203,41 +202,7 @@ $nb_cards_client=$query_select_card->rowCount();
                     <span>Se déconnecter</span>
                   </a>
                 </li>
-              </ul>
-
-              <div class="ui-block-title ui-block-title-small">
-                <h6 class="title">Etat du chat</h6>
-              </div>
-
-              <ul class="chat-settings">
-                <li>
-                  <a href="#">
-                    <span class="icon-status online"></span>
-                    <span>En ligne</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="icon-status away"></span>
-                    <span>Absent(e)</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="icon-status disconected"></span>
-                    <span>Déconnecté(e)</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#">
-                    <span class="icon-status status-invisible"></span>
-                    <span>Invisible</span>
-                  </a>
-                </li>
-              </ul>
-
-              
+              </ul>     
             </div>
 
           </div>
@@ -245,15 +210,15 @@ $nb_cards_client=$query_select_card->rowCount();
         <a href="" class="author-name fn">
           <div class="author-title">
             <?php echo utf8_encode($infos["prenom"]." ".$infos['nom']);?><svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-            <title>dropdown-arrow-icon</title>
-            <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-          </svg></svg>
-        </div>
-        <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
-      </a>
-    </div>
+              <title>dropdown-arrow-icon</title>
+              <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+            </svg></svg>
+          </div>
+          <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
+        </a>
+      </div>
 
+    </div>
   </div>
-</div>
 
 </header>
