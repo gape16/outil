@@ -19,62 +19,46 @@ $nb_cards_client=$query_select_card->rowCount();
   </div>
 
   <div class="header-content-wrapper">
-
     <div class="control-block">
 
       <div class="control-icon more has-items">
-        <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
-          <title>happy-face-icon</title>
-          <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
-        </svg></svg>
-        <div class="label-avatar bg-blue"><?php echo $nb_cards_client;?></div>
+        <svg class="olymp-status-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-status-icon"></use></svg>
+        <div class="label-avatar bg-blue">1</div>
 
         <div class="more-dropdown more-with-triangle triangle-top-center">
           <div class="ui-block-title ui-block-title-small">
-            <h6 class="title">Retours en attentes</h6>
-            <a href="accueil.php">Allez aux retours</a>
+            <h6 class="title">Nouveau code créés</h6>
+            <a href="explore.php">Allez aux partage de codes</a>
           </div>
 
           <div class="mCustomScrollbar" data-mcs-theme="dark">
             <ul class="notification-list friend-requests">
-              <?php foreach ($cards_client_select as $key => $value_card) {?>
               <li>
                 <div class="author-thumb">
                   <img src="img/avatar55-sm.jpg" alt="author">
                 </div>
                 <div class="notification-event">
-                  <a href="accueil.php" class="h6 notification-friend"><?php echo utf8_encode($value_card['raison_social']);?></a>
-                  <span class="chat-message-item"><?php echo $value_card['num_client'];?></span>
+                  <a href="explore.php?id_code=1" class="h6 notification-friend">Menu interactif</a>
+                  <span class="chat-message-item">Code css</span>
                 </div>
                 <span class="notification-icon">
-                  <a href="<?php echo $value_card['lien_CMS'];?>" class="accept-request">
+                  <!-- <a href="explore.php" class="accept-request">
                     <span class="icon-add without-text">
                       <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
                         <title>happy-face-icon</title>
                         <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
                       </svg></svg>
                     </span>
-                  </a>
-
-                  <a href="check.php?num_client=<?php echo $value_card['num_client'];?>" class="accept-request request-del">
-                    <span class="icon-minus">
-                      <svg class="olymp-happy-face-icon"><svg id="olymp-happy-face-icon" viewBox="0 0 32 32" width="100%" height="100%">
-                        <title>happy-face-icon</title>
-                        <path d="M16 0c-8.837 0-16 7.16-16 15.989 0 7.166 4.715 13.227 11.213 15.262v-3.39c-4.69-1.899-8-6.49-8-11.859 0-7.070 5.731-12.802 12.8-12.802s12.8 5.731 12.8 12.802c0 5.37-3.312 9.96-8 11.859v3.378c6.485-2.040 11.187-8.094 11.187-15.25 0-8.829-7.165-15.989-16-15.989zM11.211 12.8h-3.2v3.202h3.2v-3.202zM20.813 12.8v3.202h3.2v-3.202h-3.2zM11.198 19.365c0 1.675 2.146 3.032 4.794 3.032s4.794-1.357 4.794-3.032v-0.16h-9.587v0.16zM14.413 32.002h3.2v-3.2h-3.2v3.2z"></path>
-                      </svg></svg>
-                    </span>
-                  </a>
-
+                  </a> -->
                 </span>
               </li>
-              <?php }?>
 
 
 
             </ul>
           </div>
 
-          <a href="accueil.php" class="view-all bg-blue">Voir tous les retours</a>
+          <a href="accueil.php" class="view-all bg-blue">Voir tous les codes</a>
         </div>
       </div>
 

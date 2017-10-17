@@ -126,7 +126,7 @@ img.illu {
 .box-diagonal {
 	overflow:hidden;
 }
-.checkbox::after {
+.checkbox::after, .card-accueil::after {
 	content: "";
 	background-color:#53556d;
 	transform:skewY(5deg);
