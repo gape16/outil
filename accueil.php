@@ -155,7 +155,7 @@ if (isset($_SESSION['id_statut'])) {
 						<div class="friend-item friend-groups card-accueil">
 							<div class="friend-item-content">
 								<div class="friend-avatar">
-									<div class="author-thumb">
+									<div class="author-thumb rond-card">
 										<img src="img/crea_maquette.png" alt="Olympus">
 									</div>
 									<div class="author-content">
