@@ -19,21 +19,7 @@ $nb_cards_client=$query_select_card->rowCount();
   </div>
 
   <div class="header-content-wrapper">
-    <form class="search-bar w-search notification-list friend-requests">
-      <div class="form-group with-button">
-        <input class="form-control js-user-search" placeholder="Rechercher des clients..." type="text">
-        <button>
-          <svg class="olymp-magnifying-glass-icon"><svg id="olymp-magnifying-glass-icon" viewBox="0 0 34 32" width="100%" height="100%">
-            <title>magnifying-glass-icon</title>
-            <path d="M20.809 3.57c-4.76-4.76-12.478-4.76-17.239 0s-4.76 12.48 0 17.239c4.76 4.76 12.48 4.76 17.239 0 4.76-4.759 4.76-12.478 0-17.239zM18.654 18.654c-3.57 3.57-9.361 3.57-12.93 0-3.57-3.57-3.57-9.359 0-12.93s9.361-3.57 12.93 0c3.57 3.569 3.57 9.359 0 12.93z"></path>
-            <path d="M24.022 21.907l2.154-2.156 2.157 2.155-2.154 2.156-2.157-2.155z"></path>
-            <path d="M28.34 28.364c-0.596 0.597-1.559 0.597-2.155 0l-6.464-6.464-0.834-0.852 4.3-4.3-1.312-1.314-6.466 6.466 8.62 8.619c1.783 1.783 4.683 1.783 6.464 0 1.783-1.781 1.783-4.681 0-6.464l-2.155 2.155c0.596 0.596 0.594 1.562 0 2.155z"></path>
-          </svg></svg>
-        </button>
-      </div>
-    </form>
 
-    
     <div class="control-block">
 
       <div class="control-icon more has-items">
@@ -232,41 +218,7 @@ $nb_cards_client=$query_select_card->rowCount();
                     <span>Se déconnecter</span>
                   </a>
                 </li>
-              </ul>
-
-              <div class="ui-block-title ui-block-title-small">
-                <h6 class="title">Etat du chat</h6>
-              </div>
-
-              <ul class="chat-settings">
-                <li>
-                  <a href="#">
-                    <span class="icon-status online"></span>
-                    <span>En ligne</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="icon-status away"></span>
-                    <span>Absent(e)</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <span class="icon-status disconected"></span>
-                    <span>Déconnecté(e)</span>
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#">
-                    <span class="icon-status status-invisible"></span>
-                    <span>Invisible</span>
-                  </a>
-                </li>
-              </ul>
-
-              
+              </ul>     
             </div>
 
           </div>

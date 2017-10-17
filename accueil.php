@@ -154,17 +154,6 @@ if (isset($_SESSION['id_statut'])) {
 					<div class="ui-block" data-mh="friend-groups-item">
 						<div class="friend-item friend-groups">
 							<div class="friend-item-content">
-								<div class="more">
-									<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Modifier la carte</a>
-										</li>
-										<li>
-											<a href="#">Supprimer la carte</a>
-										</li>
-									</ul>
-								</div>
 								<div class="friend-avatar">
 									<div class="author-thumb">
 										<img src="img/crea_maquette.png" alt="Olympus">

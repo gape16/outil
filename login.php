@@ -77,7 +77,7 @@ if (isset($_POST['connect'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 
 	<title>Inscription / connexion</title>

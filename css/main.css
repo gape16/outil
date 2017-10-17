@@ -37,7 +37,9 @@
 		box-shadow: 0 0px 0px #ff5e3a;
 	}
 }
-
+.registration-login-form {
+	min-height: auto;
+}
 .signinok{
 	background-color: #77df35;
 }

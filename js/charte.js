@@ -190,6 +190,9 @@ $('.btn-addclient').on('click', function(){
 		}else{
 			$('.adressecms').addClass('empty');
 			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
+			if(adresseCms = "http://cms.site-privilege.pagesjaunes.fr/pagesjaunes/"){
+				$('.adressecms').prev().html('Il faut copier le lien de l\'onglet "Informations" du CMS');
+			}
 		}
 	}else{
 		$('.numclient').addClass('empty');
