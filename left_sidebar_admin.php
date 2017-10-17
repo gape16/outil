@@ -8,48 +8,47 @@
       <ul class="left-menu">
        <li>
         <a href="#" class="js-sidebar-open">
-          <svg class="olymp-close-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-          <span class="left-menu-title">Réduire Menu</span>
+          <svg class="olymp-menu-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-menu-icon"></use></svg>
         </a>
       </li>
       <li>
         <a href="accueil_admin.php">
-          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
+          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
         </a>
       </li>
       <li>
         <a href="help.php">
-          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
+          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
         </a>
       </li>
       <li>
         <a href="veille.php">
-          <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+          <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
         </a>
       </li>
       <li>
         <a href="newsletter.php">
-          <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
+          <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
         </a>
       </li>
       <li>
         <a href="explore.php">
-          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"  ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
         </a>
       </li>
       <li>
         <a href="birthday.php">
-         <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+         <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
        </a>
      </li>
      <li>
       <a href="stats.php">
-        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
+        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
       </a>
     </li>
     <li>
       <a href="account_setting.php">
-        <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
+        <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"  ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
       </a>
     </li>
   </ul>
@@ -72,49 +71,49 @@
       </li>
       <li>
         <a href="accueil_admin.php">
-          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
+          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
           <span class="left-menu-title">Modifier Clients</span>
         </a>
       </li>
       <li>
         <a href="help.php">
-          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
+          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
           <span class="left-menu-title">Voir les demandes</span>
         </a>
       </li>
       <li>
         <a href="veille.php">
-          <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+          <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right" ><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
           <span class="left-menu-title">Veilles</span>
         </a>
       </li>
       <li>
         <a href="newsletter.php">
-          <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
+          <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right"  ><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
           <span class="left-menu-title">Newletters</span>
         </a>
       </li>
       <li>
         <a href="explore.php">
-          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
           <span class="left-menu-title">Partage de code</span>
         </a>
       </li>
       <li>
         <a href="birthday.php">
-         <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+         <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
          <span class="left-menu-title">Les anniversaires</span>
        </a>
      </li>
      <li>
       <a href="stats.php">
-        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
-        <span class="left-menu-title">Détails stats</span>
+        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
+        <span class="left-menu-title">Stats</span>
       </a>
     </li>
     <li>
       <a href="account_setting.php">
-        <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
+        <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
         <span class="left-menu-title">Mon compte</span>
       </a>
     </li>
