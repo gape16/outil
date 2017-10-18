@@ -40,7 +40,7 @@ if($nb_notifs==0){
         $query_select->execute();
         $result=$query_select->fetch();
         if($result['notif_A']==0){
-          $query_notif_code=$bdd->prepare("SELECT * FROM code order by id_code DESC limit 1");
+          $query_notif_code=$bdd->prepare("SELECT * FROM code where accept_code = 1 order by id_code DESC limit 1");
           $query_notif_code->execute();
           $result_notif_code=$query_notif_code->fetch();
           $dernier=$result_notif_code['id_code'];
@@ -50,7 +50,7 @@ if($nb_notifs==0){
           $query_inser_code->execute();
         }else{
           $dernier=$result['notif_A'];
-          $query_notif_code=$bdd->prepare("SELECT description, titre, photo, categorie_code.categorie_code FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code WHERE id_code > ? order by id_code DESC");
+          $query_notif_code=$bdd->prepare("SELECT description, titre, photo, categorie_code.categorie_code FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code WHERE id_code > ? and accept_code = 1 order by id_code DESC");
           $query_notif_code->bindParam(1, $dernier);
           $query_notif_code->execute();
         }
