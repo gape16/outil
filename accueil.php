@@ -151,11 +151,11 @@ if (isset($_SESSION['id_statut'])) {
 				<?php foreach ($cards_client as $key => $value) {?>
 
 				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="ui-block card-accueil" data-mh="friend-groups-item">
-						<div class="friend-item friend-groups">
+					<div class="ui-block box-diagonal" data-mh="friend-groups-item">
+						<div class="friend-item friend-groups card-accueil">
 							<div class="friend-item-content">
 								<div class="friend-avatar">
-									<div class="author-thumb">
+									<div class="author-thumb rond-card">
 										<img src="img/crea_maquette.png" alt="Olympus">
 									</div>
 									<div class="author-content">
