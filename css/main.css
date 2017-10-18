@@ -56,13 +56,29 @@
 .signinok{
 	background-color: #77df35;
 }
-
+select.changegraph {
+	padding: 1.3rem 1.1rem;
+}
 .container.custom {
 	width: 100%;
 	padding: 0;
 	height: 93vh;
 }
-
+a.accept_code {
+	float: right;
+	background: #1ed760;
+	padding: 0 20px;
+	color: white;
+}
+p.h6.post__author-name.fn {
+	margin-bottom: 0;
+}
+#veille_code .sorting-item a {
+	color: rgb(107, 107, 107);
+}
+.resetmh{
+	min-height: inherit;
+}
 .container.custom > .row {
 	margin: 0;
 }

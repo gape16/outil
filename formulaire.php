@@ -736,18 +736,18 @@ if(isset($_POST['admin_search'])){
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 
 		?>
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6 change_card projet_<?php echo $value['id_client'];?> qualif_<?php echo $value['id_etat'];?>">
 			<div class="ui-block" data-mh="friend-groups-item">
-				<div class="friend-item friend-groups">
+				<div class="friend-item friend-groups resetmh">
 					<div class="friend-item-content">
 						<div class="more">
 							<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
 							<ul class="more-dropdown">
 								<li>
-									<a href="#">Modifier la carte</a>
+									<a class="modifier" data-toggle="modal" data-target="#change" href="#">Modifier la carte</a>
 								</li>
 								<li>
-									<a href="#">Supprimer la carte</a>
+									<a class="delete" href="#">Supprimer la carte</a>
 								</li>
 							</ul>
 						</div>
@@ -756,24 +756,22 @@ if(isset($_POST['admin_search'])){
 								<img src="img/crea_maquette.png" alt="Olympus">
 							</div>
 							<div class="author-content">
-								<a href="#" class="h5 author-name"><?php echo $value['raison_social'];?></a>
-								<div class="country"><?php echo $value['num_client'];?></div>
+								<a href="#" class="h5 author-name raisonsocial"><?php echo $value['raison_social'];?></a>
+								<div class="country numclient"><?php echo $value['num_client'];?></div>
 							</div>
 						</div>
 						<ul class="friends-harmonic">
-							<li>
-								<a href="#">
-									<img src="image" alt="friend">
-								</a>
-							</li>
+							<p>NOM DU GRAPH</p>
 						</ul>
 						<div class="control-block-button">
-							<a href="<?php echo $value['lien_CMS'];?><" target="_blank" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
+							<a href="<?php echo $value['lien_CMS'];?><" target="_blank" class="cms btn btn-control bg-blue">
 								<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
 							</a>
 							<a href="check.php?idgpp=<?php echo $value['IDGPP'];?><" class="btn btn-control btn-grey-lighter">
 								<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
 							</a>
+							<input type="hidden" class="idgpp" value="<?php echo $value['IDGPP'];?>">
+							<input type="hidden" class="graph" value="<?php echo $value['id_graph_maquette'];?>">
 						</div>
 					</div>
 				</div>
@@ -798,39 +796,6 @@ if(isset($_POST['admin_search_empty'])){
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 
 		?>
-		<tr class="event-item">
-			<td class="upcoming">
-				<div class="date-event">
-					<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
-					<span class="day"><?php echo $jour;?></span>
-					<span class="month"><?php echo $months[(int)$m]; ?></span>
-				</div>
-			</td>
-			<td class="author">
-				<div class="event-author inline-items">
-					<div class="author-thumb">
-						<img src="img/avatar43-sm.jpg" alt="author">
-					</div>
-					<div class="author-date">
-						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-						<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
-					</div>
-				</div>
-			</td>
-			<td class="location">
-				<div class="place inline-items">
-					<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-					<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
-				</div>
-			</td>
-			<td class="description">
-				<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
-			</td>
-			<td class="add-event">
-				<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
-			</td>
-
-		</tr>
 		<?php
 	}
 }
@@ -915,5 +880,44 @@ if(isset($_POST['titre_code'])){
 	$query_code->bindParam(8, $categorie);
 	$query_code->bindParam(9, $accept_code);
 	$query_code->execute();
-	echo $codeHTML;
+}
+
+if(isset($_POST['delete'])){
+	$idgpp=$_POST['admin_idgpp'];
+	$query_select = $bdd->prepare("SELECT * FROM client WHERE IDGPP = ?");
+	$query_select->bindParam(1, $idgpp);
+	$query_select->execute();
+	$select_result = $query_select->fetch();
+	echo $select_result['id_client'];
+	$query_delete = $bdd->prepare("DELETE FROM client WHERE IDGPP LIKE ?");
+	$query_delete->bindParam(1, $idgpp);
+	$query_delete->execute();
+}
+
+
+if(isset($_POST['modifier_num'])){
+	$modif_num=$_POST['modifier_num'];
+	$modif_rs=$_POST['modifier_rs'];
+	$modif_cms=$_POST['modifier_cms'];
+	$modif_graph=$_POST['modifier_graph'];
+	$modif_qualif=$_POST['modifier_qualif'];
+	$get_id_client=$_POST['getIdClient'];
+	$query_modif = $bdd->prepare("UPDATE client set num_client = ?, raison_social = ?, lien_CMS = ?, id_graph_maquette = ?, id_etat = ? WHERE id_client = ?");
+	$query_modif->bindParam(1, $modif_num);
+	$query_modif->bindParam(2, $modif_rs);
+	$query_modif->bindParam(3, $modif_cms);
+	$query_modif->bindParam(4, $modif_graph);
+	$query_modif->bindParam(5, $modif_qualif);
+	$query_modif->bindParam(6, $get_id_client);
+	$query_modif->execute();
+	var_dump($query_modif);
+}
+
+if(isset($_POST['clic_accept'])){
+	$accept_code = 1;
+	$id_code=$_POST['id_code'];
+	$query_accept_code = $bdd->prepare("UPDATE code set accept_code = ? WHERE id_code = ?");
+	$query_accept_code->bindParam(1, $accept_code);
+	$query_accept_code->bindParam(2, $id_code);
+	$query_accept_code->execute();
 }

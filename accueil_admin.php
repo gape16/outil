@@ -17,6 +17,13 @@ if (isset($_SESSION['id_statut'])) {
 		$requete_up_pret->bindParam(4, $id_graph);
 		$requete_up_pret->bindParam(5, $id_graph);
 		$requete_up_pret->execute(); 
+
+
+		$selection_graph = $bdd->prepare("SELECT * FROM user");
+		$selection_graph->execute();
+
+		$selection_qualif = $bdd->prepare("SELECT * FROM etat");
+		$selection_qualif->execute();
 		?>
 
 		<!DOCTYPE html>
@@ -38,6 +45,7 @@ if (isset($_SESSION['id_statut'])) {
 			<!-- Theme Styles CSS -->
 			<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
 			<link rel="stylesheet" type="text/css" href="css/blocks.css">
+			<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
 
 			<!-- Main Font -->
 			<script src="js/webfontloader.min.js"></script>
@@ -103,56 +111,12 @@ if (isset($_SESSION['id_statut'])) {
 
 			<div class="container cards">
 				<div class="row">
-					<!-- CARTE -->
-						<!-- 					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-						<div class="ui-block" data-mh="friend-groups-item">
-							<div class="friend-item friend-groups">
-								<div class="friend-item-content">
-									<div class="more">
-										<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-										<ul class="more-dropdown">
-											<li>
-												<a href="#">Modifier la carte</a>
-											</li>
-											<li>
-												<a href="#">Supprimer la carte</a>
-											</li>
-										</ul>
-									</div>
-									<div class="friend-avatar">
-										<div class="author-thumb">
-											<img src="img/crea_maquette.png" alt="Olympus">
-										</div>
-										<div class="author-content">
-											<a href="#" class="h5 author-name">RS</a>
-											<div class="country">NC</div>
-										</div>
-									</div>
-									<ul class="friends-harmonic">
-										<li>
-											<a href="#">
-												<img src="image" alt="friend">
-											</a>
-										</li>
-									</ul>
-									<div class="control-block-button">
-										<a href="liencms" target="_blank" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-add-friends">
-											<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-										</a>
-										<a href="check.php?idgpp=idgpp" class="btn btn-control btn-grey-lighter">
-											<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
 					<div class="container">
 						<div class="row">
 							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class="ui-block">
 									<div class="ui-block-title">
-										<h6 class="title">Historique des projets</h6> 
+										<h6 class="title">Recherche de projet</h6> 
 										<div class="form-group label-floating is-empty">
 											<label class="control-label">Recherche</label>
 											<input class="form-control search" placeholder="" value="" type="text">
@@ -175,7 +139,7 @@ if (isset($_SESSION['id_statut'])) {
 
 
 			<!-- Window-popup Create Friends Group -->
-			<div class="modal fade" id="create-friend-group-1">
+			<div class="modal fade show" id="change">
 				<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-1">
 					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
 						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
@@ -186,21 +150,39 @@ if (isset($_SESSION['id_statut'])) {
 					</div>
 
 					<div class="ui-block-content">
-						<form class="form-group label-floating is-empty addclient">
-							<div class="form-group is-empty label-floating ">
+						<form class="form-group label-floating addclient">
+							<div class="form-group label-floating ">
 								<label class="control-label">Numéro client</label>
 								<input class="form-control numclient" placeholder="" value="" type="text">
 							</div>
-							<div class="form-group label-floating is-empty">
+							<div class="form-group label-floating">
 								<label class="control-label">Raison sociale</label>
 								<input class="form-control raisonsociale" placeholder="" value="" type="text">
 							</div>
-							<div class="form-group label-floating is-empty">
+							<div class="form-group label-floating">
 								<label class="control-label">Adresse CMS</label>
 								<input class="form-control adressecms" placeholder="" value="" type="text">
 							</div>
+							<div class="form-group label-floating">
+								<select name="" class="changegraph">
+									<option value="0">Choisir une catégorie</option>
+									<?php foreach ($selection_graph as $key => $value) {?>
+									<option value="<?php echo($value['id_user']) ?>"><?php echo($value['nom']) ?> <?php echo($value['prenom']) ?></option>
+									<?php }
+									?>
+								</select>
+							</div>
+							<div class="form-group label-floating">
+								<select name="" class="changequalif">
+									<option value="0">Choisir une qualif</option>
+									<?php foreach ($selection_qualif as $key => $value) {?>
+									<option value="<?php echo($value['id_etat']) ?>"><?php echo utf8_encode(($value['nom_etat'])) ?></option>
+									<?php }
+									?>
+								</select>
+							</div>
 						</form>
-						<a href="#" class="btn btn-blue btn-lg full-width btn-addclient">Ajouter le client</a>
+						<a href="#" class="btn btn-blue btn-lg full-width btn-modif" data-dismiss="modal">Modifier le client</a>
 					</div>
 
 
@@ -249,7 +231,6 @@ if (isset($_SESSION['id_statut'])) {
 							data: {admin_search: search},
 						})
 						.done(function(data) {
-							console.log(data);
 							$('.admin_card').html('');
 							$(data).appendTo('.admin_card');
 						})
@@ -260,12 +241,90 @@ if (isset($_SESSION['id_statut'])) {
 							data: {admin_search_empty: search},
 						})
 						.done(function(data) {
-							console.log(data);
 							$('.admin_card').html('');
 							$(data).appendTo('.admin_card');
 						})
 					}
 				});
+
+				//DELETE
+				$( "body" ).on( "click", ".delete", function() {
+					var numClient = $('.country').html();
+					var idgpp = $('.idgpp').val();
+					swal({
+						title: 'Êtes-vous sûr ?',
+						text: "Cette action n'est pas reversible!",
+						type: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Oui, supprimer la fiche'
+					}).then(function () {
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {delete: 'value1', admin_numClient: numClient, admin_idgpp: idgpp},
+						})
+						.done(function(data) {
+							$('.admin_' + data).fadeOut(1000, function(){
+								$(this).remove();
+							})
+							swal(
+								'Supprimé !',
+								'La fiche a été suppimée',
+								'success'
+								)
+						})
+					})
+				})
+				// //CHANGER
+				$( "body" ).on( "click", ".modifier", function() {
+					var numClient = $(this).parents('.admin_card').find('.numclient').html();
+					var raisonSociale = $(this).parents('.admin_card').find('.raisonsocial').html();
+					var adresseCms = $(this).parents('.admin_card').find('.cms').attr('href');
+					var graph = $(this).parents('.admin_card').find('.graph').val();
+					var recupId = $(this).parents('.admin_card').attr('class');
+					var idClient = recupId.split('admin_');
+					var check_qualif="qualif_";
+					var cls_qualif = $(".change_card").attr('class').split(' ');
+					console.log(cls_qualif);
+					for (var i = 0; i < cls_qualif.length; i++) {
+						if (cls_qualif[i].indexOf(check_qualif) > -1) {
+							var id_qualif = cls_qualif[i].slice(check_qualif.length, cls_qualif[i].length);
+						}
+					}
+					var check_id="projet_";
+					var cls_id = $(".change_card").attr('class').split(' ');
+					for (var i = 0; i < cls_id.length; i++) {
+						if (cls_id[i].indexOf(check_id) > -1) {
+							var id_client = cls_id[i].slice(check_id.length, cls_id[i].length);
+						}
+					}
+
+					$('.numclient').val(numClient);
+					$('.raisonsociale').val(raisonSociale);
+					$('.adressecms').val(adresseCms);
+					$('.changegraph').val(graph);
+					$('select.changequalif').val(id_qualif);
+					console.log(id_qualif);
+					console.log(id_client);
+					$('.btn-modif').on('click', function(){
+						var numClient = $('#change .numclient').val();
+						var raisonSociale = $('#change .raisonsociale').val();
+						var adresseCms = $('#change .adressecms').val();
+						var graph = $('#change .changegraph').val();
+						var qualif = $('#change .changequalif').val();
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {modifier_num: numClient, modifier_rs: raisonSociale, modifier_cms: adresseCms, modifier_graph: graph, modifier_qualif: qualif, getIdClient: id_client},
+						})
+						.done(function(data) {
+							swal('La brique a été modifiée');
+						})		
+					})
+				});
+
 			</script>
 		</body>
 		</html>
