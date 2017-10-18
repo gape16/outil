@@ -221,6 +221,7 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 			<script src="js/charte.js"></script>
+			<script src="js/notifications.js"></script>
 			<script>
 				$('.search').keyup(function(){
 					var search = $(this).val();

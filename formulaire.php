@@ -794,9 +794,6 @@ if(isset($_POST['admin_search_empty'])){
 
 		$m=$date_tab[1];
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-
-		?>
-		<?php
 	}
 }
 
@@ -920,4 +917,103 @@ if(isset($_POST['clic_accept'])){
 	$query_accept_code->bindParam(1, $accept_code);
 	$query_accept_code->bindParam(2, $id_code);
 	$query_accept_code->execute();
+}
+
+
+
+if(isset($_POST['search_code'])){
+	$search = $_POST['search_code'];
+	$varsearch = "%" . $search . "%";
+	$requete_search_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code WHERE titre LIKE  ? and description LIKE ? order by date_code DESC");
+	$requete_search_code->bindParam(1, $varsearch);
+	$requete_search_code->bindParam(2, $varsearch);
+	$requete_search_code->execute();
+	$nb_result = $requete_search_code->rowCount();
+	$tab_search = array();
+	if ($nb_result == 0) {?>
+	<tr class="event-item">
+		<td class="upcoming">
+			<div class="date-event">
+				<h2>Aucun résultat n'a été trouvé</h2>
+			</div>
+		</td>
+	</tr>
+	<?php }else{
+		foreach ($requete_search_code as $key => $value) {
+			$date_tab=explode("-", $value['date_code']);
+			$jour_tab=explode(" ",$date_tab[2]);
+			$jour=$jour_tab[0];
+
+			$m=$date_tab[1];
+			$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+
+			?>
+			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
+				<div class="ui-block">
+					<article class="hentry blog-post">
+						<a class="opencode" target="_blank" href="code.php">
+							<div class="post-content">
+								<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
+								<h4><?php echo utf8_encode($value['titre']);?></h4>
+								<p><?php echo utf8_encode($value['description']);?></p>
+
+								<div class="author-date">
+									<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
+									<div class="post__date">
+										<time class="published">
+											<?php echo utf8_encode($value['date_code']);?>
+										</time>
+									</div>
+								</div>
+							</div>
+							<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
+						</a>
+					</article>
+				</div>
+			</div>
+			<?php
+		}
+	}
+}
+
+
+if(isset($_POST['search_code_empty'])){
+	$requete_search_code_empty = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code order by date_code DESC");
+	$requete_search_code_empty->execute();
+	$nb_result = $requete_search_code_empty->rowCount();
+	$tab_search = array();
+	foreach ($requete_search_code_empty as $key => $value) {
+		$date_tab=explode("-", $value['date_code']);
+		$jour_tab=explode(" ",$date_tab[2]);
+		$jour=$jour_tab[0];
+
+		$m=$date_tab[1];
+		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+
+		?>
+		<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
+			<div class="ui-block">
+				<article class="hentry blog-post">
+					<a class="opencode" target="_blank" href="code.php">
+						<div class="post-content">
+							<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
+							<h4><?php echo utf8_encode($value['titre']);?></h4>
+							<p><?php echo utf8_encode($value['description']);?></p>
+
+							<div class="author-date">
+								<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
+								<div class="post__date">
+									<time class="published">
+										<?php echo utf8_encode($value['date_code']);?>
+									</time>
+								</div>
+							</div>
+						</div>
+						<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
+					</a>
+				</article>
+			</div>
+		</div>
+		<?php
+	}
 }

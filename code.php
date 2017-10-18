@@ -307,6 +307,7 @@ $query_categorie->execute();
 
 	<!-- For JS -->
 	<script src="http://codemirror.net/mode/javascript/javascript.js"></script>
+	<script src="js/notifications.js"></script>
 
 	<script>
 		(function() {

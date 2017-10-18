@@ -55,7 +55,7 @@ $query_code->execute();
 </style>
 </head>
 
-<body id="prop-code">
+<body>
 
 	<!-- Fixed Sidebar Left -->
 
@@ -104,9 +104,9 @@ $query_code->execute();
 					<ul class="cat-list-bg-style align-center sorting-menu">
 						<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
 
-						<li class="cat-list__item" data-filter=".1"><a href="#" class="">HTML</a></li>
-						<li class="cat-list__item" data-filter=".2"><a href="#" class="">CSS</a></li>
-						<li class="cat-list__item" data-filter=".3"><a href="#" class="">JS</a></li>
+						<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
+						<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
+						<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
 					</ul>
 					<div class="row sorting-container" id="veille_code" data-layout="masonry">
 						<?php foreach ($query_code as $key => $value) {?>
@@ -166,6 +166,7 @@ $query_code->execute();
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 	<script src="js/charte.js"></script>
+	<script src="js/notifications.js"></script>
 
 	<script>
 		$('.sorting-item').each(function(){

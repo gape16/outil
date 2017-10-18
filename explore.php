@@ -55,7 +55,7 @@ $query_code->execute();
 </style>
 </head>
 
-<body id="prop-code">
+<body>
 
 	<!-- Fixed Sidebar Left -->
 
@@ -118,85 +118,125 @@ $query_code->execute();
 	<!-- Code Editors -->
 	<div class="container">
 		<div class="row">
-
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class="clients-grid">
-
-					<ul class="cat-list-bg-style align-center sorting-menu">
-						<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
-
-						<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
-						<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
-						<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
-					</ul>
-					<div class="row sorting-container" id="veille_code" data-layout="masonry">
-						<?php foreach ($query_code as $key => $value) {?>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
-							<div class="ui-block">
-								<article class="hentry blog-post">
-									<a class="opencode" target="_blank" href="code.php">
-										<div class="post-content">
-											<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
-											<h4><?php echo utf8_encode($value['titre']);?></h4>
-											<p><?php echo utf8_encode($value['description']);?></p>
-
-											<div class="author-date">
-												<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
-												<div class="post__date">
-													<time class="published">
-														<?php echo utf8_encode($value['date_code']);?>
-													</time>
-												</div>
-											</div>
-										</div>
-										<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
-									</a>
-								</article>
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="ui-block">
+							<div class="ui-block-title">
+								<h6 class="title">Historique des codes partagés</h6> 
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Recherche</label>
+									<input class="form-control search" placeholder="" value="" type="text">
+									<span class="material-input"></span></div>
+								</div>
 							</div>
 						</div>
-						<?php }?>
+					</div>
+				</div>
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="clients-grid">
+
+						<ul class="cat-list-bg-style align-center sorting-menu">
+							<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
+
+							<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
+							<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
+							<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
+						</ul>
+						<div class="row sorting-container" id="veille_code" data-layout="masonry">
+							<?php foreach ($query_code as $key => $value) {?>
+							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
+								<div class="ui-block">
+									<article class="hentry blog-post">
+										<a class="opencode" target="_blank" href="code.php">
+											<div class="post-content">
+												<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
+												<h4><?php echo utf8_encode($value['titre']);?></h4>
+												<p><?php echo utf8_encode($value['description']);?></p>
+
+												<div class="author-date">
+													<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
+													<div class="post__date">
+														<time class="published">
+															<?php echo utf8_encode($value['date_code']);?>
+														</time>
+													</div>
+												</div>
+											</div>
+											<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
+										</a>
+									</article>
+								</div>
+							</div>
+							<?php }?>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- jQuery first, then Other JS. -->
-	<script src="js/jquery-3.2.0.min.js"></script>
-	<!-- Js effects for material design. + Tooltips -->
-	<script src="js/material.min.js"></script>
-	<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-	<script src="js/theme-plugins.js"></script>
-	<!-- Init functions -->
-	<script src="js/main.js"></script>
-	<script src="js/alterclass.js"></script>
-	<script src="js/chat.js"></script>
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
+		<!-- jQuery first, then Other JS. -->
+		<script src="js/jquery-3.2.0.min.js"></script>
+		<!-- Js effects for material design. + Tooltips -->
+		<script src="js/material.min.js"></script>
+		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+		<script src="js/theme-plugins.js"></script>
+		<!-- Init functions -->
+		<script src="js/main.js"></script>
+		<script src="js/alterclass.js"></script>
+		<script src="js/chat.js"></script>
+		<!-- Select / Sorting script -->
+		<script src="js/selectize.min.js"></script>
 
-	<!-- Swiper / Sliders -->
-	<script src="js/swiper.jquery.min.js"></script>
+		<!-- Swiper / Sliders -->
+		<script src="js/swiper.jquery.min.js"></script>
 
-	<script src="js/isotope.pkgd.min.js"></script>
+		<script src="js/isotope.pkgd.min.js"></script>
 
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
+		<script src="js/mediaelement-and-player.min.js"></script>
+		<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+		<script src="js/mediaelement-and-player.min.js"></script>
+		<script src="js/mediaelement-playlist-plugin.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-	<script src="js/charte.js"></script>
+		<script src="js/charte.js"></script>
+		<script src="js/notifications.js"></script>
 
-	<script>
-		$('.sorting-item').each(function(){
-			var id_code = $(this).find('input.id_code').val();
-			$(this).on('click', function(){
-				$(this).find('a.opencode').attr('href', function(){
-					return this.href + '?id_code=' + id_code + '';
+		<script>
+			$('.sorting-item').each(function(){
+				var id_code = $(this).find('input.id_code').val();
+				$(this).on('click', function(){
+					$(this).find('a.opencode').attr('href', function(){
+						return this.href + '?id_code=' + id_code + '';
+					})
 				})
-			})
-		});
-	</script>
-</body>
-</html>
+			});
+
+			$('.search').keyup(function(){
+				var search = $(this).val();
+				if(search.length >= 3){
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {search_code: search},
+					})
+					.done(function(data) {
+						$('#veille_code').html('');
+						$(data).appendTo('#veille_code');
+					})
+				}else{
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {search_code_empty: search},
+					})
+					.done(function(data) {
+						$('#veille_code').html('');
+						$(data).appendTo('#veille_code');
+					})
+				}
+			});
+		</script>
+	</body>
+	</html>
