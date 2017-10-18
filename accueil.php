@@ -252,6 +252,7 @@ if (isset($_SESSION['id_statut'])) {
 		<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
 		<script src="js/charte.js"></script>
+		<script src="js/notifications.js"></script>
 
 	</body>
 	</html>

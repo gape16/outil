@@ -6,15 +6,21 @@ $(function(){
 				type: 'POST'
 			})
 			.done(function(data) {
-				// console.log(data);
 				var myObject = JSON.parse(data);
-				for (var i = 0; i <= myObject.length - 1; i++) {
-					$("."+myObject[i]['identifiant']).find('.label-avatar').html(myObject[i]['nombre']);
-					$("."+myObject[i]['identifiant']).find('.label-avatar').show();
+				$(".label_notifs").html(myObject.length);
+				$(".notif_list").empty();
+				var liste="";
+				for (var i = 0; i < myObject.length; i++) {
+					liste+= '<li><div class="author-thumb"><img src="'+myObject[i]["photo"]+'" alt="author">';
+					liste+= '</div><div class="notification-event">';
+					liste+= '<a href="explore.php?id_code=1" class="h6 notification-friend">'+myObject[i]["titre"]+'</a>';
+					liste+= '<span class="chat-message-item">'+myObject[i]["description"]+'</span>';
+					liste+= '</div><span class="notification-icon">'+myObject[i]["categorie_code"]+'</span></li>';
 				}
+				$(".notif_list").append(liste);
 			})
 			notifier();
-		}, 500);
+		}, 3000);
 	}
 	notifier();
 })
