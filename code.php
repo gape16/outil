@@ -11,6 +11,8 @@ if(isset($_GET['id_code'])){
 	$code = $query_show_code->fetch();
 }
 
+$query_categorie = $bdd->prepare('SELECT * FROM categorie_code');
+$query_categorie->execute();
 
 ?>
 
@@ -203,9 +205,6 @@ if(isset($_GET['id_code'])){
 
 
 	<!-- Main Content Groups -->
-	<?php 
-		// si c'est un graph qui se connect
-	if ($_SESSION['id_statut'] == 1) {?>
 	<!-- Code Editors -->
 	<section id="code_editors">
 		<div id="html" class="code_box">
@@ -247,9 +246,11 @@ if(isset($_GET['id_code'])){
 						</div>
 						<div class="form-group is-empty label-floating ">
 							<select id="categorie">
-								<option value="1">HTML</option>
-								<option value="2">CSS</option>
-								<option value="3">JS</option>
+								<option value="0">Choisir une catégorie</option>
+								<?php foreach ($query_categorie as $key => $value) {?>
+								<option value="<?php echo($value['id_categorie_code']); ?>"><?php echo utf8_encode(($value['categorie_code'])); ?></option>
+								<?php }
+								?>
 							</select>
 						</div>
 						<div class="form-group is-empty label-floating ">
@@ -266,16 +267,6 @@ if(isset($_GET['id_code'])){
 			</div>
 		</div>
 	</div>
-
-	<?php }?>
-	<!-- ... end Window-popup Create Friends Group Add Friends -->
-
-	<!-- Window-popup-CHAT for responsive min-width: 768px -->
-
-	<?php include('chat_box.php');?>
-
-	<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
 
 	<!-- jQuery first, then Other JS. -->
 	<script src="js/jquery-3.2.0.min.js"></script>

@@ -3,7 +3,7 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
-$query_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code  WHERE accept_code = 1 order by date_code DESC");
+$query_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code  WHERE accept_code = 0 order by date_code DESC");
 $query_code->execute();
 
 ?>
@@ -94,27 +94,6 @@ $query_code->execute();
 
 	<div class="header-spacer header-spacer-small"></div>
 
-	<div class="main-header">
-		<div class="content-bg-wrap">
-			<div class="content-bg bg-account"></div>
-		</div>
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
-					<div class="main-header-content">
-						<h1>Olympus Blog</h1>
-						<p>Welcome to our blog! Here you’ll find news about the latest features of our network, plugins,
-							interviews with our developers and lots of other cool things! We also feature the best profiles
-							and fan pages, so keep an eye out or let us know if you wanna appear here or if you wanna nominate someone.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<img class="img-bottom" src="img/blog_bottom.png" alt="friends">
-	</div>
-
 	<!-- Code Editors -->
 	<div class="container">
 		<div class="row">
@@ -125,9 +104,9 @@ $query_code->execute();
 					<ul class="cat-list-bg-style align-center sorting-menu">
 						<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
 
-						<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
-						<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
-						<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
+						<li class="cat-list__item" data-filter=".1"><a href="#" class="">HTML</a></li>
+						<li class="cat-list__item" data-filter=".2"><a href="#" class="">CSS</a></li>
+						<li class="cat-list__item" data-filter=".3"><a href="#" class="">JS</a></li>
 					</ul>
 					<div class="row sorting-container" id="veille_code" data-layout="masonry">
 						<?php foreach ($query_code as $key => $value) {?>
@@ -139,7 +118,6 @@ $query_code->execute();
 											<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 											<h4><?php echo utf8_encode($value['titre']);?></h4>
 											<p><?php echo utf8_encode($value['description']);?></p>
-
 											<div class="author-date">
 												<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
 												<div class="post__date">
@@ -147,6 +125,7 @@ $query_code->execute();
 														<?php echo utf8_encode($value['date_code']);?>
 													</time>
 												</div>
+												<a href="#" class="accept_code">Valider</a>
 											</div>
 										</div>
 										<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
@@ -197,6 +176,18 @@ $query_code->execute();
 				})
 			})
 		});
+		$('.accept_code').on('click', function(){
+			var id_code = $('.id_code').val();
+			console.log(id_code);
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {clic_accept: 'value1', id_code: id_code},
+			})
+			.done(function() {
+				swal('Code accepté !')
+			})		
+		})
 	</script>
 </body>
 </html>
