@@ -33,7 +33,7 @@ if(isset($_POST['code'])){
 
 if(isset($_POST['veille'])){
 	if($result['notif_B']==0){
-		$query_notif_code=$bdd->prepare("SELECT * FROM veille order by id_veille DESC limit 1");
+		$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
 		$query_notif_code->execute();
 		$result_notif_code=$query_notif_code->fetch();
 		$dernier=$result_notif_code['id_veille'];
@@ -43,7 +43,7 @@ if(isset($_POST['veille'])){
 		$query_inser_code->execute();
 	}else{
 		$dernier=$result['notif_B'];
-		$query_notif_code=$bdd->prepare("SELECT description, titre, file, categorie_veille.categorie FROM veille inner join categorie_veille on veille.categorie = categorie_veille.id_categorie_veille WHERE id_veille > ? order by id_veille DESC");
+		$query_notif_code=$bdd->prepare("SELECT description, titre, file, categorie_veille.categorie FROM veille inner join categorie_veille on veille.categorie = categorie_veille.id_categorie_veille WHERE id_veille > ? and accept_veille = 1 order by id_veille DESC");
 		$query_notif_code->bindParam(1, $dernier);
 		$query_notif_code->execute();
 		$notif_code = $query_notif_code->fetchAll();
