@@ -141,7 +141,10 @@ if (isset($_SESSION['id_statut'])) {
 							
 							<table class="event-item-table">
 								<tbody>
-									<?php foreach ($query_achat as $key => $value) {
+									<?php if($query_achat->rowCount()==0){
+										echo "Aucune demande n'a été faite";
+									}
+									foreach ($query_achat as $key => $value) {
 										$date_tab=explode("-", $value['date_achat']);
 										$jour_tab=explode(" ",$date_tab[2]);
 										$jour=$jour_tab[0];
@@ -186,7 +189,7 @@ if (isset($_SESSION['id_statut'])) {
 												</ul>
 											</td>
 											<td class="add-event">
-												<a data-toggle="modal" data-target="#create-achat" data-id="<?php echo $value['id_client'];?>" data-lien="<?php echo $value['lien'];?>" data-achat="<?php echo $value['id_achat'];?>" class="btn btn-breez btn-sm valider_achat_admin" style="background:#1ed760;color:white;cursor:pointer;">Acheter (ou pas)</a>
+												<a data-toggle="modal" data-target="#create-achat" data-id="<?php echo $value['id_client'];?>" data-lien="<?php echo $value['lien'];?>" data-achat="<?php echo $value['id_achat'];?>" class="btn btn-breez btn-sm valider_achat_admin" style="background:#1ed760;color:white;cursor:pointer;">Acheter</a>
 											</td>
 
 										</tr>
