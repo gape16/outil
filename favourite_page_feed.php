@@ -711,7 +711,7 @@
 
 							<li class="inline-items">
 								<div class="author-thumb">
-									<img src="img/avatar43-sm.jpg" alt="author">
+									<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 								</div>
 								<div class="notification-event">
 									<a href="#" class="h6 notification-friend">Pixel Digital Design</a>
@@ -815,7 +815,7 @@
 								</li>
 								<li>
 									<a href="#">
-										<img src="img/avatar43-sm.jpg" alt="author">
+										<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 									</a>
 								</li>
 								<li>

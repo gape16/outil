@@ -297,14 +297,29 @@ $('.valider_achat').click(function(){
 //HELP
 $('.valider_aide').click(function(e){
 	e.preventDefault();
-	var files = $("#file-select").prop("files");
+	var file = $("#file-select").prop("files");
+	console.log(file);
+	var names = $.map(file, function (val) { return val.name; });
+	$('#file-select').simpleUpload("upload_help.php", {
+
+		start: function(file){
+						//upload started
+					},
+					progress: function(progress){
+						//received progress
+					},
+					success: function(data){
+					},
+					error: function(error){
+						//upload failed
+					}
+
+				});
 	var numClient = $('.numclient').val();
 	var titre = $('.titre_probleme').val();
 	var adresseCms = $('.adressecms').val();
 	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
 	var descriptionProblem = $('textarea#description').val().replace(/\n/gi,'<br />');
-
-	var names = $.map(files, function (val) { return val.name; });
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
@@ -322,7 +337,7 @@ $('.valider_aide').click(function(e){
 					}
 				})
 				.done(function(data) {
-					// console.log(data);
+					console.log(data);
 					swal(
 						'Demande validée!',
 						'Votre demande va être prise en compte!',
@@ -392,6 +407,7 @@ $('#description').keyup(function() {
 
 
 $(".moproblem").on('click', function(e){
+
 	var id_aide = $(this).data("id");
 	$(".id_aide").val(id_aide);
 	$("#problemos").alterClass("dial_*", '');
@@ -410,6 +426,7 @@ $(".moproblem").on('click', function(e){
 		$(".titreproblemos").html(infos[0]['titre']);
 		$(".descproblemos").html(infos[0]['description']);
 		$(".lien_cms").attr("href",infos[0]['adresse_cms']);
+		$(".imgg").html("<img src='uploads/help/"+infos[0]['capture']+"' style='width:80%;'>");
 		$(".etat").html(infos[0]['etat_aide']);
 		$(".etat").css("background",infos[0]['couleur']);
 		$(".etat").css("color","white");

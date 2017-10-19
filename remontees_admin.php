@@ -154,6 +154,7 @@ if (isset($_SESSION['id_statut'])) {
 											<td class="add-event">
 												<a data-toggle="modal" data-target="#modal_remontees" class="btn btn-breez btn-sm open_modal">Voir</a>
 											</td>
+											<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
 										</tr>
 										<?php } ?>
 									</div>
@@ -187,6 +188,7 @@ if (isset($_SESSION['id_statut'])) {
 										<a href="#" class="btn btn-green btn-lg full-width accepter_remontees">Valider</a>
 									</div>
 								</div>
+								<input type="hidden" class="hax_id_remontees">
 							</div>
 						</div>
 						<!-- ... end Main Content Groups -->
@@ -214,11 +216,37 @@ if (isset($_SESSION['id_statut'])) {
 						<script src="js/charte.js"></script>
 						<script src="js/notifications.js"></script>
 						<script>
+							$('.open_modal').on('click', function(){
+								var id_remontees = $(this).parent().parent().find('.id_remontees').val();
+								console.log(id_remontees);
+								$('.hax_id_remontees').val(id_remontees);
+							})
 
+							$('.accepter_remontees').on('click', function(){
+								var commentaire = $('.commentaires').val();
+								var id_remontees = $('.hax_id_remontees').val();
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {commentaire_remontees: commentaire, id_remontees: id_remontees},
+								})
+								.done(function() {
+									console.log("success");
+								})
+							})
 
-
-
-
+							$('.refuser_remontees').on('click', function(){
+								var commentaire = $('.commentaires').val();
+								var id_remontees = $('.hax_id_remontees').val();
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {commentaire_remontees: commentaire, id_remontees: id_remontees},
+								})
+								.done(function() {
+									console.log("success");
+								})
+							})
 
 							$('.search').keyup(function(){
 								var search = $(this).val();

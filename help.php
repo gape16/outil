@@ -158,11 +158,13 @@ if (isset($_SESSION['id_statut'])) {
 									<textarea name="description" id="description" cols="30" rows="10"></textarea>
 									<p><span class="count">0</span> / 140 caractères</p>
 								</div>
-								<div class="form-group label-floating is-empty">
-									<input type="file" id="file-select" name="photos" multiple />
-									<p id="status"></p>
-								</div>
 							</form>
+							<div class="form-group label-floating is-empty">
+								<form class="upload_veille">
+									<input type="file" id="file-select" name="photos" required="required">
+								</form>
+
+							</div>
 							<div class="row whitecolor">
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
@@ -174,21 +176,19 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
-		</div>
 
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="ui-block">
-						<div class="ui-block-title">
-							<h6 class="title">Historique des demandes d'aide</h6> 
-							<div class="form-group label-floating is-empty">
-								<label class="control-label">Recherche</label>
-								<input class="form-control search" placeholder="" value="" type="text">
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="ui-block">
+							<div class="ui-block-title">
+								<h6 class="title">Historique des demandes d'aide</h6> 
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Recherche</label>
+									<input class="form-control search" placeholder="" value="" type="text">
+								</div>
 							</div>
 						</div>
 						<table class="event-item-table">
@@ -218,182 +218,184 @@ if (isset($_SESSION['id_statut'])) {
 												<div class="author-date">
 													<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
 												</div>
+											</td>
+											<td class="author">
+												<div class="event-author inline-items">
+													<div class="author-thumb">
+														<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
+													</div>
+													<div class="author-date">
+														<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+														<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
+													</div>
 
-											</div>
-										</td>
-										<td class="location">
-											<div class="place inline-items">
-												<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
-											</div>
-										</td>
-										<td class="description">
-											<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
-										</td>
-										<td class="add-event">
-											<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
-										</td>
+												</div>
+											</td>
+											<td class="location">
+												<div class="place inline-items">
+													<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+													<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+												</div>
+											</td>
+											<td class="description">
+												<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+											</td>
+											<td class="add-event">
+												<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+											</td>
 
-									</tr>
-									<?php }?>
-								</tbody>
-							</table>
+										</tr>
+										<?php }?>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Window-popup Event Private Public -->
-		<div class="modal fade show" id="problemos">
-			<div class="modal-dialog ui-block window-popup event-private-public private-event">
-				<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-					<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-				</a>
-				<article class="hentry post has-post-thumbnail thumb-full-width private-event">
+			<!-- Window-popup Event Private Public -->
+			<div class="modal fade show" id="problemos">
+				<div class="modal-dialog ui-block window-popup event-private-public private-event">
+					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+					</a>
+					<article class="hentry post has-post-thumbnail thumb-full-width private-event">
 
-					<div class="row">
-						<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-							<div class="post__author author vcard inline-items">
-								<img src="img/author-page.jpg" alt="author">
-
-								<div class="author-date">
-									<a class="h6 post__author-name fn user_popup" href="#">USER</a>
-									<div class="post__date date_popup">
-										<time class="published" datetime="2017-03-24T18:18">
-											DATE
-										</time>
-									</div>
-								</div>
-
-							</div>
-							<h1 class="titreproblemos">
-								Titre du probleme
-							</h1>
-							<p class="descproblemos">
-								Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the
-								new design project we have been working on. Cheers!
-							</p>
-						</div>
-						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-							<div class="event-description">
-								<h6 class="event-description-title">Infos pratiques</h6>
-								<div class="place inline-items">
-									<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-										<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
-										<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-
-											<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
-											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<span>Fichiers sources</span></div>
-											</div>
-
-											<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-										</div>
-
-										
-									</div>
-								</div>
-
-							</article>
-
-							<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
-
-								<ul class="comments-list">
-
-								</ul>
-
-							</div>
-
-							<form class="comment-form inline-items">
-
+						<div class="row">
+							<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 								<div class="post__author author vcard inline-items">
 									<img src="img/author-page.jpg" alt="author">
-								</div>
 
-								<div class="form-group with-icon-right ">
-									<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
-									<input type="hidden" class="id_aide">
-									<div class="add-options-message">
-										<a href="#" class="options-message aide_envoi">
-											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
-										</a>
+									<div class="author-date">
+										<a class="h6 post__author-name fn user_popup" href="#">USER</a>
+										<div class="post__date date_popup">
+											<time class="published" datetime="2017-03-24T18:18">
+												DATE
+											</time>
+										</div>
 									</div>
 
-									<span class="material-input"></span><span class="material-input"></span></div>
-
-								</form>
+								</div>
+								<h1 class="titreproblemos">
+									Titre du probleme
+								</h1>
+								<p class="descproblemos">
+									Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the
+									new design project we have been working on. Cheers!
+								</p>
+								<div class="hax imgg"></div>
 							</div>
+							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+								<div class="event-description">
+									<h6 class="event-description-title">Infos pratiques</h6>
+									<div class="place inline-items">
+										<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+											<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
+											
+										</div>
+
+										<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
+
+									</div>
+								</div>
+							</div>
+
+						</article>
+
+						<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
+							<ul class="comments-list">
+
+							</ul>
+
 						</div>
 
+						<form class="comment-form inline-items">
 
-						<?php }?>
-						<!-- ... end Window-popup Create Friends Group Add Friends -->
+							<div class="post__author author vcard inline-items">
+								<img src="img/author-page.jpg" alt="author">
+							</div>
 
-						<!-- Window-popup-CHAT for responsive min-width: 768px -->
+							<div class="form-group with-icon-right ">
+								<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
+								<input type="hidden" class="id_aide">
+								<div class="add-options-message">
+									<a href="#" class="options-message aide_envoi">
+										<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+									</a>
+								</div>
 
-						<?php include('chat_box.php');?>
+								<span class="material-input"></span><span class="material-input"></span></div>
 
-						<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
-
-						<!-- jQuery first, then Other JS. -->
-						<script src="js/jquery-3.2.0.min.js"></script>
-						<!-- Js effects for material design. + Tooltips -->
-						<script src="js/material.min.js"></script>
-						<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-						<script src="js/theme-plugins.js"></script>
-						<!-- Init functions -->
-						<script src="js/main.js"></script>
-						<script src="js/alterclass.js"></script>
-						<script src="js/chat.js"></script>
-						<!-- Select / Sorting script -->
-						<script src="js/selectize.min.js"></script>
-
-						<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+							</form>
+						</div>
+					</div>
 
 
-						<script src="js/mediaelement-and-player.min.js"></script>
-						<script src="js/mediaelement-playlist-plugin.min.js"></script>
-						<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+					<?php }?>
+					<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-						<script src="js/charte.js"></script>
-						<script src="js/notifications.js"></script>
+					<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
-						<script>
-							$('.reset').on('click', function(){
-								$('.form-reset input').val('');
-							})
-							$('.search').keyup(function(){
-								var search = $(this).val();
-								if(search.length >= 3){
-									$.ajax({
-										url: 'formulaire.php',
-										type: 'POST',
-										data: {search: search},
-									})
-									.done(function(data) {
-										console.log(data);
-										$('table.event-item-table').html('');
-										$(data).appendTo('table.event-item-table');
-									})
-								}else{
-									$.ajax({
-										url: 'formulaire.php',
-										type: 'POST',
-										data: {search_empty: search},
-									})
-									.done(function(data) {
-										console.log(data);
-										$('table.event-item-table').html('');
-										$(data).appendTo('table.event-item-table');
-									})
-								}
-							});
-						</script>
-					</body>
-					</html>
-					<?php }else{
-						header('Location: login.php');
-					}
-					?>
+					<?php include('chat_box.php');?>
+
+					<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+
+
+					<!-- jQuery first, then Other JS. -->
+					<script src="js/jquery-3.2.0.min.js"></script>
+					<!-- Js effects for material design. + Tooltips -->
+					<script src="js/material.min.js"></script>
+					<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+					<script src="js/theme-plugins.js"></script>
+					<!-- Init functions -->
+					<script src="js/main.js"></script>
+					<script src="js/alterclass.js"></script>
+					<script src="js/chat.js"></script>
+					<!-- Select / Sorting script -->
+					<script src="js/selectize.min.js"></script>
+
+					<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+
+
+					<script src="js/mediaelement-and-player.min.js"></script>
+					<script src="js/mediaelement-playlist-plugin.min.js"></script>
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+					<script src="js/simpleUpload.min.js"></script>
+					<script src="js/charte.js"></script>
+					<script src="js/notifications.js"></script>
+
+					<script>
+						$('.search').keyup(function(){
+							var search = $(this).val();
+							if(search.length >= 3){
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {search: search},
+								})
+								.done(function(data) {
+									console.log(data);
+									$('table.event-item-table').html('');
+									$(data).appendTo('table.event-item-table');
+								})
+							}else{
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {search_empty: search},
+								})
+								.done(function(data) {
+									console.log(data);
+									$('table.event-item-table').html('');
+									$(data).appendTo('table.event-item-table');
+								})
+							}
+						});
+					</script>
+				</body>
+				</html>
+				<?php }else{
+					header('Location: login.php');
+				}
+				?>

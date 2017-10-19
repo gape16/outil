@@ -564,7 +564,7 @@ if(isset($_POST['numClient_controleur'])){
 	$lignetableau.= '<td class="author">';
 	$lignetableau.= '<div class="event-author inline-items">';
 	$lignetableau.= '<div class="author-thumb">';
-	$lignetableau.= '<img src="img/avatar43-sm.jpg" alt="author">';
+	$lignetableau.= '<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">';
 	$lignetableau.= '</div>';
 	$lignetableau.= '<div class="author-date">';
 	$lignetableau.= '<a class="author-name h6">'. $tab_requete_proposition['num_client'] .'</a>';
@@ -639,7 +639,7 @@ if(isset($_POST['search'])){
 				<td class="author">
 					<div class="event-author inline-items">
 						<div class="author-thumb">
-							<img src="img/avatar43-sm.jpg" alt="author">
+							<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 						</div>
 						<div class="author-date">
 							<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
@@ -692,7 +692,7 @@ if(isset($_POST['search_empty'])){
 			<td class="author">
 				<div class="event-author inline-items">
 					<div class="author-thumb">
-						<img src="img/avatar43-sm.jpg" alt="author">
+						<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 					</div>
 					<div class="author-date">
 						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
@@ -1024,11 +1024,27 @@ if(isset($_POST['categorie_remontees'])){
 	$description_remontees = $_POST['description_remontees'];
 	$id_user = $_SESSION['id_graph'];
 	$date = date('Y-m-d H:i:s');
-	$requete_remontee = $bdd->prepare("INSERT INTO remontees (titre, description, id_categorie_remontees, date_remontees, id_user) VALUES (?,?,?,?,?)");
+	$accept_remontees = 0;
+	$commentaires = '';
+	$requete_remontee = $bdd->prepare("INSERT INTO remontees (titre, description, id_categorie_remontees, date_remontees, id_user, accept_remontees, commentaires) VALUES (?,?,?,?,?,?,?)");
 	$requete_remontee->bindParam(1, $titre_remontees);
 	$requete_remontee->bindParam(2, $description_remontees);
 	$requete_remontee->bindParam(3, $categorie_remontees);
 	$requete_remontee->bindParam(4, $date);
 	$requete_remontee->bindParam(5, $id_user);
+	$requete_remontee->bindParam(6, $accept_remontees);
+	$requete_remontee->bindParam(7, $commentaires);
 	$requete_remontee->execute();
 }
+
+if (isset($_POST['commentaire_remontees'])) {
+	$accept_remontees = 1;
+	$id_remontees = $_POST['id_remontees'];
+	$commentaire = $_POST['commentaire_remontees'];
+	$requete_accept_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
+	$requete_accept_remontee->bindParam(1, $accept_remontees);
+	$requete_accept_remontee->bindParam(2, $commentaire);
+	$requete_accept_remontee->bindParam(3, $id_remontees);
+	$requete_accept_remontee->execute();
+}
+

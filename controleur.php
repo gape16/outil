@@ -196,7 +196,7 @@ if (isset($_SESSION['id_statut'])) {
 											<td class="author">
 												<div class="event-author inline-items">
 													<div class="author-thumb">
-														<img src="img/avatar43-sm.jpg" alt="author">
+														<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 													</div>
 													<div class="author-date">
 														<a class="author-name h6"><?php echo $value['num_client'] ?></a>

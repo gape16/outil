@@ -34,6 +34,17 @@ if (isset($_SESSION['id_statut'])) {
 	$selection_article_veille = $bdd->prepare("SELECT * FROM veille");
 	$selection_article_veille->execute();
 
+	$id_graph=$_SESSION['id_graph'];
+
+	$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
+	$query_notif_code->execute();
+	$result_notif_code=$query_notif_code->fetch();
+	$dernier=$result_notif_code['id_veille'];
+	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_B = ? where id_user = ?");
+	$query_inser_code->bindParam(1, $dernier);
+	$query_inser_code->bindParam(2, $id_graph);
+	$query_inser_code->execute();
+
 	?>
 
 	<!DOCTYPE html>
@@ -122,21 +133,21 @@ if (isset($_SESSION['id_statut'])) {
 		
 		<div class="main-header">
 			<div class="content-bg-wrap">
-				<div class="content-bg bg-account"></div>
+				<div class="content-bg bg-events"></div>
 			</div>
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 						<div class="main-header-content">
-							<h1>Veille</h1>
-							<p>Ici faites votre veille
+							<h1>Retrouvez toutes les veilles technologiques</h1>
+							<p>Bienvenu sur la page de la veille technologique qui vous permettra de trouver un maximum d'informations sur les nouveautés sans aller sur le net!
 							</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<img class="img-bottom" src="img/blog_bottom.png" alt="friends">
+			<img class="img-bottom" src="img/event-bottom.png" alt="friends">
 		</div>
 
 		<!-- Main Content Groups -->
@@ -243,18 +254,11 @@ if (isset($_SESSION['id_statut'])) {
 			</div>
 		</div>
 
-
-
-
-
-		<!-- ... end Window-popup Create Friends Group Add Friends -->
-
 		<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
 		<?php include('chat_box.php');?>
 
 		<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
 
 		<!-- jQuery first, then Other JS. -->
 		<script src="js/jquery-3.2.0.min.js"></script>
@@ -265,7 +269,7 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- Init functions -->
 		<script src="js/main.js"></script>
 		<script src="js/alterclass.js"></script>
-		<script src="js/chat.js"></script>
+		<!-- <script src="js/chat.js"></script> -->
 		<!-- Select / Sorting script -->
 		<script src="js/selectize.min.js"></script>
 
@@ -286,6 +290,8 @@ if (isset($_SESSION['id_statut'])) {
 		<script src="js/simpleUpload.min.js"></script>
 
 		<script src="js/charte.js"></script>
+		<script src="js/notifications.js"></script>
+
 		<script>
 
 			$(function(){

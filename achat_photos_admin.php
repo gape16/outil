@@ -16,6 +16,15 @@ if (isset($_SESSION['id_statut'])) {
 	$query_etat=$bdd->prepare("SELECT etat, id_etat_achat FROM etat_achat where id_etat_achat != ?");
 	$query_etat->bindParam(1, $id_etat_achat);
 	$query_etat->execute();
+
+	$query_notif_code=$bdd->prepare("SELECT * FROM achat_photos order by id_achat DESC limit 1");
+	$query_notif_code->execute();
+	$result_notif_code=$query_notif_code->fetch();
+	$dernier=$result_notif_code['id_achat'];
+	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_C = ? where id_user = ?");
+	$query_inser_code->bindParam(1, $dernier);
+	$query_inser_code->bindParam(2, $id_graph);
+	$query_inser_code->execute();
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
@@ -132,7 +141,10 @@ if (isset($_SESSION['id_statut'])) {
 							
 							<table class="event-item-table">
 								<tbody>
-									<?php foreach ($query_achat as $key => $value) {
+									<?php if($query_achat->rowCount()==0){
+										echo "Aucune demande n'a été faite";
+									}
+									foreach ($query_achat as $key => $value) {
 										$date_tab=explode("-", $value['date_achat']);
 										$jour_tab=explode(" ",$date_tab[2]);
 										$jour=$jour_tab[0];
@@ -152,7 +164,7 @@ if (isset($_SESSION['id_statut'])) {
 											<td class="author">
 												<div class="event-author inline-items">
 													<div class="author-thumb">
-														<img src="img/avatar43-sm.jpg" alt="author">
+														<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 													</div>
 													<div class="author-date">
 														<a class="author-name h6"><?php echo $value['id_client'];?></a>
@@ -177,7 +189,7 @@ if (isset($_SESSION['id_statut'])) {
 												</ul>
 											</td>
 											<td class="add-event">
-												<a data-toggle="modal" data-target="#create-achat" data-id="<?php echo $value['id_client'];?>" data-lien="<?php echo $value['lien'];?>" data-achat="<?php echo $value['id_achat'];?>" class="btn btn-breez btn-sm valider_achat_admin" style="background:#1ed760;color:white;cursor:pointer;">Acheter (ou pas)</a>
+												<a data-toggle="modal" data-target="#create-achat" data-id="<?php echo $value['id_client'];?>" data-lien="<?php echo $value['lien'];?>" data-achat="<?php echo $value['id_achat'];?>" class="btn btn-breez btn-sm valider_achat_admin" style="background:#1ed760;color:white;cursor:pointer;">Acheter</a>
 											</td>
 
 										</tr>
@@ -252,7 +264,7 @@ if (isset($_SESSION['id_statut'])) {
 				<!-- Init functions -->
 				<script src="js/main.js"></script>
 				<script src="js/alterclass.js"></script>
-				<script src="js/chat.js"></script>
+				<!-- <script src="js/chat.js"></script> -->
 				<!-- Select / Sorting script -->
 				<script src="js/selectize.min.js"></script>
 
@@ -264,6 +276,8 @@ if (isset($_SESSION['id_statut'])) {
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 				<script src="js/charte.js"></script>
+				<script src="js/notifications.js"></script>
+
 				<script>
 				</script>
 			</body>
