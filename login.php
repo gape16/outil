@@ -117,13 +117,17 @@ if (isset($_POST['connect'])) {
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
-
+	<style>
+		.ah:before{
+			height:300% !important;
+		}
+	</style>
 </head>
 
 <body class="landing-page">
 
 	<div class="content-bg-wrap">
-		<div class="content-bg"></div>
+		<div class="content-bg ah"></div>
 	</div>
 
 
@@ -134,8 +138,8 @@ if (isset($_POST['connect'])) {
 			<div class="col-xl-12 col-lg-12 col-md-12">
 				<div id="site-header-landing" class="header-landing">
 					<a href="02-ProfilePage.html" class="logo">
-						<img src="img/logo.png" alt="Olympus">
-						<h5 class="logo-title">SOLOCAL</h5>
+						<svg id="Calque_1" data-name="Calque 1" viewBox="0 0 70 70" style="width:55px;height:auto; "><defs><style>.cls-1,.cls-2{fill:#fff;}.cls-1{opacity:0.8;}</style></defs><polygon class="cls-1" points="7.08 18.82 35 2.64 62.92 18.82 62.92 51.18 35 67.36 7.08 51.18 7.08 18.82"></polygon><polygon class="cls-2" points="7.08 18.82 7.08 51.18 35 67.36 35 35 7.08 18.82"></polygon></svg>
+						<h5 class="logo-title">SOLOCAL MARKETING SERVICE</h5>
 					</a>
 				</div>
 			</div>

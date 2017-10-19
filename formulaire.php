@@ -564,7 +564,7 @@ if(isset($_POST['numClient_controleur'])){
 	$lignetableau.= '<td class="author">';
 	$lignetableau.= '<div class="event-author inline-items">';
 	$lignetableau.= '<div class="author-thumb">';
-	$lignetableau.= '<img src="img/avatar43-sm.jpg" alt="author">';
+	$lignetableau.= '<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">';
 	$lignetableau.= '</div>';
 	$lignetableau.= '<div class="author-date">';
 	$lignetableau.= '<a class="author-name h6">'. $tab_requete_proposition['num_client'] .'</a>';
@@ -639,7 +639,7 @@ if(isset($_POST['search'])){
 				<td class="author">
 					<div class="event-author inline-items">
 						<div class="author-thumb">
-							<img src="img/avatar43-sm.jpg" alt="author">
+							<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 						</div>
 						<div class="author-date">
 							<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
@@ -692,7 +692,7 @@ if(isset($_POST['search_empty'])){
 			<td class="author">
 				<div class="event-author inline-items">
 					<div class="author-thumb">
-						<img src="img/avatar43-sm.jpg" alt="author">
+						<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 					</div>
 					<div class="author-date">
 						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>

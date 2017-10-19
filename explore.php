@@ -194,7 +194,7 @@ $query_inser_code->execute();
 		<!-- Init functions -->
 		<script src="js/main.js"></script>
 		<script src="js/alterclass.js"></script>
-		<script src="js/chat.js"></script>
+		<!-- <script src="js/chat.js"></script> -->
 		<!-- Select / Sorting script -->
 		<script src="js/selectize.min.js"></script>
 

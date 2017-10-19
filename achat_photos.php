@@ -150,8 +150,6 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 							</form>
 
-							<p class="m-t-50">Vous avez un problème ? <a href="#" class="c-green">Faites le nous savoir</a></p>
-
 							<div class="row">
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<a href="#" class="btn btn-secondary btn-lg full-width reset" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
@@ -198,7 +196,7 @@ if (isset($_SESSION['id_statut'])) {
 											<td class="author">
 												<div class="event-author inline-items">
 													<div class="author-thumb">
-														<img src="img/avatar43-sm.jpg" alt="author">
+														<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
 													</div>
 													<div class="author-date">
 														<a class="author-name h6"><?php echo $value['id_client'];?></a>
@@ -257,7 +255,7 @@ if (isset($_SESSION['id_statut'])) {
 				<!-- Init functions -->
 				<script src="js/main.js"></script>
 				<script src="js/alterclass.js"></script>
-				<script src="js/chat.js"></script>
+				<!-- <script src="js/chat.js"></script> -->
 				<!-- Select / Sorting script -->
 				<script src="js/selectize.min.js"></script>
 
@@ -268,6 +266,8 @@ if (isset($_SESSION['id_statut'])) {
 				<script src="js/mediaelement-playlist-plugin.min.js"></script>
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 				<script src="js/charte.js"></script>
+				<script src="js/notifications.js"></script>
+
 			</body>
 			</html>
 			<?php }else{

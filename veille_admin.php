@@ -277,7 +277,7 @@ if (isset($_SESSION['id_statut'])) {
 			<!-- Init functions -->
 			<script src="js/main.js"></script>
 			<script src="js/alterclass.js"></script>
-			<script src="js/chat.js"></script>
+			<!-- <script src="js/chat.js"></script> -->
 			<!-- Select / Sorting script -->
 			<script src="js/selectize.min.js"></script>
 
@@ -298,6 +298,8 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="js/simpleUpload.min.js"></script>
 
 			<script src="js/charte.js"></script>
+			<script src="js/notifications.js"></script>
+
 			<script>
 
 				$(function(){
