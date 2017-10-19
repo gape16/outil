@@ -150,10 +150,6 @@ if (isset($_SESSION['id_statut'])) {
 			<img class="img-bottom" src="img/event-bottom.png" alt="friends">
 		</div>
 
-		<!-- Main Content Groups -->
-		<?php 
-		// si c'est un graph qui se connect
-		if ($_SESSION['id_statut'] == 1) {?>
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -183,19 +179,19 @@ if (isset($_SESSION['id_statut'])) {
 									</select>
 								</div>
 								<div class="form-group label-floating is-empty">
+									<label class="control-label">Description</label>
+									<textarea name="description" id="description" cols="30" rows="10"></textarea>
+								</div>
+								<div class="form-group label-floating is-empty">
 									<form class="upload_veille">
 										<input type="file" id="file-select" name="photos" required="required">
 									</form>
 									
 								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Description</label>
-									<textarea name="description" id="description" cols="30" rows="10"></textarea>
-								</div>
 							</form>
 							<div class="row">
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-secondary btn-lg full-width" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
+									<a href="#" class="btn btn-secondary btn-lg full-width reni_veille" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
 								</div>
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_veille"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
@@ -258,7 +254,6 @@ if (isset($_SESSION['id_statut'])) {
 
 
 
-			<?php }?>
 			<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 			<!-- Window-popup-CHAT for responsive min-width: 768px -->
@@ -303,6 +298,12 @@ if (isset($_SESSION['id_statut'])) {
 			<script>
 
 				$(function(){
+					$(".reni_veille").on("click", function(){
+						$(".help").find("input").val('');
+						$(".help").find("select").val(0);
+						$(".help").find("textarea").val('');
+					})
+
 					$('.valider_veille').on('click', function(){
 						var lienveille = $('.lienveille').val();
 						var titreveille = $('.titreveille').val();
