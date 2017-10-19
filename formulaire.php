@@ -344,6 +344,29 @@ if(isset($_POST['likelecommentaire'])){
 	}
 }
 
+if(isset($_POST['likelaveille'])){
+	$id_veille=$_POST['likelaveille'];
+	$nb_like=$_POST['nb_like_veille']+1;
+	$id_graph=$_SESSION['id_graph'];
+	$query_sel_lik = $bdd->prepare("SELECT id_like from like_veille where id_graph = ? and id_veille = ?");
+	$query_sel_lik->bindParam(1, $id_graph);
+	$query_sel_lik->bindParam(2, $id_veille);
+	$query_sel_lik->execute();
+	$nb_lik = $query_sel_lik->rowCount();
+	// echo $nb_lik;
+	if($nb_lik ==0){
+		$query_ins_lik = $bdd->prepare("INSERT INTO like_veille (id_graph, id_veille) VALUES (?, ?)");
+		$query_ins_lik->bindParam(1, $id_graph);
+		$query_ins_lik->bindParam(2, $id_veille);
+		$query_ins_lik->execute();
+		echo "ok";
+		$query_up_lik = $bdd->prepare("UPDATE veille SET like_veille = ? where id_veille = ?");
+		$query_up_lik->bindParam(1, $nb_like);
+		$query_up_lik->bindParam(2, $id_veille);
+		$query_up_lik->execute();
+	}
+}
+
 if (isset($_POST['id_timer_aide'])) {
 	$id_aide=$_POST['id_timer_aide'];
 	$id_com=$_POST['id_timer_com'];
