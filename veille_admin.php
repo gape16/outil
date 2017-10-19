@@ -51,7 +51,7 @@ if (isset($_SESSION['id_statut'])) {
 	<html lang="en">
 	<head>
 
-		<title>Friend Groups</title>
+		<title>Veille</title>
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -241,78 +241,77 @@ if (isset($_SESSION['id_statut'])) {
 														<?php echo($value['date_veille']) ?>
 													</time>
 												</div>
+												<a class="post-add-icon inline-items like_veille_<?php echo($value['id_veille']) ?>" <?php if($value['like_veille'] != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
 											</div>
-											<a href="#" class="post-add-icon inline-items" style="fill: #ff5e3a;color: #ff5e3a;"><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
-										</div>
-									</article>
+										</article>
+									</div>
 								</div>
+								<?php } ?>
 							</div>
-							<?php } ?>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Window-popup-CHAT for responsive min-width: 768px -->
+			<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
-		<?php include('chat_box.php');?>
+			<?php include('chat_box.php');?>
 
-		<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+			<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
-		<!-- jQuery first, then Other JS. -->
-		<script src="js/jquery-3.2.0.min.js"></script>
-		<!-- Js effects for material design. + Tooltips -->
-		<script src="js/material.min.js"></script>
-		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-		<script src="js/theme-plugins.js"></script>
-		<!-- Init functions -->
-		<script src="js/main.js"></script>
-		<script src="js/alterclass.js"></script>
-		<!-- <script src="js/chat.js"></script> -->
-		<!-- Select / Sorting script -->
-		<script src="js/selectize.min.js"></script>
+			<!-- jQuery first, then Other JS. -->
+			<script src="js/jquery-3.2.0.min.js"></script>
+			<!-- Js effects for material design. + Tooltips -->
+			<script src="js/material.min.js"></script>
+			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+			<script src="js/theme-plugins.js"></script>
+			<!-- Init functions -->
+			<script src="js/main.js"></script>
+			<script src="js/alterclass.js"></script>
+			<!-- <script src="js/chat.js"></script> -->
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
 
-		<!-- Select / Sorting script -->
-		<script src="js/selectize.min.js"></script>
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
 
-		<!-- Swiper / Sliders -->
-		<script src="js/swiper.jquery.min.js"></script>
+			<!-- Swiper / Sliders -->
+			<script src="js/swiper.jquery.min.js"></script>
 
-		<script src="js/isotope.pkgd.min.js"></script>
+			<script src="js/isotope.pkgd.min.js"></script>
 
-		<script src="js/mediaelement-and-player.min.js"></script>
-		<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
-		<script src="js/mediaelement-and-player.min.js"></script>
-		<script src="js/mediaelement-playlist-plugin.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-		<script src="js/simpleUpload.min.js"></script>
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+			<script src="js/simpleUpload.min.js"></script>
 
-		<script src="js/charte.js"></script>
-		<script src="js/notifications.js"></script>
+			<script src="js/charte.js"></script>
+			<script src="js/notifications.js"></script>
 
-		<script>
+			<script>
 
-			$(function(){
-				$('.valider_veille').on('click', function(){
-					var lienveille = $('.lienveille').val();
-					var titreveille = $('.titreveille').val();
-					var categorie = $('select.categorie').val();
-					var file = $("#file-select").prop("files");
-					var description = $('#description').val();
-					var names = $.map(file, function (val) { return val.name; });
-					$.ajax({
-						url: 'formulaire.php',
-						type: 'POST',
-						data: {lienveille: lienveille, titreveille: titreveille, categorie_veille: categorie, description_veille: description, file_veille: names}
-					})
-					.done(function(data) {
-						location.reload();
-					})
-					$('#file-select').simpleUpload("upload.php", {
+				$(function(){
+					$('.valider_veille').on('click', function(){
+						var lienveille = $('.lienveille').val();
+						var titreveille = $('.titreveille').val();
+						var categorie = $('select.categorie').val();
+						var file = $("#file-select").prop("files");
+						var description = $('#description').val();
+						var names = $.map(file, function (val) { return val.name; });
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {lienveille: lienveille, titreveille: titreveille, categorie_veille: categorie, description_veille: description, file_veille: names}
+						})
+						.done(function(data) {
+							location.reload();
+						})
+						$('#file-select').simpleUpload("upload.php", {
 
-						start: function(file){
+							start: function(file){
 						//upload started
 					},
 					progress: function(progress){
@@ -327,12 +326,12 @@ if (isset($_SESSION['id_statut'])) {
 					}
 
 				});
+					})
 				})
-			})
-		</script>
-	</body>
-	</html>
-	<?php }else{
-		header('Location: login.php');
-	}
-	?>
+			</script>
+		</body>
+		</html>
+		<?php }else{
+			header('Location: login.php');
+		}
+		?>

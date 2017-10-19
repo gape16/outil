@@ -344,6 +344,29 @@ if(isset($_POST['likelecommentaire'])){
 	}
 }
 
+if(isset($_POST['likelaveille'])){
+	$id_veille=$_POST['likelaveille'];
+	$nb_like=$_POST['nb_like_veille']+1;
+	$id_graph=$_SESSION['id_graph'];
+	$query_sel_lik = $bdd->prepare("SELECT id_like from like_veille where id_graph = ? and id_veille = ?");
+	$query_sel_lik->bindParam(1, $id_graph);
+	$query_sel_lik->bindParam(2, $id_veille);
+	$query_sel_lik->execute();
+	$nb_lik = $query_sel_lik->rowCount();
+	// echo $nb_lik;
+	if($nb_lik ==0){
+		$query_ins_lik = $bdd->prepare("INSERT INTO like_veille (id_graph, id_veille) VALUES (?, ?)");
+		$query_ins_lik->bindParam(1, $id_graph);
+		$query_ins_lik->bindParam(2, $id_veille);
+		$query_ins_lik->execute();
+		echo "ok";
+		$query_up_lik = $bdd->prepare("UPDATE veille SET like_veille = ? where id_veille = ?");
+		$query_up_lik->bindParam(1, $nb_like);
+		$query_up_lik->bindParam(2, $id_veille);
+		$query_up_lik->execute();
+	}
+}
+
 if (isset($_POST['id_timer_aide'])) {
 	$id_aide=$_POST['id_timer_aide'];
 	$id_com=$_POST['id_timer_com'];
@@ -1020,8 +1043,8 @@ if(isset($_POST['search_code_empty'])){
 
 if(isset($_POST['categorie_remontees'])){
 	$categorie_remontees = $_POST['categorie_remontees'];
-	$titre_remontees = $_POST['titre_remontees'];
-	$description_remontees = $_POST['description_remontees'];
+	$titre_remontees = utf8_decode($_POST['titre_remontees']);
+	$description_remontees = utf8_decode($_POST['description_remontees']);
 	$id_user = $_SESSION['id_graph'];
 	$date = date('Y-m-d H:i:s');
 	$accept_remontees = 0;
@@ -1039,12 +1062,23 @@ if(isset($_POST['categorie_remontees'])){
 
 if (isset($_POST['commentaire_remontees'])) {
 	$accept_remontees = 1;
-	$id_remontees = $_POST['id_remontees'];
-	$commentaire = $_POST['commentaire_remontees'];
+	$id_remontees = utf8_decode($_POST['id_remontees']);
+	$commentaire = utf8_decode($_POST['commentaire_remontees']);
 	$requete_accept_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
 	$requete_accept_remontee->bindParam(1, $accept_remontees);
 	$requete_accept_remontee->bindParam(2, $commentaire);
 	$requete_accept_remontee->bindParam(3, $id_remontees);
 	$requete_accept_remontee->execute();
+}
+
+if (isset($_POST['commentaire_remontees_refus'])) {
+	$decline_remontees = 0;
+	$id_remontees = utf8_decode($_POST['id_remontees']);
+	$commentaire = utf8_decode($_POST['commentaire_remontees_refus']);
+	$requete_decline_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
+	$requete_decline_remontee->bindParam(1, $decline_remontees);
+	$requete_decline_remontee->bindParam(2, $commentaire);
+	$requete_decline_remontee->bindParam(3, $id_remontees);
+	$requete_decline_remontee->execute();
 }
 

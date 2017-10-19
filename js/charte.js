@@ -572,6 +572,31 @@ $("body").on('click', "*[class*='like_commentaire_']", function(e){
 	})
 })
 
+$("body").on('click', "*[class*='like_veille_']", function(e){
+	var check="like_veille_";
+	var nb_like = $(this).find("span").html();
+	var cls = $(this).attr('class').split(' ');
+	for (var i = 0; i < cls.length; i++) {
+		if (cls[i].indexOf(check) > -1) {
+			var id_emet = cls[i].slice(check.length, cls[i].length);
+		}
+	}
+	$.ajax({
+		url: "formulaire.php",
+		type: 'POST',
+		context: this,
+		data: {likelaveille:id_emet, nb_like_veille:nb_like}
+	})
+	.done(function(data) {
+		if (data == "ok") {
+			$(this).css("fill", "#ff5e3a");
+			$(this).css("color", "#ff5e3a");
+			var valeur = $(this).find("span").html();
+			$(this).find("span").html(valeur * 1 + 1 *1);
+		}
+	})
+})
+
 function charger_commentaires(){
 	setTimeout( function(){
 		if($("#problemos").is('[class*="show"]')){

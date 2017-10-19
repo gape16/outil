@@ -151,9 +151,6 @@ if (isset($_SESSION['id_statut'])) {
 		</div>
 
 		<!-- Main Content Groups -->
-		<?php 
-		// si c'est un graph qui se connect
-		if ($_SESSION['id_statut'] == 1) {?>
 		<div class="container">
 			<div class="row">
 
@@ -187,7 +184,7 @@ if (isset($_SESSION['id_statut'])) {
 													</time>
 												</div>
 											</div>
-											<a href="#" class="post-add-icon inline-items" style="fill: #ff5e3a;color: #ff5e3a;"><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
+											<a class="post-add-icon inline-items like_veille_<?php echo($value['id_veille']) ?>" <?php if($value['like_veille'] != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
 										</div>
 									</article>
 								</div>
@@ -204,7 +201,6 @@ if (isset($_SESSION['id_statut'])) {
 
 
 
-	<?php }?>
 	<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 	<!-- Window-popup-CHAT for responsive min-width: 768px -->
