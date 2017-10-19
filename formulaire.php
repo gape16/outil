@@ -1017,3 +1017,18 @@ if(isset($_POST['search_code_empty'])){
 		<?php
 	}
 }
+
+if(isset($_POST['categorie_remontees'])){
+	$categorie_remontees = $_POST['categorie_remontees'];
+	$titre_remontees = $_POST['titre_remontees'];
+	$description_remontees = $_POST['description_remontees'];
+	$id_user = $_SESSION['id_graph'];
+	$date = date('Y-m-d H:i:s');
+	$requete_remontee = $bdd->prepare("INSERT INTO remontees (titre, description, id_categorie_remontees, date_remontees, id_user) VALUES (?,?,?,?,?)");
+	$requete_remontee->bindParam(1, $titre_remontees);
+	$requete_remontee->bindParam(2, $description_remontees);
+	$requete_remontee->bindParam(3, $categorie_remontees);
+	$requete_remontee->bindParam(4, $date);
+	$requete_remontee->bindParam(5, $id_user);
+	$requete_remontee->execute();
+}
