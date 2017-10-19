@@ -34,6 +34,17 @@ if (isset($_SESSION['id_statut'])) {
 	$selection_article_veille = $bdd->prepare("SELECT * FROM veille");
 	$selection_article_veille->execute();
 
+	$id_graph=$_SESSION['id_graph'];
+
+	$query_notif_code=$bdd->prepare("SELECT * FROM veille order by id_veille DESC limit 1");
+	$query_notif_code->execute();
+	$result_notif_code=$query_notif_code->fetch();
+	$dernier=$result_notif_code['id_veille'];
+	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_B = ? where id_user = ?");
+	$query_inser_code->bindParam(1, $dernier);
+	$query_inser_code->bindParam(2, $id_graph);
+	$query_inser_code->execute();
+
 	?>
 
 	<!DOCTYPE html>

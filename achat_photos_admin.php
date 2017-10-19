@@ -16,6 +16,15 @@ if (isset($_SESSION['id_statut'])) {
 	$query_etat=$bdd->prepare("SELECT etat, id_etat_achat FROM etat_achat where id_etat_achat != ?");
 	$query_etat->bindParam(1, $id_etat_achat);
 	$query_etat->execute();
+
+	$query_notif_code=$bdd->prepare("SELECT * FROM achat_photos order by id_achat DESC limit 1");
+	$query_notif_code->execute();
+	$result_notif_code=$query_notif_code->fetch();
+	$dernier=$result_notif_code['id_achat'];
+	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_C = ? where id_user = ?");
+	$query_inser_code->bindParam(1, $dernier);
+	$query_inser_code->bindParam(2, $id_graph);
+	$query_inser_code->execute();
 	?>
 	<!DOCTYPE html>
 	<html lang="en">

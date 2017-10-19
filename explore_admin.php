@@ -3,8 +3,19 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+$id_graph=$_SESSION['id_graph'];
+
 $query_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code  WHERE accept_code = 0 order by date_code DESC");
 $query_code->execute();
+
+$query_notif_code=$bdd->prepare("SELECT * FROM code where accept_code = 1 order by id_code DESC limit 1");
+$query_notif_code->execute();
+$result_notif_code=$query_notif_code->fetch();
+$dernier=$result_notif_code['id_code'];
+$query_inser_code=$bdd->prepare("UPDATE notifications set notif_A = ? where id_user = ?");
+$query_inser_code->bindParam(1, $dernier);
+$query_inser_code->bindParam(2, $id_graph);
+$query_inser_code->execute();
 
 ?>
 
@@ -49,10 +60,10 @@ $query_code->execute();
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 	<style>
-	.align-center {
-		width: 100%;
-	}
-</style>
+		.align-center {
+			width: 100%;
+		}
+	</style>
 </head>
 
 <body>
