@@ -140,7 +140,7 @@ if (isset($_SESSION['id_statut'])) {
 							<h6 class="title">Demande d'aide</h6>
 						</div>
 						<div class="ui-block-content">
-							<form class="form-group label-floating is-empty help">
+							<form class="form-group label-floating is-empty help form-reset">
 								<div class="form-group is-empty label-floating ">
 									<label class="control-label">Numéro client</label>
 									<input class="form-control numclient" placeholder="" value="" type="text">
@@ -163,13 +163,12 @@ if (isset($_SESSION['id_statut'])) {
 									<p id="status"></p>
 								</div>
 							</form>
-							<p class="m-t-50">Vous avez un problème ? <a href="#" class="c-green">Faites le nous savoir</a></p>
-							<div class="row">
+							<div class="row whitecolor">
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-secondary btn-lg full-width" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
+									<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
 								</div>
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+									<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
 									Valider la demande</a>
 								</div>
 							</div>
@@ -362,6 +361,9 @@ if (isset($_SESSION['id_statut'])) {
 						<script src="js/notifications.js"></script>
 
 						<script>
+							$('.reset').on('click', function(){
+								$('.form-reset input').val('');
+							})
 							$('.search').keyup(function(){
 								var search = $(this).val();
 								if(search.length >= 3){

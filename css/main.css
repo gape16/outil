@@ -38,6 +38,9 @@
 .mt{
 	margin-top: 150px;
 }
+.whitecolor a {
+	color: white !important;
+}
 .box-orange{
 	box-shadow: 0 0px 25px #ff5e3a;
 	animation-duration: 1s;

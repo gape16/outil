@@ -163,7 +163,6 @@ if (isset($_SESSION['id_statut'])) {
 											<div class="event-author inline-items">
 												<div class="author-date">
 													<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-													<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
 												</div>
 											</div>
 										</td>
