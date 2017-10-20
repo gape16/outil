@@ -129,7 +129,7 @@ if (isset($_SESSION['id_statut'])) {
 
 								<div class="row">
 									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<a href="#" class="btn btn-secondary btn-lg full-width" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
+										<a href="#" class="btn btn-secondary btn-lg full-width reni" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
 									</div>
 									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_remontee"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
@@ -173,21 +173,45 @@ if (isset($_SESSION['id_statut'])) {
 						var categorie = $('select.categorie').val();
 						var titre = $('.titre').val();
 						var description = $('#description').val();
-						$.ajax({
-							url: 'formulaire.php',
-							type: 'POST',
-							data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
-						})
-						.done(function() {
-							swal(
-								'Remontée effectuée',
-								'Votre remontée sera étudiée sous peu',
-								'success'
-								)
-							setTimeout(function(){
-								location.reload();
-							},1500);
-						})
+						if (categorie != 0) {
+							$('.categorie').removeClass('empty');
+							if (titre.length >= 5) {
+								$('.titre').removeClass('empty');
+								if (description.length >= 30) {
+									$('#description').removeClass('empty');
+									$.ajax({
+										url: 'formulaire.php',
+										type: 'POST',
+										data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
+									})
+									.done(function() {
+										swal(
+											'Remontée effectuée',
+											'Votre remontée sera étudiée sous peu',
+											'success'
+											)
+										setTimeout(function(){
+											location.reload();
+										},1000);
+									})
+								}else{
+									$('#description').addClass('empty');
+									$('#description').prev().html('30 caractères minimum requis');
+								}
+							}else{
+								$('.titre').addClass('empty');
+								$('.titre').prev().html('5 caractères minimum requis');
+							}
+						}else{
+							$('.categorie').addClass('empty');
+							$('.categorie').prev().html('Une catégorie est requise');
+						}
+					})
+
+					$('.reni').on('click', function(){
+						$('select.categorie').val(0);
+						$('.titre').val('');
+						$('#description').val('');
 					})
 				})
 			</script>

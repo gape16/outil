@@ -128,18 +128,24 @@
        </a>
      </li>
      <li>
-      <a href="stats.php">
-        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
-        <span class="left-menu-title">Mes stats</span>
-      </a>
-    </li>
-    <li>
-      <a href="account_setting.php">
-        <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
-        <span class="left-menu-title">Mon compte</span>
-      </a>
-    </li>
-  </ul>
+      <a href="remontees.php">
+       <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+       <span class="left-menu-title">Les remontées</span>
+     </a>
+   </li>
+   <li>
+    <a href="stats.php">
+      <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
+      <span class="left-menu-title">Mes stats</span>
+    </a>
+  </li>
+  <li>
+    <a href="account_setting.php">
+      <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
+      <span class="left-menu-title">Mon compte</span>
+    </a>
+  </li>
+</ul>
 </div>
 </div>
 </div>

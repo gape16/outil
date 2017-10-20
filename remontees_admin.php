@@ -218,48 +218,60 @@ if (isset($_SESSION['id_statut'])) {
 						<script>
 							$('.open_modal').on('click', function(){
 								var id_remontees = $(this).parent().parent().find('.id_remontees').val();
-								console.log(id_remontees);
 								$('.hax_id_remontees').val(id_remontees);
 							})
 
 							$('.accepter_remontees').on('click', function(){
 								var commentaire = $('.commentaires').val();
 								var id_remontees = $('.hax_id_remontees').val();
-								$.ajax({
-									url: 'formulaire.php',
-									type: 'POST',
-									data: {commentaire_remontees: commentaire, id_remontees: id_remontees},
-								})
-								.done(function() {
-									swal(
-										'Remontée validée',
-										'Le graph est notifié',
-										'success'
-										)
-									setTimeout(function(){
-										location.reload();
-									},1500);
-								})
+								if (commentaire.length >= 30) {
+									$('.commentaires').removeClass('empty');
+									$.ajax({
+										url: 'formulaire.php',
+										type: 'POST',
+										data: {commentaire_remontees: commentaire, id_remontees: id_remontees},
+									})
+									.done(function() {
+										swal(
+											'Remontée validée',
+											'Le graph est notifié',
+											'success'
+											)
+										setTimeout(function(){
+											location.reload();
+										},1500);
+									})
+								}else{
+									$('.commentaires').addClass('empty');
+									$('.commentaires').prev().html('30 caractères minimum requis');
+								}
+								
 							})
 
 							$('.refuser_remontees').on('click', function(){
 								var commentaire = $('.commentaires').val();
 								var id_remontees = $('.hax_id_remontees').val();
-								$.ajax({
-									url: 'formulaire.php',
-									type: 'POST',
-									data: {commentaire_remontees_refus: commentaire, id_remontees: id_remontees},
-								})
-								.done(function(data) {
-									swal(
-										'Remontée refusée',
-										'Le graph est notifié',
-										'error'
-										)
-									setTimeout(function(){
-										location.reload();
-									},1500);
-								})
+								if (commentaire.length >= 30) {
+									$('.commentaires').removeClass('empty');
+									$.ajax({
+										url: 'formulaire.php',
+										type: 'POST',
+										data: {commentaire_remontees_refus: commentaire, id_remontees: id_remontees},
+									})
+									.done(function(data) {
+										swal(
+											'Remontée refusée',
+											'Le graph est notifié',
+											'error'
+											)
+										setTimeout(function(){
+											location.reload();
+										},1500);
+									})
+								}else{
+									$('.commentaires').addClass('empty');
+									$('.commentaires').prev().html('30 caractères minimum requis');
+								}
 							})
 
 							$('.search').keyup(function(){
