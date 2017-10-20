@@ -1,8 +1,15 @@
+<?php
+
+// Connexion à la base de donnée et insertion de session_start
+include('connexion_session.php');
+
+$id_graph=$_SESSION['id_graph'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
-	<title>Community Badges</title>
+	<title>Badges</title>
 
 	<!-- Required meta tags always come first -->
 	<meta charset="utf-8">
@@ -87,10 +94,8 @@
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 					<div class="main-header-content">
-						<h1>Collect your Badges!</h1>
-						<p>Welcome to your badge collection! Here you’ll find all the badges you can unlock to show on your
-							profile. Learn how to achive the goal to adquire them and collect them all. Some have leveled
-							tiers and other don’t. You can challenge your friends to see who gets more and let the fun begin!
+						<h1>Gagnez des Badges!</h1>
+						<p>Profitez de votre imaginations, votre déterminations et vos envies afin d'obtenir le plus de badges possible et ainsi bluffer vos collègues!
 						</p>
 					</div>
 				</div>
@@ -116,8 +121,8 @@
 							<div class="label-avatar bg-primary">2</div>
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Olympian User</a>
-							<div class="birthday-date">Congratulations! You have been in the Olympus community for 2 years.</div>
+							<a href="#" class="h6 author-name">Retour Sans modifications</a>
+							<div class="birthday-date">Vous avez effectuer un retour sans modifications, félicitation!</div>
 						</div>
 
 						<div class="skills-item">
@@ -135,8 +140,8 @@
 							<img src="img/badge2.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Favourite Creator</a>
-							<div class="birthday-date">You created a favourite page.</div>
+							<a href="#" class="h6 author-name">Site du mois</a>
+							<div class="birthday-date">Vous avez été élu meilleur site du mois.</div>
 						</div>
 
 						<div class="skills-item">
@@ -155,8 +160,8 @@
 							<div class="label-avatar bg-blue">4</div>
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Friendly User</a>
-							<div class="birthday-date">You have more than 80 friends. Next Tier: 150 Friends. </div>
+							<a href="#" class="h6 author-name">Meilleure note</a>
+							<div class="birthday-date">Vous avez obtenu un 10/10. </div>
 						</div>
 
 						<div class="skills-item">
@@ -174,8 +179,8 @@
 							<img src="img/badge4.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Professional Photographer</a>
-							<div class="birthday-date">You have uploaded more than 500 images to your profile.</div>
+							<a href="#" class="h6 author-name">Motivation sans égal</a>
+							<div class="birthday-date">Votre motivation et votre dévouement vous qualifie pour une formation.</div>
 						</div>
 
 						<div class="skills-item">
@@ -193,8 +198,8 @@
 							<img src="img/badge5.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Expert Filmaker</a>
-							<div class="birthday-date">You have uploaded more than 80 videos to your profile.</div>
+							<a href="#" class="h6 author-name">Expert Code</a>
+							<div class="birthday-date">Vous méttez à disposition régulièrement des bouts de codes.</div>
 						</div>
 
 						<div class="skills-item">
@@ -212,8 +217,8 @@
 							<img src="img/badge6.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Mightier Than The Sword</a>
-							<div class="birthday-date">You have written more than 50 blog post entries.</div>
+							<a href="#" class="h6 author-name">Force de proposition wordpress</a>
+							<div class="birthday-date">Vous proposez régulièrement des évolutions Wordpress.</div>
 						</div>
 
 						<div class="skills-item">
@@ -231,8 +236,8 @@
 							<img src="img/badge7.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Universe Explorer</a>
-							<div class="birthday-date">You have visited more than 1000 different user profiles.</div>
+							<a href="#" class="h6 author-name">Force de proposition outil</a>
+							<div class="birthday-date">Vous proposez régulièrement des évolutions pour cet outil.</div>
 						</div>
 
 						<div class="skills-item">
@@ -250,8 +255,8 @@
 							<img src="img/badge8.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Nothing to Hide</a>
-							<div class="birthday-date">You have completed all your profile fields.</div>
+							<a href="#" class="h6 author-name">Participation joyeuse</a>
+							<div class="birthday-date">Vous participez à de nombreux anniversaires.</div>
 						</div>
 
 						<div class="skills-item">
@@ -269,8 +274,8 @@
 							<img src="img/badge9.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Messaging Master</a>
-							<div class="birthday-date">You have messaged with at least 20 different people.</div>
+							<a href="#" class="h6 author-name">Implication</a>
+							<div class="birthday-date">Vous likez un certains nombres d'articles de veille.</div>
 						</div>
 
 						<div class="skills-item">
@@ -288,8 +293,8 @@
 							<img src="img/badge10.png" alt="author">
 						</div>
 						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Musical Sharer</a>
-							<div class="birthday-date">You have linked your Spotify account to share your playlist.</div>
+							<a href="#" class="h6 author-name">Don de savoir</a>
+							<div class="birthday-date">Vous aidez un maximum sur les demandes d'aides.</div>
 						</div>
 
 						<div class="skills-item">
@@ -301,102 +306,7 @@
 					</div>
 				</div>
 
-				<div class="ui-block">
-					<div class="birthday-item inline-items badges">
-						<div class="author-thumb">
-							<img src="img/badge11.png" alt="author">
-						</div>
-						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Superliked Hero</a>
-							<div class="birthday-date">You have collected more than 100 likes in one post.</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active" style="width: 100%"></span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="ui-block">
-					<div class="birthday-item inline-items badges">
-						<div class="author-thumb">
-							<img src="img/badge12.png" alt="author">
-						</div>
-						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Strongly Caffeinated </a>
-							<div class="birthday-date">You have written more than 1000 posts.</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active" style="width: 65%"></span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="ui-block">
-					<div class="birthday-item inline-items badges">
-						<div class="author-thumb">
-							<img src="img/badge13.png" alt="author">
-							<div class="label-avatar bg-breez">2</div>
-						</div>
-						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Events Promoter</a>
-							<div class="birthday-date">You have created more than 25 public or private events. Next Tier: 50.</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active" style="width: 100%"></span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="ui-block">
-					<div class="birthday-item inline-items badges">
-						<div class="author-thumb">
-							<img src="img/badge14.png" alt="author">
-						</div>
-						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Friendship Cultivator</a>
-							<div class="birthday-date">You have tagged friends on 200 different posts.</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active" style="width: 80%"></span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="ui-block">
-					<div class="birthday-item inline-items badges">
-						<div class="author-thumb">
-							<img src="img/badge15.png" alt="author">
-						</div>
-						<div class="birthday-author-name">
-							<a href="#" class="h6 author-name">Phantom Profile</a>
-							<div class="birthday-date">You haven’t posted anything on your profile for more than 1 month.</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active" style="width: 100%"></span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
+				
 			</div>
 		</div>
 	</div>

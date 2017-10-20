@@ -186,7 +186,6 @@ if (isset($_SESSION['id_statut'])) {
 									<form class="upload_veille">
 										<input type="file" id="file-select" name="photos" required="required">
 									</form>
-									
 								</div>
 							</form>
 							<div class="row">

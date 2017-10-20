@@ -1,6 +1,6 @@
 <div class="fixed-sidebar">
   <div class="fixed-sidebar-left sidebar--small" id="sidebar-left">
-    <a href="" class="logo">
+    <a href="accueil.php" class="logo">
       <svg id="Calque_1" data-name="Calque 1" viewBox="0 0 70 70" width="100%" height="100%"><defs><style>.cls-1,.cls-2{fill:#fff;}.cls-1{opacity:0.8;}</style></defs><polygon class="cls-1" points="7.08 18.82 35 2.64 62.92 18.82 62.92 51.18 35 67.36 7.08 51.18 7.08 18.82"/><polygon class="cls-2" points="7.08 18.82 7.08 51.18 35 67.36 35 35 7.08 18.82"/></svg>
     </a>
 
@@ -67,8 +67,8 @@
 
 <div class="fixed-sidebar-left sidebar--large" id="sidebar-left-1">
   <a href="#" class="logo">
-    <img src="img/logo.png" alt="Olympus">
-    <h6 class="logo-title">Solocal</h6>
+    <svg id="Calque_1" data-name="Calque 1" viewBox="0 0 70 70" width="45px"><defs><style>.cls-1,.cls-2{fill:#fff;}.cls-1{opacity:0.8;}</style></defs><polygon class="cls-1" points="7.08 18.82 35 2.64 62.92 18.82 62.92 51.18 35 67.36 7.08 51.18 7.08 18.82"/><polygon class="cls-2" points="7.08 18.82 7.08 51.18 35 67.36 35 35 7.08 18.82"/></svg>
+    <h6 class="logo-title" style="margin-left: 20px;">Solocal MS</h6>
   </a>
 
   <div class="mCustomScrollbar" data-mcs-theme="dark">

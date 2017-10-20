@@ -641,7 +641,7 @@ $result_equipe_chat=$query_equipe_chat->fetchAll();
 <!-- ... end Fixed Sidebar Right -->
 
 <!-- Fixed Sidebar Right -->
-
+<!-- 
 <div class="fixed-sidebar right fixed-sidebar-responsive">
 
   <div class="fixed-sidebar-right sidebar--small" id="sidebar-right-responsive">
@@ -655,4 +655,4 @@ $result_equipe_chat=$query_equipe_chat->fetchAll();
 
   </div>
 
-</div>
+</div> -->

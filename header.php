@@ -25,7 +25,9 @@ if($nb_notifs==0){
 <header class="header" id="site-header">
 
   <div class="page-title">
-    <h6>SOLOCAL MARKETING SERVICE</h6>
+    <img src="img/solocal_ms_rvb.png" alt="" style="height: 80px;
+    position: absolute;
+    top: 00px;">
   </div>
 
   <div class="header-content-wrapper">
