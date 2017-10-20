@@ -51,7 +51,7 @@ if (isset($_SESSION['id_statut'])) {
 	<html lang="en">
 	<head>
 
-		<title>Friend Groups</title>
+		<title>Veille</title>
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -194,48 +194,47 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_veille"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-										Envoyer l'article</a>
-									</div>
+									Envoyer l'article</a>
 								</div>
 							</div>
 						</div>
-
 					</div>
 
 				</div>
+
 			</div>
-			<div class="container">
-				<div class="row">
+		</div>
+		<div class="container">
+			<div class="row">
 
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="clients-grid">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="clients-grid">
 
-							<ul class="cat-list-bg-style align-center sorting-menu">
-								<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
+						<ul class="cat-list-bg-style align-center sorting-menu">
+							<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
 
-								<?php foreach ($selection_categorie2 as $key => $value) {?>
-								<li class="cat-list__item" data-filter=".<?php echo($value['id_categorie_veille']) ?>"><a href="#" class=""><?php echo($value['categorie']) ?></a></li>
-								<?php }
-								?>
-							</ul>
-							<div class="row sorting-container" id="clients-grid-1" data-layout="masonry">
-								<?php foreach ($selection_article_veille as $key => $value) {?>
-								<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
-									<div class="ui-block">
-										<article class="hentry blog-post">
-											<div class="post-thumb">
-												<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
-											</div>
-											<div class="post-content">
-												<a href="<?php echo($value['lien']) ?>	" class="h4 post-title"><?php echo($value['titre']) ?></a>
-												<p><?php echo($value['description']) ?>											</p>
+							<?php foreach ($selection_categorie2 as $key => $value) {?>
+							<li class="cat-list__item" data-filter=".<?php echo($value['id_categorie_veille']) ?>"><a href="#" class=""><?php echo($value['categorie']) ?></a></li>
+							<?php }
+							?>
+						</ul>
+						<div class="row sorting-container" id="clients-grid-1" data-layout="masonry">
+							<?php foreach ($selection_article_veille as $key => $value) {?>
+							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
+								<div class="ui-block">
+									<article class="hentry blog-post">
+										<div class="post-thumb">
+											<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
+										</div>
+										<div class="post-content">
+											<a href="<?php echo($value['lien']) ?>	" class="h4 post-title"><?php echo($value['titre']) ?></a>
+											<p><?php echo($value['description']) ?>											</p>
 
-												<div class="author-date not-uppercase">
-													<div class="post__date">
-														<time class="published" datetime="2017-03-24T18:18">
-															<?php echo($value['date_veille']) ?>
-														</time>
-													</div>
+											<div class="author-date not-uppercase">
+												<div class="post__date">
+													<time class="published" datetime="2017-03-24T18:18">
+														<?php echo($value['date_veille']) ?>
+													</time>
 												</div>
 												<a class="post-add-icon inline-items like_veille_<?php echo($value['id_veille']) ?>" <?php if($value['like_veille'] != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
 											</div>
@@ -249,18 +248,11 @@ if (isset($_SESSION['id_statut'])) {
 				</div>
 			</div>
 
-
-
-
-
-			<!-- ... end Window-popup Create Friends Group Add Friends -->
-
 			<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
 			<?php include('chat_box.php');?>
 
 			<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
 
 			<!-- jQuery first, then Other JS. -->
 			<script src="js/jquery-3.2.0.min.js"></script>

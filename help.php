@@ -140,7 +140,7 @@ if (isset($_SESSION['id_statut'])) {
 							<h6 class="title">Demande d'aide</h6>
 						</div>
 						<div class="ui-block-content">
-							<form class="form-group label-floating is-empty help">
+							<form class="form-group label-floating is-empty help form-reset">
 								<div class="form-group is-empty label-floating ">
 									<label class="control-label">Numéro client</label>
 									<input class="form-control numclient" placeholder="" value="" type="text">
@@ -165,20 +165,17 @@ if (isset($_SESSION['id_statut'])) {
 								</form>
 
 							</div>
-							<div class="row">
+							<div class="row whitecolor">
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-secondary btn-lg full-width" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
+									<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
 								</div>
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-										Valider la demande</a>
-									</div>
+									<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+									Valider la demande</a>
 								</div>
 							</div>
 						</div>
-
 					</div>
-
 				</div>
 			</div>
 
@@ -193,23 +190,33 @@ if (isset($_SESSION['id_statut'])) {
 									<input class="form-control search" placeholder="" value="" type="text">
 								</div>
 							</div>
-							<table class="event-item-table">
-								<tbody>
-									<?php foreach ($query_select_aide as $key => $value) {
-										$date_tab=explode("-", $value['date_aide']);
-										$jour_tab=explode(" ",$date_tab[2]);
-										$jour=$jour_tab[0];
+						</div>
+						<table class="event-item-table">
+							<tbody>
+								<?php foreach ($query_select_aide as $key => $value) {
+									$date_tab=explode("-", $value['date_aide']);
+									$jour_tab=explode(" ",$date_tab[2]);
+									$jour=$jour_tab[0];
 
-										$m=$date_tab[1];
-										$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+									$m=$date_tab[1];
+									$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 
-										?>
-										<tr class="event-item">
-											<td class="upcoming">
-												<div class="date-event">
-													<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
-													<span class="day"><?php echo $jour;?></span>
-													<span class="month"><?php echo $months[(int)$m]; ?></span>
+									?>
+									<tr class="event-item">
+										<td class="upcoming">
+											<div class="date-event">
+												<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+												<span class="day"><?php echo $jour;?></span>
+												<span class="month"><?php echo $months[(int)$m]; ?></span>
+											</div>
+										</td>
+										<td class="author">
+											<div class="event-author inline-items">
+												<div class="author-thumb">
+													<img src="img/avatar43-sm.jpg" alt="author">
+												</div>
+												<div class="author-date">
+													<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
 												</div>
 											</td>
 											<td class="author">

@@ -16,24 +16,31 @@
 .token, .newpassword{
 	display: none;
 }
-
+.label-floating select {
+	padding: 1.1rem;
+}
 .rond-card {
-    width: 150px !important;
-    height: 150px !important;
-    position: absolute;
-    top: -55px;
-    left: -55px;
+	width: 150px !important;
+	height: 150px !important;
+	position: absolute;
+	top: -55px;
+	left: -55px;
 }
 .author-content {
 	text-align:right;
 	width: 48%;
-    float: right;
+	float: right;
 }
 
 .friend-item{
 	min-height: 450px;
 }
-
+.mt{
+	margin-top: 150px;
+}
+.whitecolor a {
+	color: white !important;
+}
 .box-orange{
 	box-shadow: 0 0px 25px #ff5e3a;
 	animation-duration: 1s;

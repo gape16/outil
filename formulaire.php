@@ -1040,3 +1040,45 @@ if(isset($_POST['search_code_empty'])){
 		<?php
 	}
 }
+
+if(isset($_POST['categorie_remontees'])){
+	$categorie_remontees = $_POST['categorie_remontees'];
+	$titre_remontees = utf8_decode($_POST['titre_remontees']);
+	$description_remontees = utf8_decode($_POST['description_remontees']);
+	$id_user = $_SESSION['id_graph'];
+	$date = date('Y-m-d H:i:s');
+	$accept_remontees = 0;
+	$commentaires = '';
+	$requete_remontee = $bdd->prepare("INSERT INTO remontees (titre, description, id_categorie_remontees, date_remontees, id_user, accept_remontees, commentaires) VALUES (?,?,?,?,?,?,?)");
+	$requete_remontee->bindParam(1, $titre_remontees);
+	$requete_remontee->bindParam(2, $description_remontees);
+	$requete_remontee->bindParam(3, $categorie_remontees);
+	$requete_remontee->bindParam(4, $date);
+	$requete_remontee->bindParam(5, $id_user);
+	$requete_remontee->bindParam(6, $accept_remontees);
+	$requete_remontee->bindParam(7, $commentaires);
+	$requete_remontee->execute();
+}
+
+if (isset($_POST['commentaire_remontees'])) {
+	$accept_remontees = 1;
+	$id_remontees = utf8_decode($_POST['id_remontees']);
+	$commentaire = utf8_decode($_POST['commentaire_remontees']);
+	$requete_accept_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
+	$requete_accept_remontee->bindParam(1, $accept_remontees);
+	$requete_accept_remontee->bindParam(2, $commentaire);
+	$requete_accept_remontee->bindParam(3, $id_remontees);
+	$requete_accept_remontee->execute();
+}
+
+if (isset($_POST['commentaire_remontees_refus'])) {
+	$decline_remontees = 0;
+	$id_remontees = utf8_decode($_POST['id_remontees']);
+	$commentaire = utf8_decode($_POST['commentaire_remontees_refus']);
+	$requete_decline_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
+	$requete_decline_remontee->bindParam(1, $decline_remontees);
+	$requete_decline_remontee->bindParam(2, $commentaire);
+	$requete_decline_remontee->bindParam(3, $id_remontees);
+	$requete_decline_remontee->execute();
+}
+
