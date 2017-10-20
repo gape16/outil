@@ -31,7 +31,12 @@
 	width: 48%;
 	float: right;
 }
-
+#check_code .empty {
+	border: 1px solid red;
+}
+#description.empty {
+	border: 1px solid red;
+}
 .friend-item{
 	min-height: 450px;
 }

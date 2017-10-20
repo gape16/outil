@@ -171,6 +171,7 @@ $('.btn-addclient').on('click', function(){
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
+			$('.adressecms').removeClass('empty');
 			$.ajax({
 				url: 'formulaire.php',
 				type: 'POST',

@@ -260,7 +260,7 @@ $query_categorie->execute();
 					</div>
 					<div class="row">	
 						<div class="col-lg-12 col-sm-12">
-							<a href="#" data-dismiss="modal" class="btn btn-md full-width accept">Accepter</a>
+							<a href="#" class="btn btn-md full-width accept">Accepter</a>
 						</div>
 					</div>
 				</div>
@@ -444,15 +444,32 @@ $query_categorie->execute();
 			var html = html_editor.getValue();
 			var css = css_editor.getValue();
 			var js = js_editor.getValue();
-			console.log(html);
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {titre_code: titre, categorie_code: categorie, description_code: description, codeHTML: html, codeCSS: css, codeJS: js}
-			})
-			.done(function(data) {
-				console.log(data);
-			})
+			if (titre.length >= 5) {
+				$('.titre').removeClass('empty');
+				if (categorie != 0) {
+					$('#categorie').removeClass('empty');
+					if (description.length >= 30) {
+						$('#description').removeClass('empty');
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {titre_code: titre, categorie_code: categorie, description_code: description, codeHTML: html, codeCSS: css, codeJS: js}
+						})
+						.done(function(data) {
+							 $('#check_code').modal('toggle'); 
+						})
+					}else{
+						$('#check_code textarea').addClass('empty');
+						$('#check_code textarea').prev().html('30 caractères minimum requis');
+					}
+				}else{
+					$('#categorie').addClass('empty');
+					$('#categorie').prev().html('Une catégorie est requise');
+				}
+			}else{
+				$('.titre').addClass('empty');
+				$('.titre').prev().html('5 caractères minimum requis');
+			}
 		});
 	$('#check_code textarea').on('click', function(){
 		$(this).parent().removeClass('is-empty');
