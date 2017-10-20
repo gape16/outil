@@ -13,7 +13,7 @@ if (isset($_SESSION['id_statut'])) {
 		$query_select_card_crea_maquette->execute();
 		$cards_client=$query_select_card_crea_maquette->fetchAll();
 	}else{
-		$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo, IDGPP FROM client inner join user on client.id_graph_maquette=user.id_user where id_etat = 2 or id_etat= 5");
+		$query_select_card_crea_maquette = $bdd->prepare("SELECT num_client, raison_social, lien_CMS, photo, IDGPP, id_etat FROM client inner join user on client.id_graph_maquette=user.id_user where id_etat = 2 or id_etat= 5");
 		$query_select_card_crea_maquette->bindParam(1, $id_graph);
 		$query_select_card_crea_maquette->execute();
 		$cards_client=$query_select_card_crea_maquette->fetchAll();
