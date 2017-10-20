@@ -947,7 +947,7 @@ if(isset($_POST['clic_accept'])){
 if(isset($_POST['search_code'])){
 	$search = $_POST['search_code'];
 	$varsearch = "%" . $search . "%";
-	$requete_search_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code WHERE titre LIKE  ? and description LIKE ? order by date_code DESC");
+	$requete_search_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code WHERE titre LIKE  ? or description LIKE ? order by date_code DESC");
 	$requete_search_code->bindParam(1, $varsearch);
 	$requete_search_code->bindParam(2, $varsearch);
 	$requete_search_code->execute();

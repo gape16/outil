@@ -264,17 +264,22 @@ $('.valider_achat').click(function(){
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
-		if(adresseGetty.indexOf(splitAdresseGetty) != -1){
-			$('.liengetty').removeClass('empty');
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {categorie: categorie,
-					lien: lien,
-					id_client: id_client
-				}
-			})
-			.done(function(data) {
+		$('.numclient').prev().html('Numéro client');
+		if (categorie != 0) {
+			$('.categorie').removeClass('empty');
+			$('.categorie').prev().html('Catégorie du site');
+			if(adresseGetty.indexOf(splitAdresseGetty) != -1){
+				$('.liengetty').removeClass('empty');
+				$('.liengetty').prev().html('Lien du tableau getty');
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {categorie: categorie,
+						lien: lien,
+						id_client: id_client
+					}
+				})
+				.done(function(data) {
 				// console.log(data);
 				swal(
 					'Demande validée!',
@@ -284,9 +289,13 @@ $('.valider_achat').click(function(){
 						location.reload();
 					})
 				})
+			}else{
+				$('.liengetty').addClass('empty');
+				$('.liengetty').prev().html('L\'adresse n\'est pas valide');
+			}
 		}else{
-			$('.liengetty').addClass('empty');
-			$('.liengetty').prev().html('L\'adresse n\'est pas valide');
+			$('.categorie').addClass('empty');
+			$('.categorie').prev().html('Une catégorie est requise');
 		}
 	}else{
 		$('.numclient').addClass('empty');
@@ -379,21 +388,70 @@ $(".validation_achat").on('click', function(e){
 	lien_we=$(".lien_we").val();
 	commentaires=$(".commentaires").val();
 	etat_select=$(".etat_select").val();
-	id_achat=$(".id_achat").val();							
-	$.ajax({
-		url: 'formulaire.php',
-		type: 'POST',
-		data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
-	})
-	.done(function(data) {
-		swal(
-			'Validation transmise!',
-			'Le graphiste va reçevoir votre validation!',
-			'success'
-			).then(function () {
-				location.reload();
+	id_achat=$(".id_achat").val();		
+	if(lien_we.length != 0){
+		$('.lien_we').removeClass('empty');
+		$('.lien_we').prev().html('Lien weTransfer');
+
+		if (etat_select == 0) {
+			$('.etat_select').addClass('empty');
+			$('.etat_select').prev().html('Un état est requis');
+		}else{
+			$('.etat_select').removeClass('empty');
+			$('.etat_select').prev().html('Etat');
+		}
+
+		//SI REFUSE
+		if (etat_select == 2) {
+			if (commentaires.length >= 30)  {
+				$('.commentaires').removeClass('empty');
+				$('.commentaires').prev().html('Commentaire (obligatoire si commande refusée)');
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
+				})
+				.done(function(data) {
+					swal(
+						'Refus transmis!',
+						'Le graphiste va recevoir votre refus!',
+						'error'
+						).then(function () {
+							location.reload();
+						})
+					})
+			}else{
+				$('.commentaires').addClass('empty');
+				$('.commentaires').prev().html('30 caractères minimum requis');
+			}
+		}
+
+		if (etat_select == 3) {
+			$('.commentaires').removeClass('empty');
+			$('.commentaires').prev().html('Commentaire (obligatoire si commande refusée)');
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
 			})
-		})
+			.done(function(data) {
+				swal(
+					'Validation transmise!',
+					'Le graphiste va reçevoir votre validation!',
+					'success'
+					).then(function () {
+						location.reload();
+					})
+				})
+		}else{
+			$('.commentaires').addClass('empty');
+			$('.commentaires').prev().html('30 caractères minimum requis');
+		}
+	}else{
+		$('.lien_we').addClass('empty');
+		$('.lien_we').prev().html('Le lien n\'est pas valide');
+	}				
+
 
 })
 
