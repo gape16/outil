@@ -333,32 +333,43 @@ $('.valider_aide').click(function(e){
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
+		$('.numclient').prev().html('Numéro client');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
 			$('.adressecms').removeClass('empty');
-			if(descriptionProblem.length >= 140){
-				$.ajax({
-					url: 'formulaire.php',
-					type: 'POST',
-					data: {aide: numClient,
-						adresse_aide: adresseCms,
-						descriptionProblem: descriptionProblem,
-						capture: names,
-						titre: titre
-					}
-				})
-				.done(function(data) {
-					console.log(data);
-					swal(
-						'Demande validée!',
-						'Votre demande va être prise en compte!',
-						'success'
-						).then(function () {
-							location.reload();
-						})
+			$('.adressecms').prev().html('Adresse CMS');
+			if (titre.length >= 5) {
+				$('.titre_probleme').removeClass('empty');
+				$('.titre_probleme').prev().html('Titre du problème');
+				if(descriptionProblem.length >= 140){
+					$('textarea#description').removeClass('empty');
+					$('textarea#description').prev().html('Description du problème');
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {aide: numClient,
+							adresse_aide: adresseCms,
+							descriptionProblem: descriptionProblem,
+							capture: names,
+							titre: titre
+						}
 					})
+					.done(function(data) {
+						console.log(data);
+						swal(
+							'Demande validée!',
+							'Votre demande va être prise en compte!',
+							'success'
+							).then(function () {
+								location.reload();
+							})
+						})
+				}else{
+					$('textarea#description').addClass('empty');
+					$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
+				}
 			}else{
-				$('textarea#description').addClass('empty');
-				$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
+				$('.titre_probleme').addClass('empty');
+				$('.titre_probleme').prev().html('5 caractères requis minimum');
 			}
 		}else{
 			$('.adressecms').addClass('empty');

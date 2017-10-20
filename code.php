@@ -63,104 +63,115 @@ $query_categorie->execute();
 	<link rel="stylesheet" href="css/monokai.css">
 
 	<style>
-		* {
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
-			box-sizing: border-box;
-		}
+	* {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
 
-		html, body {
-			width: 100%; height: 100%;
-		}
+	html, body {
+		width: 100%; height: 100%;
+	}
 
-		#wrap {
-			width: 100%;
-			height: 100%;
-		}
+	#wrap {
+		width: 100%;
+		height: 100%;
+	}
 
-		/* Code Editors */
+	/* Code Editors */
 
-		#code_editors {
-			margin-left: 70px;
-			width: 100%;
-		}
-		#code_editors .code_box {
-			width: 33%;
-			z-index: 9;
-			float: left;
-		}
-		.code_box h3 {
-			font-size: 13px;
-			height: 30px;
-			padding: 5px 10px 5px 40px;
-			margin: 0;
-			background: #343436;
-			color: white;
-			border-bottom: 1px solid #202020;
-			z-index: 10;
-			line-height: 21px;
-		}
-		.code_box textarea {
-			position: absolute;
-			left: 0; right: 0; top: 30px; bottom: 0;
-			resize: none; border: 0;
-			padding: 10px;
-			font-family: monospace;
-		}
-		.code_box textarea:focus {
-			outline: none;
-			background: #EFEFEF;
-		}
-		.CodeMirror-gutter {
-			background: #343436;
-		}
-		.CodeMirror {
-			color: white;
-		}
+	#code_editors {
+		margin-left: 70px;
+		width: 100%;
+	}
+	#code_editors .code_box {
+		width: 33%;
+		z-index: 9;
+		float: left;
+	}
+	.code_box h3 {
+		font-size: 13px;
+		height: 30px;
+		padding: 5px 10px 5px 40px;
+		margin: 0;
+		background: #343436;
+		color: white;
+		border-bottom: 1px solid #202020;
+		z-index: 10;
+		line-height: 21px;
+	}
+	.code_box textarea {
+		position: absolute;
+		left: 0; right: 0; top: 30px; bottom: 0;
+		resize: none; border: 0;
+		padding: 10px;
+		font-family: monospace;
+	}
+	.code_box textarea:focus {
+		outline: none;
+		background: #EFEFEF;
+	}
+	.CodeMirror-gutter {
+		background: #343436;
+	}
+	.CodeMirror {
+		color: white;
+	}
 
-		/* Output Area */
-		#output {
-			height: 100%;
-			margin-top: 330px;
-			padding: 0 70px;
-		}
-		.CodeMirror-scroll {
-			background: #1d1f20;
-			padding-bottom: initial;
-		}
+	/* Output Area */
+	#output {
+		height: 100%;
+		margin-top: 330px;
+		padding: 0 70px;
+	}
+	.CodeMirror-scroll {
+		background: #1d1f20;
+		padding-bottom: 30px;
+	}
+	#output iframe {
+		width: 100%; height: 100%;
+		border: 0;
+	}
+	.CodeMirror-gutters {
+		background-color: #1d1f20;
+		white-space: nowrap;
+		border-right: inherit;
+	}
+	.cm-s-monokai .CodeMirror-gutters {
+		background: #343436;
+		border-right: 0px;
+	}
+	::-webkit-scrollbar {
+		width: 12px;
+	}
 
-		#output iframe {
-			width: 100%; height: 100%;
-			border: 0;
-		}
-		.CodeMirror-gutters {
-			background-color: #1d1f20;
-			white-space: nowrap;
-			border-right: inherit;
-		}
-		::-webkit-scrollbar {
-			width: 12px;
-		}
-
-		::-webkit-scrollbar-thumb {
-			-webkit-box-shadow: inset 0 0 20px rgb(0, 0, 0);
-		}
-
-		::-webkit-scrollbar-track {
-			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-		}
-		.CodeMirror pre, .CodeMirror-linenumber {
-			font-size: 13px;
-		}
-		.option{
-			position: absolute;
-			bottom: 10px;
-			right: 80px;
-		}
-		.CodeMirror-scrollbar-filler {
-			display: none !important;
-		}
-	</style>
+	::-webkit-scrollbar-thumb {
+		-webkit-box-shadow: inset 0 0 20px rgb(0, 0, 0);
+		border: 1px solid #343436;
+	}
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	}
+	.CodeMirror pre, .CodeMirror-linenumber {
+		font-size: 13px;
+	}
+	.option {
+		position: absolute;
+		bottom: 10px;
+		right: 80px;
+		font-size: 14px;
+		color: #888da8;
+		text-transform: capitalize;
+		transition: all .3s ease;
+		padding: 10px 20px;
+		display: block;
+		color: #fff;
+		background-color: #ff5e3a;
+	}
+	.CodeMirror-scrollbar-filler {
+		display: none !important;
+	}
+</style>
 
 </head>
 
@@ -224,93 +235,102 @@ $query_categorie->execute();
 	<!-- Sandboxing -->
 	<section id="output">
 		<iframe></iframe>
-		<a href="#" class="option" data-toggle="modal" data-target="#check_code">CLIC</div>
-		</section>
+		<?php  
+		$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
-	</div>
+		if (!isset($_GET['id_code'])) {?>
+		<a href="#" class="option" data-toggle="modal" data-target="#check_code">Proposer le code</a>
+		<?php }?>
 
-	<div class="modal fade show" id="check_code">
-		<div class="modal-dialog ui-block window-popup edit-widget edit-widget-pool">
-			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-			</a>
-			<div class="ui-block-title">
-				<h6 class="title">Valider le code</h6>
-			</div>
-			<div class="ui-block">
-				<div class="ui-block-content">
-					<div class="row modalcheck">	
-						<div class="form-group is-empty label-floating ">
-							<label class="control-label">Titre</label>
-							<input class="form-control titre" placeholder="" value="" type="text">
-						</div>
-						<div class="form-group is-empty label-floating ">
-							<select id="categorie">
-								<option value="0">Choisir une catégorie</option>
-								<?php foreach ($query_categorie as $key => $value) {?>
-								<option value="<?php echo($value['id_categorie_code']); ?>"><?php echo utf8_encode(($value['categorie_code'])); ?></option>
-								<?php }
-								?>
-							</select>
-						</div>
-						<div class="form-group is-empty label-floating ">
-							<label class="control-label">Description</label>
-							<textarea name="" id="" cols="30" rows="10"></textarea>
-						</div>
+	</section>
+
+</div>
+
+<div class="modal fade show" id="check_code">
+	<div class="modal-dialog ui-block window-popup edit-widget edit-widget-pool">
+		<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+			<svg class="olymp-close-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+		</a>
+		<div class="ui-block-title">
+			<h6 class="title">Valider le code</h6>
+		</div>
+		<div class="ui-block">
+			<div class="ui-block-content">
+				<div class="row modalcheck">	
+					<div class="form-group is-empty label-floating ">
+						<label class="control-label">Titre</label>
+						<input class="form-control titre" placeholder="" value="" type="text">
 					</div>
-					<div class="row">	
-						<div class="col-lg-12 col-sm-12">
-							<a href="#" class="btn btn-md full-width accept">Accepter</a>
-						</div>
+					<div class="form-group is-empty label-floating ">
+						<select id="categorie">
+							<option value="0">Choisir une catégorie</option>
+							<?php foreach ($query_categorie as $key => $value) {?>
+							<option value="<?php echo($value['id_categorie_code']); ?>"><?php echo utf8_encode(($value['categorie_code'])); ?></option>
+							<?php }
+							?>
+						</select>
+					</div>
+					<div class="form-group is-empty label-floating ">
+						<label class="control-label">Description</label>
+						<textarea name="" id="" cols="30" rows="10"></textarea>
+					</div>
+				</div>
+				<div class="row">	
+					<div class="col-lg-12 col-sm-12">
+						<a href="#" class="btn btn-md full-width accept">Accepter</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<!-- jQuery first, then Other JS. -->
-	<script src="js/jquery-3.2.0.min.js"></script>
-	<!-- Js effects for material design. + Tooltips -->
-	<script src="js/material.min.js"></script>
-	<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-	<script src="js/theme-plugins.js"></script>
-	<!-- Init functions -->
-	<script src="js/main.js"></script>
-	<script src="js/alterclass.js"></script>
-	<!-- <script src="js/chat.js"></script> -->
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
+<!-- jQuery first, then Other JS. -->
+<script src="js/jquery-3.2.0.min.js"></script>
+<!-- Js effects for material design. + Tooltips -->
+<script src="js/material.min.js"></script>
+<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+<script src="js/theme-plugins.js"></script>
+<!-- Init functions -->
+<script src="js/main.js"></script>
+<script src="js/alterclass.js"></script>
+<!-- <script src="js/chat.js"></script> -->
+<!-- Select / Sorting script -->
+<script src="js/selectize.min.js"></script>
 
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
+<!-- Select / Sorting script -->
+<script src="js/selectize.min.js"></script>
 
-	<!-- Swiper / Sliders -->
-	<script src="js/swiper.jquery.min.js"></script>
+<!-- Swiper / Sliders -->
+<script src="js/swiper.jquery.min.js"></script>
 
-	<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
 
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
+<script src="js/mediaelement-and-player.min.js"></script>
+<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+<script src="js/mediaelement-and-player.min.js"></script>
+<script src="js/mediaelement-playlist-plugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-	<script src="http://codemirror.net/lib/codemirror.js"></script>
+<script src="http://codemirror.net/lib/codemirror.js"></script>
 
-	<!-- For HTML/XML -->
-	<script src="http://codemirror.net/mode/xml/xml.js"></script>
-	<script src="http://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
+<!-- For HTML/XML -->
+<script src="http://codemirror.net/mode/xml/xml.js"></script>
+<script src="http://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
 
-	<!-- For CSS -->
-	<script src="http://codemirror.net/mode/css/css.js"></script>
+<!-- For CSS -->
+<script src="http://codemirror.net/mode/css/css.js"></script>
 
-	<!-- For JS -->
-	<script src="http://codemirror.net/mode/javascript/javascript.js"></script>
-	<script src="js/notifications.js"></script>
+<!-- For JS -->
+<script src="http://codemirror.net/mode/javascript/javascript.js"></script>
+<script src="js/notifications.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+	(function() {
 
-	<script>
-		(function() {
+		$('section#output').resizable();
+		$('section#code_editors').resizable();
 
 	// Base template
 	var base_tpl =

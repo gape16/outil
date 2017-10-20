@@ -59,10 +59,10 @@ $query_inser_code->execute();
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 	<style>
-		.align-center {
-			width: 100%;
-		}
-	</style>
+	.align-center {
+		width: 100%;
+	}
+</style>
 </head>
 
 <body>
@@ -148,10 +148,10 @@ $query_inser_code->execute();
 
 						<ul class="cat-list-bg-style align-center sorting-menu">
 							<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
-
 							<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
 							<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
 							<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
+							<li class="cat-list__item fr"><a href="code.php">Créer son code</a></li>
 						</ul>
 						<div class="row sorting-container" id="veille_code" data-layout="masonry">
 							<?php foreach ($query_code as $key => $value) {?>

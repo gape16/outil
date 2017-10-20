@@ -1083,6 +1083,9 @@
 										.recep .notification-event{
 											padding-left: 20px !important;
 										}
+										li.cat-list__item.fr {
+											float: right;
+										}
 
 										/* LOADER */
 										#loader-wrapper {
