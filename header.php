@@ -29,7 +29,7 @@ if($nb_notifs==0){
     position: absolute;
     top: 00px;">
   </div>
-
+  <span class="notif"><div class="wrap"><a href="jury.php"><img src="img/warning.png">Veuillez proposer un site du mois</a></div></span>
   <div class="header-content-wrapper">
     <div class="control-block">
 
@@ -252,15 +252,17 @@ if($nb_notifs==0){
       <a href="" class="author-name fn">
         <div class="author-title">
           <?php echo utf8_encode($infos["prenom"]." ".$infos['nom']);?><svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-          <title>dropdown-arrow-icon</title>
-          <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-        </svg></svg>
-      </div>
-      <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
-    </a>
-  </div>
+            <title>dropdown-arrow-icon</title>
+            <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+          </svg></svg>
+        </div>
+        <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
+      </a>
+    </div>
 
+  </div>
 </div>
-</div>
+
+<input type="hidden" class="date-j" value="<?php echo date('d') ?>">
 
 </header>

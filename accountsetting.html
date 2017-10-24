@@ -25,13 +25,55 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb">
 				<p>Modifier l'image de profil</p>
 				<form action="">
-					<input type="file" name="pic" accept="image/*">
+					<input class="mb" type="file" name="pic" accept="image/*">
 				</form>
-			</div>
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<p>Modifier la date de naissance</p>
+				<div class="form-group date-time-picker label-floating">
+					<label class="control-label">Ta date de naissance</label>
+					<input autocomplete="off" class="check date" name="datetimepicker" value="10/11/1984" />
+				</div>
 				<a href="#" class="btn btn-green btn-lg full-width valider_accountsetting">
 				Valider</a>
 			</div>
 		</div>
 	</form>
 </div>
+
+<script src="js/jquery-3.2.0.min.js"></script>
+<!-- Js effects for material design. + Tooltips -->
+<script src="js/material.min.js"></script>
+<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+<script src="js/theme-plugins.js"></script>
+<!-- Init functions -->
+<script src="js/main.js"></script>
+<script src="js/alterclass.js"></script>
+<script src="js/chat.js"></script>
+<!-- Select / Sorting script -->
+<script src="js/selectize.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+
+
+<script src="js/mediaelement-and-player.min.js"></script>
+<script src="js/mediaelement-playlist-plugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+
+<script src="js/charte.js"></script>
+<script src="js/account.js"></script>
+
+<script>
+	$(function(){
+		$('body').on('click', '.valider_accountsetting', function(){
+			var date = $('.date').val();
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {date_naissance: date},
+			})
+			.done(function(data) {
+				console.log(data);
+			})
+		})
+	})
+</script>

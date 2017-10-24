@@ -788,3 +788,21 @@ $(".validation_aide_non").on('click', function(e){
 	})
 })
 })
+
+var jour = $('.date-j').val();
+
+if (jour >= 20) {
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {mois_rappel: 'value'},
+	})
+	.done(function(data) {
+		console.log(data);
+		if (data == 0) {
+			$('span.notif').css('display', 'flex');	
+		}
+	})
+}
+
+
