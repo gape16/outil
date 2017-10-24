@@ -6,6 +6,85 @@ $(function() {
 	};
 
 //CONNEXION
+$(".connec_first").on('click', function(e) {
+	e.preventDefault();
+		//var récup valeur de l'input email
+		var emailAddress = $(".connexion_first .email").val();
+		var token_first = $(".connexion_first .token_first").val();
+		$('.connexion_first .email').removeClass('empty');
+		$('.connexion_first .token_first').removeClass('empty');
+		$('.connexion_first .email').prev().html('Ton Email');
+		$('.connexion_first .token_first').prev().html('Ton code reçu par mail');
+		// console.log(emailAddress);
+		//comparaison entre la valeur du mail et le format
+		if (!isValidEmailAddress(emailAddress)) {
+			$('.connexion_first .email').addClass('empty');
+		} else {
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {email_first: emailAddress, token_first:token_first}
+			})
+			.done(function(data) {
+				if(data=="email introuvable"){
+					$('.connexion_first .email').addClass('empty');
+					$('.connexion_first .email').prev().html('Email introuvable');
+				}
+				if(data=="Code invalide"){
+					$('.connexion_first .token_first').addClass('empty');
+					$('.connexion_first .token_first').prev().html('Code invalide');
+				}
+				if(data=="ok"){
+					$('.connexion_first .nouveau_pass1').show();
+					$('.connexion_first .nouveau_pass2').show();
+					$(".connec_first").removeClass('validation_mdp');
+					$(".connec_first").addClass('validation_mdp');
+				}
+			})
+
+		}
+	})
+
+$("body").on('click', '.validation_mdp', function(e){
+	e.stopPropagation();
+	e.preventDefault();
+	var emailAddress = $(".connexion_first .email").val();
+	var token_first = $(".connexion_first .token_first").val();
+	var emailAddress = $(".connexion_first .email").val();
+	var token_first = $(".connexion_first .token_first").val();
+	var mdp2 = $(".connexion_first .mdp2").val();
+	var mdp1 = $(".connexion_first .mdp1").val();
+	$('.connexion_first .email').removeClass('empty');
+	$('.connexion_first .mdp1').removeClass('empty');
+	$('.connexion_first .mdp2').removeClass('empty');
+	$('.connexion_first .token_first').removeClass('empty');
+	$('.connexion_first .email').prev().html('Ton Email');
+	$('.connexion_first .token_first').prev().html('Ton code reçu par mail');
+		// console.log(emailAddress);
+		//comparaison entre la valeur du mail et le format
+		if (mdp1 == mdp2) {
+			if (!isValidEmailAddress(emailAddress)) {
+				$('.connexion_first .email').addClass('empty');
+			} else {
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {email_first_mdp: emailAddress, token_first:token_first, mdp2:mdp2 , mdp1:mdp1}
+				})
+				.done(function(data) {
+					$(location).attr('href', 'login.php');
+					// console.log(data);
+				})
+			}
+		}else{
+			$(".connexion_first .mdp1").val('');
+			$(".connexion_first .mdp2").val('');
+			$('.connexion_first .mdp1').addClass('empty');
+			$('.connexion_first .mdp2').addClass('empty');
+			$('.connexion_first .mdp1').prev().html('les deux mots de passe ne sont pas identiques');
+		}
+	})
+
 $(".connec").on('click', function(e) {
 	e.preventDefault();
 		//var récup valeur de l'input email

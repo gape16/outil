@@ -7,6 +7,7 @@ $id_graph=$_SESSION['id_graph'];
 
 $query_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code  WHERE accept_code = 0 order by date_code DESC");
 $query_code->execute();
+$nb=$query_code->rowCount();
 
 $query_notif_code=$bdd->prepare("SELECT * FROM code where accept_code = 1 order by id_code DESC limit 1");
 $query_notif_code->execute();
@@ -120,31 +121,36 @@ $query_inser_code->execute();
 						<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
 					</ul>
 					<div class="row sorting-container" id="veille_code" data-layout="masonry">
-						<?php foreach ($query_code as $key => $value) {?>
-						<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
-							<div class="ui-block">
-								<article class="hentry blog-post">
-									<a class="opencode" target="_blank" href="code.php">
-										<div class="post-content">
-											<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
-											<h4><?php echo utf8_encode($value['titre']);?></h4>
-											<p><?php echo utf8_encode($value['description']);?></p>
-											<div class="author-date">
-												<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
-												<div class="post__date">
-													<time class="published">
-														<?php echo utf8_encode($value['date_code']);?>
-													</time>
+						<?php if($nb!=0){
+							foreach ($query_code as $key => $value) {?>
+							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
+								<div class="ui-block">
+									<article class="hentry blog-post">
+										<a class="opencode" target="_blank" href="code.php">
+											<div class="post-content">
+												<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
+												<h4><?php echo utf8_encode($value['titre']);?></h4>
+												<p><?php echo utf8_encode($value['description']);?></p>
+												<div class="author-date">
+													<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
+													<div class="post__date">
+														<time class="published">
+															<?php echo utf8_encode($value['date_code']);?>
+														</time>
+													</div>
+													<a href="#" class="accept_code">Valider</a>
 												</div>
-												<a href="#" class="accept_code">Valider</a>
 											</div>
-										</div>
-										<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
-									</a>
-								</article>
+											<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
+										</a>
+									</article>
+								</div>
 							</div>
-						</div>
-						<?php }?>
+							<?php }
+						}else{
+							echo "Aucun code envoyé pour le moment !";
+						}
+						?>
 					</div>
 				</div>
 			</div>

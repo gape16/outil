@@ -20,6 +20,33 @@ function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad 
 	
 }
 
+if(isset($_POST['email_first'])){
+	$email_first=$_POST['email_first'];
+	$token_first=$_POST['token_first'];
+	$query_first=$bdd->prepare("SELECT token FROM user where email = ?");
+	$query_first->bindParam(1, $email_first);
+	$query_first->execute();
+	$first=$query_first->fetch();
+	if($query_first->rowCount()==0){
+		echo "email introuvable";
+	}else{
+		if($first['token']!=$token_first){
+			echo "Code invalide";
+		}else{
+			echo "ok";
+		}
+	}
+}
+
+if(isset($_POST['email_first_mdp'])){
+	$email_first=$_POST['email_first_mdp'];
+	$token_first=$_POST['token_first'];
+	$mdp=password_hash($_POST['mdp1'], PASSWORD_DEFAULT);
+	$query_first=$bdd->prepare("UPDATE user set mdp = ?, token = '' where email = ?");
+	$query_first->bindParam(1, $mdp);
+	$query_first->bindParam(2, $email_first);
+	$query_first->execute();
+}
 
 if(isset($_POST['achat_client'])){
 	$id_client=$_POST['achat_client'];
@@ -116,59 +143,45 @@ if (isset($_POST['numClient'])) {
 		$query_ins_client->bindParam(12, $idgpp);
 		$query_ins_client->bindParam(13, $envoi_maquette);
 		$query_ins_client->execute();
-		$new_card= '<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">';
-		$new_card.='<div class="ui-block" data-mh="friend-groups-item">';
-		$new_card.='<div class="friend-item friend-groups">';
-		$new_card.='<div class="friend-item-content">';
-		$new_card.='<div class="more">';
-		$new_card.='<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>';
-		$new_card.='<ul class="more-dropdown">';
-		$new_card.='<li>';
-		$new_card.='<a href="#">Report Profile</a>';
-		$new_card.='</li>';
-		$new_card.='<li>';
-		$new_card.='<a href="#">Block Profile</a>';
-		$new_card.='					</li>';
-		$new_card.='					<li>';
-		$new_card.='						<a href="#">Turn Off Notifications</a>';
-		$new_card.='					</li>';
-		$new_card.='				</ul>';
-		$new_card.='			</div>';
-		$new_card.='			<div class="friend-avatar">';
-		$new_card.='				<div class="author-thumb">';
-		$new_card.='					<img src="img/crea_maquette.png" alt="Olympus">';
+		$class_etat="crea-maquette";
+		$new_card="";
+		$class_img="img/Crea-maquette.png";
+		$new_card.='<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+		$new_card.='	<div class="ui-block hauteur-card" data-mh="friend-groups-item">';
+		$new_card.='		<div class="friend-item friend-groups '.$class_etat.'">';
+		$new_card.='			<div class="friend-item-content">';
+		$new_card.='				<div class="friend-avatar entete-card">';
+		$new_card.='					<div class="author-thumb etat-card">';
+		$new_card.='						<img src="'.$class_img.'" alt="Olympus">';
+		$new_card.='					</div>';
+		$new_card.='					<div class="author-content texte-card">';
+		$new_card.='						<a href="#" class="h5 author-name">'.$raisonSociale.'</a>';
+		$new_card.='						<div class="country">'.$numClient.'</div>';
+		$new_card.='					</div>';
 		$new_card.='				</div>';
-		$new_card.='				<div class="author-content">';
-		$new_card.='					<a href="#" class="h5 author-name">'.$raisonSociale.'</a>';
-		$new_card.='					<div class="country">'.$numClient.'</div>';
-		$new_card.='				</div>';
-		$new_card.='			</div>';
-
-		$new_card.='			<ul class="friends-harmonic">';
-		$new_card.='				<li>';
-		$new_card.='					<a href="#">';
-		$new_card.='						<img src="img/friend-harmonic5.jpg" alt="friend">';
+		$new_card.='				<div class="control-block-button bouton-check">';
+		$new_card.='					<a href="'.$adresseCms.'" target="_blank" class="  btn btn-control bg-blue bouton-icone1" data-toggle="modal" data-target="#create-friend-group-add-friends">';
+		$new_card.='						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35%" version="1.1" height="35%" viewBox="0 0 64 64" enable-background="new 0 0 64 64">';
+		$new_card.='							<path d="m60.135,3.875c-5.156-5.166-13.545-5.168-18.697,0l-11.576,11.619c-0.788,0.791-0.788,2.074 0,2.865 0.79,0.792 2.067,0.792 2.856,0l11.576-11.618c3.578-3.589 9.401-3.587 12.984,0 3.578,3.591 3.578,9.435 0,13.024l-15.292,15.339c-1.732,1.739-4.038,2.697-6.49,2.697-2.451,0-4.758-0.959-6.492-2.697-0.789-0.792-2.067-0.792-2.857,0-0.788,0.791-0.788,2.074 0,2.865 2.499,2.505 5.818,3.885 9.35,3.885s6.848-1.381 9.347-3.885l15.292-15.338c5.152-5.17 5.152-13.584-0.001-18.756z" fill="#FFFFFF"/>';
+		$new_card.='							<path d="m31.015,45.904l-11.312,11.346c-1.732,1.739-4.039,2.697-6.491,2.697-2.451,0-4.759-0.958-6.489-2.697-3.578-3.591-3.578-9.434 0-13.023l15.289-15.338c3.582-3.588 9.406-3.588 12.983,0 0.789,0.793 2.067,0.793 2.856,0 0.789-0.791 0.789-2.072 0-2.864-5.152-5.17-13.541-5.17-18.697,0l-15.288,15.336c-5.155,5.17-5.155,13.584 4.44089e-16,18.754 2.497,2.506 5.816,3.885 9.346,3.885 3.531,0 6.853-1.379 9.348-3.885l11.31-11.345c0.79-0.791 0.79-2.074 0-2.865-0.788-0.792-2.067-0.792-2.855-0.001z" fill="#FFFFFF"/>';
+		$new_card.='						</svg>';
 		$new_card.='					</a>';
-		$new_card.='				</li>';
-		$new_card.='			</ul>';
-		$new_card.='<div class="control-block-button">';
-		$new_card.='				<a href="'.$adresseCms.'" target="_blank" class="btn btn-control bg-blue">';
-		$new_card.='					<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>';
-		$new_card.='				</a>';
-
-		$new_card.='				<a href="check.php?idgpp='.$idgpp.'" class="btn btn-control btn-grey-lighter">';
-		$new_card.='					<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>';
-		$new_card.='				</a>';
-
+		$new_card.='					<a href="check.php?idgpp='.$idgpp.'" class="btn btn-control btn-grey-lighter bouton-icone2">';
+		$new_card.='						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="35%" height="35%" viewBox="0 0 394.893 394.893" style="enable-background:new 0 0 394.893 394.893;" xml:space="preserve">';
+		$new_card.='							<path d="M344.426,191.963c-6.904,0-12.5,5.597-12.5,12.5V350.91H25V43.982h246.57c6.904,0,12.5-5.597,12.5-12.5    c0-6.903-5.596-12.5-12.5-12.5H12.5c-6.903,0-12.5,5.597-12.5,12.5V363.41c0,6.903,5.597,12.5,12.5,12.5h331.926    c6.902,0,12.5-5.597,12.5-12.5V204.463C356.926,197.56,351.33,191.963,344.426,191.963z" fill="#FFFFFF"/>';
+		$new_card.='							<path d="M391.23,27.204c-4.881-4.881-12.795-4.881-17.678,0L169.957,230.801l-50.584-50.584c-4.882-4.881-12.796-4.881-17.678,0    c-4.881,4.882-4.881,12.796,0,17.678l59.423,59.423c2.441,2.44,5.64,3.661,8.839,3.661c3.199,0,6.398-1.221,8.839-3.661    L391.23,44.882C396.113,40,396.113,32.086,391.23,27.204z" fill="#FFFFFF"/>';
+		$new_card.='						</svg>';
+		$new_card.='					</a>';
+		$new_card.='				</div>';
 		$new_card.='			</div>';
 		$new_card.='		</div>';
 		$new_card.='	</div>';
 		$new_card.='</div>';
-		$new_card.='</div>';
+		
 		echo $new_card;
 		// echo "non existant";
 	}else{
-		//refus de création
+	//refus de création
 		echo "existant";
 	}
 }
@@ -224,8 +237,8 @@ if (isset($_POST['aide'])) {
 	$query_ins_aide->bindParam(7, $id_etat_aide);
 	$query_ins_aide->bindParam(8, $capture);
 	$query_ins_aide->execute();
-	// echo $query_ins_aide->debugDumpParams();
-	// echo "INSERT INTO aide (id_client, adresse_cms, description, date_aide, id_user, id_etat_aide, capture) VALUES ('$id_client','$cms','$descriptionProblem','$date_aide','$id_graph','$id_etat_aide','$capture')";
+// echo $query_ins_aide->debugDumpParams();
+// echo "INSERT INTO aide (id_client, adresse_cms, description, date_aide, id_user, id_etat_aide, capture) VALUES ('$id_client','$cms','$descriptionProblem','$date_aide','$id_graph','$id_etat_aide','$capture')";
 }
 
 if(isset($_POST['popup_aide'])){
@@ -248,7 +261,7 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key]['etat_aide'] = utf8_encode($value['etat_aide']);
 		$tab[$key]['couleur'] = utf8_encode($value['couleur']);
 	}
-	
+
 
 	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
 	$query_com_aide->bindParam(1, $id_aide);
@@ -291,29 +304,29 @@ if (isset($_POST['envoi_com_aide'])) {
 	$query_ins_com->bindParam(5, $like);
 	$query_ins_com->execute();
 
-	// $query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
-	// $query_com_aide->bindParam(1, $id_aide);
-	// $query_com_aide->execute();
-	// foreach ($query_com_aide as $key_com => $value_com)
-	// {
-	// 	$tabf[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
-	// 	$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
-	// 	$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
-	// 	$tabf[$key_com]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
-	// 	$tabf[$key_com]['photo'] = $value_com['photo'];
-	// 	$tabf[$key_com]['like'] = $value_com['like_com'];
-	// 	$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
-	// 	$query_sel_lik->bindParam(1, $_SESSION['id_graph']);
-	// 	$query_sel_lik->bindParam(2, $value_com['id_commentaires_aide']);
-	// 	$query_sel_lik->execute();
-	// 	$nb_lik = $query_sel_lik->rowCount();
-	// 	if($nb_lik ==0){
-	// 		$tabf[$key_com]['like_test'] = "";
-	// 	}else{
-	// 		$tabf[$key_com]['like_test'] = "style=\"fill: #ff5e3a;color: #ff5e3a;\"";
-	// 	}
-	// }
-	// print_r(json_encode($tabf));
+// $query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
+// $query_com_aide->bindParam(1, $id_aide);
+// $query_com_aide->execute();
+// foreach ($query_com_aide as $key_com => $value_com)
+// {
+// 	$tabf[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
+// 	$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
+// 	$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
+// 	$tabf[$key_com]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
+// 	$tabf[$key_com]['photo'] = $value_com['photo'];
+// 	$tabf[$key_com]['like'] = $value_com['like_com'];
+// 	$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
+// 	$query_sel_lik->bindParam(1, $_SESSION['id_graph']);
+// 	$query_sel_lik->bindParam(2, $value_com['id_commentaires_aide']);
+// 	$query_sel_lik->execute();
+// 	$nb_lik = $query_sel_lik->rowCount();
+// 	if($nb_lik ==0){
+// 		$tabf[$key_com]['like_test'] = "";
+// 	}else{
+// 		$tabf[$key_com]['like_test'] = "style=\"fill: #ff5e3a;color: #ff5e3a;\"";
+// 	}
+// }
+// print_r(json_encode($tabf));
 }
 
 if(isset($_POST['logOut'])){
@@ -330,7 +343,7 @@ if(isset($_POST['likelecommentaire'])){
 	$query_sel_lik->bindParam(2, $id_com);
 	$query_sel_lik->execute();
 	$nb_lik = $query_sel_lik->rowCount();
-	// echo $nb_lik;
+// echo $nb_lik;
 	if($nb_lik ==0){
 		$query_ins_lik = $bdd->prepare("INSERT INTO like_com (id_graph, id_com) VALUES (?, ?)");
 		$query_ins_lik->bindParam(1, $id_graph);
@@ -353,7 +366,7 @@ if(isset($_POST['likelaveille'])){
 	$query_sel_lik->bindParam(2, $id_veille);
 	$query_sel_lik->execute();
 	$nb_lik = $query_sel_lik->rowCount();
-	// echo $nb_lik;
+// echo $nb_lik;
 	if($nb_lik ==0){
 		$query_ins_lik = $bdd->prepare("INSERT INTO like_veille (id_graph, id_veille) VALUES (?, ?)");
 		$query_ins_lik->bindParam(1, $id_graph);
@@ -526,13 +539,13 @@ if (isset($_POST['idGpp'])){
 			}
 
 		}
-		// $valueCheck[$key];
+// $valueCheck[$key];
 	}
 }
 
 if (isset($_POST['ancienPasswordAccount'])) {
 	$ancien = $_POST['ancienPasswordAccount'];
-	// echo $ancien;
+// echo $ancien;
 	$mdp=password_hash($_POST['newPasswordAccount'], PASSWORD_DEFAULT);
 	$id_graph=$_SESSION['id_graph'];
 	$query_test_user = $bdd->prepare("SELECT mdp FROM user WHERE id_user = ?");
@@ -1058,6 +1071,7 @@ if(isset($_POST['categorie_remontees'])){
 	$requete_remontee->bindParam(6, $accept_remontees);
 	$requete_remontee->bindParam(7, $commentaires);
 	$requete_remontee->execute();
+
 }
 
 if (isset($_POST['commentaire_remontees'])) {
@@ -1082,3 +1096,33 @@ if (isset($_POST['commentaire_remontees_refus'])) {
 	$requete_decline_remontee->execute();
 }
 
+if (isset($_POST['newLeader'])) {
+	$newLeader=$_POST['newLeader'];
+	$newGraph=$_POST['newGraph'];
+	$query_up_us=$bdd->prepare("UPDATE user SET id_manager = ? where id_user = ?");
+	$query_up_us->bindParam(1, $newLeader);
+	$query_up_us->bindParam(2, $newGraph);
+	$query_up_us->execute();
+}
+if (isset($_POST['newLeader_control'])) {
+	$newLeader="15";
+	$newGraph=$_POST['newGraph'];
+	$ancien_statut=$_POST['ancien_statut'];
+	$query_up_us=$bdd->prepare("UPDATE user SET id_manager = ?, id_statut = '4', temp_statut = ? where id_user = ?");
+	$query_up_us->bindParam(1, $newLeader);
+	$query_up_us->bindParam(2, $ancien_statut);
+	$query_up_us->bindParam(3, $newGraph);
+	$query_up_us->execute();
+}
+if (isset($_POST['ancienLeader_control'])) {
+	$newLeader=$_POST['ancienLeader_control'];
+	$newGraph=$_POST['newGraph'];
+	$ancien_statut=$_POST['ancien_statut'];
+	$temp="0";
+	$query_up_us=$bdd->prepare("UPDATE user SET id_manager = ?, id_statut = ?, temp_statut = ? where id_user = ?");
+	$query_up_us->bindParam(1, $newLeader);
+	$query_up_us->bindParam(2, $ancien_statut);
+	$query_up_us->bindParam(3, $temp);
+	$query_up_us->bindParam(4, $newGraph);
+	$query_up_us->execute();
+}

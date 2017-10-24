@@ -25,9 +25,9 @@ if($nb_notifs==0){
 <header class="header" id="site-header">
 
   <div class="page-title">
-    <img src="img/solocal_ms_rvb.png" alt="" style="height: 80px;
+    <img src="img/solocal_ms_rvb.png" alt="" style="height: 65px;
     position: absolute;
-    top: 00px;">
+    top: 5px;">
   </div>
 
   <div class="header-content-wrapper">
