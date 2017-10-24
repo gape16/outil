@@ -129,9 +129,6 @@ if (isset($_SESSION['id_statut'])) {
 		</div>
 
 		<!-- Main Content Groups -->
-		<?php 
-		// si c'est un graph qui se connect
-		if ($_SESSION['id_statut'] == 1) {?>
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -141,6 +138,13 @@ if (isset($_SESSION['id_statut'])) {
 						</div>
 						<div class="ui-block-content">
 							<form class="form-group label-floating is-empty help form-reset">
+								<div class="form-group is-empty label-floating ">
+									<select name="type">
+										<option value="0">Choisir une catégorie</option>
+										<option value="1">Graph</option>
+										<option value="2">SEO</option>
+									</select>
+								</div>
 								<div class="form-group is-empty label-floating ">
 									<label class="control-label">Numéro client</label>
 									<input class="form-control numclient" placeholder="" value="" type="text">
@@ -278,7 +282,7 @@ if (isset($_SESSION['id_statut'])) {
 									<div class="place inline-items">
 										<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
 											<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
-											
+
 										</div>
 
 										<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
@@ -317,8 +321,6 @@ if (isset($_SESSION['id_statut'])) {
 						</div>
 					</div>
 
-
-					<?php }?>
 					<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 					<!-- Window-popup-CHAT for responsive min-width: 768px -->

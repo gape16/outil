@@ -266,3 +266,4 @@ if($nb_notifs==0){
 <input type="hidden" class="date-j" value="<?php echo date('d') ?>">
 
 </header>
+</header>

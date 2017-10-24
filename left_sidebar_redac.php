@@ -80,12 +80,6 @@
         </a>
       </li>
       <li>
-        <a href="accueil.php">
-          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
-          <span class="left-menu-title">Check clients</span>
-        </a>
-      </li>
-      <li>
         <a href="achat_photos.php">
           <svg class="olymp-multimedia-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-multimedia-icon"></use></svg>
           <span class="left-menu-title">Achats de photos</span>
@@ -107,18 +101,6 @@
         <a href="newsletter.php">
           <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
           <span class="left-menu-title">Newsletters</span>
-        </a>
-      </li>
-      <li>
-        <a href="explore.php">
-          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
-          <span class="left-menu-title">Partage de code</span>
-        </a>
-      </li>
-      <li>
-        <a href="badges.php">
-          <svg class="olymp-badge-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-badge-icon"></use></svg>
-          <span class="left-menu-title">Mes badges</span>
         </a>
       </li>
       <li>

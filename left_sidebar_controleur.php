@@ -1,7 +1,7 @@
 <div class="fixed-sidebar">
   <div class="fixed-sidebar-left sidebar--small" id="sidebar-left">
     <a href="" class="logo">
-      
+
       <svg id="Calque_1" data-name="Calque 1" viewBox="0 0 70 70" width="100%" height="100%"><defs><style>.cls-1,.cls-2{fill:#fff;}.cls-1{opacity:0.8;}</style></defs><polygon class="cls-1" points="7.08 18.82 35 2.64 62.92 18.82 62.92 51.18 35 67.36 7.08 51.18 7.08 18.82"/><polygon class="cls-2" points="7.08 18.82 7.08 51.18 35 67.36 35 35 7.08 18.82"/></svg>
 
     </a>
@@ -115,6 +115,12 @@
         <a href="explore.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
           <span class="left-menu-title">Partage de code</span>
+        </a>
+      </li>
+      <li>
+        <a href="explore_admin.php">
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+          <span class="left-menu-title">Modération de code</span>
         </a>
       </li>
       <li>

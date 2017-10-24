@@ -167,7 +167,7 @@ if (isset($_SESSION['id_statut'])) {
 								<select name="" class="changegraph">
 									<option value="0">Choisir une catégorie</option>
 									<?php foreach ($selection_graph as $key => $value) {?>
-									<option value="<?php echo($value['id_user']) ?>"><?php echo($value['nom']) ?> <?php echo($value['prenom']) ?></option>
+									<option value="<?php echo($value['id_user']) ?>"><?php echo utf8_encode($value['nom']); ?> <?php echo utf8_encode($value['prenom']); ?></option>
 									<?php }
 									?>
 								</select>
@@ -274,20 +274,22 @@ if (isset($_SESSION['id_statut'])) {
 								'Supprimé !',
 								'La fiche a été suppimée',
 								'success'
-								)
-						})
+								).then(function(){
+									location.reload();
+								})
+							})
 					})
 				})
 				// //CHANGER
 				$( "body" ).on( "click", ".modifier", function() {
-					var numClient = $(this).parents('.admin_card').find('.numclient').html();
-					var raisonSociale = $(this).parents('.admin_card').find('.raisonsocial').html();
-					var adresseCms = $(this).parents('.admin_card').find('.cms').attr('href');
-					var graph = $(this).parents('.admin_card').find('.graph').val();
-					var recupId = $(this).parents('.admin_card').attr('class');
+					var numClient = $(this).parents('.hauteur-card').find('.country').html();
+					var raisonSociale = $(this).parents('.hauteur-card').find('a.h5.author-name').html();
+					var adresseCms = $(this).parents('.hauteur-card').find('.liencms').attr('href');
+					var graph = $(this).parents('.hauteur-card').find('.graph').val();
+					var recupId = $(this).parents('.hauteur-card').attr('class');
 					var idClient = recupId.split('admin_');
 					var check_qualif="qualif_";
-					var cls_qualif = $(".change_card").attr('class').split(' ');
+					var cls_qualif = $(".hauteur-card").attr('class').split(' ');
 					console.log(cls_qualif);
 					for (var i = 0; i < cls_qualif.length; i++) {
 						if (cls_qualif[i].indexOf(check_qualif) > -1) {
@@ -295,7 +297,7 @@ if (isset($_SESSION['id_statut'])) {
 						}
 					}
 					var check_id="projet_";
-					var cls_id = $(".change_card").attr('class').split(' ');
+					var cls_id = $(".hauteur-card").attr('class').split(' ');
 					for (var i = 0; i < cls_id.length; i++) {
 						if (cls_id[i].indexOf(check_id) > -1) {
 							var id_client = cls_id[i].slice(check_id.length, cls_id[i].length);
@@ -321,7 +323,10 @@ if (isset($_SESSION['id_statut'])) {
 							data: {modifier_num: numClient, modifier_rs: raisonSociale, modifier_cms: adresseCms, modifier_graph: graph, modifier_qualif: qualif, getIdClient: id_client},
 						})
 						.done(function(data) {
-							swal('La brique a été modifiée');
+							swal('La brique a été modifiée').then(function(){
+								location.reload();
+							})
+
 						})		
 					})
 				});
