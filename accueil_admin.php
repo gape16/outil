@@ -70,14 +70,31 @@ if (isset($_SESSION['id_statut'])) {
 		<body>
 
 			<!-- Fixed Sidebar Left -->
-
 			<?php include('left_sidebar.php');?>
 
 			<!-- ... end Fixed Sidebar Left -->
 
 			<!-- Fixed Sidebar Left -->
-
-			<?php include('fixed_left_sidebar.php');?>
+			<?php 
+			if($_SESSION['id_statut']==1) {
+			//page graphistes 
+				include('left_sidebar.php');
+			}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+				include('left_sidebar_redac.php');
+			}
+			elseif ($_SESSION['id_statut']==3) {
+			//page leader
+				include('left_sidebar_leader.php');
+			}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+				include('left_sidebar_controleur.php');
+			}elseif($_SESSION['id_statut']==5){
+			//page admin
+				include('left_sidebar_admin.php');
+			}
+			?>
+			
 
 			<!-- ... end Fixed Sidebar Left -->
 
@@ -90,7 +107,26 @@ if (isset($_SESSION['id_statut'])) {
 
 			<!-- Header -->
 
-			<?php include('header.php');?>
+			<?php 
+			if($_SESSION['id_statut']==1) {
+			//page graphistes 
+				include('header.php');
+			}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+				include('header.php');
+			}
+			elseif ($_SESSION['id_statut']==3) {
+			//page leader
+				include('header.php');
+			}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+				include('header_admin.php');
+			}elseif($_SESSION['id_statut']==5){
+			//page admin
+				include('header_admin.php');
+			}
+			?>
+			
 
 			<!-- ... end Header -->
 
@@ -221,7 +257,7 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 			<script src="js/charte.js"></script>
-			<script src="js/notifications.js"></script>
+			<script src="js/notifications_admin.js"></script>
 			<script>
 				$('.search').keyup(function(){
 					var search = $(this).val();
