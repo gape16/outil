@@ -232,7 +232,25 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 			<script src="js/charte.js"></script>
-			<script src="js/notifications.js"></script>
+			<?php 
+			if($_SESSION['id_statut']==1) {
+						//page graphistes 
+				?><script src="js/notifications.js"></script><?php
+			}elseif  ($_SESSION['id_statut']==2){
+						//page  redacteurs
+				?><script src="js/notifications_redac.js"></script><?php
+			}
+			elseif ($_SESSION['id_statut']==3) {
+						//page leader
+				?><script src="js/notifications_leader.js"></script><?php
+			}elseif ($_SESSION['id_statut']==4) {
+						//page controleur
+				?><script src="js/notifications_controleur.js"></script><?php
+			}elseif($_SESSION['id_statut']==5){
+						//page admin
+				?><script src="js/notifications_admin.js"></script><?php
+			}
+			?>
 			<script>
 				$('.search').keyup(function(){
 					var search = $(this).val();
@@ -337,7 +355,6 @@ if (isset($_SESSION['id_statut'])) {
 							swal('La brique a été modifiée').then(function(){
 								location.reload();
 							})
-
 						})		
 					})
 				});
@@ -346,9 +363,9 @@ if (isset($_SESSION['id_statut'])) {
 		</body>
 		</html>
 		<?php }else{
-			header('Location: login.php');
+			header('Location: accueil.php');
 		}
 	}else{
-		header('Location: accueil.php');
+		header('Location: login.php');
 	}
 	?>

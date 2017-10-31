@@ -236,16 +236,16 @@ if (isset($_SESSION['id_statut'])) {
 										<h6 class="event-description-title">Infos pratiques</h6>
 										<div class="place inline-items">
 											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
+												<a href="" class="lien_cms"><span>Lien CMS</span></a></div>
 												<div class="hax imgg"></div>
 											</div>
 
 											<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
 											marquer comme résolue</a>
-											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
+											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours"><i class="fa fa-spinner" aria-hidden="true"></i>
 											marquer comme en cours</a>
-											<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-trash-o" aria-hidden="true"></i>
+											<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non"><i class="fa fa-trash-o" aria-hidden="true"></i>
 											marquer comme impossible</a>
 										</div>
 									</div>
@@ -253,7 +253,7 @@ if (isset($_SESSION['id_statut'])) {
 
 							</article>
 
-							<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
+							<div data-mcs-theme="dark">
 								<ul class="comments-list">
 
 								</ul>
@@ -281,8 +281,6 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 						</div>
 
-
-						<?php }?>
 						<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 						<!-- Window-popup-CHAT for responsive min-width: 768px -->
@@ -290,7 +288,6 @@ if (isset($_SESSION['id_statut'])) {
 						<?php include('chat_box.php');?>
 
 						<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
 
 						<!-- jQuery first, then Other JS. -->
 						<script src="js/jquery-3.2.0.min.js"></script>
@@ -313,7 +310,25 @@ if (isset($_SESSION['id_statut'])) {
 						<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 						<script src="js/charte.js"></script>
-						<script src="js/notifications.js"></script>
+						<?php 
+						if($_SESSION['id_statut']==1) {
+						//page graphistes 
+							?><script src="js/notifications.js"></script><?php
+						}elseif  ($_SESSION['id_statut']==2){
+						//page  redacteurs
+							?><script src="js/notifications_redac.js"></script><?php
+						}
+						elseif ($_SESSION['id_statut']==3) {
+						//page leader
+							?><script src="js/notifications_leader.js"></script><?php
+						}elseif ($_SESSION['id_statut']==4) {
+						//page controleur
+							?><script src="js/notifications_controleur.js"></script><?php
+						}elseif($_SESSION['id_statut']==5){
+						//page admin
+							?><script src="js/notifications_admin.js"></script><?php
+						}
+						?>
 					</body>
 					</html>
 					<?php }else{

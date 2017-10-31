@@ -468,7 +468,25 @@ if (isset($_SESSION['id_statut'])) {
 	<script src="js/moment.min.js"></script>
 	<script src="js/daterangepicker.min.js"></script>
 	<script src="js/charte.js"></script>
-	<script src="js/notifications.js"></script>
+	<?php 
+	if($_SESSION['id_statut']==1) {
+						//page graphistes 
+		?><script src="js/notifications.js"></script><?php
+	}elseif  ($_SESSION['id_statut']==2){
+						//page  redacteurs
+		?><script src="js/notifications_redac.js"></script><?php
+	}
+	elseif ($_SESSION['id_statut']==3) {
+						//page leader
+		?><script src="js/notifications_leader.js"></script><?php
+	}elseif ($_SESSION['id_statut']==4) {
+						//page controleur
+		?><script src="js/notifications_controleur.js"></script><?php
+	}elseif($_SESSION['id_statut']==5){
+						//page admin
+		?><script src="js/notifications_admin.js"></script><?php
+	}
+	?>
 	<script>
 		function isValidEmailAddress(emailAddress) {
 			var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;

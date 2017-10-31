@@ -29,7 +29,6 @@ if($nb_notifs==0){
     position: absolute;
     top: 5px;">
   </div>
-  <span class="notif"><div class="wrap"><a href="jury.php"><img src="img/warning.png">Veuillez proposer un site du mois</a></div></span>
   <div class="header-content-wrapper">
     <div class="control-block">
 
