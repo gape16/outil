@@ -8,6 +8,11 @@
      <div class="mCustomScrollbar" data-mcs-theme="dark">
       <ul class="left-menu">
        <li>
+        <a href="#" class="js-sidebar-open">
+          <svg class="olymp-menu-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-menu-icon"></use></svg>
+        </a>
+      </li>
+      <li>
         <a href="accueil_admin.php">
           <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
         </a>
