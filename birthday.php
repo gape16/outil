@@ -13,7 +13,7 @@ if (isset($_SESSION['id_statut'])) {
 	<html lang="en">
 	<head>
 
-		<title>Calendar and Events - Create Event POPUP (Private/Public)</title>
+		<title>Les anniversaires</title>
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -47,6 +47,7 @@ if (isset($_SESSION['id_statut'])) {
 		<link rel='stylesheet' href='css/simplecalendar.css'/>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 
 
 	</head>
@@ -55,14 +56,25 @@ if (isset($_SESSION['id_statut'])) {
 
 
 		<!-- Fixed Sidebar Left -->
-
-		<?php include('left_sidebar.php');?>
-
-		<!-- ... end Fixed Sidebar Left -->
-
-		<!-- Fixed Sidebar Left -->
-
-		<?php include('fixed_left_sidebar.php');?>
+		<?php 
+		if($_SESSION['id_statut']==1) {
+			//page graphistes 
+			include('left_sidebar.php');
+		}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+			include('left_sidebar_redac.php');
+		}
+		elseif ($_SESSION['id_statut']==3) {
+			//page leader
+			include('left_sidebar_leader.php');
+		}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+			include('left_sidebar_controleur.php');
+		}elseif($_SESSION['id_statut']==5){
+			//page admin
+			include('left_sidebar_admin.php');
+		}
+		?>
 
 		<!-- ... end Fixed Sidebar Left -->
 
@@ -227,7 +239,7 @@ if (isset($_SESSION['id_statut'])) {
 	<script src="js/mediaelement-and-player.min.js"></script>
 	<script src="js/mediaelement-playlist-plugin.min.js"></script>
 	<script src="js/notifications.js"></script>
-
+	<script src="js/charte.js"></script>
 
 </body>
 </html>

@@ -21,6 +21,9 @@ a.btn-haxor {
 .hauteur-card, .ajout-client {
 	min-height: 270px !important;
 }
+.opencode p {
+	word-break: break-all;
+}
 .mb {
 	margin-bottom: 20px;
 }

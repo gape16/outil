@@ -59,15 +59,25 @@ if (isset($_SESSION['id_statut'])) {
 	<body>
 
 		<!-- Fixed Sidebar Left -->
-
-		<?php include('left_sidebar.php');?>
-
-		<!-- ... end Fixed Sidebar Left -->
-
-		<!-- Fixed Sidebar Left -->
-
-		<?php include('fixed_left_sidebar.php');?>
-
+		<?php 
+		if($_SESSION['id_statut']==1) {
+			//page graphistes 
+			include('left_sidebar.php');
+		}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+			include('left_sidebar_redac.php');
+		}
+		elseif ($_SESSION['id_statut']==3) {
+			//page leader
+			include('left_sidebar_leader.php');
+		}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+			include('left_sidebar_controleur.php');
+		}elseif($_SESSION['id_statut']==5){
+			//page admin
+			include('left_sidebar_admin.php');
+		}
+		?>
 		<!-- ... end Fixed Sidebar Left -->
 
 		<!-- Fixed Sidebar Right -->
@@ -132,93 +142,93 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_remontee"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-										Remonter le problème</a>
-									</div>
+									Remonter le problème</a>
 								</div>
 							</div>
 						</div>
-
 					</div>
 
 				</div>
+
 			</div>
-			<!-- ... end Main Content Groups -->
+		</div>
+		<!-- ... end Main Content Groups -->
 
-			<!-- jQuery first, then Other JS. -->
-			<script src="js/jquery-3.2.0.min.js"></script>
-			<!-- Js effects for material design. + Tooltips -->
-			<script src="js/material.min.js"></script>
-			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-			<script src="js/theme-plugins.js"></script>
-			<!-- Init functions -->
-			<script src="js/main.js"></script>
-			<script src="js/alterclass.js"></script>
-			<script src="js/chat.js"></script>
-			<!-- Select / Sorting script -->
-			<script src="js/selectize.min.js"></script>
+		<!-- jQuery first, then Other JS. -->
+		<script src="js/jquery-3.2.0.min.js"></script>
+		<!-- Js effects for material design. + Tooltips -->
+		<script src="js/material.min.js"></script>
+		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+		<script src="js/theme-plugins.js"></script>
+		<!-- Init functions -->
+		<script src="js/main.js"></script>
+		<script src="js/alterclass.js"></script>
+		<script src="js/chat.js"></script>
+		<!-- Select / Sorting script -->
+		<script src="js/selectize.min.js"></script>
 
-			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-			<script src="js/mediaelement-and-player.min.js"></script>
-			<script src="js/mediaelement-playlist-plugin.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+		<script src="js/mediaelement-and-player.min.js"></script>
+		<script src="js/mediaelement-playlist-plugin.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-			<script src="js/charte.js"></script>
-			<script src="js/notifications.js"></script>
-			<script>
-				$(function(){
-					$('.valider_remontee').on('click', function(){
-						var categorie = $('select.categorie').val();
-						var titre = $('.titre').val();
-						var description = $('#description').val();
-						if (categorie != 0) {
-							$('.categorie').removeClass('empty');
-							if (titre.length >= 5) {
-								$('.titre').removeClass('empty');
-								if (description.length >= 30) {
-									$('#description').removeClass('empty');
-									$.ajax({
-										url: 'formulaire.php',
-										type: 'POST',
-										data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
-									})
-									.done(function() {
-										swal(
-											'Remontée effectuée',
-											'Votre remontée sera étudiée sous peu',
-											'success'
-											)
-										setTimeout(function(){
-											location.reload();
-										},1000);
-									})
-								}else{
-									$('#description').addClass('empty');
-									$('#description').prev().html('30 caractères minimum requis');
-								}
+		<script src="js/charte.js"></script>
+		<script src="js/notifications.js"></script>
+		<script>
+			$(function(){
+				$('.valider_remontee').on('click', function(){
+					var categorie = $('select.categorie').val();
+					var titre = $('.titre').val();
+					var description = $('#description').val();
+					if (categorie != 0) {
+						$('.categorie').removeClass('empty');
+						if (titre.length >= 5) {
+							$('.titre').removeClass('empty');
+							if (description.length >= 30) {
+								$('#description').removeClass('empty');
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
+								})
+								.done(function() {
+									swal(
+										'Remontée effectuée',
+										'Votre remontée sera étudiée sous peu',
+										'success'
+										)
+									setTimeout(function(){
+										location.reload();
+									},1000);
+								})
 							}else{
-								$('.titre').addClass('empty');
-								$('.titre').prev().html('5 caractères minimum requis');
+								$('#description').addClass('empty');
+								$('#description').prev().html('30 caractères minimum requis');
 							}
 						}else{
-							$('.categorie').addClass('empty');
-							$('.categorie').prev().html('Une catégorie est requise');
+							$('.titre').addClass('empty');
+							$('.titre').prev().html('5 caractères minimum requis');
 						}
-					})
-
-					$('.reni').on('click', function(){
-						$('select.categorie').val(0);
-						$('.titre').val('');
-						$('#description').val('');
-					})
+					}else{
+						$('.categorie').addClass('empty');
+						$('.categorie').prev().html('Une catégorie est requise');
+					}
 				})
-			</script>
-		</body>
-		</html>
-		<?php
-		
-	}else{
-		header('Location: login.php');
-	}
-	?>
+
+				$('.reni').on('click', function(){
+					$('select.categorie').val(0);
+					$('.titre').val('');
+					$('#description').val('');
+				})
+			})
+		</script>
+	</body>
+	</html>
+	<?php
+	
+}else{
+	header('Location: login.php');
+}
+?>

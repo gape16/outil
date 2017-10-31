@@ -5,7 +5,7 @@ include('connexion_session.php');
 
 
 if (isset($_SESSION['id_statut'])) {
-	if ($_SESSION['id_statut'] == 5) {
+	if ($_SESSION['id_statut'] == 5 || $_SESSION['id_statut'] == 3) {
 
 		$id_graph=$_SESSION['id_graph'];
 		// si c'est un graph qui se connect
@@ -70,14 +70,25 @@ if (isset($_SESSION['id_statut'])) {
 		<body>
 
 			<!-- Fixed Sidebar Left -->
-
-			<?php include('left_sidebar.php');?>
-
-			<!-- ... end Fixed Sidebar Left -->
-
-			<!-- Fixed Sidebar Left -->
-
-			<?php include('fixed_left_sidebar.php');?>
+			<?php 
+			if($_SESSION['id_statut']==1) {
+			//page graphistes 
+				include('left_sidebar.php');
+			}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+				include('left_sidebar_redac.php');
+			}
+			elseif ($_SESSION['id_statut']==3) {
+			//page leader
+				include('left_sidebar_leader.php');
+			}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+				include('left_sidebar_controleur.php');
+			}elseif($_SESSION['id_statut']==5){
+			//page admin
+				include('left_sidebar_admin.php');
+			}
+			?>
 
 			<!-- ... end Fixed Sidebar Left -->
 
@@ -338,6 +349,6 @@ if (isset($_SESSION['id_statut'])) {
 			header('Location: login.php');
 		}
 	}else{
-		header('Location: login.php');
+		header('Location: accueil.php');
 	}
 	?>

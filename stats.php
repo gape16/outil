@@ -5,7 +5,7 @@ include('connexion_session.php');
 <html lang="en">
 <head>
 
-	<title>Statistics</title>
+	<title>Les statistiques</title>
 
 	<!-- Required meta tags always come first -->
 	<meta charset="utf-8">
@@ -41,6 +41,7 @@ include('connexion_session.php');
 	<link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
 
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 
 
 </head>
@@ -49,14 +50,25 @@ include('connexion_session.php');
 
 
 	<!-- Fixed Sidebar Left -->
-
-	<?php include('left_sidebar.php');?>
-
-	<!-- ... end Fixed Sidebar Left -->
-
-	<!-- Fixed Sidebar Left -->
-
-	<?php include('fixed_left_sidebar.php');?>
+	<?php 
+	if($_SESSION['id_statut']==1) {
+			//page graphistes 
+		include('left_sidebar.php');
+	}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+		include('left_sidebar_redac.php');
+	}
+	elseif ($_SESSION['id_statut']==3) {
+			//page leader
+		include('left_sidebar_leader.php');
+	}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+		include('left_sidebar_controleur.php');
+	}elseif($_SESSION['id_statut']==5){
+			//page admin
+		include('left_sidebar_admin.php');
+	}
+	?>
 
 	<!-- ... end Fixed Sidebar Left -->
 
@@ -352,6 +364,7 @@ include('connexion_session.php');
 		<script src="js/circle-progress.min.js"></script>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script src="js/run-chart.js"></script>
+		<script src="js/charte.js"></script>
 
 
 		<script src="js/mediaelement-and-player.min.js"></script>

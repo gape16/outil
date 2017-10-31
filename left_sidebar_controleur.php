@@ -1,4 +1,4 @@
-<div class="fixed-sidebar">
+<div class="fixed-sidebar controleur">
   <div class="fixed-sidebar-left sidebar--small" id="sidebar-left">
     <a href="" class="logo">
 
@@ -40,6 +40,11 @@
       </li>
       <li>
         <a href="explore.php">
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+        </a>
+      </li>
+      <li>
+        <a href="explore_admin.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
         </a>
       </li>
@@ -138,7 +143,7 @@
      <li>
       <a href="stats.php">
         <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
-        <span class="left-menu-title">Mes stats</span>
+        <span class="left-menu-title">Les stats</span>
       </a>
     </li>
     <li>

@@ -12,11 +12,6 @@
         </a>
       </li>
       <li>
-        <a href="accueil.php">
-          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
-        </a>
-      </li>
-      <li>
         <a href="achat_photos.php">
           <svg class="olymp-multimedia-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-multimedia-icon"></use></svg>
         </a>
@@ -37,31 +32,26 @@
         </a>
       </li>
       <li>
-        <a href="explore.php">
-          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
-        </a>
-      </li>
-      <li>
-        <a href="badges.php">
-          <svg class="olymp-badge-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-badge-icon"></use></svg>
-        </a>
-      </li>
-      <li>
         <a href="birthday.php">
          <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
        </a>
      </li>
      <li>
-      <a href="stats.php">
-        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
-      </a>
-    </li>
-    <li>
-      <a href="account_setting.php">
-        <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
-      </a>
-    </li>
-  </ul>
+      <a href="remontees.php">
+       <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+     </a>
+   </li>
+   <li>
+    <a href="stats.php">
+      <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
+    </a>
+  </li>
+  <li>
+    <a href="account_setting.php">
+      <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
+    </a>
+  </li>
+</ul>
 </div>
 </div>
 

@@ -22,7 +22,7 @@ $query_inser_code->execute();
 <html lang="en">
 <head>
 
-	<title>Explore !</title>
+	<title>Découvre le code des autres</title>
 
 	<!-- Required meta tags always come first -->
 	<meta charset="utf-8">
@@ -68,15 +68,25 @@ $query_inser_code->execute();
 <body>
 
 	<!-- Fixed Sidebar Left -->
-
-	<?php include('left_sidebar.php');?>
-
-	<!-- ... end Fixed Sidebar Left -->
-
-	<!-- Fixed Sidebar Left -->
-
-	<?php include('fixed_left_sidebar.php');?>
-
+	<?php 
+	if($_SESSION['id_statut']==1) {
+			//page graphistes 
+		include('left_sidebar.php');
+	}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+		include('left_sidebar_redac.php');
+	}
+	elseif ($_SESSION['id_statut']==3) {
+			//page leader
+		include('left_sidebar_leader.php');
+	}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+		include('left_sidebar_controleur.php');
+	}elseif($_SESSION['id_statut']==5){
+			//page admin
+		include('left_sidebar_admin.php');
+	}
+	?>
 	<!-- ... end Fixed Sidebar Left -->
 
 	<!-- Fixed Sidebar Right -->

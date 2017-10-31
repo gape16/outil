@@ -33,21 +33,21 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- Main Font -->
 		<script src="js/webfontloader.min.js"></script>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;subset=latin" media="all"><script>
-		WebFont.load({
-			google: {
-				families: ['Roboto:300,400,500,700:latin']
-			}
-		});
-	</script>
+			WebFont.load({
+				google: {
+					families: ['Roboto:300,400,500,700:latin']
+				}
+			});
+		</script>
 
-	<link rel="stylesheet" type="text/css" href="css/fonts.css">
+		<link rel="stylesheet" type="text/css" href="css/fonts.css">
 
-	<!-- Styles for plugins -->
-	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
-	<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
-	<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
-	<style>
+		<!-- Styles for plugins -->
+		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		<style>
 		.help-support-list li svg{
 			min-width: 14px;
 		}
@@ -177,6 +177,7 @@ if (isset($_SESSION['id_statut'])) {
 
 		<!-- Datepicker input field script-->
 		<script src="js/moment.min.js"></script>
+		<script src="js/charte.js"></script>
 		<script>
 			$(function(){
 				$(".letuto").on('click', function(e){

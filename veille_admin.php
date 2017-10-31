@@ -24,303 +24,315 @@ function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad 
 }
 
 if (isset($_SESSION['id_statut'])) {
+	if ($_SESSION['id_statut'] == 4 || $_SESSION['id_statut'] == 5) {
 
-	$selection_categorie = $bdd->prepare("SELECT * FROM categorie_veille");
-	$selection_categorie->execute();
+		$selection_categorie = $bdd->prepare("SELECT * FROM categorie_veille");
+		$selection_categorie->execute();
 
-	$selection_categorie2 = $bdd->prepare("SELECT * FROM categorie_veille");
-	$selection_categorie2->execute();
+		$selection_categorie2 = $bdd->prepare("SELECT * FROM categorie_veille");
+		$selection_categorie2->execute();
 
-	$selection_article_veille = $bdd->prepare("SELECT * FROM veille");
-	$selection_article_veille->execute();
+		$selection_article_veille = $bdd->prepare("SELECT * FROM veille");
+		$selection_article_veille->execute();
 
-	$id_graph=$_SESSION['id_graph'];
+		$id_graph=$_SESSION['id_graph'];
 
-	$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
-	$query_notif_code->execute();
-	$result_notif_code=$query_notif_code->fetch();
-	$dernier=$result_notif_code['id_veille'];
-	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_B = ? where id_user = ?");
-	$query_inser_code->bindParam(1, $dernier);
-	$query_inser_code->bindParam(2, $id_graph);
-	$query_inser_code->execute();
+		$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
+		$query_notif_code->execute();
+		$result_notif_code=$query_notif_code->fetch();
+		$dernier=$result_notif_code['id_veille'];
+		$query_inser_code=$bdd->prepare("UPDATE notifications set notif_B = ? where id_user = ?");
+		$query_inser_code->bindParam(1, $dernier);
+		$query_inser_code->bindParam(2, $id_graph);
+		$query_inser_code->execute();
 
-	?>
+		?>
 
-	<!DOCTYPE html>
-	<html lang="en">
-	<head>
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
 
-		<title>Veille</title>
+			<title>Veille</title>
 
-		<!-- Required meta tags always come first -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
+			<!-- Required meta tags always come first -->
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta http-equiv="x-ua-compatible" content="ie=edge">
 
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
+			<!-- Bootstrap CSS -->
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
+			<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
 
-		<!-- Theme Styles CSS -->
-		<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
-		<link rel="stylesheet" type="text/css" href="css/blocks.css">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
-
-
-		<!-- Main Font -->
-		<script src="js/webfontloader.min.js"></script>
-		<script>
-			WebFont.load({
-				google: {
-					families: ['Roboto:300,400,500,700:latin']
-				}
-			});
-		</script>
-
-		<link rel="stylesheet" type="text/css" href="css/fonts.css">
-
-		<!-- Styles for plugins -->
-		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="css/jquery.fancybox.min.css">
-
-	</head>
-
-	<body>
-
-		<!-- Fixed Sidebar Left -->
-
-		<?php include('left_sidebar.php');?>
-
-		<!-- ... end Fixed Sidebar Left -->
-
-		<!-- Fixed Sidebar Left -->
-
-		<?php include('fixed_left_sidebar.php');?>
-
-		<!-- ... end Fixed Sidebar Left -->
-
-		<!-- Fixed Sidebar Right -->
-
-		<?php include('fixed_sidebar_right.php');?>
-
-		<!-- ... end Fixed Sidebar Right -->
+			<!-- Theme Styles CSS -->
+			<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
+			<link rel="stylesheet" type="text/css" href="css/blocks.css">
+			<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-		<!-- Header -->
+			<!-- Main Font -->
+			<script src="js/webfontloader.min.js"></script>
+			<script>
+				WebFont.load({
+					google: {
+						families: ['Roboto:300,400,500,700:latin']
+					}
+				});
+			</script>
 
-		<?php include('header.php');?>
+			<link rel="stylesheet" type="text/css" href="css/fonts.css">
 
-		<!-- ... end Header -->
+			<!-- Styles for plugins -->
+			<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
+			<!-- Custom CSS -->
+			<link rel="stylesheet" href="css/main.css">
+			<link rel="stylesheet" href="css/jquery.fancybox.min.css">
+
+		</head>
+
+		<body>
+
+			<!-- Fixed Sidebar Left -->
+			<?php 
+			if($_SESSION['id_statut']==1) {
+			//page graphistes 
+				include('left_sidebar.php');
+			}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+				include('left_sidebar_redac.php');
+			}
+			elseif ($_SESSION['id_statut']==3) {
+			//page leader
+				include('left_sidebar_leader.php');
+			}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+				include('left_sidebar_controleur.php');
+			}elseif($_SESSION['id_statut']==5){
+			//page admin
+				include('left_sidebar_admin.php');
+			}
+			?>
+
+			<!-- ... end Fixed Sidebar Left -->
+
+			<!-- Fixed Sidebar Right -->
+
+			<?php include('fixed_sidebar_right.php');?>
+
+			<!-- ... end Fixed Sidebar Right -->
 
 
-		<!-- Responsive Header -->
+			<!-- Header -->
 
-		<?php include('responsive_header.php');?>
-		
-		<!-- ... end Responsive Header -->
+			<?php include('header.php');?>
 
-		<!-- ... end Responsive Header -->
+			<!-- ... end Header -->
 
 
-		<div class="header-spacer header-spacer-small"></div>
+			<!-- Responsive Header -->
+
+			<?php include('responsive_header.php');?>
+			
+			<!-- ... end Responsive Header -->
+
+			<!-- ... end Responsive Header -->
 
 
-		
-		<div class="main-header">
-			<div class="content-bg-wrap">
-				<div class="content-bg bg-events"></div>
+			<div class="header-spacer header-spacer-small"></div>
+
+
+			
+			<div class="main-header">
+				<div class="content-bg-wrap">
+					<div class="content-bg bg-events"></div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+							<div class="main-header-content">
+								<h1>Retrouvez toutes les veilles technologiques</h1>
+								<p>Bienvenu sur la page de la veille technologique qui vous permettra de trouver un maximum d'informations sur les nouveautés sans aller sur le net!
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<img class="img-bottom" src="img/event-bottom.png" alt="friends">
+			</div>
+
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="ui-block">
+							<div class="ui-block-title">
+								<h6 class="title">Ajout veille</h6>
+							</div>
+							<div class="ui-block-content">
+								<form class="form-group label-floating is-empty help">
+									<div class="form-group is-empty label-floating">
+										<label class="control-label">Lien de la veille</label>
+										<input class="form-control lienveille" placeholder="" value="" type="text">
+										<span class="material-input"></span>
+									</div>
+									<div class="form-group is-empty label-floating">
+										<label class="control-label">Titre</label>
+										<input class="form-control titreveille" placeholder="" value="" type="text">
+										<span class="material-input"></span>
+									</div>
+									<div class="form-group is-empty label-floating">
+										<select name="" id="" class="categorie">
+											<option value="0">Choisir une catégorie</option>
+											<?php foreach ($selection_categorie as $key => $value) {?>
+											<option value="<?php echo($value['id_categorie_veille']) ?>"><?php echo($value['categorie']) ?></option>
+											<?php }
+											?>
+										</select>
+									</div>
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Description</label>
+										<textarea name="description" id="description" cols="30" rows="10"></textarea>
+									</div>
+									<div class="form-group label-floating is-empty">
+										<form class="upload_veille">
+											<input type="file" id="file-select" name="photos" required="required">
+										</form>
+									</div>
+								</form>
+								<div class="row">
+									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<a href="#" class="btn btn-secondary btn-lg full-width reni_veille" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
+									</div>
+									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_veille"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+										Envoyer l'article</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
 			</div>
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
-						<div class="main-header-content">
-							<h1>Retrouvez toutes les veilles technologiques</h1>
-							<p>Bienvenu sur la page de la veille technologique qui vous permettra de trouver un maximum d'informations sur les nouveautés sans aller sur le net!
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
 
-			<img class="img-bottom" src="img/event-bottom.png" alt="friends">
-		</div>
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="clients-grid">
 
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="ui-block">
-						<div class="ui-block-title">
-							<h6 class="title">Ajout veille</h6>
-						</div>
-						<div class="ui-block-content">
-							<form class="form-group label-floating is-empty help">
-								<div class="form-group is-empty label-floating">
-									<label class="control-label">Lien de la veille</label>
-									<input class="form-control lienveille" placeholder="" value="" type="text">
-									<span class="material-input"></span>
-								</div>
-								<div class="form-group is-empty label-floating">
-									<label class="control-label">Titre</label>
-									<input class="form-control titreveille" placeholder="" value="" type="text">
-									<span class="material-input"></span>
-								</div>
-								<div class="form-group is-empty label-floating">
-									<select name="" id="" class="categorie">
-										<option value="0">Choisir une catégorie</option>
-										<?php foreach ($selection_categorie as $key => $value) {?>
-										<option value="<?php echo($value['id_categorie_veille']) ?>"><?php echo($value['categorie']) ?></option>
-										<?php }
-										?>
-									</select>
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Description</label>
-									<textarea name="description" id="description" cols="30" rows="10"></textarea>
-								</div>
-								<div class="form-group label-floating is-empty">
-									<form class="upload_veille">
-										<input type="file" id="file-select" name="photos" required="required">
-									</form>
-								</div>
-							</form>
-							<div class="row">
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-secondary btn-lg full-width reni_veille" data-toggle="modal" data-target="#faqs-popup">Renitialiser</a>
-								</div>
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a href="#" class="btn btn-green btn-lg full-width btn-icon-left valider_veille"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-									Envoyer l'article</a>
-								</div>
-							</div>
-						</div>
-					</div>
+							<ul class="cat-list-bg-style align-center sorting-menu">
+								<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
 
-				</div>
-
-			</div>
-		</div>
-		<div class="container">
-			<div class="row">
-
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="clients-grid">
-
-						<ul class="cat-list-bg-style align-center sorting-menu">
-							<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
-
-							<?php foreach ($selection_categorie2 as $key => $value) {?>
-							<li class="cat-list__item" data-filter=".<?php echo($value['id_categorie_veille']) ?>"><a href="#" class=""><?php echo($value['categorie']) ?></a></li>
-							<?php }
-							?>
-						</ul>
-						<div class="row sorting-container" id="clients-grid-1" data-layout="masonry">
-							<?php foreach ($selection_article_veille as $key => $value) {?>
-							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
-								<div class="ui-block">
-									<article class="hentry blog-post">
-										<div class="post-thumb">
-											<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
-										</div>
-										<div class="post-content">
-											<a href="<?php echo($value['lien']) ?>	" class="h4 post-title"><?php echo($value['titre']) ?></a>
-											<p><?php echo($value['description']) ?>											</p>
-
-											<div class="author-date not-uppercase">
-												<div class="post__date">
-													<time class="published" datetime="2017-03-24T18:18">
-														<?php echo($value['date_veille']) ?>
-													</time>
-												</div>
-												<a class="post-add-icon inline-items like_veille_<?php echo($value['id_veille']) ?>" <?php if($value['like_veille'] != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
+								<?php foreach ($selection_categorie2 as $key => $value) {?>
+								<li class="cat-list__item" data-filter=".<?php echo($value['id_categorie_veille']) ?>"><a href="#" class=""><?php echo($value['categorie']) ?></a></li>
+								<?php }
+								?>
+							</ul>
+							<div class="row sorting-container" id="clients-grid-1" data-layout="masonry">
+								<?php foreach ($selection_article_veille as $key => $value) {?>
+								<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
+									<div class="ui-block">
+										<article class="hentry blog-post">
+											<div class="post-thumb">
+												<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
 											</div>
-										</article>
+											<div class="post-content">
+												<a href="<?php echo($value['lien']) ?>	" class="h4 post-title"><?php echo($value['titre']) ?></a>
+												<p><?php echo($value['description']) ?>											</p>
+
+												<div class="author-date not-uppercase">
+													<div class="post__date">
+														<time class="published" datetime="2017-03-24T18:18">
+															<?php echo($value['date_veille']) ?>
+														</time>
+													</div>
+													<a class="post-add-icon inline-items like_veille_<?php echo($value['id_veille']) ?>" <?php if($value['like_veille'] != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
+												</div>
+											</article>
+										</div>
 									</div>
+									<?php } ?>
 								</div>
-								<?php } ?>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<!-- Window-popup-CHAT for responsive min-width: 768px -->
+				<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
-			<?php include('chat_box.php');?>
+				<?php include('chat_box.php');?>
 
-			<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+				<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
-			<!-- jQuery first, then Other JS. -->
-			<script src="js/jquery-3.2.0.min.js"></script>
-			<!-- Js effects for material design. + Tooltips -->
-			<script src="js/material.min.js"></script>
-			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-			<script src="js/theme-plugins.js"></script>
-			<!-- Init functions -->
-			<script src="js/main.js"></script>
-			<script src="js/alterclass.js"></script>
-			<!-- <script src="js/chat.js"></script> -->
-			<!-- Select / Sorting script -->
-			<script src="js/selectize.min.js"></script>
+				<!-- jQuery first, then Other JS. -->
+				<script src="js/jquery-3.2.0.min.js"></script>
+				<!-- Js effects for material design. + Tooltips -->
+				<script src="js/material.min.js"></script>
+				<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+				<script src="js/theme-plugins.js"></script>
+				<!-- Init functions -->
+				<script src="js/main.js"></script>
+				<script src="js/alterclass.js"></script>
+				<!-- <script src="js/chat.js"></script> -->
+				<!-- Select / Sorting script -->
+				<script src="js/selectize.min.js"></script>
 
-			<!-- Select / Sorting script -->
-			<script src="js/selectize.min.js"></script>
+				<!-- Select / Sorting script -->
+				<script src="js/selectize.min.js"></script>
 
-			<!-- Swiper / Sliders -->
-			<script src="js/swiper.jquery.min.js"></script>
+				<!-- Swiper / Sliders -->
+				<script src="js/swiper.jquery.min.js"></script>
 
-			<script src="js/isotope.pkgd.min.js"></script>
+				<script src="js/isotope.pkgd.min.js"></script>
 
-			<script src="js/mediaelement-and-player.min.js"></script>
-			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+				<script src="js/mediaelement-and-player.min.js"></script>
+				<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
-			<script src="js/mediaelement-and-player.min.js"></script>
-			<script src="js/mediaelement-playlist-plugin.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-			<script src="js/simpleUpload.min.js"></script>
+				<script src="js/mediaelement-and-player.min.js"></script>
+				<script src="js/mediaelement-playlist-plugin.min.js"></script>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+				<script src="js/simpleUpload.min.js"></script>
 
-			<script src="js/charte.js"></script>
-			<script src="js/notifications.js"></script>
+				<script src="js/charte.js"></script>
+				<script src="js/notifications.js"></script>
 
 
-			<script>
+				<script>
 
-				$(function(){
-					$(".reni_veille").on("click", function(){
-						$(".help").find("input").val('');
-						$(".help").find("select").val(0);
-						$(".help").find("textarea").val('');
-					})
+					$(function(){
+						$(".reni_veille").on("click", function(){
+							$(".help").find("input").val('');
+							$(".help").find("select").val(0);
+							$(".help").find("textarea").val('');
+						})
 
-					$('.valider_veille').on('click', function(e){
-						e.preventDefault();
-						var lienveille = $('.lienveille').val();
-						var titreveille = $('.titreveille').val();
-						var categorie = $('select.categorie').val();
-						var file = $("#file-select").prop("files");
-						var description = $('#description').val();
-						var names = $.map(file, function (val) { return val.name; });
-						if (titreveille.length >= 5) {
-							$('.titreveille').removeClass('empty');
-							if (categorie != 0) {
-								$('.categorie').removeClass('empty');
-								if (description.length >= 30) {
-									$('#description').removeClass('empty');
-									$.ajax({
-										url: 'formulaire.php',
-										type: 'POST',
-										data: {lienveille: lienveille, titreveille: titreveille, categorie_veille: categorie, description_veille: description, file_veille: names}
-									})
-									.done(function(data) {
-										location.reload();
-									})
-									$('#file-select').simpleUpload("upload.php", {
+						$('.valider_veille').on('click', function(e){
+							e.preventDefault();
+							var lienveille = $('.lienveille').val();
+							var titreveille = $('.titreveille').val();
+							var categorie = $('select.categorie').val();
+							var file = $("#file-select").prop("files");
+							var description = $('#description').val();
+							var names = $.map(file, function (val) { return val.name; });
+							if (titreveille.length >= 5) {
+								$('.titreveille').removeClass('empty');
+								if (categorie != 0) {
+									$('.categorie').removeClass('empty');
+									if (description.length >= 30) {
+										$('#description').removeClass('empty');
+										$.ajax({
+											url: 'formulaire.php',
+											type: 'POST',
+											data: {lienveille: lienveille, titreveille: titreveille, categorie_veille: categorie, description_veille: description, file_veille: names}
+										})
+										.done(function(data) {
+											location.reload();
+										})
+										$('#file-select').simpleUpload("upload.php", {
 
-										start: function(file){
+											start: function(file){
 									//upload started
 								},
 								progress: function(progress){
@@ -335,24 +347,27 @@ if (isset($_SESSION['id_statut'])) {
 								}
 
 							});
+									}else{
+										$('#description').addClass('empty');
+										$('#description').prev().html('30 caractères minimum requis');
+									}
 								}else{
-									$('#description').addClass('empty');
-									$('#description').prev().html('30 caractères minimum requis');
+									$('.categorie').addClass('empty');
+									$('.categorie').prev().html('Une catégorie est requise');
 								}
 							}else{
-								$('.categorie').addClass('empty');
-								$('.categorie').prev().html('Une catégorie est requise');
+								$('.titreveille').addClass('empty');
+								$('.titreveille').prev().html('5 caractères minimum requis');
 							}
-						}else{
-							$('.titreveille').addClass('empty');
-							$('.titreveille').prev().html('5 caractères minimum requis');
-						}
+						})
 					})
-				})
-			</script>
-		</body>
-		</html>
-		<?php }else{
+				</script>
+			</body>
+			</html>
+			<?php }else{
+				header('Location: veille.php');
+			}
+		}else{
 			header('Location: login.php');
 		}
 		?>
