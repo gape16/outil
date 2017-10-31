@@ -84,6 +84,9 @@ if (isset($_POST['connect'])) {
 		.ah:before{
 			height:300% !important;
 		}
+		.tab-content > .tab-pane{
+			display: block;
+		}
 	</style>
 </head>
 

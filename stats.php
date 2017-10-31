@@ -1,3 +1,6 @@
+<?php 
+include('connexion_session.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -189,718 +192,141 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-12 col-sm-12 col-xs-12">
-				<div class="ui-block responsive-flex">
-					<div class="ui-block-title">
-						<div class="h6 title">Monthly Bar Graphic</div>
-						<select class="selectpicker form-control without-border" size="auto">
-							<option value="LY">LAST YEAR (2016)</option>
-							<option value="CUR">CURRENT YEAR (2017)</option>
-						</select>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-
-					<div class="ui-block-content">
-						<div class="chart-js chart-js-one-bar">
-							<canvas id="one-bar-chart" width="1400" height="380"></canvas>
+			<?php 
+			$date_control=date('Y-m-d');
+			$query_stats_control=$bdd->prepare("SELECT * FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control = ?");
+			$query_stats_control->bindParam(1, $date_control);
+			$query_stats_control->execute();
+			$query_stats_control_total=$bdd->prepare("SELECT sum(nb_validation_maquette) as val_maquette_toto, sum(nb_retour_maquette) as retour_maquette_toto, sum(nb_validation_cq) as val_cq_toto, sum(nb_retour_cq) as retour_cq_toto FROM stat_controle where date_stat_control = ?");
+			$query_stats_control_total->bindParam(1, $date_control);
+			$query_stats_control_total->execute();
+			$resultat_total_control=$query_stats_control_total->fetch();
+			$total_control_result=$resultat_total_control['val_maquette_toto']+$resultat_total_control['retour_maquette_toto']+$resultat_total_control['val_cq_toto']+$resultat_total_control['retour_cq_toto'];
+			foreach ($query_stats_control as $key => $value) {
+				$total_control=$value['nb_validation_maquette']+$value['nb_retour_maquette']+$value['nb_validation_cq']+$value['nb_retour_cq'];
+				?>
+				<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-xs-12 graphique_control">
+					<input type="hidden" value="<?php echo $value['id_user'];?>" class="controleur">
+					<div class="ui-block" data-mh="pie-chart">
+						<div class="ui-block-title">
+							<div class="h6 title">Stats Controles <?php echo utf8_encode($value['prenom']);?></div>
+							<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-xs-12">
-				<div class="ui-block responsive-flex" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Lines Graphic</div>
-
-						<select class="selectpicker form-control without-border" size="auto">
-							<option value="CUR">LAST 3 MONTH</option>
-							<option value="LY">LAST YEAR (2016)</option>
-						</select>
-
-						<div class="points align-right">
-
-							<span>
-								<span class="statistics-point bg-yellow"></span>
-								THIS YEAR
-							</span>
-
-							<span>
-								<span class="statistics-point bg-primary"></span>
-								LAST YEAR
-							</span>
-
-						</div>
-
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-					</div>
-
-					<div class="ui-block-content">
-						<div class="chart-js chart-js-line-graphic">
-							<canvas id="line-graphic-chart" width="730" height="300"></canvas>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-xs-12">
-				<div class="ui-block" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Colors Pie Chart</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-					<div class="ui-block-content">
-						<div class="chart-with-statistic">
-							<ul class="statistics-list-count">
-								<li>
-									<div class="points">
-										<span>
-											<span class="statistics-point bg-purple"></span>
-											Status Updates
-										</span>
-									</div>
-									<div class="count-stat">8.247</div>
-								</li>
-								<li>
-									<div class="points">
-										<span>
-											<span class="statistics-point bg-breez"></span>
-											Multimedia
-										</span>
-									</div>
-									<div class="count-stat">5.630</div>
-								</li>
-								<li>
-									<div class="points">
-										<span>
-											<span class="statistics-point bg-primary"></span>
-											Shared Posts
-										</span>
-									</div>
-									<div class="count-stat">1.498</div>
-								</li>
-								<li>
-									<div class="points">
-										<span>
-											<span class="statistics-point bg-yellow"></span>
-											Blog Posts
-										</span>
-									</div>
-									<div class="count-stat">1.136</div>
-								</li>
-							</ul>
+						<div class="ui-block-content">
+							<div class="chart-with-statistic">
+								<ul class="statistics-list-count">
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-purple"></span>
+												Validations maquettes
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $value['nb_validation_maquette'];?></div>
+									</li>
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-breez"></span>
+												Retours maquettes
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $value['nb_retour_maquette'];?></div>
+									</li>
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-primary"></span>
+												Validations CQ
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $value['nb_validation_cq'];?></div>
+									</li>
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-yellow"></span>
+												Retours CQ
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $value['nb_retour_cq'];?></div>
+									</li>
+								</ul>
 
 
-							<div class="chart-js chart-js-pie-color">
-								<canvas id="pie-color-chart" width="180" height="180"></canvas>
-								<div class="general-statistics">16.502
-									<span>Last Month Posts</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="container">
-		<div class="row">
-
-			<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-				<div class="ui-block">
-					<div class="ui-block-title">
-						<div class="h6 title">Pie Chart with Text</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-					<div class="ui-block-content">
-						<div class="circle-progress circle-pie-chart">
-							<div class="pie-chart" data-value="0.68" data-startcolor="#38a9ff" data-endcolor="#317cb6">
-								<div class="content"><span>%</span></div>
-							</div>
-						</div>
-
-						<div class="chart-text">
-							<h6>Friends Comments</h6>
-							<p>68% of friends that visit your profile comment on your posts.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-				<div class="ui-block">
-					<div class="ui-block-title">
-						<div class="h6 title">Worldwide Statistics</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-
-					<div class="ui-block-content">
-						<div class="world-statistics">
-							<div class="world-statistics-img">
-								<img src="img/world-map.png" alt="map">
-							</div>
-
-							<ul class="country-statistics">
-								<li>
-									<img src="img/flag1.jpg" alt="flag">
-									<span class="country">United States</span>
-									<span class="count-stat">86.134</span>
-								</li>
-								<li>
-									<img src="img/flag2.jpg" alt="flag">
-									<span class="country">Mexico</span>
-									<span class="count-stat">35.136</span>
-								</li>
-								<li>
-									<img src="img/flag3.jpg" alt="flag">
-									<span class="country">France</span>
-									<span class="count-stat">12.600</span>
-								</li>
-								<li>
-									<img src="img/flag4.jpg" alt="flag">
-									<span class="country">Spain</span>
-									<span class="count-stat">9.471</span>
-								</li>
-								<li>
-									<img src="img/flag5.jpg" alt="flag">
-									<span class="country">Ireland</span>
-									<span class="count-stat">8.058</span>
-								</li>
-								<li>
-									<img src="img/flag6.jpg" alt="flag">
-									<span class="country">Argentina</span>
-									<span class="count-stat">5.653</span>
-								</li>
-								<li>
-									<img src="img/flag7.jpg" alt="flag">
-									<span class="country">Ecuador</span>
-									<span class="count-stat">2.924</span>
-								</li>
-							</ul>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-		<div class="row">
-			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<div class="ui-block" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Country Detail</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-					<div class="ui-block-content js-google-map">
-						<div id="us-chart-map" style="width: 270px; height: 180px; max-width: 100%;"></div>
-						<ul class="statistics-list-count style-2">
-							<li>
-								<div class="points">
-									<span>
-										<span class="statistics-point bg-blue"></span>
-										Profile Visits
-									</span>
-								</div>
-								<div class="count-stat">4.290</div>
-							</li>
-							<li>
-								<div class="points">
-									<span>
-										<span class="statistics-point bg-breez"></span>
-										Post Likes
-									</span>
-								</div>
-								<div class="count-stat">2.758</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<div class="ui-block" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Progress Bars</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-
-					<div class="ui-block-content">
-						<div class="skills-item">
-							<div class="skills-item-info">
-								<span class="skills-item-title">Orange Gradient Progress</span>
-								<span class="skills-item-count"><span class="count-animate" data-speed="1000" data-refresh-interval="50" data-to="62" data-from="0"></span><span class="units">62%</span></span>
-							</div>
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active bg-primary" style="width: 62%"></span>
-							</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-info">
-								<span class="skills-item-title">Violet Progress</span>
-								<span class="skills-item-count"><span class="count-animate" data-speed="1000" data-refresh-interval="50" data-to="46" data-from="0"></span><span class="units">46%</span></span>
-							</div>
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active bg-purple" style="width: 46%"></span>
-							</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-info">
-								<span class="skills-item-title">Blue Progress</span>
-								<span class="skills-item-count"><span class="count-animate" data-speed="1000" data-refresh-interval="50" data-to="79" data-from="0"></span><span class="units">79%</span></span>
-							</div>
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active bg-blue" style="width: 79%"></span>
-							</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-info">
-								<span class="skills-item-title">Aqua Progress</span>
-								<span class="skills-item-count"><span class="count-animate" data-speed="1000" data-refresh-interval="50" data-to="34" data-from="0"></span><span class="units">34%</span></span>
-							</div>
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active bg-breez" style="width: 34%"></span>
-							</div>
-						</div>
-
-						<div class="skills-item">
-							<div class="skills-item-info">
-								<span class="skills-item-title">Yellow Progress</span>
-								<span class="skills-item-count"><span class="count-animate" data-speed="1000" data-refresh-interval="50" data-to="95" data-from="0"></span><span class="units">95%</span></span>
-							</div>
-							<div class="skills-item-meter">
-								<span class="skills-item-meter-active bg-yellow" style="width: 95%"></span>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-
-			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<div class="ui-block" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Icons with Text</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-
-					<div class="ui-block-content">
-						<div class="monthly-indicator-wrap">
-							<div class="monthly-indicator">
-								<a href="#" class="btn btn-control bg-blue">
-									<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-								</a>
-
-								<div class="monthly-count">
-									9.855
-									<span class="period">Likes</span>
-								</div>
-							</div>
-
-							<div class="monthly-indicator">
-								<a href="#" class="btn btn-control bg-blue">
-									<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-								</a>
-
-								<div class="monthly-count">
-									6.721
-									<span class="period">Shares</span>
-								</div>
-							</div>
-
-							<div class="monthly-indicator">
-								<a href="#" class="btn btn-control bg-blue">
-									<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-								</a>
-
-								<div class="monthly-count">
-									2.047
-									<span class="period">Comments</span>
-								</div>
-							</div>
-
-							<div class="monthly-indicator">
-								<a href="#" class="btn btn-control bg-blue">
-									<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-								</a>
-
-								<div class="monthly-count">
-									1.536
-									<span class="period">Messages</span>
-								</div>
-							</div>
-
-							<div class="monthly-indicator">
-								<a href="#" class="btn btn-control bg-primary">
-									<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
-								</a>
-
-								<div class="monthly-count">
-									Paragraph
-									<span class="period">Lorem ipsum dolor sit amet, consectetur icing elit, sed do eiusmod
-										tempor incididunt ut ore et dolore magna aliqua. Ut enim ad minim an quis nostrud
-										exercitation.
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-		</div>
-
-
-		<div class="row">
-			<div class="col-lg-12 col-sm-12 col-xs-12">
-				<div class="ui-block responsive-flex">
-					<div class="ui-block-title">
-						<div class="h6 title">Yearly Line Graphic</div>
-						<select class="selectpicker form-control without-border" size="auto">
-							<option value="LY">LAST YEAR (2016)</option>
-							<option value="2">CURRENT YEAR (2017)</option>
-						</select>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-
-					<div class="ui-block-content">
-						<div class="chart-js chart-js-line-chart">
-							<canvas id="line-chart" width="1400" height="380"></canvas>
-						</div>
-					</div>
-					<hr>
-					<div class="ui-block-content display-flex content-around">
-						<div class="chart-js chart-js-small-pie">
-							<canvas id="pie-small-chart" width="90" height="90"></canvas>
-						</div>
-
-						<div class="points points-block">
-
-							<span>
-								<span class="statistics-point bg-breez"></span>
-								Yearly Likes
-							</span>
-
-							<span>
-								<span class="statistics-point bg-yellow"></span>
-								Yearly Comments
-							</span>
-
-						</div>
-
-						<div class="text-stat">
-							<div class="count-stat">2.758</div>
-							<div class="title">Total Likes</div>
-							<div class="sub-title">This Year</div>
-						</div>
-
-						<div class="text-stat">
-							<div class="count-stat">5.420,7</div>
-							<div class="title">Average Likes</div>
-							<div class="sub-title">By Month</div>
-						</div>
-
-						<div class="text-stat">
-							<div class="count-stat">42.973</div>
-							<div class="title">Total Comments</div>
-							<div class="sub-title">This Year</div>
-						</div>
-
-						<div class="text-stat">
-							<div class="count-stat">3.581,1</div>
-							<div class="title">Average Comments</div>
-							<div class="sub-title">By Month</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-		<div class="row">
-			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<div class="ui-block" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Progress Bars</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-					<div class="ui-block-content">
-						<div class="chart-js chart-js-two-bar">
-							<canvas id="two-bar-chart-2" width="400" height="300"></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<div class="ui-block" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Number with Slider</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-
-					<div class="ui-block-content">
-						<div class="swiper-container" data-slide="fade">
-							<div class="swiper-wrapper">
-								<div class="swiper-slide">
-									<div class="statistics-slide">
-										<div class="count-stat" data-swiper-parallax="-500">248</div>
-										<div class="title" data-swiper-parallax="-100"><span class="c-primary">Olympus</span> Posts Rank</div>
-										<div class="sub-title" data-swiper-parallax="-100">The Olympus Rank measures the quantity of comments, likes and posts.</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="statistics-slide">
-										<div class="count-stat" data-swiper-parallax="-500">358</div>
-										<div class="title" data-swiper-parallax="-100"><span class="c-primary">Olympus</span> Posts Rank</div>
-										<div class="sub-title" data-swiper-parallax="-100">The Olympus Rank measures the quantity of comments, likes and posts.</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="statistics-slide">
-										<div class="count-stat" data-swiper-parallax="-500">711</div>
-										<div class="title" data-swiper-parallax="-100"><span class="c-primary">Olympus</span> Posts Rank</div>
-										<div class="sub-title" data-swiper-parallax="-100">The Olympus Rank measures the quantity of comments, likes and posts.</div>
+								<div class="chart-js chart-js-pie-color">
+									<canvas id="pie-color-chart<?php echo $key;?>" width="180" height="180"></canvas>
+									<div class="general-statistics"><?php echo $total_control;?>
+										<span>Actions contrôleurs</span>
 									</div>
 								</div>
 							</div>
-
-							<!-- If we need pagination -->
-							<div class="swiper-pagination pagination-blue"></div>
 						</div>
+
 					</div>
 				</div>
-			</div>
-			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<div class="ui-block" data-mh="pie-chart">
-					<div class="ui-block-title">
-						<div class="h6 title">Pie Chart</div>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-					<div class="ui-block-content">
-						<div class="chart-js chart-radar">
-							<canvas id="radar-chart" width="400" height="300"></canvas>
+				<?php }?>
+				<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-xs-12 graphique_control">
+					<input type="hidden" value="<?php echo $value['id_user'];?>" class="controleur">
+					<div class="ui-block" data-mh="pie-chart">
+						<div class="ui-block-title">
+							<div class="h6 title">Stats Controles totales</div>
+							<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
 						</div>
+						<div class="ui-block-content">
+							<div class="chart-with-statistic">
+								<ul class="statistics-list-count">
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-purple"></span>
+												Validations maquettes
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $resultat_total_control['val_maquette_toto'];?></div>
+									</li>
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-breez"></span>
+												Retours maquettes
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $resultat_total_control['retour_maquette_toto'];?></div>
+									</li>
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-primary"></span>
+												Validations CQ
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $resultat_total_control['val_cq_toto'];?></div>
+									</li>
+									<li>
+										<div class="points">
+											<span>
+												<span class="statistics-point bg-yellow"></span>
+												Retours CQ
+											</span>
+										</div>
+										<div class="count-stat"><?php echo $resultat_total_control['retour_cq_toto'];?></div>
+									</li>
+								</ul>
+
+
+								<div class="chart-js chart-js-pie-color">
+									<canvas id="pie-color-chart" width="180" height="180"></canvas>
+									<div class="general-statistics"><?php echo $total_control_result;?>
+										<span>Actions contrôleurs</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
-		</div>
-
-	</div>
-
-
-	<!-- Window-popup-CHAT for responsive min-width: 768px -->
-
-	<div class="ui-block popup-chat popup-chat-responsive">
-		<div class="ui-block-title">
-			<span class="icon-status online"></span>
-			<h6 class="title" >Chat</h6>
-			<div class="more">
-				<svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-				<svg class="olymp-little-delete js-chat-open"><use xlink:href="icons/icons.svg#olymp-little-delete"></use></svg>
-			</div>
-		</div>
-		<div class="mCustomScrollbar">
-			<ul class="notification-list chat-message chat-message-field">
-				<li>
-					<div class="author-thumb">
-						<img src="img/avatar14-sm.jpg" alt="author" class="mCS_img_loaded">
-					</div>
-					<div class="notification-event">
-						<span class="chat-message-item">Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks</span>
-						<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:10pm</time></span>
-					</div>
-				</li>
-
-				<li>
-					<div class="author-thumb">
-						<img src="img/author-page.jpg" alt="author" class="mCS_img_loaded">
-					</div>
-					<div class="notification-event">
-						<span class="chat-message-item">Don’t worry Mathilda!</span>
-						<span class="chat-message-item">I already bought everything</span>
-						<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:29pm</time></span>
-					</div>
-				</li>
-
-				<li>
-					<div class="author-thumb">
-						<img src="img/avatar14-sm.jpg" alt="author" class="mCS_img_loaded">
-					</div>
-					<div class="notification-event">
-						<span class="chat-message-item">Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks</span>
-						<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">Yesterday at 8:10pm</time></span>
-					</div>
-				</li>
-			</ul>
-		</div>
-
-		<form>
-
-			<div class="form-group label-floating is-empty">
-				<label class="control-label">Press enter to post...</label>
-				<textarea class="form-control" placeholder=""></textarea>
-				<div class="add-options-message">
-					<a href="#" class="options-message">
-						<svg class="olymp-computer-icon"><use xlink:href="icons/icons.svg#olymp-computer-icon"></use></svg>
-					</a>
-					<div class="options-message smile-block">
-
-						<svg class="olymp-happy-sticker-icon"><use xlink:href="icons/icons.svg#olymp-happy-sticker-icon"></use></svg>
-
-						<ul class="more-dropdown more-with-triangle triangle-bottom-right">
-							<li>
-								<a href="#">
-									<img src="img/icon-chat1.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat2.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat3.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat4.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat5.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat6.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat7.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat8.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat9.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat10.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat11.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat12.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat13.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat14.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat15.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat16.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat17.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat18.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat19.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat20.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat21.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat22.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat23.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat24.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat25.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat26.png" alt="icon">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/icon-chat27.png" alt="icon">
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<span class="material-input"></span></div>
-
-			</form>
-
-
 		</div>
 
 		<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
@@ -930,6 +356,106 @@
 
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement-playlist-plugin.min.js"></script>
+		<script>
+			$(function(){
+				var pieColorChart = document.getElementById("pie-color-chart");
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {stat_controleur_total: 'controleur'},
+				})
+				.done(function(data) {
+					var myObject = JSON.parse(data);
+					a=myObject['val_maquette_toto'];
+					b=myObject['retour_maquette_toto'];
+					c=myObject['val_cq_toto'];
+					d=myObject['retour_cq_toto'];
+					if (pieColorChart !== null) {
+						var ctx_pc = pieColorChart.getContext("2d");
+						var data_pc = {
+							labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
+							datasets: [
+							{
+								data: [a,b,c,d],
+								borderWidth: 0,
+								backgroundColor: [
+								"#7c5ac2",
+								"#08ddc1",
+								"#ff5e3a",
+								"#ffd71b"
+								]
+							}]
+						};
 
+						var pieColorEl = new Chart(ctx_pc, {
+							type: 'doughnut',
+							data: data_pc,
+							options: {
+								deferred: {           
+									delay: 300        
+								},
+								cutoutPercentage:93,
+								legend: {
+									display: false
+								},
+								animation: {
+									animateScale: true
+								}
+							}
+						});
+					}
+				})	
+				$(".graphique_control").each(function( index ){
+					var pieColorChart = document.getElementById("pie-color-chart"+index);
+					var controleur = $(this).find('.controleur').val();
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {stat_controleur: controleur},
+					})
+					.done(function(data) {
+						var myObject = JSON.parse(data);
+						a=myObject['nb_validation_maquette'];
+						b=myObject['nb_retour_maquette'];
+						c=myObject['nb_validation_cq'];
+						d=myObject['nb_retour_cq'];
+						if (pieColorChart !== null) {
+							var ctx_pc = pieColorChart.getContext("2d");
+							var data_pc = {
+								labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
+								datasets: [
+								{
+									data: [a,b,c,d],
+									borderWidth: 0,
+									backgroundColor: [
+									"#7c5ac2",
+									"#08ddc1",
+									"#ff5e3a",
+									"#ffd71b"
+									]
+								}]
+							};
+
+							var pieColorEl = new Chart(ctx_pc, {
+								type: 'doughnut',
+								data: data_pc,
+								options: {
+									deferred: {           
+										delay: 300        
+									},
+									cutoutPercentage:93,
+									legend: {
+										display: false
+									},
+									animation: {
+										animateScale: true
+									}
+								}
+							});
+						}
+					})				
+				})
+			})
+		</script>
 	</body>
 	</html>

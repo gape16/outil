@@ -105,7 +105,7 @@ if (isset($_POST['newPassword'])) {
 if (isset($_POST['numClient'])) {
 	$numClient=$_POST['numClient'];
 	$date = date('Y-m-d H:i:s');
-	$raisonSociale=$_POST['raisonSociale'];
+	$raisonSociale=utf8_decode($_POST['raisonSociale']);
 	$dateRetourMaquette=NULL;
 	$dateRetourCq=NULL;
 	$idGraphMaquette=$_SESSION['id_graph'];
@@ -113,7 +113,7 @@ if (isset($_POST['numClient'])) {
 	$idGraphCq=0;
 	$idControleurCq=0;
 	$idEtat=1;
-	$adresseCms=$_POST['adresseCms'];
+	$adresseCms=utf8_decode($_POST['adresseCms']);
 	$exploded=explode('cms.site-privilege.pagesjaunes.fr/workflow/service/', $adresseCms);
 	$idgpp= end($exploded);
 	$idgpp = rtrim($idgpp, '/');
@@ -155,18 +155,18 @@ if (isset($_POST['numClient'])) {
 		$new_card.='						<img src="'.$class_img.'" alt="Olympus">';
 		$new_card.='					</div>';
 		$new_card.='					<div class="author-content texte-card">';
-		$new_card.='						<a href="#" class="h5 author-name">'.$raisonSociale.'</a>';
+		$new_card.='						<a href="#" class="h5 author-name">'.utf8_encode($raisonSociale).'</a>';
 		$new_card.='						<div class="country">'.$numClient.'</div>';
 		$new_card.='					</div>';
 		$new_card.='				</div>';
 		$new_card.='				<div class="control-block-button bouton-check">';
-		$new_card.='					<a href="'.$adresseCms.'" target="_blank" class="  btn btn-control bg-blue bouton-icone1" data-toggle="modal" data-target="#create-friend-group-add-friends">';
+		$new_card.='					<a href="'.utf8_encode($adresseCms).'" target="_blank" class="  btn btn-control bg-blue bouton-icone1" data-toggle="modal" data-target="#create-friend-group-add-friends">';
 		$new_card.='						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35%" version="1.1" height="35%" viewBox="0 0 64 64" enable-background="new 0 0 64 64">';
 		$new_card.='							<path d="m60.135,3.875c-5.156-5.166-13.545-5.168-18.697,0l-11.576,11.619c-0.788,0.791-0.788,2.074 0,2.865 0.79,0.792 2.067,0.792 2.856,0l11.576-11.618c3.578-3.589 9.401-3.587 12.984,0 3.578,3.591 3.578,9.435 0,13.024l-15.292,15.339c-1.732,1.739-4.038,2.697-6.49,2.697-2.451,0-4.758-0.959-6.492-2.697-0.789-0.792-2.067-0.792-2.857,0-0.788,0.791-0.788,2.074 0,2.865 2.499,2.505 5.818,3.885 9.35,3.885s6.848-1.381 9.347-3.885l15.292-15.338c5.152-5.17 5.152-13.584-0.001-18.756z" fill="#FFFFFF"/>';
 		$new_card.='							<path d="m31.015,45.904l-11.312,11.346c-1.732,1.739-4.039,2.697-6.491,2.697-2.451,0-4.759-0.958-6.489-2.697-3.578-3.591-3.578-9.434 0-13.023l15.289-15.338c3.582-3.588 9.406-3.588 12.983,0 0.789,0.793 2.067,0.793 2.856,0 0.789-0.791 0.789-2.072 0-2.864-5.152-5.17-13.541-5.17-18.697,0l-15.288,15.336c-5.155,5.17-5.155,13.584 4.44089e-16,18.754 2.497,2.506 5.816,3.885 9.346,3.885 3.531,0 6.853-1.379 9.348-3.885l11.31-11.345c0.79-0.791 0.79-2.074 0-2.865-0.788-0.792-2.067-0.792-2.855-0.001z" fill="#FFFFFF"/>';
 		$new_card.='						</svg>';
 		$new_card.='					</a>';
-		$new_card.='					<a href="check.php?idgpp='.$idgpp.'" class="btn btn-control btn-grey-lighter bouton-icone2">';
+		$new_card.='					<a href="check.php?idgpp='.utf8_encode($idgpp).'" class="btn btn-control btn-grey-lighter bouton-icone2">';
 		$new_card.='						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="35%" height="35%" viewBox="0 0 394.893 394.893" style="enable-background:new 0 0 394.893 394.893;" xml:space="preserve">';
 		$new_card.='							<path d="M344.426,191.963c-6.904,0-12.5,5.597-12.5,12.5V350.91H25V43.982h246.57c6.904,0,12.5-5.597,12.5-12.5    c0-6.903-5.596-12.5-12.5-12.5H12.5c-6.903,0-12.5,5.597-12.5,12.5V363.41c0,6.903,5.597,12.5,12.5,12.5h331.926    c6.902,0,12.5-5.597,12.5-12.5V204.463C356.926,197.56,351.33,191.963,344.426,191.963z" fill="#FFFFFF"/>';
 		$new_card.='							<path d="M391.23,27.204c-4.881-4.881-12.795-4.881-17.678,0L169.957,230.801l-50.584-50.584c-4.882-4.881-12.796-4.881-17.678,0    c-4.881,4.882-4.881,12.796,0,17.678l59.423,59.423c2.441,2.44,5.64,3.661,8.839,3.661c3.199,0,6.398-1.221,8.839-3.661    L391.23,44.882C396.113,40,396.113,32.086,391.23,27.204z" fill="#FFFFFF"/>';
@@ -436,7 +436,7 @@ if (isset($_POST['changement_etat_id_non'])) {
 }
 
 if (isset($_POST['idGpp'])){
-	$idGpp = $_POST['idGpp'];
+	$idGpp = utf8_decode($_POST['idGpp']);
 	$valueCheck = $_POST['valueCheck'];
 	$idCheck = $_POST['idCheck'];
 	$etatFinal = $_POST['etatFinal'];
@@ -446,6 +446,119 @@ if (isset($_POST['idGpp'])){
 	$date = date('Y-m-d H:i:s');
 	$envoi=$_POST['envoi'];
 	$pret=0;
+	if($etatFinal > 1 && $etatFinal < 4){
+		if($etatFinal == 2 && $envoi=="ok"){
+			$date_stat=date("Y-m-d");
+			$query_stat_control=$bdd->prepare("SELECT nb_validation_maquette FROM stat_controle where date_stat_control = ? and id_controleur = ?");
+			$query_stat_control->bindParam(1, $date_stat);
+			$query_stat_control->bindParam(2, $id_graph);
+			$query_stat_control->execute();
+			$nb_stat=$query_stat_control->rowCount();
+			$result_stat=$query_stat_control->fetch();
+			$zero=0;
+			$un=1;
+			$new_stat=$result_stat['nb_validation_maquette'] + 1;
+			if($nb_stat==0){
+				$query_ins_stat_control=$bdd->prepare("INSERT INTO stat_controle (date_stat_control, id_controleur, nb_validation_maquette, nb_retour_maquette, nb_validation_cq, nb_retour_cq) VALUES (?,?,?,?,?,?)");
+				$query_ins_stat_control->bindParam(1, $date_stat);
+				$query_ins_stat_control->bindParam(2, $id_graph);
+				$query_ins_stat_control->bindParam(3, $un);
+				$query_ins_stat_control->bindParam(4, $zero);
+				$query_ins_stat_control->bindParam(5, $zero);
+				$query_ins_stat_control->bindParam(6, $zero);
+				$query_ins_stat_control->execute();
+			}else{
+				$query_ins_stat_control=$bdd->prepare("UPDATE stat_controle SET nb_validation_maquette = ? where  date_stat_control = ? and id_controleur = ?");
+				$query_ins_stat_control->bindParam(1, $new_stat);
+				$query_ins_stat_control->bindParam(2, $date_stat);
+				$query_ins_stat_control->bindParam(3, $id_graph);
+				$query_ins_stat_control->execute();
+			}
+		}elseif($etatFinal == 2 && $envoi=="retour"){
+			$date_stat=date("Y-m-d");
+			$query_stat_control=$bdd->prepare("SELECT nb_retour_maquette FROM stat_controle where date_stat_control = ? and id_controleur = ?");
+			$query_stat_control->bindParam(1, $date_stat);
+			$query_stat_control->bindParam(2, $id_graph);
+			$query_stat_control->execute();
+			$nb_stat=$query_stat_control->rowCount();
+			$result_stat=$query_stat_control->fetch();
+			$zero=0;
+			$un='1';
+			$new_stat=$result_stat['nb_retour_maquette'] + 1;
+			if($nb_stat==0){
+				$query_ins_stat_control=$bdd->prepare("INSERT INTO stat_controle (date_stat_control, id_controleur, nb_validation_maquette, nb_retour_maquette, nb_validation_cq, nb_retour_cq) VALUES (?,?,?,?,?,?)");
+				$query_ins_stat_control->bindParam(1, $date_stat);
+				$query_ins_stat_control->bindParam(2, $id_graph);
+				$query_ins_stat_control->bindParam(3, $zero);
+				$query_ins_stat_control->bindParam(4, $un);
+				$query_ins_stat_control->bindParam(5, $zero);
+				$query_ins_stat_control->bindParam(6, $zero);
+				$query_ins_stat_control->execute();
+			}else{
+				$query_ins_stat_control=$bdd->prepare("UPDATE stat_controle SET nb_retour_maquette = ? where date_stat_control = ? and id_controleur = ?");
+				$query_ins_stat_control->bindParam(1, $new_stat);
+				$query_ins_stat_control->bindParam(2, $date_stat);
+				$query_ins_stat_control->bindParam(3, $id_graph);
+				$query_ins_stat_control->execute();
+			}
+		}
+	}elseif ($etatFinal > 4 && $etatFinal < 7) {
+		if($etatFinal == 5 && $envoi=="ok"){
+			$date_stat=date("Y-m-d");
+			$query_stat_control=$bdd->prepare("SELECT nb_validation_cq FROM stat_controle where date_stat_control = ? and id_controleur = ?");
+			$query_stat_control->bindParam(1, $date_stat);
+			$query_stat_control->bindParam(2, $id_graph);
+			$query_stat_control->execute();
+			$nb_stat=$query_stat_control->rowCount();
+			$result_stat=$query_stat_control->fetch();
+			$zero=0;
+			$un=1;
+			$new_stat=$result_stat['nb_validation_cq'] + 1;
+			if($nb_stat==0){
+				$query_ins_stat_control=$bdd->prepare("INSERT INTO stat_controle (date_stat_control, id_controleur, nb_validation_maquette, nb_retour_maquette, nb_validation_cq, nb_retour_cq) VALUES (?,?,?,?,?,?)");
+				$query_ins_stat_control->bindParam(1, $date_stat);
+				$query_ins_stat_control->bindParam(2, $id_graph);
+				$query_ins_stat_control->bindParam(3, $un);
+				$query_ins_stat_control->bindParam(4, $zero);
+				$query_ins_stat_control->bindParam(5, $zero);
+				$query_ins_stat_control->bindParam(6, $zero);
+				$query_ins_stat_control->execute();
+			}else{
+				$query_ins_stat_control=$bdd->prepare("UPDATE stat_controle SET nb_validation_cq = ? where date_stat_control = ? and id_controleur = ?");
+				$query_ins_stat_control->bindParam(1, $new_stat);
+				$query_ins_stat_control->bindParam(2, $date_stat);
+				$query_ins_stat_control->bindParam(3, $id_graph);
+				$query_ins_stat_control->execute();
+			}
+		}elseif($etatFinal == 5 && $envoi=="retour"){
+			$date_stat=date("Y-m-d");
+			$query_stat_control=$bdd->prepare("SELECT nb_retour_cq FROM stat_controle where date_stat_control = ? and id_controleur = ?");
+			$query_stat_control->bindParam(1, $date_stat);
+			$query_stat_control->bindParam(2, $id_graph);
+			$query_stat_control->execute();
+			$nb_stat=$query_stat_control->rowCount();
+			$result_stat=$query_stat_control->fetch();
+			$zero=0;
+			$un=1;
+			$new_stat=$result_stat['nb_retour_cq'] + 1;
+			if($nb_stat==0){
+				$query_ins_stat_control=$bdd->prepare("INSERT INTO stat_controle (date_stat_control, id_controleur, nb_validation_maquette, nb_retour_maquette, nb_validation_cq, nb_retour_cq) VALUES (?,?,?,?,?,?)");
+				$query_ins_stat_control->bindParam(1, $date_stat);
+				$query_ins_stat_control->bindParam(2, $id_graph);
+				$query_ins_stat_control->bindParam(3, $un);
+				$query_ins_stat_control->bindParam(4, $zero);
+				$query_ins_stat_control->bindParam(5, $zero);
+				$query_ins_stat_control->bindParam(6, $zero);
+				$query_ins_stat_control->execute();
+			}else{
+				$query_ins_stat_control=$bdd->prepare("UPDATE stat_controle SET nb_retour_cq = ? where  date_stat_control = ? and id_controleur = ?");
+				$query_ins_stat_control->bindParam(1, $new_stat);
+				$query_ins_stat_control->bindParam(2, $date_stat);
+				$query_ins_stat_control->bindParam(3, $id_graph);
+				$query_ins_stat_control->execute();
+			}
+		}
+	}
 	foreach ($valueCheck as $key => $value) {
 		$commentaire_controleur=utf8_decode($com_contr[$key]);
 		$commentaire_graph=utf8_decode($com_graph[$key]);
@@ -489,6 +602,7 @@ if (isset($_POST['idGpp'])){
 					$query_up_cl->bindParam(4, $etat);
 					$query_up_cl->bindParam(5, $idGpp);
 					$query_up_cl->execute();
+
 				}elseif($etatFinal == 2 && $envoi=="retour"){
 					$etat=3;
 					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
@@ -498,6 +612,7 @@ if (isset($_POST['idGpp'])){
 					$query_up_cl->bindParam(4, $etat);
 					$query_up_cl->bindParam(5, $idGpp);
 					$query_up_cl->execute();
+
 				}elseif($etatFinal == 3){
 					$etat=2;
 					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
@@ -526,6 +641,7 @@ if (isset($_POST['idGpp'])){
 					$query_up_cl->bindParam(4, $etat);
 					$query_up_cl->bindParam(5, $idGpp);
 					$query_up_cl->execute();
+
 				}elseif($etatFinal == 5 && $envoi=="retour"){
 					$etat=6;
 					$query_up_cl=$bdd->prepare("UPDATE client SET date_retour_maquette = ?, id_controleur_maquette = ?, envoi_maquette=?, id_etat = ? where IDGPP = ?");
@@ -535,6 +651,7 @@ if (isset($_POST['idGpp'])){
 					$query_up_cl->bindParam(4, $etat);
 					$query_up_cl->bindParam(5, $idGpp);
 					$query_up_cl->execute();
+
 				}
 			}
 
@@ -1125,4 +1242,123 @@ if (isset($_POST['ancienLeader_control'])) {
 	$query_up_us->bindParam(3, $temp);
 	$query_up_us->bindParam(4, $newGraph);
 	$query_up_us->execute();
+}
+if (isset($_POST['search_user_moderation'])) {
+	$search_user_moderation=$_POST['search_user_moderation'];
+	$varsearch = "%" . $search_user_moderation . "%";
+	$query_user=$bdd->prepare("SELECT id_user FROM user where nom like ? or prenom like ?");
+	$query_user->bindParam(1, $varsearch);
+	$query_user->bindParam(2, $varsearch);
+	$query_user->execute();
+	$tab=array();
+	foreach ($query_user as $value) {
+		$tab[]=$value['id_user'];
+	}
+	print_r(json_encode($tab));
+}
+
+if (isset($_POST['moderation_modif_user'])) {
+	$moderation_modif_user=$_POST['moderation_modif_user'];
+	$query_moderation=$bdd->prepare("SELECT * FROM user inner join statut on user.id_statut = statut.id_statut where user.id_user = ?");
+	$query_moderation->bindParam(1, $moderation_modif_user);
+	$query_moderation->execute();
+	$result=$query_moderation->fetch();
+
+	$mon_statut=$result['id_statut'];
+	$query_statut=$bdd->prepare("SELECT * FROM statut where id_statut != ?");
+	$query_statut->bindParam(1, $mon_statut);
+	$query_statut->execute();
+
+	$mon_leader=$result['id_manager'];
+	$query_leader=$bdd->prepare("SELECT * FROM user where id_user = ?");
+	$query_leader->bindParam(1, $mon_leader);
+	$query_leader->execute();
+	$result_leader=$query_leader->fetch();
+
+	if($result['id_statut']==3 || $result['id_statut']==4){
+		$query_leader2=$bdd->prepare("SELECT * FROM user where id_user != ? and id_statut = '5'");
+		$query_leader2->bindParam(1, $mon_leader);
+		$query_leader2->execute();
+	}elseif ($result['id_statut']==1 || $result['id_statut']==2) {
+		$query_leader2=$bdd->prepare("SELECT * FROM user where id_user != ? and id_statut = '3'");
+		$query_leader2->bindParam(1, $mon_leader);
+		$query_leader2->execute();
+	}
+
+	?>
+	<form method="post" action="moderation_user.php" class="form_user">
+		<div class="row">
+			<input type="hidden" value="<?php echo $moderation_modif_user;?>" name="le_id">
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				<div class="form-group label-floating">
+					<label class="control-label">Nom</label>
+					<input class="form-control" placeholder="" name="nom" type="text" value="<?php echo utf8_encode($result['nom']);?>">
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+				<div class="form-group label-floating">
+					<label class="control-label">Prenom</label>
+					<input class="form-control" placeholder="" name="prenom" type="text" value="<?php echo utf8_encode($result['prenom']);?>">
+				</div>
+			</div>
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="form-group label-floating">
+					<label class="control-label">Email</label>
+					<input class="form-control" placeholder="" name="email" type="email" value="<?php echo utf8_encode($result['email']);?>">
+				</div>
+				<div class="form-group">
+					<select name="le_statut">
+						<option value="<?php echo utf8_encode($result['id_statut']);?>" selected="selected"><?php echo utf8_encode($result['nom_statut']);?></option>
+						<?php foreach ($query_statut as $key => $value) {?>
+						<option value="<?php echo utf8_encode($value['id_statut']);?>"><?php echo utf8_encode($value['nom_statut']);?></option>
+						<?php }?>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<select name="le_leader">
+						<option value="<?php echo utf8_encode($result_leader['id_user']);?>" selected="selected"><?php echo utf8_encode($result_leader['prenom']);?> <?php echo utf8_encode($result_leader['nom']);?></option>
+						<?php foreach ($query_leader2 as $key => $value2) {?>
+						<option value="<?php echo utf8_encode($value2['id_user']);?>"><?php echo utf8_encode($value2['prenom']);?> <?php echo utf8_encode($value2['nom']);?></option>
+						<?php }?>
+					</select>
+				</div>
+
+				<button class="btn btn-primary btn-lg full-width modif_us">Modifier l'utilisateur</button>
+			</div>
+
+
+		</div>
+
+	</form>
+	<?php
+}
+
+if (isset($_GET['page'])) {
+	$get=$_GET['page'];
+	$query_get=$bdd->prepare("SELECT lien FROM pointcheck where id_check = ?");
+	$query_get->bindParam(1, $get);
+	$query_get->execute();
+	$page=$query_get->fetch();
+	echo $page['lien'];
+}
+
+if(isset($_POST['stat_controleur'])){
+	$stat_controleur=$_POST['stat_controleur'];
+	$date_control=date('Y-m-d');
+	$query_stats_control=$bdd->prepare("SELECT nb_validation_maquette, nb_retour_maquette,nb_validation_cq, nb_retour_cq FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control = ? and stat_controle.id_controleur=?");
+	$query_stats_control->bindParam(1, $date_control);
+	$query_stats_control->bindParam(2, $stat_controleur);
+	$query_stats_control->execute();
+	$result=$query_stats_control->fetch();
+	print_r(json_encode($result));
+}
+
+if(isset($_POST['stat_controleur_total'])){
+	$date_control=date('Y-m-d');
+	$query_stats_control_total=$bdd->prepare("SELECT sum(nb_validation_maquette) as val_maquette_toto, sum(nb_retour_maquette) as retour_maquette_toto, sum(nb_validation_cq) as val_cq_toto, sum(nb_retour_cq) as retour_cq_toto FROM stat_controle where date_stat_control = ?");
+	$query_stats_control_total->bindParam(1, $date_control);
+	$query_stats_control_total->execute();
+	$resultat_total_control=$query_stats_control_total->fetch();
+	print_r(json_encode($resultat_total_control));
 }

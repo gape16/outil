@@ -12,8 +12,9 @@ if (isset($_SESSION['id_statut'])) {
 			$requete_user->bindParam(1, $id_graph);
 			$requete_user->execute();
 			$user= $requete_user->fetch();
+			$ig=utf8_decode($_GET['idgpp']);
 			$requete_etat = $bdd->prepare('SELECT id_etat, envoi_maquette from client where IDGPP = ?');
-			$requete_etat->bindParam(1, $_GET['idgpp']);
+			$requete_etat->bindParam(1, $ig);
 			$requete_etat->execute();
 			$etat_test = $requete_etat->fetch();
 			if($etat_test['id_etat']=='1'){
@@ -100,6 +101,9 @@ if (isset($_SESSION['id_statut'])) {
 						background-color: #d9534f!important;
 						border-color: #d9534f!important;
 					}
+					.container.custom{
+						max-width: 100%;
+					}
 				</style>
 			</head>
 			<body>
@@ -160,9 +164,10 @@ if (isset($_SESSION['id_statut'])) {
 								<input class="use_nom" type="hidden" value="<?php echo $user['prenom']; ?> <?php echo $user['nom']; ?>">
 								<?php 
 								if($etat_test['envoi_maquette']==0){
+									$ig=utf8_decode($_GET['idgpp']);
 									$requete_up_pret = $bdd->prepare('UPDATE client set envoi_maquette=? where IDGPP = ?');
 									$requete_up_pret->bindParam(1, $id_graph);
-									$requete_up_pret->bindParam(2, $_GET['idgpp']);
+									$requete_up_pret->bindParam(2, $ig);
 									$requete_up_pret->execute();
 								}
 								if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {
@@ -174,10 +179,17 @@ if (isset($_SESSION['id_statut'])) {
 											$content->bindParam(2, $value['id_categorie']);
 											$content->execute();
 										}else{
-											$content = $bdd->prepare('SELECT * from pointcheck inner join controle on pointcheck.id_check = controle.id_check where '. $etat .' = ? and id_categorie = ? and controle.id_gpp=?');
+											$ig=$_GET['idgpp'];
+											if($etat_test['id_etat']== 2 || $etat_test['id_etat'] == 3){
+												$etat_control=1;
+											}else{
+												$etat_control=4;
+											}
+											$content = $bdd->prepare('SELECT * from pointcheck inner join controle on pointcheck.id_check = controle.id_check where '. $etat .' = ? and id_categorie = ? and controle.id_gpp=? and controle.etat = ?');
 											$content->bindParam(1, $valueetat);
 											$content->bindParam(2, $value['id_categorie']);
-											$content->bindParam(3, $_GET['idgpp']);
+											$content->bindParam(3, $ig);
+											$content->bindParam(4, $etat_control);
 											$content->execute();
 										}
 
@@ -210,7 +222,7 @@ if (isset($_SESSION['id_statut'])) {
 																				echo "disabled";}?>>
 																				<span class="checkbox-material"><span class="check"></span></span>
 																				<div class="voirplus">
-																					<a href="<?php echo  $card['lien']; ?>">En savoir plus</a>
+																					<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
 																				</div>
 																			</label>
 																		</div>
@@ -223,6 +235,9 @@ if (isset($_SESSION['id_statut'])) {
 																			<div class="fermer">&#735;</div>
 																			<div class="form-group label-floating is-empty">
 																				<label class="control-label"></label>
+																				<?php if($etat_test['id_etat'] == 1 || $etat_test['id_etat'] == 4){?>
+																				<textarea name="description" id="description_graph" cols="30" rows="10"></textarea>
+																				<?php }?>
 																				<?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) {?>
 																				<?php if($card['commentaire_graph'] != ""){echo "Commentaire Graph:<br><span style='color:red;'>".$card['commentaire_graph']."</span><br><br>";?>
 																					réponse: <?php } ?>
@@ -237,7 +252,7 @@ if (isset($_SESSION['id_statut'])) {
 																						<?php }?>
 																					</div>
 																					<div class="voirplus">
-																						<a href="<?php echo  $card['lien']; ?>">En savoir plus</a>
+																						<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
 																					</div>
 																				</div>
 																			</div>
@@ -289,7 +304,7 @@ if (isset($_SESSION['id_statut'])) {
 																							echo "disabled";}?>>
 																							<span class="checkbox-material"><span class="check"></span></span>
 																							<div class="voirplus">
-																								<a href="<?php echo  $card['lien']; ?>">En savoir plus</a>
+																								<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
 																							</div>
 																						</label>
 																					</div>
@@ -316,7 +331,7 @@ if (isset($_SESSION['id_statut'])) {
 																									<?php }?>
 																								</div>
 																								<div class="voirplus">
-																									<a href="<?php echo  $card['lien']; ?>">En savoir plus</a>
+																									<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
 																								</div>
 																							</div>
 																						</div>
@@ -432,8 +447,8 @@ if (isset($_SESSION['id_statut'])) {
 																		showCancelButton: true,
 																		confirmButtonColor: '#3085d6',
 																		cancelButtonColor: '#d33',
-																		confirmButtonText: 'Retour maquette',
-																		cancelButtonText: 'Maquette OK!',
+																		confirmButtonText: 'Refuser',
+																		cancelButtonText: 'accepter!',
 																		confirmButtonClass: 'btn btn-success',
 																		cancelButtonClass: 'btn btn-danger',
 																		buttonsStyling: false
@@ -451,6 +466,7 @@ if (isset($_SESSION['id_statut'])) {
 												'success'
 												).then(function () {
 													$(location).attr('href', 'accueil.php');
+													// console.log(data);
 												})
 											})
 									}, function (dismiss) {
@@ -473,6 +489,55 @@ if (isset($_SESSION['id_statut'])) {
 									  		})
 									  }
 									})
+																}else if (etatFinal==5) {
+																	swal({
+																		title: 'Que voulez vous faire?',
+																		text: "Vous ne pourrez pas revenir en arrière!",
+																		type: 'warning',
+																		showCancelButton: true,
+																		confirmButtonColor: '#3085d6',
+																		cancelButtonColor: '#d33',
+																		confirmButtonText: 'Refuser',
+																		cancelButtonText: 'accepter!',
+																		confirmButtonClass: 'btn btn-success',
+																		cancelButtonClass: 'btn btn-danger',
+																		buttonsStyling: false
+																	}).then(function () {
+										//retour maquette
+										$.ajax({
+											url: 'formulaire.php',
+											type: 'POST',
+											data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"retour"},
+										})
+										.done(function(data) {
+											swal(
+												'Retour CQ!',
+												'Le site va être renvoyée au graphiste !',
+												'success'
+												).then(function () {
+													$(location).attr('href', 'accueil.php');
+												})
+											})
+									}, function (dismiss) {
+									  // maquette ok
+									  if (dismiss === 'cancel') {
+									  	$.ajax({
+									  		url: 'formulaire.php',
+									  		type: 'POST',
+									  		data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"ok"},
+									  	})
+									  	.done(function(data) {
+									  		swal(
+									  			'Validation faite!',
+									  			'le site part en validation !',
+									  			'success'
+									  			).then(function () {
+									  				$(location).attr('href', 'accueil.php');
+									  				// console.log(data);
+									  			})
+									  		})
+									  }
+									})
 																}else if(etatFinal==1){
 																	swal({
 																		title: 'êtes vous sûr?',
@@ -486,12 +551,37 @@ if (isset($_SESSION['id_statut'])) {
 																		$.ajax({
 																			url: 'formulaire.php',
 																			type: 'POST',
-																			data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal},
+																			data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal, com_graph:arraycom_graph},
 																		})
 																		.done(function(data) {
 																			swal(
 																				'Validation faite!',
 																				'Votre maquette va être transmise aux contrôleurs !',
+																				'success'
+																				).then(function (data) {
+																					$(location).attr('href', 'accueil.php');
+																				})
+																			})
+																	})
+																}else if(etatFinal==4){
+																	swal({
+																		title: 'êtes vous sûr?',
+																		text: "Vous allez valider votre checklist!",
+																		type: 'warning',
+																		showCancelButton: true,
+																		confirmButtonColor: '#3085d6',
+																		cancelButtonColor: '#d33',
+																		confirmButtonText: 'Oui, envoyer!'
+																	}).then(function () {
+																		$.ajax({
+																			url: 'formulaire.php',
+																			type: 'POST',
+																			data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal, com_graph:arraycom_graph},
+																		})
+																		.done(function(data) {
+																			swal(
+																				'Validation faite!',
+																				'Votre site va être transmis aux contrôleurs !',
 																				'success'
 																				).then(function (data) {
 																					$(location).attr('href', 'accueil.php');
@@ -509,6 +599,23 @@ if (isset($_SESSION['id_statut'])) {
 											swal(
 												'Renvoi maquette fait!',
 												'La maquette va être renvoyée aux contrôleurs !',
+												'success'
+												).then(function () {
+													$(location).attr('href', 'accueil.php');
+												})
+											})
+
+									}else if(etatFinal==6) {
+										//retour maquette
+										$.ajax({
+											url: 'formulaire.php',
+											type: 'POST',
+											data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph},
+										})
+										.done(function(data) {
+											swal(
+												'Renvoi CQ fait!',
+												'Le site va être renvoyée aux contrôleurs !',
 												'success'
 												).then(function () {
 													$(location).attr('href', 'accueil.php');
@@ -538,8 +645,8 @@ $(document).ready(function() {
 	setTimeout(function(){
 		$('body').addClass('loaded');
 		$('h1').css('color','#222222');
-	}, 2000);
-	if($('.etat_final').val() != 1){
+	}, 100);
+	// if($('.etat_final').val() != 1){
 		$(".flip-container").on("click", function (e) {
 			$(this).addClass("flipped");
 		});
@@ -547,8 +654,13 @@ $(document).ready(function() {
 			e.stopPropagation();
 			$(this).parent().parent().parent().parent().removeClass("flipped");
 		});
-	}
+	// }
 
+	$(".voirplus a").on('click', function(){
+		var productLink = $(this);
+		productLink.attr("target", "_blank");
+		window.open(productLink.attr("href"));
+	})
 
 	$(".box-diagonal label").click(function(e) {
 		e.preventDefault();

@@ -22,7 +22,7 @@ $(function(){
 				})
 				.done(function(data) {
 					$("."+id_emet).find('.label-avatar').hide();
-					console.log(data);
+					// console.log(data);
 					if(data==""){
 						console.log('test');
 					}else if(data.match("^<li")){

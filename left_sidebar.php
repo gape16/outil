@@ -4,8 +4,8 @@
       <svg id="Calque_1" data-name="Calque 1" viewBox="0 0 70 70" width="100%" height="100%"><defs><style>.cls-1,.cls-2{fill:#fff;}.cls-1{opacity:0.8;}</style></defs><polygon class="cls-1" points="7.08 18.82 35 2.64 62.92 18.82 62.92 51.18 35 67.36 7.08 51.18 7.08 18.82"/><polygon class="cls-2" points="7.08 18.82 7.08 51.18 35 67.36 35 35 7.08 18.82"/></svg>
     </a>
 
-    <div class="mCustomScrollbar" data-mcs-theme="dark">
-      <ul class="left-menu">
+    <div class="mCustomScrollbar" data-mcs-theme="dark" >
+      <ul class="left-menu" >
        <li>
         <a href="#" class="js-sidebar-open">
           <svg class="olymp-menu-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-menu-icon"></use></svg>

@@ -14,6 +14,19 @@ if(isset($_GET['id_code'])){
 $query_categorie = $bdd->prepare('SELECT * FROM categorie_code');
 $query_categorie->execute();
 
+$query_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code  WHERE accept_code = 1 order by date_code DESC");
+$query_code->execute();
+
+$query_notif_code=$bdd->prepare("SELECT * FROM code where accept_code = 1 order by id_code DESC limit 1");
+$query_notif_code->execute();
+$result_notif_code=$query_notif_code->fetch();
+$dernier=$result_notif_code['id_code'];
+$id_graph=$_SESSION['id_graph'];
+$query_inser_code=$bdd->prepare("UPDATE notifications set notif_A = ? where id_user = ?");
+$query_inser_code->bindParam(1, $dernier);
+$query_inser_code->bindParam(2, $id_graph);
+$query_inser_code->execute();
+
 ?>
 
 
@@ -63,115 +76,115 @@ $query_categorie->execute();
 	<link rel="stylesheet" href="css/monokai.css">
 
 	<style>
-	* {
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-	}
+		* {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
 
-	html, body {
-		width: 100%; height: 100%;
-	}
+		html, body {
+			width: 100%; height: 100%;
+		}
 
-	#wrap {
-		width: 100%;
-		height: 100%;
-	}
+		#wrap {
+			width: 100%;
+			height: 100%;
+		}
 
-	/* Code Editors */
+		/* Code Editors */
 
-	#code_editors {
-		margin-left: 70px;
-		width: 100%;
-	}
-	#code_editors .code_box {
-		width: 33%;
-		z-index: 9;
-		float: left;
-	}
-	.code_box h3 {
-		font-size: 13px;
-		height: 30px;
-		padding: 5px 10px 5px 40px;
-		margin: 0;
-		background: #343436;
-		color: white;
-		border-bottom: 1px solid #202020;
-		z-index: 10;
-		line-height: 21px;
-	}
-	.code_box textarea {
-		position: absolute;
-		left: 0; right: 0; top: 30px; bottom: 0;
-		resize: none; border: 0;
-		padding: 10px;
-		font-family: monospace;
-	}
-	.code_box textarea:focus {
-		outline: none;
-		background: #EFEFEF;
-	}
-	.CodeMirror-gutter {
-		background: #343436;
-	}
-	.CodeMirror {
-		color: white;
-	}
+		#code_editors {
+			margin-left: 70px;
+			width: 100%;
+		}
+		#code_editors .code_box {
+			width: 33%;
+			z-index: 9;
+			float: left;
+		}
+		.code_box h3 {
+			font-size: 13px;
+			height: 30px;
+			padding: 5px 10px 5px 40px;
+			margin: 0;
+			background: #343436;
+			color: white;
+			border-bottom: 1px solid #202020;
+			z-index: 10;
+			line-height: 21px;
+		}
+		.code_box textarea {
+			position: absolute;
+			left: 0; right: 0; top: 30px; bottom: 0;
+			resize: none; border: 0;
+			padding: 10px;
+			font-family: monospace;
+		}
+		.code_box textarea:focus {
+			outline: none;
+			background: #EFEFEF;
+		}
+		.CodeMirror-gutter {
+			background: #343436;
+		}
+		.CodeMirror {
+			color: white;
+		}
 
-	/* Output Area */
-	#output {
-		height: 100%;
-		margin-top: 330px;
-		padding: 0 70px;
-	}
-	.CodeMirror-scroll {
-		background: #1d1f20;
-		padding-bottom: 30px;
-	}
-	#output iframe {
-		width: 100%; height: 100%;
-		border: 0;
-	}
-	.CodeMirror-gutters {
-		background-color: #1d1f20;
-		white-space: nowrap;
-		border-right: inherit;
-	}
-	.cm-s-monokai .CodeMirror-gutters {
-		background: #343436;
-		border-right: 0px;
-	}
-	::-webkit-scrollbar {
-		width: 12px;
-	}
+		/* Output Area */
+		#output {
+			height: 100%;
+			margin-top: 330px;
+			padding: 0 70px;
+		}
+		.CodeMirror-scroll {
+			background: #1d1f20;
+			padding-bottom: 30px;
+		}
+		#output iframe {
+			width: 100%; height: 100%;
+			border: 0;
+		}
+		.CodeMirror-gutters {
+			background-color: #1d1f20;
+			white-space: nowrap;
+			border-right: inherit;
+		}
+		.cm-s-monokai .CodeMirror-gutters {
+			background: #343436;
+			border-right: 0px;
+		}
+		::-webkit-scrollbar {
+			width: 12px;
+		}
 
-	::-webkit-scrollbar-thumb {
-		-webkit-box-shadow: inset 0 0 20px rgb(0, 0, 0);
-		border: 1px solid #343436;
-	}
-	::-webkit-scrollbar-track {
-		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	}
-	.CodeMirror pre, .CodeMirror-linenumber {
-		font-size: 13px;
-	}
-	.option {
-		position: absolute;
-		bottom: 10px;
-		right: 80px;
-		font-size: 14px;
-		color: #888da8;
-		text-transform: capitalize;
-		transition: all .3s ease;
-		padding: 10px 20px;
-		display: block;
-		color: #fff;
-		background-color: #ff5e3a;
-	}
-	.CodeMirror-scrollbar-filler {
-		display: none !important;
-	}
-</style>
+		::-webkit-scrollbar-thumb {
+			-webkit-box-shadow: inset 0 0 20px rgb(0, 0, 0);
+			border: 1px solid #343436;
+		}
+		::-webkit-scrollbar-track {
+			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		}
+		.CodeMirror pre, .CodeMirror-linenumber {
+			font-size: 13px;
+		}
+		.option {
+			position: absolute;
+			bottom: 10px;
+			right: 80px;
+			font-size: 14px;
+			color: #888da8;
+			text-transform: capitalize;
+			transition: all .3s ease;
+			padding: 10px 20px;
+			display: block;
+			color: #fff;
+			background-color: #ff5e3a;
+		}
+		.CodeMirror-scrollbar-filler {
+			display: none !important;
+		}
+	</style>
 
 </head>
 
@@ -202,7 +215,6 @@ $query_categorie->execute();
 
 	<!-- ... end Header -->
 
-
 	<!-- Responsive Header -->
 
 	<?php include('responsive_header.php');?>
@@ -210,7 +222,6 @@ $query_categorie->execute();
 	<!-- ... end Responsive Header -->
 
 	<!-- ... end Responsive Header -->
-
 
 	<div class="header-spacer header-spacer-small"></div>
 

@@ -22,7 +22,7 @@ if(isset($_POST['code'])){
 		$query_inser_code->execute();
 	}else{
 		$dernier=$result['notif_A'];
-		$query_notif_code=$bdd->prepare("SELECT description, titre, photo, categorie_code.categorie_code FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code WHERE id_code > ? and accept_code = 1 order by id_code DESC");
+		$query_notif_code=$bdd->prepare("SELECT description, titre, photo, categorie_code.categorie_code, code.id_code FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code WHERE id_code > ? and accept_code = 1 order by id_code DESC");
 		$query_notif_code->bindParam(1, $dernier);
 		$query_notif_code->execute();
 		$notif_code = $query_notif_code->fetchAll();
@@ -63,7 +63,7 @@ if(isset($_POST['achat'])){
 		$query_inser_code->execute();
 	}else{
 		$dernier=$result['notif_C'];
-		$query_notif_code=$bdd->prepare("SELECT id_client, categorie, etat_achat.etat, photo FROM achat_photos inner join user on achat_photos.id_controleur = user.id_user inner join etat_achat on achat_photos.id_etat_achat = etat_achat.etat WHERE id_achat > ? order by id_achat DESC");
+		$query_notif_code=$bdd->prepare("SELECT id_client, categorie, etat_achat.etat, photo FROM achat_photos inner join user on achat_photos.id_controleur = user.id_user inner join etat_achat on achat_photos.id_etat_achat = etat_achat.id_etat_achat WHERE id_achat > ? order by id_achat DESC");
 		$query_notif_code->bindParam(1, $dernier);
 		$query_notif_code->execute();
 		$notif_code = $query_notif_code->fetchAll();

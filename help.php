@@ -128,10 +128,6 @@ if (isset($_SESSION['id_statut'])) {
 			<img class="img-bottom" src="img/music-bottom.png" alt="friends">
 		</div>
 
-		<!-- Main Content Groups -->
-		<?php 
-		// si c'est un graph qui se connect
-		if ($_SESSION['id_statut'] == 1) {?>
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -320,8 +316,6 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 						</div>
 
-
-						<?php }?>
 						<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 						<!-- Window-popup-CHAT for responsive min-width: 768px -->

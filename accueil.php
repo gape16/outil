@@ -49,6 +49,43 @@ if (isset($_SESSION['id_statut'])) {
 		<link rel="stylesheet" type="text/css" href="css/blocks.css">
 
 		<!-- Main Font -->
+		<link rel="stylesheet" type="text/css" href="css/introjs.css">
+		<!-- <link href="css/introjs-dark.css" rel="stylesheet"> -->
+		<link rel="stylesheet" type="text/css" href="css/introjs-rtl.css">
+		<style>
+			header#site-header.introjs-fixParent{
+				z-index: auto !important;
+				opacity: 1 !important;
+				transition: none;
+				position: absolute;
+			}
+			#tourbtn {
+				position: fixed;
+				right: 15px;
+				bottom: 35px;
+			}
+			#tourbtn a {
+				background: #bac081;
+				padding: 8px 15px;
+				font-size: 12px;
+				line-height: 22px;
+				font-weight: bold;
+				color: #454a50;
+				text-decoration: none;
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				border-radius: 4px;
+			}
+			#tourbtn a:hover {
+				background: #cacf96;
+			}
+			.introjs-tooltiptext{
+				text-align: center;
+			}
+			.introjs-arrow{
+				left: 12px;
+			}
+		</style>
 		<script src="js/webfontloader.min.js"></script>
 		<script>
 			WebFont.load({
@@ -124,7 +161,7 @@ if (isset($_SESSION['id_statut'])) {
 				</div>
 			</div>
 
-			<img class="img-bottom" src="img/group-bottom.png" alt="friends">
+			<img class="img-bottom" src="img/group-bottom2.png" alt="friends" style="width: 700px;">
 		</div>
 
 		<!-- Main Content Groups -->
@@ -193,7 +230,7 @@ if (isset($_SESSION['id_statut'])) {
 											<path d="m31.015,45.904l-11.312,11.346c-1.732,1.739-4.039,2.697-6.491,2.697-2.451,0-4.759-0.958-6.489-2.697-3.578-3.591-3.578-9.434 0-13.023l15.289-15.338c3.582-3.588 9.406-3.588 12.983,0 0.789,0.793 2.067,0.793 2.856,0 0.789-0.791 0.789-2.072 0-2.864-5.152-5.17-13.541-5.17-18.697,0l-15.288,15.336c-5.155,5.17-5.155,13.584 4.44089e-16,18.754 2.497,2.506 5.816,3.885 9.346,3.885 3.531,0 6.853-1.379 9.348-3.885l11.31-11.345c0.79-0.791 0.79-2.074 0-2.865-0.788-0.792-2.067-0.792-2.855-0.001z" fill="#FFFFFF"/>
 										</svg>
 									</a>
-									<a href="check.php?idgpp=<?php echo $value['IDGPP'];?>" class="btn btn-control btn-grey-lighter bouton-icone2">
+									<a href="check.php?idgpp=<?php echo utf8_encode($value['IDGPP']);?>" class="btn btn-control btn-grey-lighter bouton-icone2">
 										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="35%" height="35%" viewBox="0 0 394.893 394.893" style="enable-background:new 0 0 394.893 394.893;" xml:space="preserve">
 											<path d="M344.426,191.963c-6.904,0-12.5,5.597-12.5,12.5V350.91H25V43.982h246.57c6.904,0,12.5-5.597,12.5-12.5    c0-6.903-5.596-12.5-12.5-12.5H12.5c-6.903,0-12.5,5.597-12.5,12.5V363.41c0,6.903,5.597,12.5,12.5,12.5h331.926    c6.902,0,12.5-5.597,12.5-12.5V204.463C356.926,197.56,351.33,191.963,344.426,191.963z" fill="#FFFFFF"/>
 											<path d="M391.23,27.204c-4.881-4.881-12.795-4.881-17.678,0L169.957,230.801l-50.584-50.584c-4.882-4.881-12.796-4.881-17.678,0    c-4.881,4.882-4.881,12.796,0,17.678l59.423,59.423c2.441,2.44,5.64,3.661,8.839,3.661c3.199,0,6.398-1.221,8.839-3.661    L391.23,44.882C396.113,40,396.113,32.086,391.23,27.204z" fill="#FFFFFF"/>
@@ -273,9 +310,30 @@ if (isset($_SESSION['id_statut'])) {
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
+		<script src="js/intro.min.js"></script>
 		<script src="js/charte.js"></script>
 		<script src="js/notifications.js"></script>
+		<script>
+			$(function(){
+				var introguide = introJs();
+				introguide.setOptions({
+					steps: [
+					{
+						element: '#first',
+						intro: 'This guided tour will explain the Hongkiat demo page interface.<br><br>Use the arrow keys for navigation or hit ESC to exit the tour immediately.',
+						position: 'bottom'
+					},
+					{
+						element: '#second',
+						intro: 'Click this main logo to view a list of all Hongkiat demos.',
+						position: 'bottom'
+					}
+					]
+				});
+				introguide.start();
 
+			})
+		</script>
 	</body>
 	</html>
 	<?php }else{

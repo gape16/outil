@@ -64,6 +64,23 @@ if (isset($_SESSION['id_statut'])) {
 			$erreur="utilisateur déjà existant";
 		}
 	}
+
+	if(isset($_POST['le_statut'])){
+		$le_id=$_POST['le_id'];
+		$nom=$_POST['nom'];
+		$prenom=$_POST['prenom'];
+		$email=$_POST['email'];
+		$le_statut=$_POST['le_statut'];
+		$le_leader=$_POST['le_leader'];
+		$update=$bdd->prepare("UPDATE user set nom = ?, prenom = ?, email = ?, id_statut = ?, id_manager = ? where id_user = ?");
+		$update->bindParam(1, $nom);
+		$update->bindParam(2, $prenom);
+		$update->bindParam(3, $email);
+		$update->bindParam(4, $le_statut);
+		$update->bindParam(5, $le_leader);
+		$update->bindParam(6, $le_id);
+		$update->execute();
+	}
 	?>
 
 	<!DOCTYPE html>
@@ -77,14 +94,17 @@ if (isset($_SESSION['id_statut'])) {
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
-		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
+		
+		<link rel="stylesheet" type="text/css" href="css/introjs.css">
+		<link rel="stylesheet" type="text/css" href="css/introjs-rtl.css">
 
 		<!-- Theme Styles CSS -->
 		<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
 		<link rel="stylesheet" type="text/css" href="css/blocks.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
 
 		<!-- Main Font -->
 		<script src="js/webfontloader.min.js"></script>
@@ -99,7 +119,6 @@ if (isset($_SESSION['id_statut'])) {
 		<link rel="stylesheet" type="text/css" href="css/fonts.css">
 
 		<!-- Styles for plugins -->
-		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="css/main.css">
@@ -312,7 +331,7 @@ if (isset($_SESSION['id_statut'])) {
 								<div class="h6 title">Modifier un utilisateur</div>
 
 								<div class="align-right">
-									<input type="text" placeholder="Rechercher un utilisateur">
+									<input type="text" placeholder="Rechercher un utilisateur" class="search_user">
 								</div>
 							</div>
 						</div>
@@ -329,7 +348,7 @@ if (isset($_SESSION['id_statut'])) {
 					<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<div class="ui-block">
 							<div class="ui-block-title">
-								<h6 class="title">Equipe <?php echo $value2['prenom'];?> <?php echo $value2['nom'];?></h6>
+								<img style="cursor: pointer;" class="lemodal_moderation" src="<?php echo $value2['photo'];?>" alt="thumb-composition" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value2['id_user'];?>"> <h6 class="title"> Equipe <?php echo $value2['prenom'];?> <?php echo $value2['nom'];?> </h6>
 							</div>
 
 							<ol class="widget w-playlist sortt" id = "<?php echo $value2['id_user'];?>">
@@ -339,14 +358,10 @@ if (isset($_SESSION['id_statut'])) {
 								$query3->bindParam(1, $manag);
 								$query3->execute();
 								foreach ($query3 as $value3) {?>
-								<li class="js-open-popup" id="<?php echo $value3['id_user'];?>" data-popup-target=".playlist-popup" <?php if($value3['id_statut']=="2"){echo "style='background: rgba(31, 113, 173, 0.42)'";}elseif($value3['id_statut']=="1"){echo "style='background: rgba(173, 31, 168, 0.42)'";} ?>>
+								<li class="lemodal_moderation" id="<?php echo $value3['id_user'];?>" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value3['id_user'];?>" <?php if($value3['id_statut']=="2"){echo "style='background: rgba(31, 113, 173, 0.42)'";}elseif($value3['id_statut']=="1"){echo "style='background: rgba(173, 31, 168, 0.42)'";} ?>>
 									<input type="hidden" class="temp_stat" value="<?php echo $value3['id_statut'];?>">
-									<div class="playlist-thumb" data-toggle="tooltip" data-placement="top" title="PLAY / ADD TO PLAYER">
+									<div class="playlist-thumb" >
 										<img src="<?php echo $value['photo'];?>" alt="thumb-composition">
-										<div class="overlay"></div>
-										<a href="#" class="play-icon">
-											<svg class="olymp-music-play-icon-big"><use xlink:href="icons/icons-music.svg#olymp-music-play-icon-big"></use></svg>
-										</a>
 									</div>
 
 									<div class="composition">
@@ -374,14 +389,10 @@ if (isset($_SESSION['id_statut'])) {
 								$query4=$bdd->prepare("SELECT * FROM user inner join statut on user.id_statut = statut.id_statut where user.id_statut='4' order by user.id_statut");
 								$query4->execute();
 								foreach ($query4 as $value4) {?>
-								<li class="js-open-popup" id="<?php echo $value4['id_user'];?>" data-popup-target=".playlist-popup">
+								<li class="lemodal_moderation" id="<?php echo $value4['id_user'];?>" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value4['id_user'];?>">">
 									<input type="hidden" class="temp_stat" value="<?php echo $value4['temp_statut'];?>">
-									<div class="playlist-thumb" data-toggle="tooltip" data-placement="top" title="PLAY / ADD TO PLAYER">
+									<div class="playlist-thumb" >
 										<img src="<?php echo $value['photo'];?>" alt="thumb-composition">
-										<div class="overlay"></div>
-										<a href="#" class="play-icon">
-											<svg class="olymp-music-play-icon-big"><use xlink:href="icons/icons-music.svg#olymp-music-play-icon-big"></use></svg>
-										</a>
 									</div>
 
 									<div class="composition">
@@ -408,13 +419,9 @@ if (isset($_SESSION['id_statut'])) {
 								$query4=$bdd->prepare("SELECT * FROM user inner join statut on user.id_statut = statut.id_statut where user.id_manager='21' order by user.id_statut");
 								$query4->execute();
 								foreach ($query4 as $value4) {?>
-								<li class="js-open-popup" id="<?php echo $value4['id_user'];?>" data-popup-target=".playlist-popup" <?php if($value4['id_statut']=="2"){echo "style='background: rgba(31, 113, 173, 0.42)'";}elseif($value4['id_statut']=="1"){echo "style='background: rgba(173, 31, 168, 0.42)'";} ?>>
-									<div class="playlist-thumb" data-toggle="tooltip" data-placement="top" title="PLAY / ADD TO PLAYER">
+								<li class="lemodal_moderation" id="<?php echo $value4['id_user'];?>" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value4['id_user'];?>" <?php if($value4['id_statut']=="2"){echo "style='background: rgba(31, 113, 173, 0.42)'";}elseif($value4['id_statut']=="1"){echo "style='background: rgba(173, 31, 168, 0.42)'";} ?>>
+									<div class="playlist-thumb">
 										<img src="<?php echo $value['photo'];?>" alt="thumb-composition">
-										<div class="overlay"></div>
-										<a href="#" class="play-icon">
-											<svg class="olymp-music-play-icon-big"><use xlink:href="icons/icons-music.svg#olymp-music-play-icon-big"></use></svg>
-										</a>
 									</div>
 
 									<div class="composition">
@@ -432,30 +439,54 @@ if (isset($_SESSION['id_statut'])) {
 					</div>
 				</div>
 			</div>
+
+
+			<div class="modal fade show" id="problemos">
+				<div class="modal-dialog ui-block window-popup fav-page-popup">
+					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+					</a>
+
+					<div class="ui-block-title">
+						<h6 class="title">Modification de l'utilisateur</h6>
+					</div>
+
+					<div class="ui-block-content resultat_moderation">
+						
+					</div>
+
+				</div>
+			</div>
+
+
 			<?php include('chat_box.php');?>
 
 			<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
 
-			<!-- jQuery first, then Other JS. -->
+
+			<!-- Init functions -->
 			<script src="js/jquery-3.2.0.min.js"></script>
 			<!-- Js effects for material design. + Tooltips -->
 			<script src="js/material.min.js"></script>
 			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
 			<script src="js/theme-plugins.js"></script>
-			<!-- Init functions -->
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+			<!-- Init functions -->
 			<script src="js/main.js"></script>
 			<script src="js/alterclass.js"></script>
-			<!-- <script src="js/chat.js"></script> -->
+			<script src="js/chat.js"></script>
 			<!-- Select / Sorting script -->
 			<script src="js/selectize.min.js"></script>
 
 			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
-			<!-- Datepicker input autocomplete="off" field script-->
-			<script src="js/moment.min.js"></script>
-			<script src="js/daterangepicker.min.js"></script>
+
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+
+			<script src="js/intro.min.js"></script>
 			<script src="js/charte.js"></script>
 			<script src="js/notifications.js"></script>
 			<script>
@@ -464,6 +495,46 @@ if (isset($_SESSION['id_statut'])) {
 					return pattern.test(emailAddress);
 				};
 				$(function(){
+
+					$(".lemodal_moderation").on('click', function(){
+						var moderation_modif_user = $(this).data('id');
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {moderation_modif_user:moderation_modif_user}
+						})
+						.done(function(data) {
+							$(".resultat_moderation").html(data);
+						})
+					})
+
+
+					$(".search_user").on('keyup', function(){
+						if($(this).val().length > 2){
+							var search_user_moderation = $(this).val();
+							$.ajax({
+								url: 'formulaire.php',
+								type: 'POST',
+								data: {search_user_moderation: search_user_moderation}
+							})
+							.done(function(data) {
+								$(".sortt li").css("border", "none");
+								$(".sortt").css("border", "none");
+								$(".sortt li").css("box-shadow", "none");
+								$(".sortt ").css("box-shadow", "none");
+								var infos = JSON.parse(data);
+								for( var i = 0; i < infos.length; i++){
+									$("#"+infos[i]).css('border','1px solid white');
+									$("#"+infos[i]).css('box-shadow','0 0 35px black');
+								}
+							})							
+						}else{
+							$(".sortt li").css("border", "none");
+							$(".sortt").css("border", "none");
+							$(".sortt li").css("box-shadow", "none");
+							$(".sortt ").css("box-shadow", "none");
+						}
+					})
 
 					$(".sortt").sortable({
 						connectWith: ".sortt",
@@ -500,6 +571,12 @@ if (isset($_SESSION['id_statut'])) {
 							}					
 						}
 					});
+
+					$("body").on('click', '.modif_us', function(e){
+						e.preventDefault();
+						e.stopPropagation();
+						$(".form_user").submit();
+					})
 
 					$(".valid_user").on('click', function(e){
 						e.preventDefault();
