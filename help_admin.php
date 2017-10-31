@@ -31,7 +31,15 @@ if (isset($_SESSION['id_statut'])) {
 		$query_select_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide where date_aide >= ? order by date_aide DESC");
 		$query_select_aide->bindParam(1, $date_aide);
 		$query_select_aide->execute();
-
+		$id_graph=$_SESSION['id_graph'];
+		$query_notif_code=$bdd->prepare("SELECT * FROM aide order by id_aide DESC limit 1");
+		$query_notif_code->execute();
+		$result_notif_code=$query_notif_code->fetch();
+		$dernier=$result_notif_code['id_aide'];
+		$query_inser_code=$bdd->prepare("UPDATE notifications set notif_D = ? where id_user = ?");
+		$query_inser_code->bindParam(1, $dernier);
+		$query_inser_code->bindParam(2, $id_graph);
+		$query_inser_code->execute();
 		?>
 
 		<!DOCTYPE html>
@@ -117,7 +125,7 @@ if (isset($_SESSION['id_statut'])) {
 			<!-- Responsive Header -->
 
 			<?php include('responsive_header.php');?>
-			
+
 			<!-- ... end Responsive Header -->
 
 			<!-- ... end Responsive Header -->
@@ -239,13 +247,12 @@ if (isset($_SESSION['id_statut'])) {
 												<a href="" class="lien_cms"><span>Lien CMS</span></a></div>
 												<div class="hax imgg"></div>
 											</div>
-
 											<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
 											marquer comme résolue</a>
-											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours"><i class="fa fa-spinner" aria-hidden="true"></i>
+											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
 											marquer comme en cours</a>
-											<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non"><i class="fa fa-trash-o" aria-hidden="true"></i>
+											<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-trash-o" aria-hidden="true"></i>
 											marquer comme impossible</a>
 										</div>
 									</div>
@@ -253,7 +260,7 @@ if (isset($_SESSION['id_statut'])) {
 
 							</article>
 
-							<div data-mcs-theme="dark">
+							<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
 								<ul class="comments-list">
 
 								</ul>
@@ -281,7 +288,6 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 						</div>
 
-						<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 						<!-- Window-popup-CHAT for responsive min-width: 768px -->
 
@@ -289,52 +295,65 @@ if (isset($_SESSION['id_statut'])) {
 
 						<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
-						<!-- jQuery first, then Other JS. -->
-						<script src="js/jquery-3.2.0.min.js"></script>
-						<!-- Js effects for material design. + Tooltips -->
-						<script src="js/material.min.js"></script>
-						<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-						<script src="js/theme-plugins.js"></script>
-						<!-- Init functions -->
-						<script src="js/main.js"></script>
-						<script src="js/alterclass.js"></script>
-						<script src="js/chat.js"></script>
-						<!-- Select / Sorting script -->
-						<script src="js/selectize.min.js"></script>
 
-						<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+					</form>
+				</div>
+			</div>
+
+			<!-- ... end Window-popup Create Friends Group Add Friends -->
+
+			<!-- Window-popup-CHAT for responsive min-width: 768px -->
+
+			<?php include('chat_box.php');?>
+
+			<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+
+			<!-- jQuery first, then Other JS. -->
+			<script src="js/jquery-3.2.0.min.js"></script>
+			<!-- Js effects for material design. + Tooltips -->
+			<script src="js/material.min.js"></script>
+			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+			<script src="js/theme-plugins.js"></script>
+			<!-- Init functions -->
+			<script src="js/main.js"></script>
+			<script src="jsass.js"></script>
+			<script src="js/chat.js"/altercl></script>
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
+
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-						<script src="js/mediaelement-and-player.min.js"></script>
-						<script src="js/mediaelement-playlist-plugin.min.js"></script>
-						<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-						<script src="js/charte.js"></script>
-						<?php 
-						if($_SESSION['id_statut']==1) {
+			<script src="js/charte.js"></script>
+			<?php 
+			if($_SESSION['id_statut']==1) {
 						//page graphistes 
-							?><script src="js/notifications.js"></script><?php
-						}elseif  ($_SESSION['id_statut']==2){
+				?><script src="js/notifications.js"></script><?php
+			}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-							?><script src="js/notifications_redac.js"></script><?php
-						}
-						elseif ($_SESSION['id_statut']==3) {
+				?><script src="js/notifications_redac.js"></script><?php
+			}
+			elseif ($_SESSION['id_statut']==3) {
 						//page leader
-							?><script src="js/notifications_leader.js"></script><?php
-						}elseif ($_SESSION['id_statut']==4) {
+				?><script src="js/notifications_leader.js"></script><?php
+			}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-							?><script src="js/notifications_controleur.js"></script><?php
-						}elseif($_SESSION['id_statut']==5){
+				?><script src="js/notifications_controleur.js"></script><?php
+			}elseif($_SESSION['id_statut']==5){
 						//page admin
-							?><script src="js/notifications_admin.js"></script><?php
-						}
-						?>
-					</body>
-					</html>
-					<?php }else{
-						header('Location: help.php');
-					}
-				}else{
-					header('Location: login.php');
-				}
-				?>
+				?><script src="js/notifications_admin.js"></script><?php
+			}
+			?>
+		</body>
+		</html>
+		<?php }else{
+			header('Location: help.php');
+		}
+	}else{
+		header('Location: login.php');
+	}
+	?>

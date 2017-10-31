@@ -70,6 +70,7 @@ if (isset($_SESSION['id_statut'])) {
 		<body>
 
 			<!-- Fixed Sidebar Left -->
+
 			<?php 
 			if($_SESSION['id_statut']==1) {
 			//page graphistes 
@@ -90,6 +91,7 @@ if (isset($_SESSION['id_statut'])) {
 			}
 			?>
 
+
 			<!-- ... end Fixed Sidebar Left -->
 
 			<!-- Fixed Sidebar Right -->
@@ -101,7 +103,26 @@ if (isset($_SESSION['id_statut'])) {
 
 			<!-- Header -->
 
-			<?php include('header.php');?>
+			<?php 
+			if($_SESSION['id_statut']==1) {
+			//page graphistes 
+				include('header.php');
+			}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+				include('header.php');
+			}
+			elseif ($_SESSION['id_statut']==3) {
+			//page leader
+				include('header.php');
+			}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+				include('header_admin.php');
+			}elseif($_SESSION['id_statut']==5){
+			//page admin
+				include('header_admin.php');
+			}
+			?>
+			
 
 			<!-- ... end Header -->
 
@@ -232,6 +253,7 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 			<script src="js/charte.js"></script>
+
 			<?php 
 			if($_SESSION['id_statut']==1) {
 						//page graphistes 

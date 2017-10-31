@@ -26,7 +26,15 @@ if (isset($_SESSION['id_statut'])) {
 
 	$query_select_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide order by date_aide DESC");
 	$query_select_aide->execute();
-
+	$id_graph=$_SESSION['id_graph'];
+	$query_notif_code=$bdd->prepare("SELECT * FROM aide order by id_aide DESC limit 1");
+	$query_notif_code->execute();
+	$result_notif_code=$query_notif_code->fetch();
+	$dernier=$result_notif_code['id_aide'];
+	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_D = ? where id_user = ?");
+	$query_inser_code->bindParam(1, $dernier);
+	$query_inser_code->bindParam(2, $id_graph);
+	$query_inser_code->execute();
 	?>
 
 	<!DOCTYPE html>
