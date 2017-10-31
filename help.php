@@ -17,183 +17,183 @@ function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad 
 		}
 		
 	}
-	
 	return $string;
-	
 }
 
 if (isset($_SESSION['id_statut'])) {
+	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 2 || $_SESSION['id_statut'] == 3) {
 
-	$query_select_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide order by date_aide DESC");
-	$query_select_aide->execute();
-	$id_graph=$_SESSION['id_graph'];
-	$query_notif_code=$bdd->prepare("SELECT * FROM aide order by id_aide DESC limit 1");
-	$query_notif_code->execute();
-	$result_notif_code=$query_notif_code->fetch();
-	$dernier=$result_notif_code['id_aide'];
-	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_D = ? where id_user = ?");
-	$query_inser_code->bindParam(1, $dernier);
-	$query_inser_code->bindParam(2, $id_graph);
-	$query_inser_code->execute();
-	?>
-
-	<!DOCTYPE html>
-	<html lang="en">
-	<head>
-
-		<title>Demande d'aide</title>
-
-		<!-- Required meta tags always come first -->
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
-
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
-
-		<!-- Theme Styles CSS -->
-		<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
-		<link rel="stylesheet" type="text/css" href="css/blocks.css">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
-
-		<!-- Main Font -->
-		<script src="js/webfontloader.min.js"></script>
-		<script>
-			WebFont.load({
-				google: {
-					families: ['Roboto:300,400,500,700:latin']
-				}
-			});
-		</script>
-
-		<link rel="stylesheet" type="text/css" href="css/fonts.css">
-
-		<!-- Styles for plugins -->
-		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="css/jquery.fancybox.min.css">
-
-	</head>
-
-	<body>
-
-		<!-- Fixed Sidebar Left -->
-		<?php 
-		if($_SESSION['id_statut']==1) {
-			//page graphistes 
-			include('left_sidebar.php');
-		}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
-			include('left_sidebar_redac.php');
-		}
-		elseif ($_SESSION['id_statut']==3) {
-			//page leader
-			include('left_sidebar_leader.php');
-		}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
-			include('left_sidebar_controleur.php');
-		}elseif($_SESSION['id_statut']==5){
-			//page admin
-			include('left_sidebar_admin.php');
-		}
+		$query_select_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide order by date_aide DESC");
+		$query_select_aide->execute();
+		$id_graph=$_SESSION['id_graph'];
+		$query_notif_code=$bdd->prepare("SELECT * FROM aide order by id_aide DESC limit 1");
+		$query_notif_code->execute();
+		$result_notif_code=$query_notif_code->fetch();
+		$dernier=$result_notif_code['id_aide'];
+		$query_inser_code=$bdd->prepare("UPDATE notifications set notif_D = ? where id_user = ?");
+		$query_inser_code->bindParam(1, $dernier);
+		$query_inser_code->bindParam(2, $id_graph);
+		$query_inser_code->execute();
 		?>
 
-		<!-- ... end Fixed Sidebar Left -->
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
 
-		<!-- Fixed Sidebar Right -->
+			<title>Demande d'aide</title>
 
-		<?php include('fixed_sidebar_right.php');?>
+			<!-- Required meta tags always come first -->
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta http-equiv="x-ua-compatible" content="ie=edge">
 
-		<!-- ... end Fixed Sidebar Right -->
+			<!-- Bootstrap CSS -->
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
+			<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
+
+			<!-- Theme Styles CSS -->
+			<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
+			<link rel="stylesheet" type="text/css" href="css/blocks.css">
+			<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
+
+			<!-- Main Font -->
+			<script src="js/webfontloader.min.js"></script>
+			<script>
+				WebFont.load({
+					google: {
+						families: ['Roboto:300,400,500,700:latin']
+					}
+				});
+			</script>
+
+			<link rel="stylesheet" type="text/css" href="css/fonts.css">
+
+			<!-- Styles for plugins -->
+			<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
+			<!-- Custom CSS -->
+			<link rel="stylesheet" href="css/main.css">
+			<link rel="stylesheet" href="css/jquery.fancybox.min.css">
+
+		</head>
+
+		<body>
+
+			<!-- Fixed Sidebar Left -->
+			<?php 
+			if($_SESSION['id_statut']==1) {
+			//page graphistes 
+				include('left_sidebar.php');
+			}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+				include('left_sidebar_redac.php');
+			}
+			elseif ($_SESSION['id_statut']==3) {
+			//page leader
+				include('left_sidebar_leader.php');
+			}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+				include('left_sidebar_controleur.php');
+			}elseif($_SESSION['id_statut']==5){
+			//page admin
+				include('left_sidebar_admin.php');
+			}
+			?>
+
+			<!-- ... end Fixed Sidebar Left -->
+
+			<!-- Fixed Sidebar Right -->
+
+			<?php include('fixed_sidebar_right.php');?>
+
+			<!-- ... end Fixed Sidebar Right -->
 
 
-		<!-- Header -->
+			<!-- Header -->
 
-		<?php include('header.php');?>
+			<?php include('header.php');?>
 
-		<!-- ... end Header -->
-
-
-		<!-- Responsive Header -->
-
-		<?php include('responsive_header.php');?>
-		
-		<!-- ... end Responsive Header -->
-
-		<!-- ... end Responsive Header -->
+			<!-- ... end Header -->
 
 
-		<div class="header-spacer header-spacer-small"></div>
+			<!-- Responsive Header -->
+
+			<?php include('responsive_header.php');?>
+
+			<!-- ... end Responsive Header -->
+
+			<!-- ... end Responsive Header -->
 
 
-		<div class="main-header">
-			<div class="content-bg-wrap">
-				<div class="content-bg bg-music"></div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
-						<div class="main-header-content">
-							<h1>N'hésitez plus, demandez de l'aide</h1>
-							<p>C'est ici que vous allez pouvoir faire les demandes d'aide sur vos problèmes d'intégration</p>
+			<div class="header-spacer header-spacer-small"></div>
+
+
+			<div class="main-header">
+				<div class="content-bg-wrap">
+					<div class="content-bg bg-music"></div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+							<div class="main-header-content">
+								<h1>N'hésitez plus, demandez de l'aide</h1>
+								<p>C'est ici que vous allez pouvoir faire les demandes d'aide sur vos problèmes d'intégration</p>
+							</div>
 						</div>
 					</div>
 				</div>
+
+				<img class="img-bottom" src="img/music-bottom.png" alt="friends">
 			</div>
 
-			<img class="img-bottom" src="img/music-bottom.png" alt="friends">
-		</div>
-
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="ui-block">
-						<div class="ui-block-title">
-							<h6 class="title">Demande d'aide</h6>
-						</div>
-						<div class="ui-block-content">
-							<form class="form-group label-floating is-empty help form-reset">
-								<div class="form-group is-empty label-floating ">
-									<select name="type">
-										<option value="0">Choisir une catégorie</option>
-										<option value="1">Graph</option>
-										<option value="2">SEO</option>
-									</select>
-								</div>
-								<div class="form-group is-empty label-floating ">
-									<label class="control-label">Numéro client</label>
-									<input class="form-control numclient" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Adresse CMS</label>
-									<input class="form-control adressecms" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Titre du problème</label>
-									<input class="form-control titre_probleme" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Description du problème</label>
-									<textarea name="description" id="description" cols="30" rows="10"></textarea>
-									<p><span class="count">0</span> / 140 caractères</p>
-								</div>
-							</form>
-							<div class="form-group label-floating is-empty">
-								<form class="upload_veille">
-									<input type="file" id="file-select" name="photos" required="required">
-								</form>
-
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="ui-block">
+							<div class="ui-block-title">
+								<h6 class="title">Demande d'aide</h6>
 							</div>
-							<div class="row whitecolor">
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
+							<div class="ui-block-content">
+								<form class="form-group label-floating is-empty help form-reset">
+									<div class="form-group is-empty label-floating ">
+										<select name="type">
+											<option value="0">Choisir une catégorie</option>
+											<option value="1">Graph</option>
+											<option value="2">SEO</option>
+										</select>
+									</div>
+									<div class="form-group is-empty label-floating ">
+										<label class="control-label">Numéro client</label>
+										<input class="form-control numclient" placeholder="" value="" type="text">
+									</div>
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Adresse CMS</label>
+										<input class="form-control adressecms" placeholder="" value="" type="text">
+									</div>
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Titre du problème</label>
+										<input class="form-control titre_probleme" placeholder="" value="" type="text">
+									</div>
+									<div class="form-group label-floating is-empty">
+										<label class="control-label">Description du problème</label>
+										<textarea name="description" id="description" cols="30" rows="10"></textarea>
+										<p><span class="count">0</span> / 140 caractères</p>
+									</div>
+								</form>
+								<div class="form-group label-floating is-empty">
+									<form class="upload_veille">
+										<input type="file" id="file-select" name="photos" required="required">
+									</form>
+
 								</div>
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-									Valider la demande</a>
+								<div class="row whitecolor">
+									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
+									</div>
+									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+										Valider la demande</a>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -419,6 +419,9 @@ if (isset($_SESSION['id_statut'])) {
 				</body>
 				</html>
 				<?php }else{
-					header('Location: login.php');
+					header('Location: help_admin.php');
 				}
-				?>
+			}else{
+				header('Location: login.php');
+			}
+			?>

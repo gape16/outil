@@ -7,7 +7,7 @@ $id_graph=$_SESSION['id_graph'];
 
 if (isset($_SESSION['id_statut'])) {
 	// print_r($_POST);
-	if ($_SESSION['id_statut'] == 3 || $_SESSION['id_statut'] == 4 || $_SESSION['id_statut'] == 5) {
+	if ($_SESSION['id_statut'] == 4 || $_SESSION['id_statut'] == 5) {
 		$id_etat_achat=1;
 		$query_achat=$bdd->prepare("SELECT * FROM achat_photos inner join etat_achat on achat_photos.id_etat_achat = etat_achat.id_etat_achat inner join user on achat_photos.id_graph = user.id_user where achat_photos.id_etat_achat = ? order by date_achat DESC");
 		$query_achat->bindParam(1, $id_etat_achat);

@@ -13,7 +13,7 @@
       </li>
       <li>
         <a href="accueil_admin.php" class="js-sidebar-open">
-          <svg class="olymp-close-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+          <svg class="olymp-close-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-computer-icon"></use></svg>
         </a>
       </li>
       <li>
@@ -81,7 +81,7 @@
       </li>
       <li>
         <a href="accueil_admin.php" class="js-sidebar-open">
-          <svg class="olymp-close-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+          <svg class="olymp-close-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-computer-icon"></use></svg>
           <span class="left-menu-title">Accueil</span>
         </a>
       </li>
@@ -93,13 +93,13 @@
       </li>
       <li>
         <a href="help.php">
-          <svg class="olymp-multimedia-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-multimedia-icon"></use></svg>
+          <svg class="olymp-multimedia-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
           <span class="left-menu-title">Demandes aux contrôleurs</span>
         </a>
       </li>
       <li>
         <a href="achat_photos.php">
-          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
+          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-multimedia-icon"></use></svg>
           <span class="left-menu-title">Achats de photos</span>
         </a>
       </li>
