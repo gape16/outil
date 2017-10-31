@@ -84,6 +84,21 @@ if($nb_notifs==0){
           $query_notif_codec->bindParam(1, $dernierc);
           $query_notif_codec->execute();
         }
+        if($result['notif_D']==0){
+          $query_notif_coded=$bdd->prepare("SELECT * FROM aide order by id_aide DESC limit 1");
+          $query_notif_coded->execute();
+          $result_notif_coded=$query_notif_coded->fetch();
+          $dernierd=$result_notif_coded['id_aide'];
+          $query_inser_coded=$bdd->prepare("UPDATE notifications set notif_D = ? where id_user = ?");
+          $query_inser_coded->bindParam(1, $dernierd);
+          $query_inser_coded->bindParam(2, $id_graph);
+          $query_inser_coded->execute();
+        }else{
+          $dernierd=$result['notif_D'];
+          $query_notif_coded=$bdd->prepare("SELECT id_client, titre, description FROM aide WHERE id_aide > ? and id_etat_aide = 1 order by id_aide DESC");
+          $query_notif_coded->bindParam(1, $dernierd);
+          $query_notif_coded->execute();
+        }
         ?>
         <div class="label-avatar bg-blue label_notifs" <?php if($query_notif_code->rowCount() == 0){ echo "style='display:none;'"; }?>><?php if($query_notif_code->rowCount() != 0){ echo $query_notif_code->rowCount();}?></div>
 
@@ -212,53 +227,91 @@ if($nb_notifs==0){
       <a href="achat_photos.php" class="view-all bg-primary">Voir tous les achats de photos</a>
     </div>
   </div>
+  <div class="control-icon more has-items">
+    <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="" title=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
 
-  <div class="author-page author vcard inline-items more" >
-    <div class="author-thumb">
-      <img alt="author" src="<?php echo utf8_encode($infos["photo_avatar"]);?>" class="avatar">
-      <span class="icon-status online"></span>
-      <div class="more-dropdown more-with-triangle" style="z-index: 999999999;">
-        <div class="mCustomScrollbar" data-mcs-theme="dark">
-          <div class="ui-block-title ui-block-title-small">
-            <h6 class="title">Votre compte</h6>
-          </div>
+    <div class="label-avatar bg-primary label_aide" <?php if($query_notif_coded->rowCount() == 0){ echo "style='display:none;'"; }?>><?php if($query_notif_coded->rowCount()!=0){ echo $query_notif_coded->rowCount();}?></div>
 
-          <ul class="account-settings">
-            <li>
-              <a href="account_setting.php">
+    <div class="more-dropdown more-with-triangle triangle-top-center">
+      <div class="ui-block-title ui-block-title-small">
+        <h6 class="title">Demandes d'aides</h6>
+        <a href="help_admin.php">Allez aux demandes</a>
+      </div>
 
-                <svg class="olymp-menu-icon"><svg id="olymp-menu-icon" viewBox="0 0 41 32" width="100%" height="100%">
-                  <title>menu-icon</title>
-                  <path d="M4.571 0h-4.571v4.571h4.571v-4.571zM9.143 0v4.571h32v-4.571h-32zM13.714 13.714h-13.714v4.571h13.714v-4.571zM18.286 13.714v4.571h4.571v-4.571h-4.571zM27.429 18.286h13.714v-4.571h-13.714v4.571zM0 32h32v-4.569h-32v4.569zM36.571 32h4.571v-4.569h-4.571v4.569z"></path>
-                </svg></svg>
+      <div class="mCustomScrollbar" data-mcs-theme="dark">
+        <ul class="notification-list friend-requests veille_aide">
+         <?php 
+         if($result['notif_D']==0){?>
+         <li>
+          Aucune notification
+        </li>
+        <?php }else{
+          foreach ($query_notif_coded as $key => $value) {?>
+          <li>
+            <div class="author-thumb">
+            </div>
+            <div class="notification-event">
+              <a href="help_admin.php" class="h6 notification-friend"><?php echo $value['titre'];?></a>
+              <span class="chat-message-item"><?php echo substr($value['description'],0, 50);?>...</span>
+            </div>
+            <span class="notification-icon">
+              <?php echo $value['id_client'];?>
+            </span>
+          </li>
+          <?php } 
+        }?>
+      </ul>
+    </div>
 
-                <span>Configuration du compte</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="logout">
-                <svg class="olymp-logout-icon"><svg id="olymp-logout-icon" viewBox="0 0 43 32" width="100%" height="100%">
-                  <title>logout-icon</title>
-                  <path d="M26.667 3.557c4.962 0 9.232 2.91 11.23 7.111h3.838c-2.197-6.212-8.105-10.668-15.068-10.668s-12.873 4.457-15.070 10.667h3.84c1.998-4.199 6.268-7.109 11.23-7.109zM26.667 28.446c-4.962 0-9.232-2.91-11.23-7.111h-3.84c2.199 6.21 8.107 10.665 15.070 10.665 6.962 0 12.871-4.455 15.070-10.665h-3.838c-2 4.201-6.27 7.111-11.232 7.111zM23.111 17.778v-3.556h-16.306l3.252-3.25-2.514-2.514-7.543 7.541 7.543 7.543 2.514-2.514-3.252-3.252h16.306zM39.111 14.224v3.556h3.556v-3.556h-3.556z"></path>
-                </svg></svg>
-                <span>Se déconnecter</span>
-              </a>
-            </li>
-          </ul>     
+    <a href="help_admin.php" class="view-all bg-primary">Voir les demandes</a>
+  </div>
+</div>
+<div class="author-page author vcard inline-items more" >
+  <div class="author-thumb">
+    <img alt="author" src="<?php echo utf8_encode($infos["photo_avatar"]);?>" class="avatar">
+    <span class="icon-status online"></span>
+    <div class="more-dropdown more-with-triangle" style="z-index: 999999999;">
+      <div class="mCustomScrollbar" data-mcs-theme="dark">
+        <div class="ui-block-title ui-block-title-small">
+          <h6 class="title">Votre compte</h6>
         </div>
 
+        <ul class="account-settings">
+          <li>
+            <a href="account_setting.php">
+
+              <svg class="olymp-menu-icon"><svg id="olymp-menu-icon" viewBox="0 0 41 32" width="100%" height="100%">
+                <title>menu-icon</title>
+                <path d="M4.571 0h-4.571v4.571h4.571v-4.571zM9.143 0v4.571h32v-4.571h-32zM13.714 13.714h-13.714v4.571h13.714v-4.571zM18.286 13.714v4.571h4.571v-4.571h-4.571zM27.429 18.286h13.714v-4.571h-13.714v4.571zM0 32h32v-4.569h-32v4.569zM36.571 32h4.571v-4.569h-4.571v4.569z"></path>
+              </svg></svg>
+
+              <span>Configuration du compte</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="logout">
+              <svg class="olymp-logout-icon"><svg id="olymp-logout-icon" viewBox="0 0 43 32" width="100%" height="100%">
+                <title>logout-icon</title>
+                <path d="M26.667 3.557c4.962 0 9.232 2.91 11.23 7.111h3.838c-2.197-6.212-8.105-10.668-15.068-10.668s-12.873 4.457-15.070 10.667h3.84c1.998-4.199 6.268-7.109 11.23-7.109zM26.667 28.446c-4.962 0-9.232-2.91-11.23-7.111h-3.84c2.199 6.21 8.107 10.665 15.070 10.665 6.962 0 12.871-4.455 15.070-10.665h-3.838c-2 4.201-6.27 7.111-11.232 7.111zM23.111 17.778v-3.556h-16.306l3.252-3.25-2.514-2.514-7.543 7.541 7.543 7.543 2.514-2.514-3.252-3.252h16.306zM39.111 14.224v3.556h3.556v-3.556h-3.556z"></path>
+              </svg></svg>
+              <span>Se déconnecter</span>
+            </a>
+          </li>
+        </ul>     
       </div>
+
     </div>
-    <a href="" class="author-name fn">
-      <div class="author-title">
-        <?php echo utf8_encode($infos["prenom"]." ".$infos['nom']);?><svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-          <title>dropdown-arrow-icon</title>
-          <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-        </svg></svg>
-      </div>
-      <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
-    </a>
   </div>
+  <a href="" class="author-name fn">
+    <div class="author-title">
+      <?php echo utf8_encode($infos["prenom"]." ".$infos['nom']);?><svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
+      <title>dropdown-arrow-icon</title>
+      <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+    </svg></svg>
+  </div>
+  <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
+</a>
+</div>
 
 
 </div>

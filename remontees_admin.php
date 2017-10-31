@@ -5,7 +5,7 @@ include('connexion_session.php');
 
 
 if (isset($_SESSION['id_statut'])) {
-	if ($_SESSION['id_statut'] == 3 || $_SESSION['id_statut'] == 4 || $_SESSION['id_statut'] == 5) {
+	if ($_SESSION['id_statut'] == 4 || $_SESSION['id_statut'] == 5) {
 		$id_graph=$_SESSION['id_graph'];
 		// si c'est un graph qui se connect
 

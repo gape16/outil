@@ -85,13 +85,13 @@ if (isset($_POST['connect'])) {
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 	<style>
-		.ah:before{
-			height:300% !important;
-		}
-		.tab-content > .tab-pane{
-			display: block;
-		}
-	</style>
+	.ah:before{
+		height:300% !important;
+	}
+	.tab-content > .tab-pane{
+		display: block;
+	}
+</style>
 </head>
 
 <body class="landing-page">
@@ -214,10 +214,6 @@ if (isset($_POST['connect'])) {
 		</div>
 
 		<!-- ... end Login-Registration Form  -->
-
-
-
-
 
 		<!-- jQuery first, then Other JS. -->
 		<script src="js/jquery-3.2.0.min.js"></script>
