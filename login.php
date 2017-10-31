@@ -22,15 +22,19 @@ if (isset($_POST['connect'])) {
 		$_SESSION['email']=$mail;
 		$_SESSION['id_graph']=$test_user['id_user'];
 		$_SESSION['id_statut']=$test_user['id_statut'];
-		if($test_user['id_statut']==1 || $test_user['id_statut']==2){
-			//page graphistes redacteurs
+		if($test_user['id_statut']==1) {
+			//page graphistes 
 			header('Location: accueil.php');
-		}elseif ($test_user['id_statut']==3) {
+		}elseif  ($test_user['id_statut']==2){
+			//page  redacteurs
+			header('Location: veille.php');
+		}
+		elseif ($test_user['id_statut']==3) {
 			//page leader
-			header('Location: accueil_leader.php');
+			header('Location: accueil_admin.php');
 		}elseif ($test_user['id_statut']==4) {
 			//page controleur
-			header('Location: accueil_controleur.php');
+			header('Location: accueil.php');
 		}elseif($test_user['id_statut']==5){
 			//page admin
 			header('Location: accueil_admin.php');

@@ -138,6 +138,13 @@ if (isset($_SESSION['id_statut'])) {
 						<div class="ui-block-content">
 							<form class="form-group label-floating is-empty help form-reset">
 								<div class="form-group is-empty label-floating ">
+									<select name="type">
+										<option value="0">Choisir une catégorie</option>
+										<option value="1">Graph</option>
+										<option value="2">SEO</option>
+									</select>
+								</div>
+								<div class="form-group is-empty label-floating ">
 									<label class="control-label">Numéro client</label>
 									<input class="form-control numclient" placeholder="" value="" type="text">
 								</div>
@@ -207,9 +214,6 @@ if (isset($_SESSION['id_statut'])) {
 												</td>
 												<td class="author">
 													<div class="event-author inline-items">
-														<div class="author-thumb">
-															<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
-														</div>
 														<div class="author-date">
 															<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
 														</div>
@@ -219,11 +223,11 @@ if (isset($_SESSION['id_statut'])) {
 												<td class="location">
 													<div class="place inline-items">
 														<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-														<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+														<a target="_blank"><?php echo $value['id_client'];?></a>
 													</div>
 												</td>
 												<td class="description">
-													<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+													<p class="description"><span>Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 												</td>
 												<td class="add-event">
 													<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
@@ -277,7 +281,7 @@ if (isset($_SESSION['id_statut'])) {
 										<div class="place inline-items">
 											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
 												<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
-												
+
 											</div>
 
 											<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
@@ -315,7 +319,6 @@ if (isset($_SESSION['id_statut'])) {
 								</form>
 							</div>
 						</div>
-
 						<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 						<!-- Window-popup-CHAT for responsive min-width: 768px -->

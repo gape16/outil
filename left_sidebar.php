@@ -106,7 +106,7 @@
       <li>
         <a href="newsletter.php">
           <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-          <span class="left-menu-title">Newletters</span>
+          <span class="left-menu-title">Newsletters</span>
         </a>
       </li>
       <li>

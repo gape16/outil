@@ -82,14 +82,14 @@ if (isset($_POST['idForgot'])) {
 	$query_insert_user->bindParam(2, $mail);
 	$query_insert_user->execute();
  	//envoi du mail de récupération
-	$to      = $mail;
-	$subject = 'Récupération mot de passe';
-	$message = 'Bonjour, Vous avez demandé le renouvellement de mot de passe suite à un oubli ! <br>Voici le code à fournir lors de la vérification:'.$code;
-	$headers = 'From: info@example.com' . "\r\n" .
-	'Reply-To: info@example.com' . "\r\n" .
-	'X-Mailer: PHP/' . phpversion();
+	// $to      = $mail;
+	// $subject = 'Récupération mot de passe';
+	// $message = 'Bonjour, Vous avez demandé le renouvellement de mot de passe suite à un oubli ! <br>Voici le code à fournir lors de la vérification:'.$code;
+	// $headers = 'From: info@example.com' . "\r\n" .
+	// 'Reply-To: info@example.com' . "\r\n" .
+	// 'X-Mailer: PHP/' . phpversion();
 
-	mail($to, $subject, $message, $headers);
+	// mail($to, $subject, $message, $headers);
 	echo $code;
 }
 
@@ -685,57 +685,72 @@ if(isset($_POST['numClient_controleur'])){
 	$idUser = $_POST['idUser'];
 	$accept = 0;
 	$note = 0;
-	$idgpp = $_POST['idgpp_check'];
 	$date_ajout_controleur = date('Y-m-d H:i:s');
-	$requete_proposition = $bdd->prepare("INSERT INTO proposition_design (date_proposition, num_client, lien_maquette, id_user, accept, note, id_gpp)	VALUES (?, ?, ?, ?, ?, ?, ?)");
-	$requete_proposition->bindParam(1, $date_ajout_controleur);
-	$requete_proposition->bindParam(2, $numClient);
-	$requete_proposition->bindParam(3, $lienMaquette);
-	$requete_proposition->bindParam(4, $idUser);
-	$requete_proposition->bindParam(5, $accept);
-	$requete_proposition->bindParam(6, $note);
-	$requete_proposition->bindParam(7, $idgpp);
-	$requete_proposition->execute();
-	$requete_proposition_ok = $bdd->prepare("SELECT date_proposition, num_client, lien_maquette, nom, prenom, proposition_design.id_user FROM proposition_design INNER JOIN user ON proposition_design.id_user = user.id_user WHERE date_proposition=?");
-	$requete_proposition_ok->bindParam(1, $date_ajout_controleur);
-	$requete_proposition_ok->execute();
-	$tab_requete_proposition = $requete_proposition_ok->fetch();
-	$date_tab=explode("-", $tab_requete_proposition['date_proposition']);
-	$jour_tab=explode(" ",$date_tab[2]);
-	$jour=$jour_tab[0];
-	$m=$date_tab[1];
-	$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-	$lignetableau = '';
-	$lignetableau.= '<tr class="event-item">';
-	$lignetableau.= '<td class="upcoming">';
-	$lignetableau.= '<div class="date-event">';
-	$lignetableau.= '<svg class="olymp-small-calendar-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>';
-	$lignetableau.= '<span class="day">'. $jour .'</span>';
-	$lignetableau.= '<span class="month">'. $months[(int)$m] .'</span>';
-	$lignetableau.= '</div>';
-	$lignetableau.= '</td>';
-	$lignetableau.= '<td class="author">';
-	$lignetableau.= '<div class="event-author inline-items">';
-	$lignetableau.= '<div class="author-thumb">';
-	$lignetableau.= '<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">';
-	$lignetableau.= '</div>';
-	$lignetableau.= '<div class="author-date">';
-	$lignetableau.= '<a class="author-name h6">'. $tab_requete_proposition['num_client'] .'</a>';
-	$lignetableau.= '<time class="published">'. utf8_encode($tab_requete_proposition['nom']).' '. utf8_encode($tab_requete_proposition['prenom']) .'</time>';
-	$lignetableau.= '</div>';
-	$lignetableau.= '</div>';
-	$lignetableau.= '</td>';
-	$lignetableau.= '<td class="location">';
-	$lignetableau.= '<div class="place inline-items">';
-	$lignetableau.= '	<svg class="olymp-add-a-place-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>';
-	$lignetableau.= '	<a href="'. $tab_requete_proposition['lien_maquette'] .'" target="_blank" style="color:inherit;">Lien de la maquette</a>';
-	$lignetableau.= '</div>';
-	$lignetableau.= '</td>';
-	$lignetableau.= '<td class="add-event">';
-	$lignetableau.= '	<a class="btn btn-breez btn-sm check_proposition" data-toggle="modal" data-user="'. $tab_requete_proposition['id_user'] .'" data-id="'. $tab_requete_proposition['id_user'] .'" target="#checkpropal" style="background:#9a9fbf;color:white;">En cours</a>';
-	$lignetableau.= '</td>';
-	$lignetableau.= '</tr>';
-	echo $lignetableau;
+
+
+	$date = date('Y-m');
+	$varsearch = "%" . $date . "-%";
+	$user=$_SESSION['id_graph'];
+	$query_rappel_sitedumois = $bdd->prepare("SELECT id_proposition FROM proposition_design INNER JOIN user ON proposition_design.id_user = user.id_user WHERE date_proposition LIKE ? and id_manager = ?");
+	$query_rappel_sitedumois->bindParam(1, $varsearch);
+	$query_rappel_sitedumois->bindParam(2, $user);
+	$query_rappel_sitedumois->execute();
+	$nb = $query_rappel_sitedumois->rowCount();
+
+	if ($nb == 0) {
+		$requete_proposition = $bdd->prepare("INSERT INTO proposition_design (date_proposition, num_client, lien_maquette, id_user, accept, note)	VALUES (?, ?, ?, ?, ?, ?)");
+		$requete_proposition->bindParam(1, $date_ajout_controleur);
+		$requete_proposition->bindParam(2, $numClient);
+		$requete_proposition->bindParam(3, $lienMaquette);
+		$requete_proposition->bindParam(4, $idUser);
+		$requete_proposition->bindParam(5, $accept);
+		$requete_proposition->bindParam(6, $note);
+		$requete_proposition->execute();
+		$requete_proposition_ok = $bdd->prepare("SELECT date_proposition, num_client, lien_maquette, nom, prenom, proposition_design.id_user FROM proposition_design INNER JOIN user ON proposition_design.id_user = user.id_user WHERE date_proposition=?");
+		$requete_proposition_ok->bindParam(1, $date_ajout_controleur);
+		$requete_proposition_ok->execute();
+		$tab_requete_proposition = $requete_proposition_ok->fetch();
+		$date_tab=explode("-", $tab_requete_proposition['date_proposition']);
+		$jour_tab=explode(" ",$date_tab[2]);
+		$jour=$jour_tab[0];
+		$m=$date_tab[1];
+		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+		$lignetableau = '';
+		$lignetableau.= '<tr class="event-item">';
+		$lignetableau.= '<td class="upcoming">';
+		$lignetableau.= '<div class="date-event">';
+		$lignetableau.= '<svg class="olymp-small-calendar-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>';
+		$lignetableau.= '<span class="day">'. $jour .'</span>';
+		$lignetableau.= '<span class="month">'. $months[(int)$m] .'</span>';
+		$lignetableau.= '</div>';
+		$lignetableau.= '</td>';
+		$lignetableau.= '<td class="author">';
+		$lignetableau.= '<div class="event-author inline-items">';
+		$lignetableau.= '<div class="author-date">';
+		$lignetableau.= '<a class="author-name h6">'. $tab_requete_proposition['num_client'] .'</a>';
+		$lignetableau.= '<time class="published">'. utf8_encode($tab_requete_proposition['nom']).' '. utf8_encode($tab_requete_proposition['prenom']) .'</time>';
+		$lignetableau.= '</div>';
+		$lignetableau.= '</div>';
+		$lignetableau.= '</td>';
+		$lignetableau.= '<td class="location">';
+		$lignetableau.= '<div class="place inline-items">';
+		$lignetableau.= '<svg class="olymp-add-a-place-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>';
+		$lignetableau.= '<a href="'. $tab_requete_proposition['lien_maquette'] .'" target="_blank" style="color:inherit;">Lien de la maquette</a>';
+		$lignetableau.= '</div>';
+		$lignetableau.= '</td>';
+		$lignetableau.= '<td class="add-event">';
+		$lignetableau.= '<a class="btn btn-breez btn-sm check_proposition" data-toggle="modal" data-user="'. $tab_requete_proposition['id_user'] .'" data-id="'. $tab_requete_proposition['id_user'] .'" target="#checkpropal" style="background:#9a9fbf;color:white;">Noter</a>';
+		$lignetableau.= '</td>';
+		$lignetableau.= '<td class="delete">';
+		$lignetableau.= '<div class="date-event">';
+		$lignetableau.= '<a class="btn-haxor" data-toggle="delete" data-client="'. $tab_requete_proposition['num_client'] .'" href="#">Supprimer</a>';
+		$lignetableau.= '</div>';
+		$lignetableau.= '</td>';
+		$lignetableau.= '</tr>';
+		echo $lignetableau;
+	}else{
+		echo "existant";
+	}
 }
 
 
@@ -746,12 +761,11 @@ if(isset($_POST['showWeek'])){
 if(isset($_POST['note'])){
 	$note = $_POST['note'];
 	$id = $_POST['numClientId'];
-	$idgpp = $_POST['idgpp_check'];
 	$accept = 1;
-	$requete_accept = $bdd->prepare("UPDATE proposition_design set accept = ?, note = ? WHERE id_gpp = ?");
+	$requete_accept = $bdd->prepare("UPDATE proposition_design set accept = ?, note = ? WHERE num_client = ?");
 	$requete_accept->bindParam(1, $accept);
 	$requete_accept->bindParam(2, $note);
-	$requete_accept->bindParam(3, $idgpp);
+	$requete_accept->bindParam(3, $id);
 	$requete_accept->execute();
 }
 
@@ -781,38 +795,36 @@ if(isset($_POST['search'])){
 			$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 
 			?>
-			<tr class="event-item">
+			<tr class="event-item week_<?php echo $semaine;?>">
 				<td class="upcoming">
 					<div class="date-event">
-						<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+						<svg class="olymp-small-calendar-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
 						<span class="day"><?php echo $jour;?></span>
 						<span class="month"><?php echo $months[(int)$m]; ?></span>
 					</div>
 				</td>
 				<td class="author">
 					<div class="event-author inline-items">
-						<div class="author-thumb">
-							<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
-						</div>
 						<div class="author-date">
-							<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-							<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
+							<a class="author-name h6"><?php echo $value['num_client'] ?></a>
+							<time class="published"><?php utf8_encode($value['nom']).' '. utf8_encode($value['prenom']) ?></time>
 						</div>
 					</div>
 				</td>
 				<td class="location">
 					<div class="place inline-items">
-						<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-						<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+						<svg class="olymp-add-a-place-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+						<a href="<?php echo $value['lien_maquette'] ?>" style="color: #9ea3b8;" target="_blank">Lien de la maquette</a>
 					</div>
 				</td>
-				<td class="description">
-					<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
-				</td>
 				<td class="add-event">
-					<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+					<a class="btn btn-breez btn-sm check_proposition" data-toggle="modal" data-client="<?php echo $value['num_client'] ?>" data-target="#check_design" style="background: #9a9fbf;color: white;">Noter</a>
 				</td>
-
+				<td class="delete">
+					<div class="date-event">
+						<a class="btn-haxor" data-toggle="delete" data-client="<?php echo $value['num_client'] ?>" href="#">Supprimer</a>
+					</div>
+				</td>
 			</tr>
 			<?php
 		}
@@ -834,38 +846,36 @@ if(isset($_POST['search_empty'])){
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 
 		?>
-		<tr class="event-item">
+		<tr class="event-item week_<?php echo $semaine;?>">
 			<td class="upcoming">
 				<div class="date-event">
-					<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+					<svg class="olymp-small-calendar-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
 					<span class="day"><?php echo $jour;?></span>
 					<span class="month"><?php echo $months[(int)$m]; ?></span>
 				</div>
 			</td>
 			<td class="author">
 				<div class="event-author inline-items">
-					<div class="author-thumb">
-						<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
-					</div>
 					<div class="author-date">
-						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-						<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
+						<a class="author-name h6"><?php echo $value['num_client'] ?></a>
+						<time class="published"><?php utf8_encode($value['nom']).' '. utf8_encode($value['prenom']) ?></time>
 					</div>
 				</div>
 			</td>
 			<td class="location">
 				<div class="place inline-items">
-					<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-					<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+					<svg class="olymp-add-a-place-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+					<a href="<?php echo $value['lien_maquette'] ?>" style="color: #9ea3b8;" target="_blank">Lien de la maquette</a>
 				</div>
 			</td>
-			<td class="description">
-				<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
-			</td>
 			<td class="add-event">
-				<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
+				<a class="btn btn-breez btn-sm check_proposition" data-toggle="modal" data-client="<?php echo $value['num_client'] ?>" data-target="#check_design" style="background: #9a9fbf;color: white;">Noter</a>
 			</td>
-
+			<td class="delete">
+				<div class="date-event">
+					<a class="btn-haxor" data-toggle="delete" data-client="<?php echo $value['num_client'] ?>" href="#">Supprimer</a>
+				</div>
+			</td>
 		</tr>
 		<?php
 	}
@@ -874,7 +884,7 @@ if(isset($_POST['search_empty'])){
 if(isset($_POST['admin_search'])){
 	$search = $_POST['admin_search'];
 	$varsearch = "%" . $search . "%";
-	$requete_search = $bdd->prepare("SELECT * FROM client WHERE raison_social LIKE ? or num_client LIKE ? order by date_integration DESC");
+	$requete_search = $bdd->prepare("SELECT * FROM client inner join user on client.id_graph_maquette = user.id_user WHERE raison_social LIKE ? or num_client LIKE ? order by date_integration DESC");
 	$requete_search->bindParam(1, $varsearch);
 	$requete_search->bindParam(2, $varsearch);
 	$requete_search->execute();
@@ -887,125 +897,139 @@ if(isset($_POST['admin_search'])){
 
 		$m=$date_tab[1];
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-
+		if($value['id_etat']==1){
+			$class_etat="crea-maquette";
+			$class_img="img/Crea-maquette.png";
+		}elseif ($value['id_etat']==2) {
+			$class_etat="ctrl-maquette";
+			$class_img="img/Ctrl-maquette.png";
+		}elseif ($value['id_etat']==3) {
+			$class_etat="retour-crea";
+			$class_img="img/Retour-crea.png";
+		}elseif ($value['id_etat']==4) {
+			$class_etat="crea-graphique";
+			$class_img="img/Crea-graphique.png";
+		}elseif ($value['id_etat']==5) {
+			$class_etat="ctrl-design";
+			$class_img="img/Ctrl-design.png";
+		}elseif ($value['id_etat']==6) {
+			$class_etat="retour-crea";
+			$class_img="img/Retour-graphique.png";
+		}elseif ($value['id_etat']==7) {
+			$class_etat="site-valide";
+			$class_img="img/Site-valide.png";
+		}
 		?>
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6 change_card projet_<?php echo $value['id_client'];?> qualif_<?php echo $value['id_etat'];?>">
-			<div class="ui-block" data-mh="friend-groups-item">
-				<div class="friend-item friend-groups resetmh">
+		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="ui-block hauteur-card projet_<?php echo $value['id_client']; ?> qualif_<?php echo $value['id_etat']; ?>" data-mh="friend-groups-item">
+				<div class="friend-item friend-groups <?php echo $class_etat;?>">
 					<div class="friend-item-content">
-						<div class="more">
-							<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-							<ul class="more-dropdown">
-								<li>
-									<a class="modifier" data-toggle="modal" data-target="#change" href="#">Modifier la carte</a>
-								</li>
-								<li>
-									<a class="delete" href="#">Supprimer la carte</a>
-								</li>
-							</ul>
-						</div>
-						<div class="friend-avatar">
-							<div class="author-thumb">
-								<img src="img/crea_maquette.png" alt="Olympus">
+						<div class="friend-avatar entete-card">
+							<div class="author-thumb etat-card">
+								<img src="<?php echo $class_img;?>" alt="Olympus">
 							</div>
-							<div class="author-content">
-								<a href="#" class="h5 author-name raisonsocial"><?php echo $value['raison_social'];?></a>
+							<div class="author-content texte-card">
+								<a href="#" class="h5 author-name raisonsocial"><?php echo utf8_encode($value['raison_social']);?></a>
 								<div class="country numclient"><?php echo $value['num_client'];?></div>
 							</div>
 						</div>
-						<ul class="friends-harmonic">
-							<p>NOM DU GRAPH</p>
-						</ul>
-						<div class="control-block-button">
-							<a href="<?php echo $value['lien_CMS'];?><" target="_blank" class="cms btn btn-control bg-blue">
-								<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
+						<div class="control-block-button bouton-check">
+							<a href="<?php echo utf8_encode($value['lien_CMS']);?>" target="_blank" class="  btn btn-control bg-blue bouton-icone1 liencms" data-toggle="modal" data-target="#create-friend-group-add-friends">
+								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35%" version="1.1" height="35%" viewBox="0 0 64 64" enable-background="new 0 0 64 64">
+									<path d="m60.135,3.875c-5.156-5.166-13.545-5.168-18.697,0l-11.576,11.619c-0.788,0.791-0.788,2.074 0,2.865 0.79,0.792 2.067,0.792 2.856,0l11.576-11.618c3.578-3.589 9.401-3.587 12.984,0 3.578,3.591 3.578,9.435 0,13.024l-15.292,15.339c-1.732,1.739-4.038,2.697-6.49,2.697-2.451,0-4.758-0.959-6.492-2.697-0.789-0.792-2.067-0.792-2.857,0-0.788,0.791-0.788,2.074 0,2.865 2.499,2.505 5.818,3.885 9.35,3.885s6.848-1.381 9.347-3.885l15.292-15.338c5.152-5.17 5.152-13.584-0.001-18.756z" fill="#FFFFFF"/>
+									<path d="m31.015,45.904l-11.312,11.346c-1.732,1.739-4.039,2.697-6.491,2.697-2.451,0-4.759-0.958-6.489-2.697-3.578-3.591-3.578-9.434 0-13.023l15.289-15.338c3.582-3.588 9.406-3.588 12.983,0 0.789,0.793 2.067,0.793 2.856,0 0.789-0.791 0.789-2.072 0-2.864-5.152-5.17-13.541-5.17-18.697,0l-15.288,15.336c-5.155,5.17-5.155,13.584 4.44089e-16,18.754 2.497,2.506 5.816,3.885 9.346,3.885 3.531,0 6.853-1.379 9.348-3.885l11.31-11.345c0.79-0.791 0.79-2.074 0-2.865-0.788-0.792-2.067-0.792-2.855-0.001z" fill="#FFFFFF"/>
+								</svg>
 							</a>
-							<a href="check.php?idgpp=<?php echo $value['IDGPP'];?><" class="btn btn-control btn-grey-lighter">
-								<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
+							<a data-toggle="modal" data-target="#change" class="btn btn-control btn-grey-lighter bouton-icone2 modifier">
+								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="35%" height="35%" viewBox="0 0 394.893 394.893" style="enable-background:new 0 0 394.893 394.893;" xml:space="preserve">
+									<path d="M344.426,191.963c-6.904,0-12.5,5.597-12.5,12.5V350.91H25V43.982h246.57c6.904,0,12.5-5.597,12.5-12.5    c0-6.903-5.596-12.5-12.5-12.5H12.5c-6.903,0-12.5,5.597-12.5,12.5V363.41c0,6.903,5.597,12.5,12.5,12.5h331.926    c6.902,0,12.5-5.597,12.5-12.5V204.463C356.926,197.56,351.33,191.963,344.426,191.963z" fill="#FFFFFF"/>
+									<path d="M391.23,27.204c-4.881-4.881-12.795-4.881-17.678,0L169.957,230.801l-50.584-50.584c-4.882-4.881-12.796-4.881-17.678,0    c-4.881,4.882-4.881,12.796,0,17.678l59.423,59.423c2.441,2.44,5.64,3.661,8.839,3.661c3.199,0,6.398-1.221,8.839-3.661    L391.23,44.882C396.113,40,396.113,32.086,391.23,27.204z" fill="#FFFFFF"/>
+								</svg>
 							</a>
-							<input type="hidden" class="idgpp" value="<?php echo $value['IDGPP'];?>">
-							<input type="hidden" class="graph" value="<?php echo $value['id_graph_maquette'];?>">
+							<a class="btn btn-control btn-grey-lighter bouton-icone3 delete">
+							</a>
+							<input type="hidden" class="idgpp" value="<?php echo $value['IDGPP']; ?>">
+							<input type="hidden" class="graph" value="<?php echo $value['id_graph_maquette']; ?>">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<?php }
+	}
+
+
+	if(isset($_POST['admin_search_empty'])){
+		$requete_search = $bdd->prepare("SELECT * FROM client order by date_integration DESC");
+		$requete_search->execute();
+		$nb_result = $requete_search->rowCount();
+		$tab_search = array();
+		foreach ($requete_search as $key => $value) {
+			$date_tab=explode("-", $value['date_integration']);
+			$jour_tab=explode(" ",$date_tab[2]);
+			$jour=$jour_tab[0];
+
+			$m=$date_tab[1];
+			$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+		}
+	}
+
+	if(isset($_POST['lienveille'])){
+		$lienveille = $_POST['lienveille'];
+		$titreveille = $_POST['titreveille'];
+		$categorie = $_POST['categorie_veille'];
+		$file_arr = $_POST['file_veille'];
+		$file="";
+		$i=0;
+		foreach ($file_arr as $key => $value) {
+			if ($i!=0) {
+				$file.=";";
+			}
+			$file.=$value;
+			$i++;
+		}
+		$like_veille = 0;
+		$date_veille = date('Y-m-d H:i:s');
+		$description = $_POST['description_veille'];
+		$requete_veille = $bdd->prepare("INSERT INTO veille (titre, categorie, file, description, lien, date_veille, like_veille)	VALUES (?, ?, ?, ?, ?, ?, ?)");
+		$requete_veille->bindParam(1, $titreveille);
+		$requete_veille->bindParam(2, $categorie);
+		$requete_veille->bindParam(3, $file);
+		$requete_veille->bindParam(4, $description);
+		$requete_veille->bindParam(5, $lienveille);
+		$requete_veille->bindParam(6, $date_veille);
+		$requete_veille->bindParam(7, $like_veille);
+		$requete_veille->execute();
+
+		$requete_show_veille = $bdd->prepare("SELECT * from veille order by id_veille desc limit 1");
+		$requete_show_veille->execute();
+		foreach ($requete_show_veille as $key => $value) {?>
+		<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
+			<div class="ui-block">
+				<article class="hentry blog-post">
+
+					<div class="post-thumb">
+						<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
+					</div>
+
+					<div class="post-content">
+						<a href="#" class="h4 post-title"><?php echo($value['titre']) ?></a>
+						<p><?php echo($value['description']) ?>											</p>
+
+						<div class="author-date not-uppercase">
+							<div class="post__date">
+								<time class="published" datetime="2017-03-24T18:18">
+									<?php echo($value['date_veille']) ?>
+								</time>
+							</div>
+						</div>
+						<a href="#" class="post-add-icon inline-items" style="fill: #ff5e3a;color: #ff5e3a;"><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
+					</div>
+				</article>
+			</div>
+		</div>
 		<?php
 	}
-}
-
-
-if(isset($_POST['admin_search_empty'])){
-	$requete_search = $bdd->prepare("SELECT * FROM client order by date_integration DESC");
-	$requete_search->execute();
-	$nb_result = $requete_search->rowCount();
-	$tab_search = array();
-	foreach ($requete_search as $key => $value) {
-		$date_tab=explode("-", $value['date_integration']);
-		$jour_tab=explode(" ",$date_tab[2]);
-		$jour=$jour_tab[0];
-
-		$m=$date_tab[1];
-		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-	}
-}
-
-if(isset($_POST['lienveille'])){
-	$lienveille = $_POST['lienveille'];
-	$titreveille = $_POST['titreveille'];
-	$categorie = $_POST['categorie_veille'];
-	$file_arr = $_POST['file_veille'];
-	$file="";
-	$i=0;
-	foreach ($file_arr as $key => $value) {
-		if ($i!=0) {
-			$file.=";";
-		}
-		$file.=$value;
-		$i++;
-	}
-	$like_veille = 0;
-	$date_veille = date('Y-m-d H:i:s');
-	$description = $_POST['description_veille'];
-	$requete_veille = $bdd->prepare("INSERT INTO veille (titre, categorie, file, description, lien, date_veille, like_veille)	VALUES (?, ?, ?, ?, ?, ?, ?)");
-	$requete_veille->bindParam(1, $titreveille);
-	$requete_veille->bindParam(2, $categorie);
-	$requete_veille->bindParam(3, $file);
-	$requete_veille->bindParam(4, $description);
-	$requete_veille->bindParam(5, $lienveille);
-	$requete_veille->bindParam(6, $date_veille);
-	$requete_veille->bindParam(7, $like_veille);
-	$requete_veille->execute();
-
-	$requete_show_veille = $bdd->prepare("SELECT * from veille order by id_veille desc limit 1");
-	$requete_show_veille->execute();
-	foreach ($requete_show_veille as $key => $value) {?>
-	<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
-		<div class="ui-block">
-			<article class="hentry blog-post">
-
-				<div class="post-thumb">
-					<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
-				</div>
-
-				<div class="post-content">
-					<a href="#" class="h4 post-title"><?php echo($value['titre']) ?></a>
-					<p><?php echo($value['description']) ?>											</p>
-
-					<div class="author-date not-uppercase">
-						<div class="post__date">
-							<time class="published" datetime="2017-03-24T18:18">
-								<?php echo($value['date_veille']) ?>
-							</time>
-						</div>
-					</div>
-					<a href="#" class="post-add-icon inline-items" style="fill: #ff5e3a;color: #ff5e3a;"><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
-				</div>
-			</article>
-		</div>
-	</div>
-	<?php
-}
 }
 
 
@@ -1213,6 +1237,35 @@ if (isset($_POST['commentaire_remontees_refus'])) {
 	$requete_decline_remontee->execute();
 }
 
+if(isset($_POST['id_client_proposition'])){
+	$idClient = $_POST['id_client_proposition'];
+	$query_delete_prop = $bdd->prepare("DELETE FROM proposition_design WHERE num_client = ?");
+	$query_delete_prop->bindParam(1, $idClient);
+	$query_delete_prop->execute();
+}
+
+if(isset($_POST['date_naissance'])){
+	$date_naissance = $_POST['date_naissance'];
+	$newDate = date('Y-m-d', strtotime($date_naissance));
+	$id_graph=$_SESSION['id_graph'];
+	$query_change_birthday = $bdd->prepare("UPDATE user SET date_naissance = ? WHERE id_user = ?");
+	$query_change_birthday->bindParam(1, $newDate);
+	$query_change_birthday->bindParam(2, $id_graph);
+	$query_change_birthday->execute();
+}
+
+
+if(isset($_POST['mois_rappel'])){
+	$date = date('Y-m');
+	$varsearch = "%" . $date . "-%";
+	$user=$_SESSION['id_graph'];
+	$query_rappel_sitedumois = $bdd->prepare("SELECT id_proposition FROM proposition_design INNER JOIN user ON proposition_design.id_user = user.id_user WHERE date_proposition LIKE ? and id_manager = ?");
+	$query_rappel_sitedumois->bindParam(1, $varsearch);
+	$query_rappel_sitedumois->bindParam(2, $user);
+	$query_rappel_sitedumois->execute();
+	$nb = $query_rappel_sitedumois->rowCount();
+	echo $nb;
+}
 if (isset($_POST['newLeader'])) {
 	$newLeader=$_POST['newLeader'];
 	$newGraph=$_POST['newGraph'];
