@@ -111,7 +111,25 @@ if (isset($_SESSION['id_statut'])) {
 
 			<!-- Header -->
 
-			<?php include('header.php');?>
+			<?php 
+			if($_SESSION['id_statut']==1) {
+			//page graphistes 
+				include('header.php');
+			}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+				include('header.php');
+			}
+			elseif ($_SESSION['id_statut']==3) {
+			//page leader
+				include('header.php');
+			}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+				include('header_admin.php');
+			}elseif($_SESSION['id_statut']==5){
+			//page admin
+				include('header_admin.php');
+			}
+			?>
 
 			<!-- ... end Header -->
 
@@ -233,6 +251,9 @@ if (isset($_SESSION['id_statut'])) {
 											</td>
 											<td class="author">
 												<div class="event-author inline-items">
+													<div class="author-thumb">
+														<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
+													</div>
 													<div class="author-date">
 														<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
 													</div>
@@ -246,7 +267,7 @@ if (isset($_SESSION['id_statut'])) {
 												</div>
 											</td>
 											<td class="description">
-												<p class="description"><span>Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+												<p class="description"><strong>Description</strong>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 											</td>
 											<td class="add-event">
 												<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>

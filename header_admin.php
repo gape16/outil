@@ -17,7 +17,7 @@ $query_select_notif->bindParam(1, $id_graph);
 $query_select_notif->execute();
 $nb_notifs=$query_select_notif->rowCount();
 if($nb_notifs==0){
-  $query_insert_notif = $bdd->prepare("INSERT INTO notifications (notif_A, notif_B, notif_C, id_user) VALUES ('0','0','0',?)");
+  $query_insert_notif = $bdd->prepare("INSERT INTO notifications (notif_A, notif_B, notif_C, id_user, notif_D) VALUES ('0','0','0',?, '0')");
   $query_insert_notif->bindParam(1, $id_graph);
   $query_insert_notif->execute();
 }

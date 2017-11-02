@@ -3,7 +3,7 @@
 include('connexion_session.php');
 
 if (isset($_SESSION['id_statut'])) {
-	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 3) {
+	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 4) {
 		if (isset( $_GET['idgpp'])) {
 			if ($_GET['idgpp']!="") {
 				$id_graph=$_SESSION['id_graph'];
@@ -141,7 +141,25 @@ if (isset($_SESSION['id_statut'])) {
 
 				<!-- Header -->
 
-				<?php include('header.php');?>
+				<?php 
+				if($_SESSION['id_statut']==1) {
+			//page graphistes 
+					include('header.php');
+				}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+					include('header.php');
+				}
+				elseif ($_SESSION['id_statut']==3) {
+			//page leader
+					include('header.php');
+				}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+					include('header_admin.php');
+				}elseif($_SESSION['id_statut']==5){
+			//page admin
+					include('header_admin.php');
+				}
+				?>
 
 				<!-- ... end Header -->
 
@@ -449,6 +467,7 @@ if (isset($_SESSION['id_statut'])) {
 									  			})
 														}
 														$('#fullpage').fullpage({
+															lazyLoading: false,
 															onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
 																var leavingSlide = $(this);
 																<?php if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {?>

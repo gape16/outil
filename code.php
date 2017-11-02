@@ -157,7 +157,6 @@ $query_inser_code->execute();
 	::-webkit-scrollbar {
 		width: 12px;
 	}
-
 	::-webkit-scrollbar-thumb {
 		-webkit-box-shadow: inset 0 0 20px rgb(0, 0, 0);
 		border: 1px solid #343436;
@@ -185,7 +184,6 @@ $query_inser_code->execute();
 		display: none !important;
 	}
 </style>
-
 </head>
 
 <body id="prop-code">
@@ -222,7 +220,25 @@ $query_inser_code->execute();
 
 	<!-- Header -->
 
-	<?php include('header.php');?>
+	<?php 
+	if($_SESSION['id_statut']==1) {
+			//page graphistes 
+		include('header.php');
+	}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+		include('header.php');
+	}
+	elseif ($_SESSION['id_statut']==3) {
+			//page leader
+		include('header_leader.php');
+	}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+		include('header_controleur.php');
+	}elseif($_SESSION['id_statut']==5){
+			//page admin
+		include('header_admin.php');
+	}
+	?> 
 
 	<!-- ... end Header -->
 
@@ -259,8 +275,7 @@ $query_inser_code->execute();
 		<iframe></iframe>
 		<?php  if (!isset($_GET['id_code'])) {?>
 		<a href="#" class="option" data-toggle="modal" data-target="#check_code">Proposer le code</a>
-		<?php }?>
-
+		<?php } ?>
 	</section>
 
 </div>
@@ -331,6 +346,8 @@ $query_inser_code->execute();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 <script src="http://codemirror.net/lib/codemirror.js"></script>
+<!-- For JS -->
+<script src="http://codemirror.net/mode/javascript/javascript.js"></script>
 
 <!-- For HTML/XML -->
 <script src="http://codemirror.net/mode/xml/xml.js"></script>
@@ -339,8 +356,6 @@ $query_inser_code->execute();
 <!-- For CSS -->
 <script src="http://codemirror.net/mode/css/css.js"></script>
 
-<!-- For JS -->
-<script src="http://codemirror.net/mode/javascript/javascript.js"></script>
 <?php 
 if($_SESSION['id_statut']==1) {
 						//page graphistes 
@@ -360,13 +375,9 @@ elseif ($_SESSION['id_statut']==3) {
 	?><script src="js/notifications_admin.js"></script><?php
 }
 ?>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="js/charte.js"></script>
 <script>
 	(function() {
-
-		$('section#output').resizable();
-		$('section#code_editors').resizable();
 
 	// Base template
 	var base_tpl =

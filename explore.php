@@ -98,7 +98,25 @@ $query_inser_code->execute();
 
 	<!-- Header -->
 
-	<?php include('header.php');?>
+	<?php 
+	if($_SESSION['id_statut']==1) {
+			//page graphistes 
+		include('header.php');
+	}elseif  ($_SESSION['id_statut']==2){
+			//page  redacteurs
+		include('header.php');
+	}
+	elseif ($_SESSION['id_statut']==3) {
+			//page leader
+		include('header.php');
+	}elseif ($_SESSION['id_statut']==4) {
+			//page controleur
+		include('header_admin.php');
+	}elseif($_SESSION['id_statut']==5){
+			//page admin
+		include('header_admin.php');
+	}
+	?>
 
 	<!-- ... end Header -->
 
@@ -168,7 +186,7 @@ $query_inser_code->execute();
 							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
 								<div class="ui-block">
 									<article class="hentry blog-post">
-										<a class="opencode" target="_blank" href="code.php">
+										<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
 											<div class="post-content">
 												<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 												<h4><?php echo utf8_encode($value['titre']);?></h4>
@@ -244,11 +262,13 @@ $query_inser_code->execute();
 		<script>
 			$('.sorting-item').each(function(){
 				var id_code = $(this).find('input.id_code').val();
-				$(this).on('click', function(){
-					$(this).find('a.opencode').attr('href', function(){
-						return this.href + '?id_code=' + id_code + '';
+				if ($(this).is('[href$=id_code=]')){
+					$(this).on('click', function(){
+						$(this).find('a.opencode').attr('href', function(){
+							return this.href + '?id_code=' + id_code + '';
+						})
 					})
-				})
+				}
 			});
 
 			$('.search').keyup(function(){
