@@ -59,10 +59,10 @@ $query_inser_code->execute();
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 	<style>
-	.align-center {
-		width: 100%;
-	}
-</style>
+		.align-center {
+			width: 100%;
+		}
+	</style>
 </head>
 
 <body>
@@ -168,7 +168,7 @@ $query_inser_code->execute();
 							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
 								<div class="ui-block">
 									<article class="hentry blog-post">
-										<a class="opencode" target="_blank" href="code.php">
+										<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
 											<div class="post-content">
 												<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 												<h4><?php echo utf8_encode($value['titre']);?></h4>
