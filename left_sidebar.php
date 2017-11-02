@@ -53,7 +53,7 @@
      </li>
      <li>
       <a href="remontees.php">
-       <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+       <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
      </a>
    </li>
    <li>
@@ -134,7 +134,7 @@
      </li>
      <li>
       <a href="remontees.php">
-       <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+       <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
        <span class="left-menu-title">Les remontées</span>
      </a>
    </li>

@@ -169,7 +169,7 @@ $query_inser_code->execute();
 		font-size: 13px;
 	}
 	.option {
-		position: absolute;
+		position: fixed;
 		bottom: 10px;
 		right: 80px;
 		font-size: 14px;
@@ -257,10 +257,7 @@ $query_inser_code->execute();
 	<!-- Sandboxing -->
 	<section id="output">
 		<iframe></iframe>
-		<?php  
-		$url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-
-		if (!isset($_GET['id_code'])) {?>
+		<?php  if (!isset($_GET['id_code'])) {?>
 		<a href="#" class="option" data-toggle="modal" data-target="#check_code">Proposer le code</a>
 		<?php }?>
 
@@ -320,8 +317,6 @@ $query_inser_code->execute();
 <!-- Select / Sorting script -->
 <script src="js/selectize.min.js"></script>
 
-<!-- Select / Sorting script -->
-<script src="js/selectize.min.js"></script>
 
 <!-- Swiper / Sliders -->
 <script src="js/swiper.jquery.min.js"></script>

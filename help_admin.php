@@ -316,8 +316,7 @@ if (isset($_SESSION['id_statut'])) {
 			<script src="js/theme-plugins.js"></script>
 			<!-- Init functions -->
 			<script src="js/main.js"></script>
-			<script src="jsass.js"></script>
-			<script src="js/chat.js"/altercl></script>
+			<script src="js/chat.js"></script>
 			<!-- Select / Sorting script -->
 			<script src="js/selectize.min.js"></script>
 
@@ -326,6 +325,7 @@ if (isset($_SESSION['id_statut'])) {
 
 			<script src="js/mediaelement-and-player.min.js"></script>
 			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="js/alterclass.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 			<script src="js/charte.js"></script>

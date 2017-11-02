@@ -224,6 +224,7 @@ if (isset($_SESSION['id_statut'])) {
 				$(this).on('click', function(){
 					$(this).find('a.opencode').attr('href', function(){
 						return this.href + '?id_code=' + id_code + '';
+						console.log(id_code);
 					})
 				})
 			});

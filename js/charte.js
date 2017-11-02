@@ -351,16 +351,15 @@ $('.valider_achat').click(function(){
 						id_client: id_client
 					}
 				})
-				.done(function(data) {
-				// console.log(data);
-				swal(
-					'Demande validée!',
-					'Votre demande va être prise en compte!',
-					'success'
-					).then(function () {
-						location.reload();
+				.done(function() {
+					swal(
+						'Demande validée!',
+						'Votre demande va être prise en compte!',
+						'success'
+						).then(function () {
+							location.reload();
+						})
 					})
-				})
 			}else{
 				$('.liengetty').addClass('empty');
 				$('.liengetty').prev().html('L\'adresse n\'est pas valide');
