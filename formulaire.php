@@ -1415,3 +1415,201 @@ if(isset($_POST['stat_controleur_total'])){
 	$resultat_total_control=$query_stats_control_total->fetch();
 	print_r(json_encode($resultat_total_control));
 }
+
+if (isset($_POST['code_stat'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=date('Y');
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if (isset($_POST['achat_stat'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=date('Y');
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if (isset($_POST['aide_stat'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=date('Y');
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if(isset($_POST['stat_total'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=date('Y');
+	$tableau = array(); 
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	print_r(json_encode($tableau));
+}
+if (isset($_POST['code_stat_date'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['code_stat_date'];
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if (isset($_POST['achat_stat_date'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['achat_stat_date'];
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if (isset($_POST['aide_stat_date'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['aide_stat_date'];
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if(isset($_POST['stat_total_date'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['stat_total_date'];
+	$tableau = array(); 
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	print_r(json_encode($tableau));
+}
+
+if(isset($_POST['nb_code'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['nb_code'];
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	echo $query->rowCount();
+}
+
+if(isset($_POST['nb_achat'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['nb_achat'];
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	echo $query->rowCount();
+}
+
+if(isset($_POST['nb_aide'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['nb_aide'];
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $id_graph);
+	$query->execute();
+	echo $query->rowCount();
+}
