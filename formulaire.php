@@ -1613,3 +1613,126 @@ if(isset($_POST['nb_aide'])){
 	$query->execute();
 	echo $query->rowCount();
 }
+// stat.php pour chaque graph
+if (isset($_POST['code_stat_date_graph'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['code_stat_date_annee'];
+	$graph=$_POST['code_stat_date_graph'];
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if (isset($_POST['achat_stat_date_graph'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['achat_stat_date_annee'];
+	$graph=$_POST['achat_stat_date_graph'];
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if (isset($_POST['aide_stat_date_graph'])) {
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['aide_stat_date_annee'];
+	$graph=$_POST['aide_stat_date_graph'];
+	$tableau = array(); 
+	for ($i=1; $i <= 12; $i++) { 
+		if($i<10){
+			$u="0".$i;
+		}else{
+			$u=$i;
+		}
+		$varsearch = "%" . $annee . "-". $u ."%";
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+	}
+	print_r(json_encode($tableau));
+}
+
+if(isset($_POST['stat_total_date_graph'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['stat_total_date_annee'];
+	$graph=$_POST['stat_total_date_graph'];
+	$tableau = array(); 
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $graph);
+	$query->execute();
+	$tableau[]= $query->rowCount();
+	print_r(json_encode($tableau));
+}
+
+if(isset($_POST['nb_code_graph'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['nb_code_annee'];
+	$graph=$_POST['nb_code_graph'];
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $graph);
+	$query->execute();
+	echo $query->rowCount();
+}
+
+if(isset($_POST['nb_achat_graph'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['nb_achat_annee'];
+	$graph=$_POST['nb_achat_graph'];
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $graph);
+	$query->execute();
+	echo $query->rowCount();
+}
+
+if(isset($_POST['nb_aide_graph'])){
+	$id_graph=$_SESSION['id_graph'];
+	$annee=$_POST['nb_aide_annee'];
+	$graph=$_POST['nb_aide_graph'];
+	$varsearch = "%" . $annee . "-%";
+	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+	$query->bindParam(1, $varsearch);
+	$query->bindParam(2, $graph);
+	$query->execute();
+	echo $query->rowCount();
+}
