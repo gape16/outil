@@ -548,7 +548,7 @@ $('#description').keyup(function() {
 });
 
 
-$(".moproblem").on('click', function(e){
+$("body").on('click', ".moproblem", function(e){
 
 	var id_aide = $(this).data("id");
 	$(".id_aide").val(id_aide);
