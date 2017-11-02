@@ -283,7 +283,7 @@ if (isset($_SESSION['id_statut'])) {
 						</div>
 						<?php }?>
 						<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-xs-12 graphique_control">
-							<input type="hidden" value="<?php echo $value['id_user'];?>" class="controleur">
+							<input type="hidden" class="controleur">
 							<div class="ui-block" data-mh="pie-chart">
 								<div class="ui-block-title">
 									<div class="h6 title">Stats Controles totales</div>
@@ -344,7 +344,101 @@ if (isset($_SESSION['id_statut'])) {
 						</div>
 					</div>
 				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-sm-12 col-xs-12">
+							<div class="ui-block responsive-flex">
+								<div class="ui-block-title">
+									<div class="h6 title">Détails achats, aides, codes</div>
+									<select class="new_date">
+										<option value="<?php echo date('Y');?>" selected="selected">Année en cours</option>
+										<option value="<?php echo date('Y')-1;?>">Année <?php echo date('Y')-1;?></option>
+									</select>
+									<select class="new_graph">
+										<option value="0">Choisir un collaborateur</option>
+										<?php
+										$query_user=$bdd->prepare("SELECT * FROM user order by prenom asc");
+										$query_user->execute();
+										foreach ($query_user as $key => $value) {?>
+										<option value="<?php echo $value['id_user'];?>"><?php echo $value['prenom']." ".$value['nom'];?></option>
+										<?php }?>
+									</select>
+								</div>
 
+								<div class="ui-block-content neww">
+									<div class="chart-js chart-js-line-chart"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
+										<canvas id="line-chart" width="1222" height="331" style="display: block; width: 1222px; height: 331px;"></canvas>
+									</div>
+								</div>
+								<hr>
+								<div class="ui-block-content display-flex content-around neww">
+									<div class="chart-js chart-js-small-pie"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe>
+										<canvas id="pie-small-chart" width="90" height="90" style="display: block;"></canvas>
+									</div>
+
+									<div class="points points-block">
+
+										<span>
+											<span class="statistics-point bg-breez"></span>
+											Codes créés
+										</span>
+
+										<span>
+											<span class="statistics-point bg-yellow"></span>
+											Demandes d'achat
+										</span>
+
+										<span>
+											<span class="statistics-point bg-red" style="background: red;"></span>
+											Demandes d'aide
+										</span>
+									</div>
+
+									<div class="text-stat">
+										<?php
+										$id_graph=$_SESSION['id_graph'];
+										$annee=date('Y');
+										$varsearch = "%" . $annee . "-%";
+										$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+										$query->bindParam(1, $varsearch);
+										$query->bindParam(2, $id_graph);
+										$query->execute();
+
+										?>
+										<div class="count-stat nb_code"><?php echo $query->rowCount();?></div>
+										<div class="title">Total de codes créés</div>
+										<div class="sub-title">Cette année</div>
+									</div>
+
+									<div class="text-stat">
+										<?php
+										$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+										$query->bindParam(1, $varsearch);
+										$query->bindParam(2, $id_graph);
+										$query->execute();
+										?>
+										<div class="count-stat nb_achat"><?php echo $query->rowCount();?></div>
+										<div class="title">Total de demandes d'achat</div>
+										<div class="sub-title">Cette année</div>
+									</div>
+
+									<div class="text-stat">
+										<?php
+										$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+										$query->bindParam(1, $varsearch);
+										$query->bindParam(2, $id_graph);
+										$query->execute();
+										?>
+										<div class="count-stat nb_aide"><?php echo $query->rowCount();?></div>
+										<div class="title">Total demandes d'aide</div>
+										<div class="sub-title">Cette année</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
 
@@ -395,87 +489,65 @@ if (isset($_SESSION['id_statut'])) {
 				?>
 				<script>
 					$(function(){
-						var pieColorChart = document.getElementById("pie-color-chart");
-						$.ajax({
-							url: 'formulaire.php',
-							type: 'POST',
-							data: {stat_controleur_total: 'controleur'},
-						})
-						.done(function(data) {
-							var myObject = JSON.parse(data);
-							a=myObject['val_maquette_toto'];
-							b=myObject['retour_maquette_toto'];
-							c=myObject['val_cq_toto'];
-							d=myObject['retour_cq_toto'];
-							if (pieColorChart !== null) {
-								var ctx_pc = pieColorChart.getContext("2d");
-								var data_pc = {
-									labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
-									datasets: [
-									{
-										data: [a,b,c,d],
-										borderWidth: 0,
-										backgroundColor: [
-										"#7c5ac2",
-										"#08ddc1",
-										"#ff5e3a",
-										"#ffd71b"
-										]
-									}]
-								};
-
-								var pieColorEl = new Chart(ctx_pc, {
-									type: 'doughnut',
-									data: data_pc,
-									options: {
-										deferred: {           
-											delay: 300        
-										},
-										cutoutPercentage:93,
-										legend: {
-											display: false
-										},
-										animation: {
-											animateScale: true
-										}
-									}
-								});
-							}
-						})	
-						$(".graphique_control").each(function( index ){
-							var pieColorChart = document.getElementById("pie-color-chart"+index);
-							var controleur = $(this).find('.controleur').val();
+						$(".new_graph").on('change', function(){
+							$(".neww").css('display','flex');
+							var new_date = $('.new_date').val();
+							var new_graph=$(this).val();
 							$.ajax({
 								url: 'formulaire.php',
 								type: 'POST',
-								data: {stat_controleur: controleur},
+								data: {nb_code_annee: new_date, nb_code_graph: new_graph}
 							})
 							.done(function(data) {
-								var myObject = JSON.parse(data);
-								a=myObject['nb_validation_maquette'];
-								b=myObject['nb_retour_maquette'];
-								c=myObject['nb_validation_cq'];
-								d=myObject['nb_retour_cq'];
-								if (pieColorChart !== null) {
-									var ctx_pc = pieColorChart.getContext("2d");
-									var data_pc = {
-										labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
+								console.log(data);
+								$(".nb_code").html(data);
+							})
+							$.ajax({
+								url: 'formulaire.php',
+								type: 'POST',
+								data: {nb_achat_annee: new_date, nb_achat_graph:new_graph}
+							})
+							.done(function(data) {
+								$(".nb_achat").html(data);
+							})
+							$.ajax({
+								url: 'formulaire.php',
+								type: 'POST',
+								data: {nb_aide_annee: new_date, nb_aide_graph:new_graph}
+							})
+							.done(function(data) {
+								$(".nb_aide").html(data);
+							})
+
+							var pieSmallChart = document.getElementById("pie-small-chart");
+
+							if (pieSmallChart !== null) {
+								var ctx_sc = pieSmallChart.getContext("2d");
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {stat_total_date_annee: new_date, stat_total_date_graph:new_graph}
+								})
+								.done(function(data) {
+									console.log(data);
+									var new_total = JSON.parse(data);
+									var data_sc = {
+										labels: ["Codes créés", "Demandes d'achat", "Demandes d'aide"],
 										datasets: [
 										{
-											data: [a,b,c,d],
+											data: new_total,
 											borderWidth: 0,
 											backgroundColor: [
-											"#7c5ac2",
 											"#08ddc1",
-											"#ff5e3a",
-											"#ffd71b"
+											"#ffdc1b",
+											"#ef3d4c"
 											]
 										}]
 									};
 
-									var pieColorEl = new Chart(ctx_pc, {
+									var pieSmallEl = new Chart(ctx_sc, {
 										type: 'doughnut',
-										data: data_pc,
+										data: data_sc,
 										options: {
 											deferred: {           
 												delay: 300        
@@ -489,17 +561,404 @@ if (isset($_SESSION['id_statut'])) {
 											}
 										}
 									});
-								}
-							})				
+								})
+							}
+
+
+
+							var lineChart = document.getElementById("line-chart");
+
+							if (lineChart !== null) {
+								var ctx_lc = lineChart.getContext("2d");
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {code_stat_date_annee: new_date, code_stat_date_graph : new_graph}
+								})
+								.done(function(data) {
+									var new_data_code = JSON.parse(data);
+									$.ajax({
+										url: 'formulaire.php',
+										type: 'POST',
+										data: {achat_stat_date_annee: new_date, achat_stat_date_graph:new_graph}
+									}).done(function(data2) {
+										var new_data_achat = JSON.parse(data2);		
+										$.ajax({
+											url: 'formulaire.php',
+											type: 'POST',
+											data: {aide_stat_date_annee: new_date, aide_stat_date_graph:new_graph}
+										}).done(function(data3) {
+											var new_data_aide = JSON.parse(data3);	
+											var data_lc = {
+												labels: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
+												datasets: [
+												{
+													label: " - Création de code",
+													borderColor: "#08ddc1",
+													borderWidth: 4,
+													pointBorderColor: "#08ddc1",
+													pointBackgroundColor: "#fff",
+													pointBorderWidth: 4,
+													pointRadius: 6,
+													pointHoverRadius: 8,
+													fill: false,
+													lineTension:0,
+													data: new_data_code
+												},
+												{
+													label: " - demandes d'achat",
+													borderColor: "#ffdc1b",
+													borderWidth: 4,
+													pointBorderColor: "#ffdc1b",
+													pointBackgroundColor: "#fff",
+													pointBorderWidth: 4,
+													pointRadius: 6,
+													pointHoverRadius: 8,
+													fill: false,
+													lineTension:0,
+													data: new_data_achat
+												},
+												{
+													label: " - demandes d'aide",
+													borderColor: "#ef3d4c",
+													borderWidth: 4,
+													pointBorderColor: "#ef3d4c",
+													pointBackgroundColor: "#fff",
+													pointBorderWidth: 4,
+													pointRadius: 6,
+													pointHoverRadius: 8,
+													fill: false,
+													lineTension:0,
+													data: new_data_aide
+												}]
+											};
+
+											var lineChartEl = new Chart(ctx_lc, {
+												type: 'line',
+												data: data_lc,
+												options: {
+													legend: {
+														display: false
+													},
+													responsive: true,
+													scales: {
+														xAxes: [{
+															ticks: {
+																fontColor: '#888da8'
+															},
+															gridLines: {
+																color: "#f0f4f9"
+															}
+														}],
+														yAxes: [{
+															gridLines: {
+																color: "#f0f4f9"
+															},
+															ticks: {
+																beginAtZero:true,
+																fontColor: '#888da8'
+															}
+														}]
+													}
+												}
+											});
+										})	
+									})
+								})
+							}
+
 						})
-					})
-				</script>
-			</body>
-			</html>
-			<?php }else{
-				header('Location: stats.php');
-			}
-		}else{
-			header('Location: login.php');
+$(".new_date").on('change', function(){
+	var new_date = $(this).val();
+	var new_graph=$(".new_graph").val();
+	if(new_graph==0){
+		alert('choisir un collaborateur');
+	}else{
+		$(".neww").css('display','flex');
+		$.ajax({
+			url: 'formulaire.php',
+			type: 'POST',
+			data: {nb_code_annee: new_date, nb_code_graph: new_graph}
+		})
+		.done(function(data) {
+			$(".nb_code").html(data);
+		})
+		$.ajax({
+			url: 'formulaire.php',
+			type: 'POST',
+			data: {nb_achat_annee: new_date, nb_achat_graph:new_graph}
+		})
+		.done(function(data) {
+			$(".nb_achat").html(data);
+		})
+		$.ajax({
+			url: 'formulaire.php',
+			type: 'POST',
+			data: {nb_aide_annee: new_date, nb_aide_graph:new_graph}
+		})
+		.done(function(data) {
+			$(".nb_aide").html(data);
+		})
+
+		var pieSmallChart = document.getElementById("pie-small-chart");
+
+		if (pieSmallChart !== null) {
+			var ctx_sc = pieSmallChart.getContext("2d");
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {stat_total_date_annee: new_date, stat_total_date_graph:new_graph}
+			})
+			.done(function(data) {
+				var new_total = JSON.parse(data);
+				var data_sc = {
+					labels: ["Codes créés", "Demandes d'achat", "Demandes d'aide"],
+					datasets: [
+					{
+						data: new_total,
+						borderWidth: 0,
+						backgroundColor: [
+						"#08ddc1",
+						"#ffdc1b",
+						"#ef3d4c"
+						]
+					}]
+				};
+
+				var pieSmallEl = new Chart(ctx_sc, {
+					type: 'doughnut',
+					data: data_sc,
+					options: {
+						deferred: {           
+							delay: 300        
+						},
+						cutoutPercentage:93,
+						legend: {
+							display: false
+						},
+						animation: {
+							animateScale: true
+						}
+					}
+				});
+			})
 		}
-		?>
+
+
+
+		var lineChart = document.getElementById("line-chart");
+
+		if (lineChart !== null) {
+			var ctx_lc = lineChart.getContext("2d");
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {code_stat_date_annee: new_date, code_stat_date_graph : new_graph}
+			})
+			.done(function(data) {
+				console.log(data);
+				var new_data_code = JSON.parse(data);
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {achat_stat_date_annee: new_date, achat_stat_date_graph:new_graph}
+				}).done(function(data2) {
+					var new_data_achat = JSON.parse(data2);		
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {aide_stat_date_annee: new_date, aide_stat_date_graph:new_graph}
+					}).done(function(data3) {
+						var new_data_aide = JSON.parse(data3);	
+						var data_lc = {
+							labels: ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"],
+							datasets: [
+							{
+								label: " - Création de code",
+								borderColor: "#08ddc1",
+								borderWidth: 4,
+								pointBorderColor: "#08ddc1",
+								pointBackgroundColor: "#fff",
+								pointBorderWidth: 4,
+								pointRadius: 6,
+								pointHoverRadius: 8,
+								fill: false,
+								lineTension:0,
+								data: new_data_code
+							},
+							{
+								label: " - demandes d'achat",
+								borderColor: "#ffdc1b",
+								borderWidth: 4,
+								pointBorderColor: "#ffdc1b",
+								pointBackgroundColor: "#fff",
+								pointBorderWidth: 4,
+								pointRadius: 6,
+								pointHoverRadius: 8,
+								fill: false,
+								lineTension:0,
+								data: new_data_achat
+							},
+							{
+								label: " - demandes d'aide",
+								borderColor: "#ef3d4c",
+								borderWidth: 4,
+								pointBorderColor: "#ef3d4c",
+								pointBackgroundColor: "#fff",
+								pointBorderWidth: 4,
+								pointRadius: 6,
+								pointHoverRadius: 8,
+								fill: false,
+								lineTension:0,
+								data: new_data_aide
+							}]
+						};
+
+						var lineChartEl = new Chart(ctx_lc, {
+							type: 'line',
+							data: data_lc,
+							options: {
+								legend: {
+									display: false
+								},
+								responsive: true,
+								scales: {
+									xAxes: [{
+										ticks: {
+											fontColor: '#888da8'
+										},
+										gridLines: {
+											color: "#f0f4f9"
+										}
+									}],
+									yAxes: [{
+										gridLines: {
+											color: "#f0f4f9"
+										},
+										ticks: {
+											beginAtZero:true,
+											fontColor: '#888da8'
+										}
+									}]
+								}
+							}
+						});
+					})	
+				})
+			})
+		}
+	}
+})
+})
+
+</script>
+<script>
+	$(function(){
+		var pieColorChart = document.getElementById("pie-color-chart");
+		$.ajax({
+			url: 'formulaire.php',
+			type: 'POST',
+			data: {stat_controleur_total: 'controleur'},
+		})
+		.done(function(data) {
+			var myObject = JSON.parse(data);
+			a=myObject['val_maquette_toto'];
+			b=myObject['retour_maquette_toto'];
+			c=myObject['val_cq_toto'];
+			d=myObject['retour_cq_toto'];
+			if (pieColorChart !== null) {
+				var ctx_pc = pieColorChart.getContext("2d");
+				var data_pc = {
+					labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
+					datasets: [
+					{
+						data: [a,b,c,d],
+						borderWidth: 0,
+						backgroundColor: [
+						"#7c5ac2",
+						"#08ddc1",
+						"#ff5e3a",
+						"#ffd71b"
+						]
+					}]
+				};
+
+				var pieColorEl = new Chart(ctx_pc, {
+					type: 'doughnut',
+					data: data_pc,
+					options: {
+						deferred: {           
+							delay: 300        
+						},
+						cutoutPercentage:93,
+						legend: {
+							display: false
+						},
+						animation: {
+							animateScale: true
+						}
+					}
+				});
+			}
+		})	
+		$(".graphique_control").each(function( index ){
+			var pieColorChart = document.getElementById("pie-color-chart"+index);
+			var controleur = $(this).find('.controleur').val();
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {stat_controleur: controleur},
+			})
+			.done(function(data) {
+				var myObject = JSON.parse(data);
+				a=myObject['nb_validation_maquette'];
+				b=myObject['nb_retour_maquette'];
+				c=myObject['nb_validation_cq'];
+				d=myObject['nb_retour_cq'];
+				if (pieColorChart !== null) {
+					var ctx_pc = pieColorChart.getContext("2d");
+					var data_pc = {
+						labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
+						datasets: [
+						{
+							data: [a,b,c,d],
+							borderWidth: 0,
+							backgroundColor: [
+							"#7c5ac2",
+							"#08ddc1",
+							"#ff5e3a",
+							"#ffd71b"
+							]
+						}]
+					};
+
+					var pieColorEl = new Chart(ctx_pc, {
+						type: 'doughnut',
+						data: data_pc,
+						options: {
+							deferred: {           
+								delay: 300        
+							},
+							cutoutPercentage:93,
+							legend: {
+								display: false
+							},
+							animation: {
+								animateScale: true
+							}
+						}
+					});
+				}
+			})				
+		})
+	})
+</script>
+</body>
+</html>
+<?php }else{
+	header('Location: stats.php');
+}
+}else{
+	header('Location: login.php');
+}
+?>
