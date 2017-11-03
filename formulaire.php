@@ -325,9 +325,11 @@ if(isset($_POST['likelecommentaire'])){
 	$nb_lik = $query_sel_lik->rowCount();
 // echo $nb_lik;
 	if($nb_lik ==0){
-		$query_ins_lik = $bdd->prepare("INSERT INTO like_com (id_graph, id_com) VALUES (?, ?)");
+		$date_come=date('Y-m-d H:i:s');
+		$query_ins_lik = $bdd->prepare("INSERT INTO like_com (id_graph, id_com, date_like_com) VALUES (?, ?,?)");
 		$query_ins_lik->bindParam(1, $id_graph);
 		$query_ins_lik->bindParam(2, $id_com);
+		$query_ins_lik->bindParam(3, $date_come);
 		$query_ins_lik->execute();
 		echo "ok";
 		$query_up_lik = $bdd->prepare("UPDATE commentaires_aide SET like_com = ? where id_commentaires_aide = ?");
@@ -347,9 +349,11 @@ if(isset($_POST['likelaveille'])){
 	$nb_lik = $query_sel_lik->rowCount();
 // echo $nb_lik;
 	if($nb_lik ==0){
-		$query_ins_lik = $bdd->prepare("INSERT INTO like_veille (id_graph, id_veille) VALUES (?, ?)");
+		$date_veil=date('Y-m-d H:i:s');
+		$query_ins_lik = $bdd->prepare("INSERT INTO like_veille (id_graph, id_veille,date_like_veille) VALUES (?, ?,?)");
 		$query_ins_lik->bindParam(1, $id_graph);
 		$query_ins_lik->bindParam(2, $id_veille);
+		$query_ins_lik->bindParam(3, $date_veil);
 		$query_ins_lik->execute();
 		echo "ok";
 		$query_up_lik = $bdd->prepare("UPDATE veille SET like_veille = ? where id_veille = ?");
