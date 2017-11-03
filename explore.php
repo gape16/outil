@@ -59,10 +59,10 @@ $query_inser_code->execute();
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 	<style>
-	.align-center {
-		width: 100%;
-	}
-</style>
+		.align-center {
+			width: 100%;
+		}
+	</style>
 </head>
 
 <body>
@@ -150,7 +150,7 @@ $query_inser_code->execute();
 			</div>
 		</div>
 
-		<img class="img-bottom" src="img/blog_bottom.png" alt="friends">
+		<img class="img-bottom" src="img/account_bottom.png" alt="friends">
 	</div>
 
 	<!-- Code Editors -->

@@ -89,388 +89,389 @@ if (isset($_SESSION['id_statut'])) {
 					<link rel="stylesheet" href="css/main.css">
 
 					<style>
-					body{
-						overflow-y: hidden;
-					}
-					.btn-danger {
-						color: #fff;
-						background-color: #5cb85c !important;
-						border-color: #5cb85c!important;
-					}
-					.btn-success {
-						color: #fff;
-						background-color: #d9534f!important;
-						border-color: #d9534f!important;
-					}
-					.container.custom{
-						max-width: 100%;
-					}
-				</style>
-			</head>
-			<body>
+						body{
+							overflow-y: hidden;
+						}
+						.btn-danger {
+							color: #fff;
+							background-color: #5cb85c !important;
+							border-color: #5cb85c!important;
+						}
+						.btn-success {
+							color: #fff;
+							background-color: #d9534f!important;
+							border-color: #d9534f!important;
+						}
+						.container.custom{
+							max-width: 100%;
+						}
+					</style>
+				</head>
+				<body>
 
-				<!-- Fixed Sidebar Left -->
-				<?php 
-				if($_SESSION['id_statut']==1) {
+					<!-- Fixed Sidebar Left -->
+					<?php 
+					if($_SESSION['id_statut']==1) {
 			//page graphistes 
-					include('left_sidebar.php');
-				}elseif  ($_SESSION['id_statut']==2){
+						include('left_sidebar.php');
+					}elseif  ($_SESSION['id_statut']==2){
 			//page  redacteurs
-					include('left_sidebar_redac.php');
-				}
-				elseif ($_SESSION['id_statut']==3) {
+						include('left_sidebar_redac.php');
+					}
+					elseif ($_SESSION['id_statut']==3) {
 			//page leader
-					include('left_sidebar_leader.php');
-				}elseif ($_SESSION['id_statut']==4) {
+						include('left_sidebar_leader.php');
+					}elseif ($_SESSION['id_statut']==4) {
 			//page controleur
-					include('left_sidebar_controleur.php');
-				}elseif($_SESSION['id_statut']==5){
+						include('left_sidebar_controleur.php');
+					}elseif($_SESSION['id_statut']==5){
 			//page admin
-					include('left_sidebar_admin.php');
-				}
-				?>
+						include('left_sidebar_admin.php');
+					}
+					?>
 
-				<!-- ... end Fixed Sidebar Left -->
+					<!-- ... end Fixed Sidebar Left -->
 
-				<!-- Fixed Sidebar Right -->
+					<!-- Fixed Sidebar Right -->
 
-				<?php include('fixed_sidebar_right.php');?>
+					<?php include('fixed_sidebar_right.php');?>
 
-				<!-- ... end Fixed Sidebar Right -->
+					<!-- ... end Fixed Sidebar Right -->
 
 
-				<!-- Header -->
+					<!-- Header -->
 
-				<?php 
-				if($_SESSION['id_statut']==1) {
+					<?php 
+					if($_SESSION['id_statut']==1) {
 			//page graphistes 
-					include('header.php');
-				}elseif  ($_SESSION['id_statut']==2){
+						include('header.php');
+					}elseif  ($_SESSION['id_statut']==2){
 			//page  redacteurs
-					include('header.php');
-				}
-				elseif ($_SESSION['id_statut']==3) {
+						include('header.php');
+					}
+					elseif ($_SESSION['id_statut']==3) {
 			//page leader
-					include('header.php');
-				}elseif ($_SESSION['id_statut']==4) {
+						include('header.php');
+					}elseif ($_SESSION['id_statut']==4) {
 			//page controleur
-					include('header_admin.php');
-				}elseif($_SESSION['id_statut']==5){
+						include('header_admin.php');
+					}elseif($_SESSION['id_statut']==5){
 			//page admin
-					include('header_admin.php');
-				}
-				?>
+						include('header_admin.php');
+					}
+					?>
 
-				<!-- ... end Header -->
-
-
-				<!-- Responsive Header -->
-
-				<?php include('responsive_header.php');?>
-
-				<!-- ... end Responsive Header -->
-
-				<!-- ... end Responsive Header -->
+					<!-- ... end Header -->
 
 
-				<div class="container custom">
-					<div class="row">
-						<div id="fullpage">
-							<div id="loader-wrapper">
-								<div id="loader"></div>
+					<!-- Responsive Header -->
 
-								<div class="loader-section section-left"></div>
-								<div class="loader-section section-right"></div>
+					<?php include('responsive_header.php');?>
 
-							</div>
-							<div class="section">
-								<input class="idgpp" type="hidden" value="<?php echo $_GET['idgpp']; ?>">
-								<?php if($etat_test['envoi_maquette'] == $id_graph || $etat_test['envoi_maquette'] == 0){?>
-								<input class="use" type="hidden" value="0">
-								<?php }else{ ?>
-								<input class="use" type="hidden" value="1">
-								<?php } ?>
-								<input class="etat_final" type="hidden" value="<?php echo $etat_test['id_etat']; ?>">
-								<input class="use_nom" type="hidden" value="<?php echo $user['prenom']; ?> <?php echo $user['nom']; ?>">
-								<?php 
-								if($etat_test['envoi_maquette']==0){
-									$ig=utf8_decode($_GET['idgpp']);
-									$requete_up_pret = $bdd->prepare('UPDATE client set envoi_maquette=? where IDGPP = ?');
-									$requete_up_pret->bindParam(1, $id_graph);
-									$requete_up_pret->bindParam(2, $ig);
-									$requete_up_pret->execute();
-								}
-								if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {
-									foreach ($requete as $key => $value) {
-										$valueetat = 1;
-										if ($etat_test['id_etat'] == 1 || $etat_test['id_etat'] == 4) {
-											$content = $bdd->prepare('SELECT * from pointcheck where '. $etat .' = ? and id_categorie = ?');
-											$content->bindParam(1, $valueetat);
-											$content->bindParam(2, $value['id_categorie']);
-											$content->execute();
-										}else{
-											$ig=$_GET['idgpp'];
-											if($etat_test['id_etat']== 2 || $etat_test['id_etat'] == 3){
-												$etat_control=1;
+					<!-- ... end Responsive Header -->
+
+					<!-- ... end Responsive Header -->
+
+
+					<div class="container custom">
+						<div class="row">
+							<div id="fullpage">
+								<div id="loader-wrapper">
+									<div id="loader"></div>
+
+									<div class="loader-section section-left"></div>
+									<div class="loader-section section-right"></div>
+
+								</div>
+								<div class="section">
+									<input class="idgpp" type="hidden" value="<?php echo $_GET['idgpp']; ?>">
+									<?php if($etat_test['envoi_maquette'] == $id_graph || $etat_test['envoi_maquette'] == 0){?>
+									<input class="use" type="hidden" value="0">
+									<?php }else{ ?>
+									<input class="use" type="hidden" value="1">
+									<?php } ?>
+									<input class="etat_final" type="hidden" value="<?php echo $etat_test['id_etat']; ?>">
+									<input class="use_nom" type="hidden" value="<?php echo $user['prenom']; ?> <?php echo $user['nom']; ?>">
+									<?php 
+									if($etat_test['envoi_maquette']==0){
+										$ig=utf8_decode($_GET['idgpp']);
+										$requete_up_pret = $bdd->prepare('UPDATE client set envoi_maquette=? where IDGPP = ?');
+										$requete_up_pret->bindParam(1, $id_graph);
+										$requete_up_pret->bindParam(2, $ig);
+										$requete_up_pret->execute();
+									}
+									if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {
+										foreach ($requete as $key => $value) {
+											$valueetat = 1;
+											if ($etat_test['id_etat'] == 1 || $etat_test['id_etat'] == 4) {
+												$content = $bdd->prepare('SELECT * from pointcheck where '. $etat .' = ? and id_categorie = ?');
+												$content->bindParam(1, $valueetat);
+												$content->bindParam(2, $value['id_categorie']);
+												$content->execute();
 											}else{
-												$etat_control=4;
+												$ig=$_GET['idgpp'];
+												if($etat_test['id_etat']== 2 || $etat_test['id_etat'] == 3){
+													$etat_control=1;
+												}else{
+													$etat_control=4;
+												}
+												$content = $bdd->prepare('SELECT * from pointcheck inner join controle on pointcheck.id_check = controle.id_check where '. $etat .' = ? and id_categorie = ? and controle.id_gpp=? and controle.etat = ?');
+												$content->bindParam(1, $valueetat);
+												$content->bindParam(2, $value['id_categorie']);
+												$content->bindParam(3, $ig);
+												$content->bindParam(4, $etat_control);
+												$content->execute();
 											}
-											$content = $bdd->prepare('SELECT * from pointcheck inner join controle on pointcheck.id_check = controle.id_check where '. $etat .' = ? and id_categorie = ? and controle.id_gpp=? and controle.etat = ?');
-											$content->bindParam(1, $valueetat);
-											$content->bindParam(2, $value['id_categorie']);
-											$content->bindParam(3, $ig);
-											$content->bindParam(4, $etat_control);
-											$content->execute();
-										}
 
-										?>
-										<div class="slide">
-											<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="ui-block">
-													<div class="ui-block-title">
-														<h3 class="title"><?php echo  $value['nom_categorie']; ?></h3>
+											?>
+											<div class="slide">
+												<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+													<div class="ui-block">
+														<div class="ui-block-title">
+															<h3 class="title"><?php echo  $value['nom_categorie']; ?></h3>
+														</div>
 													</div>
 												</div>
-											</div>
-											<div class="container custom">
-												<div class="row">
-													<?php foreach ($content as $card){ ?>
-													<!-- point check -->
-													<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  $card['id_check']; ?>">
-														<div class="flip-container">
-															<div class="ui-block box-diagonal front <?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) { if($card['commentaire_graph'] != ""){echo 'box-orange';}}else{ if(isset($card['commentaire_controleur'])){if($card['commentaire_controleur']!=''){echo 'box-orange';}}} ?>">
-																<div class="available-widget">
-																	<div>
-																		<div class="infos-check">
-																			<h4 class="title"><?php echo  $card['titre']; ?></h4>
-																			<img alt="" class="illu" src="<?php echo  $card['picto']; ?>">
-																			<p class="desc"><?php echo $card['description'];?></p>
-																		</div>
-																		<label class="checkbox <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { echo 'impossible'; }?> <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { if($card['reponse']==1){echo 'box-valide ';}}?>">
-																			<input name="optionsCheckboxes" type="checkbox" <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {
-																				if($card['reponse']==1){echo "checked ";}
-																				echo "disabled";}?>>
-																				<span class="checkbox-material"><span class="check"></span></span>
-																				<div class="voirplus">
-																					<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
-																				</div>
-																			</label>
-																		</div>
-																	</div>
-																</div>
-																<div class="ui-block box-diagonal back">
+												<div class="container custom">
+													<div class="row">
+														<?php foreach ($content as $card){ ?>
+														<!-- point check -->
+														<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  $card['id_check']; ?>">
+															<div class="flip-container">
+																<div class="ui-block box-diagonal front <?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) { if($card['commentaire_graph'] != ""){echo 'box-orange';}}else{ if(isset($card['commentaire_controleur'])){if($card['commentaire_controleur']!=''){echo 'box-orange';}}} ?>">
 																	<div class="available-widget">
-																		<div class="checkbox">
-																			<h4 class="title">Votre commentaire</h4>
-																			<div class="fermer">&#735;</div>
-																			<div class="form-group label-floating is-empty">
-																				<label class="control-label"></label>
-																				<?php if($etat_test['id_etat'] == 1 || $etat_test['id_etat'] == 4){?>
-																				<textarea name="description" id="description_graph" cols="30" rows="10"></textarea>
-																				<?php }?>
-																				<?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) {?>
-																				<?php if($card['commentaire_graph'] != ""){echo "Commentaire Graph:<br><span style='color:red;'>".$card['commentaire_graph']."</span><br><br>";?>
-																					réponse: <?php } ?>
-																					<textarea name="description" id="description_control" cols="30" rows="10"><?php echo $card['commentaire_controleur'];?></textarea>
-																					<input type="hidden" id="description_graph" value="<?php echo $card['commentaire_graph'];?>">
-																					<?php }?>
-																					<?php if ($etat_test['id_etat'] == 3 || $etat_test['id_etat'] == 6) {?>
-																					<?php  if($card['commentaire_controleur'] != ""){ echo "Commentaire Contrôleur:<br><span style='color:red;'>".$card['commentaire_controleur']."</span><br><br>";?>
-																						réponse: <?php }?>
-																						<textarea name="description" id="description_graph" cols="30" rows="10"><?php echo $card['commentaire_graph'];?></textarea>
-																						<input type="hidden" id="description_control" value="<?php echo $card['commentaire_controleur'];?>">
-																						<?php }?>
-																					</div>
+																		<div>
+																			<div class="infos-check">
+																				<h4 class="title"><?php echo  $card['titre']; ?></h4>
+																				<img alt="" class="illu" src="<?php echo  $card['picto']; ?>">
+																				<p class="desc"><?php echo $card['description'];?></p>
+																			</div>
+																			<label class="checkbox <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { echo 'impossible'; }?> <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { if($card['reponse']==1){echo 'box-valide ';}}?>">
+																				<input name="optionsCheckboxes" type="checkbox" <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {
+																					if($card['reponse']==1){echo "checked ";}
+																					echo "disabled";}?>>
+																					<span class="checkbox-material"><span class="check"></span></span>
 																					<div class="voirplus">
 																						<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
 																					</div>
-																				</div>
+																				</label>
 																			</div>
 																		</div>
 																	</div>
-																	<!--end point check-->
-																</div>
-																<?php }
-																?>
-																<!--end row au dessous-->	
-															</div>
-															<!-- end container-->
-														</div>
-														<!-- end slide-->
-													</div>
-													<?php }
-												}else{
-													$valueetat = 1;
-													$content_fin = $bdd->prepare('SELECT * from pointcheck inner join controle on pointcheck.id_check = controle.id_check where '. $etat .' = ? and controle.id_gpp=? and commentaire_controleur != "" ');
-													$content_fin->bindParam(1, $valueetat);
-													$content_fin->bindParam(2, $_GET['idgpp']);
-													$content_fin->execute();
-													?>
-													<div class="slide">
-														<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-															<div class="ui-block">
-																<div class="ui-block-title">
-																	<h3 class="title">Les retours contrôleurs</h3>
-																</div>
-															</div>
-														</div>
-														<div class="container custom">
-															<div class="row">
-																<?php foreach ($content_fin as $card){ ?>
-																<!-- point check -->
-																<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  $card['id_check']; ?>">
-																	<div class="flip-container">
-																		<div class="ui-block box-diagonal front <?php if(isset($card['commentaire_controleur'])){if($card['commentaire_controleur']!=''){echo 'box-orange';}} ?>">
-																			<div class="available-widget">
-																				<div>
-																					<div class="infos-check">
-																						<h4 class="title"><?php echo  $card['titre']; ?></h4>
-																						<img alt="" class="illu" src="<?php echo  $card['picto']; ?>">
-																						<p class="desc"><?php echo $card['description'];?></p>
-																					</div>
-																					<label class="checkbox <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { echo 'impossible'; }?> <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { if($card['reponse']==1){echo 'box-valide ';}}?>">
-																						<input name="optionsCheckboxes" type="checkbox" <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {
-																							if($card['reponse']==1){echo "checked ";}
-																							echo "disabled";}?>>
-																							<span class="checkbox-material"><span class="check"></span></span>
-																							<div class="voirplus">
-																								<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
-																							</div>
-																						</label>
+																	<div class="ui-block box-diagonal back">
+																		<div class="available-widget">
+																			<div class="checkbox">
+																				<h4 class="title">Votre commentaire</h4>
+																				<div class="fermer">&#735;</div>
+																				<div class="form-group label-floating is-empty">
+																					<label class="control-label"></label>
+																					<?php if($etat_test['id_etat'] == 1 || $etat_test['id_etat'] == 4){?>
+																					<textarea name="description" id="description_graph" cols="30" rows="10"></textarea>
+																					<?php }?>
+																					<?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) {?>
+																					<?php if($card['commentaire_graph'] != ""){echo "Commentaire Graph:<br><span style='color:red;'>".$card['commentaire_graph']."</span><br><br>";?>
+																						réponse: <?php } ?>
+																						<textarea name="description" id="description_control" cols="30" rows="10"><?php echo $card['commentaire_controleur'];?></textarea>
+																						<input type="hidden" id="description_graph" value="<?php echo $card['commentaire_graph'];?>">
+																						<?php }?>
+																						<?php if ($etat_test['id_etat'] == 3 || $etat_test['id_etat'] == 6) {?>
+																						<?php  if($card['commentaire_controleur'] != ""){ echo "Commentaire Contrôleur:<br><span style='color:red;'>".$card['commentaire_controleur']."</span><br><br>";?>
+																							réponse: <?php }?>
+																							<textarea name="description" id="description_graph" cols="30" rows="10"><?php echo $card['commentaire_graph'];?></textarea>
+																							<input type="hidden" id="description_control" value="<?php echo $card['commentaire_controleur'];?>">
+																							<?php }?>
+																						</div>
+																						<div class="voirplus">
+																							<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
+																						</div>
 																					</div>
 																				</div>
 																			</div>
-																			<div class="ui-block box-diagonal back">
+																		</div>
+																		<!--end point check-->
+																	</div>
+																	<?php }
+																	?>
+																	<!--end row au dessous-->	
+																</div>
+																<!-- end container-->
+															</div>
+															<!-- end slide-->
+														</div>
+														<?php }
+													}else{
+														$valueetat = 1;
+														$content_fin = $bdd->prepare('SELECT * from pointcheck inner join controle on pointcheck.id_check = controle.id_check where '. $etat .' = ? and controle.id_gpp=? and commentaire_controleur != "" ');
+														$content_fin->bindParam(1, $valueetat);
+														$content_fin->bindParam(2, $_GET['idgpp']);
+														$content_fin->execute();
+														?>
+														<div class="slide">
+															<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+																<div class="ui-block">
+																	<div class="ui-block-title">
+																		<h3 class="title">Les retours contrôleurs</h3>
+																	</div>
+																</div>
+															</div>
+															<div class="container custom">
+																<div class="row">
+																	<?php foreach ($content_fin as $card){ ?>
+																	<!-- point check -->
+																	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  $card['id_check']; ?>">
+																		<div class="flip-container">
+																			<div class="ui-block box-diagonal front <?php if(isset($card['commentaire_controleur'])){if($card['commentaire_controleur']!=''){echo 'box-orange';}} ?>">
 																				<div class="available-widget">
-																					<div class="checkbox">
-																						<h4 class="title">Votre commentaire</h4>
-																						<div class="fermer">&#735;</div>
-																						<div class="form-group label-floating is-empty">
-																							<label class="control-label"></label>
-																							<?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) {?>
-																							<?php if($card['commentaire_graph'] != ""){echo "Commentaire Graph:<br><span style='color:red;'>".$card['commentaire_graph']."</span><br><br>";?>
-																								réponse: <?php } ?>
-																								<textarea name="description" id="description_control" cols="30" rows="10"><?php echo $card['commentaire_controleur'];?></textarea>
-																								<input type="hidden" id="description_graph" value="<?php echo $card['commentaire_graph'];?>">
-																								<?php }?>
-																								<?php if ($etat_test['id_etat'] == 3 || $etat_test['id_etat'] == 6) {?>
-																								<?php  if($card['commentaire_controleur'] != ""){ echo "Commentaire Contrôleur:<br><span style='color:red;'>".$card['commentaire_controleur']."</span><br><br>";?>
-																									réponse: <?php }?>
-																									<textarea name="description" id="description_graph" cols="30" rows="10"><?php echo $card['commentaire_graph'];?></textarea>
-																									<input type="hidden" id="description_control" value="<?php echo $card['commentaire_controleur'];?>">
-																									<?php }?>
-																								</div>
+																					<div>
+																						<div class="infos-check">
+																							<h4 class="title"><?php echo  $card['titre']; ?></h4>
+																							<img alt="" class="illu" src="<?php echo  $card['picto']; ?>">
+																							<p class="desc"><?php echo $card['description'];?></p>
+																						</div>
+																						<label class="checkbox <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { echo 'impossible'; }?> <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) { if($card['reponse']==1){echo 'box-valide ';}}?>">
+																							<input name="optionsCheckboxes" type="checkbox" <?php if ($etat_test['id_etat'] != 1 && $etat_test['id_etat'] != 4) {
+																								if($card['reponse']==1){echo "checked ";}
+																								echo "disabled";}?>>
+																								<span class="checkbox-material"><span class="check"></span></span>
 																								<div class="voirplus">
 																									<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
+																								</div>
+																							</label>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="ui-block box-diagonal back">
+																					<div class="available-widget">
+																						<div class="checkbox">
+																							<h4 class="title">Votre commentaire</h4>
+																							<div class="fermer">&#735;</div>
+																							<div class="form-group label-floating is-empty">
+																								<label class="control-label"></label>
+																								<?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) {?>
+																								<?php if($card['commentaire_graph'] != ""){echo "Commentaire Graph:<br><span style='color:red;'>".$card['commentaire_graph']."</span><br><br>";?>
+																									réponse: <?php } ?>
+																									<textarea name="description" id="description_control" cols="30" rows="10"><?php echo $card['commentaire_controleur'];?></textarea>
+																									<input type="hidden" id="description_graph" value="<?php echo $card['commentaire_graph'];?>">
+																									<?php }?>
+																									<?php if ($etat_test['id_etat'] == 3 || $etat_test['id_etat'] == 6) {?>
+																									<?php  if($card['commentaire_controleur'] != ""){ echo "Commentaire Contrôleur:<br><span style='color:red;'>".$card['commentaire_controleur']."</span><br><br>";?>
+																										réponse: <?php }?>
+																										<textarea name="description" id="description_graph" cols="30" rows="10"><?php echo $card['commentaire_graph'];?></textarea>
+																										<input type="hidden" id="description_control" value="<?php echo $card['commentaire_controleur'];?>">
+																										<?php }?>
+																									</div>
+																									<div class="voirplus">
+																										<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
+																									</div>
 																								</div>
 																							</div>
 																						</div>
 																					</div>
+																					<!--end point check-->
 																				</div>
-																				<!--end point check-->
+																				<?php }
+																				?>
+																				<!--end row au dessous-->	
 																			</div>
-																			<?php }
-																			?>
-																			<!--end row au dessous-->	
+																			<!-- end container-->
 																		</div>
-																		<!-- end container-->
+																		<!-- end slide-->
 																	</div>
-																	<!-- end slide-->
+																	<?php } ?>
+																	<!-- new slide -->
+																	<div class="slide">
+																		<!-- end slide-->
+																	</div>
 																</div>
-																<?php } ?>
-																<!-- new slide -->
-																<div class="slide">
-																	<!-- end slide-->
-																</div>
+																<!-- end section-->
 															</div>
-															<!-- end section-->
+															<!-- fullpage-->	
 														</div>
-														<!-- fullpage-->	
 													</div>
 												</div>
-											</div>
 
-											<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
+												<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
 
-											<!-- jQuery first, then Other JS. -->
-											<script src="js/jquery-3.2.0.min.js"></script>
-											<!-- Js effects for material design. + Tooltips -->
-											<script src="js/material.min.js"></script>
-											<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-											<script src="js/theme-plugins.js"></script>
-											<!-- Init functions -->
-											<script src="js/main.js"></script>
+												<!-- jQuery first, then Other JS. -->
+												<script src="js/jquery-3.2.0.min.js"></script>
+												<!-- Js effects for material design. + Tooltips -->
+												<script src="js/material.min.js"></script>
+												<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+												<script src="js/theme-plugins.js"></script>
+												<!-- Init functions -->
+												<script src="js/main.js"></script>
 
-											<!-- Select / Sorting script -->
-											<script src="js/selectize.min.js"></script>
+												<!-- Select / Sorting script -->
+												<script src="js/selectize.min.js"></script>
 
-											<!-- Lightbox popup script-->
-											<script src="js/jquery.magnific-popup.min.js"></script>
-											<!-- Gif Player script-->
-											<script src="js/jquery.gifplayer.js"></script>
+												<!-- Lightbox popup script-->
+												<script src="js/jquery.magnific-popup.min.js"></script>
+												<!-- Gif Player script-->
+												<script src="js/jquery.gifplayer.js"></script>
 
-											<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-											<script src="js/mediaelement-and-player.min.js"></script>
-											<script src="js/mediaelement-playlist-plugin.min.js"></script>
+												<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+												<script src="js/mediaelement-and-player.min.js"></script>
+												<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
-											<script src="js/jquery.fullPage.min.js"></script>
-											<?php 
-											if($_SESSION['id_statut']==1) {
+												<script src="js/jquery.fullPage.min.js"></script>
+												<?php 
+												if($_SESSION['id_statut']==1) {
 						//page graphistes 
-												?><script src="js/notifications.js"></script><?php
-											}elseif  ($_SESSION['id_statut']==2){
+													?><script src="js/notifications.js"></script><?php
+												}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-												?><script src="js/notifications_redac.js"></script><?php
-											}
-											elseif ($_SESSION['id_statut']==3) {
+													?><script src="js/notifications_redac.js"></script><?php
+												}
+												elseif ($_SESSION['id_statut']==3) {
 						//page leader
-												?><script src="js/notifications_leader.js"></script><?php
-											}elseif ($_SESSION['id_statut']==4) {
+													?><script src="js/notifications_leader.js"></script><?php
+												}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-												?><script src="js/notifications_controleur.js"></script><?php
-											}elseif($_SESSION['id_statut']==5){
+													?><script src="js/notifications_controleur.js"></script><?php
+												}elseif($_SESSION['id_statut']==5){
 						//page admin
-												?><script src="js/notifications_admin.js"></script><?php
-											}
-											?>
-											<?php 
-											if($_SESSION['id_statut']==1) {
+													?><script src="js/notifications_admin.js"></script><?php
+												}
+												?>
+												<?php 
+												if($_SESSION['id_statut']==1) {
 												//page graphistes 
-												?><script src="js/notifications.js"></script><?php
-											}elseif  ($_SESSION['id_statut']==2){
+													?><script src="js/notifications.js"></script><?php
+												}elseif  ($_SESSION['id_statut']==2){
 												//page  redacteurs
-												?><script src="js/notifications_redac.js"></script><?php
-											}
-											elseif ($_SESSION['id_statut']==3) {
+													?><script src="js/notifications_redac.js"></script><?php
+												}
+												elseif ($_SESSION['id_statut']==3) {
 												//page leader
-												?><script src="js/notifications_leader.js"></script><?php
-											}elseif ($_SESSION['id_statut']==4) {
+													?><script src="js/notifications_leader.js"></script><?php
+												}elseif ($_SESSION['id_statut']==4) {
 												//page controleur
-												?><script src="js/notifications_controleur.js"></script><?php
-											}elseif($_SESSION['id_statut']==5){
+													?><script src="js/notifications_controleur.js"></script><?php
+												}elseif($_SESSION['id_statut']==5){
 												//page admin
-												?><script src="js/notifications_admin.js"></script><?php
-											}
-											?>
-											<script>
-												$(document).ready(function() {
-													use=$(".use").val();
-													pren=$(".use_nom").val();
-													if (use==1) {
-														swal(
-															'Client déjà en cours!',
-															'le site est déjà en train d\'être checké par : '+pren+'',
-															'warning'
-															).then(function () {
-																$(location).attr('href', 'accueil.php');
+													?><script src="js/notifications_admin.js"></script><?php
+												}
+												?>
+												<script>
+													$(document).ready(function() {
+														use=$(".use").val();
+														pren=$(".use_nom").val();
+														if (use==1) {
+															swal(
+																'Client déjà en cours!',
+																'le site est déjà en train d\'être checké par : '+pren+'',
+																'warning'
+																).then(function () {
+																	$(location).attr('href', 'accueil.php');
 									  				// console.log(data);
 									  			})
-														}
-														$('#fullpage').fullpage({
-															lazyLoading: false,
-															onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
-																var leavingSlide = $(this);
-																<?php if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {?>
+															}
+															$('#fullpage').fullpage({
+																scrollingSpeed: 700,
+																css3: false,
+																onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
+																	var leavingSlide = $(this);
+																	<?php if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {?>
 													//leaving the first slide of the 2nd Section to the right
 													if(index == 1 && slideIndex == 4 && direction == 'right'){
 														<?php }else{?>		
