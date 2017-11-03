@@ -123,9 +123,8 @@ include('connexion_session.php');
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 					<div class="main-header-content">
-						<h1>Stats and Analytics</h1>
-						<p>Welcome to your stats and analytics dashboard! Here you’l see all your profile stats like: visits,
-							new friends, average comments, likes, social media reach, annual graphs, and much more!
+						<h1>Statistiques</h1>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero laboriosam iusto, nihil eveniet aspernatur omnis nostrum quae doloremque voluptas molestias, voluptate numquam eius quaerat. Ipsam voluptates, autem maiores deleniti a?
 						</p>
 					</div>
 				</div>
@@ -169,13 +168,15 @@ include('connexion_session.php');
 								if($nb >= $nb_moins){
 									$signe= "+";
 									$class="positive";
+									$toto=$nb-$nb_moins;
 								}else{
 									$signe="-";
 									$class="negative";
+									$toto=$nb_moins-$nb;
 								}
 								?>
 								<div class="count-stat"><?php echo $nb?>
-									<span class="indicator <?php echo $class;?>"><?php echo $signe;?> <?php echo $nb_moins;?></span>
+									<span class="indicator <?php echo $class;?>"><?php echo $signe;?> <?php echo $toto;?></span>
 								</div>
 							</li>
 						</ul>
@@ -190,11 +191,38 @@ include('connexion_session.php');
 							<li>
 								<div class="points">
 									<span>
-										Last Year Visitors
+										Nombre de remontées ce mois
 									</span>
 								</div>
-								<div class="count-stat">450.623
-									<span class="indicator negative"> - 12.352</span>
+								<?php 
+								$id_graph=$_SESSION['id_graph'];
+								$date_integration=date('Y-m');
+								$date_moins_un = strtotime($date_integration.'-01 -1 months');
+								$date_moins_un=date('Y-m', $date_moins_un);
+								$varsearch = "%" . $date_integration . "-%";
+								$query_nb_client=$bdd->prepare("SELECT id_remontees from remontees where id_user = ? and date_remontees like ?");
+								$query_nb_client->bindParam(1, $id_graph);
+								$query_nb_client->bindParam(2, $varsearch);
+								$query_nb_client->execute();
+								$nb=$query_nb_client->rowCount();
+								$varsearch_moins = "%" . $date_moins_un . "-%";
+								$query_nb_client_moins=$bdd->prepare("SELECT id_remontees from remontees where id_user = ? and date_remontees like ?");
+								$query_nb_client_moins->bindParam(1, $id_graph);
+								$query_nb_client_moins->bindParam(2, $varsearch_moins);
+								$query_nb_client_moins->execute();
+								$nb_moins=$query_nb_client_moins->rowCount();
+								if($nb >= $nb_moins){
+									$signe= "+";
+									$class="positive";
+									$toto=$nb-$nb_moins;
+								}else{
+									$signe="-";
+									$class="negative";
+									$toto=$nb_moins-$nb;
+								}
+								?>
+								<div class="count-stat"><?php echo $nb?>
+									<span class="indicator <?php echo $class;?>"><?php echo $signe;?> <?php echo $toto;?></span>
 								</div>
 							</li>
 						</ul>
@@ -209,11 +237,38 @@ include('connexion_session.php');
 							<li>
 								<div class="points">
 									<span>
-										Last Month Posts
+										Nombre de commentaires ce mois ci
 									</span>
 								</div>
-								<div class="count-stat">16.502
-									<span class="indicator positive"> + 1.056</span>
+								<?php 
+								$id_graph=$_SESSION['id_graph'];
+								$date_integration=date('Y-m');
+								$date_moins_un = strtotime($date_integration.'-01 -1 months');
+								$date_moins_un=date('Y-m', $date_moins_un);
+								$varsearch = "%" . $date_integration . "-%";
+								$query_nb_client=$bdd->prepare("SELECT id_commentaires_aide from commentaires_aide where id_user = ? and date_commentaire like ?");
+								$query_nb_client->bindParam(1, $id_graph);
+								$query_nb_client->bindParam(2, $varsearch);
+								$query_nb_client->execute();
+								$nb=$query_nb_client->rowCount();
+								$varsearch_moins = "%" . $date_moins_un . "-%";
+								$query_nb_client_moins=$bdd->prepare("SELECT id_commentaires_aide from commentaires_aide where id_user = ? and date_commentaire like ?");
+								$query_nb_client_moins->bindParam(1, $id_graph);
+								$query_nb_client_moins->bindParam(2, $varsearch_moins);
+								$query_nb_client_moins->execute();
+								$nb_moins=$query_nb_client_moins->rowCount();
+								if($nb >= $nb_moins){
+									$signe= "+";
+									$class="positive";
+									$toto=$nb-$nb_moins;
+								}else{
+									$signe="-";
+									$class="negative";
+									$toto=$nb_moins-$nb;
+								}
+								?>
+								<div class="count-stat"><?php echo $nb?>
+									<span class="indicator <?php echo $class;?>"><?php echo $signe;?> <?php echo $toto;?></span>
 								</div>
 							</li>
 						</ul>
@@ -228,11 +283,50 @@ include('connexion_session.php');
 							<li>
 								<div class="points">
 									<span>
-										Last Year Posts
+										Nombre de likes ce mois ci
 									</span>
 								</div>
-								<div class="count-stat">390.822
-									<span class="indicator positive"> + 2.847</span>
+								<?php 
+								$id_graph=$_SESSION['id_graph'];
+								$date_integration=date('Y-m');
+								$date_moins_un = strtotime($date_integration.'-01 -1 months');
+								$date_moins_un=date('Y-m', $date_moins_un);
+								$varsearch = "%" . $date_integration . "-%";
+								$query_nb_client=$bdd->prepare("SELECT id_like from like_com where id_graph = ? and date_like_com like ?");
+								$query_nb_client->bindParam(1, $id_graph);
+								$query_nb_client->bindParam(2, $varsearch);
+								$query_nb_client->execute();
+								$nb=$query_nb_client->rowCount();
+								$query_nb_client2=$bdd->prepare("SELECT id_like from like_veille where id_graph = ? and date_like_veille like ?");
+								$query_nb_client2->bindParam(1, $id_graph);
+								$query_nb_client2->bindParam(2, $varsearch);
+								$query_nb_client2->execute();
+								$nb2=$query_nb_client2->rowCount();
+								$total_mois=$nb+$nb2;
+								$varsearch_moins = "%" . $date_moins_un . "-%";
+								$query_nb_client_moins=$bdd->prepare("SELECT id_like from like_com where id_graph = ? and date_like_com like ?");
+								$query_nb_client_moins->bindParam(1, $id_graph);
+								$query_nb_client_moins->bindParam(2, $varsearch_moins);
+								$query_nb_client_moins->execute();
+								$nb_moins=$query_nb_client_moins->rowCount();
+								$query_nb_client_moins2=$bdd->prepare("SELECT id_like from like_veille where id_graph = ? and date_like_veille like ?");
+								$query_nb_client_moins2->bindParam(1, $id_graph);
+								$query_nb_client_moins2->bindParam(2, $varsearch_moins);
+								$query_nb_client_moins2->execute();
+								$nb_moins2=$query_nb_client_moins2->rowCount();
+								$nb_total_moins=$nb_moins2+$nb_moins;
+								if($total_mois >= $nb_total_moins){
+									$signe= "+";
+									$class="positive";
+									$toto=$total_mois-$nb_total_moins;
+								}else{
+									$signe="-";
+									$class="negative";
+									$toto=$nb_total_moins-$total_mois;
+								}
+								?>
+								<div class="count-stat"><?php echo $total_mois?>
+									<span class="indicator <?php echo $class;?>"><?php echo $signe;?> <?php echo $toto;?></span>
 								</div>
 							</li>
 						</ul>
