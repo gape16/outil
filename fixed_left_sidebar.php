@@ -17,7 +17,7 @@ $query_select_notif->bindParam(1, $id_graph);
 $query_select_notif->execute();
 $nb_notifs=$query_select_notif->rowCount();
 if($nb_notifs==0){
-  $query_insert_notif = $bdd->prepare("INSERT INTO notifications (notif_A, notif_B, notif_C, id_user) VALUES ('0','0','0',?)");
+  $query_insert_notif = $bdd->prepare("INSERT INTO notifications (notif_A, notif_B, notif_C, notif_D, id_user) VALUES ('0','0','0','0',?)");
   $query_insert_notif->bindParam(1, $id_graph);
   $query_insert_notif->execute();
 }
@@ -48,85 +48,85 @@ if($nb_notifs==0){
           <a href="account_setting.php" class="author-name fn">
             <div class="author-title">
               <?php echo utf8_encode($infos["prenom"]." ".$infos['nom']);?><svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-              <title>dropdown-arrow-icon</title>
-              <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-            </svg></svg>
-          </div>
-          <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
-        </a>
+                <title>dropdown-arrow-icon</title>
+                <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+              </svg></svg>
+            </div>
+            <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
+          </a>
+        </div>
       </div>
-    </div>
 
-    <ul class="left-menu">
-      <li>
-        <a href="#" class="js-sidebar-open">
-          <svg class="olymp-close-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-          <span class="left-menu-title">Réduire Menu</span>
+      <ul class="left-menu">
+        <li>
+          <a href="#" class="js-sidebar-open">
+            <svg class="olymp-close-icon left-menu-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+            <span class="left-menu-title">Réduire Menu</span>
+          </a>
+        </li>
+        <li>
+          <a href="accueil.php">
+            <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
+            <span class="left-menu-title">Check clients</span>
+          </a>
+        </li>
+        <li>
+          <a href="achat_photos.php">
+            <svg class="olymp-multimedia-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-multimedia-icon"></use></svg>
+            <span class="left-menu-title">Achats de photos</span>
+          </a>
+        </li>
+        <li>
+          <a href="help.php">
+            <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
+            <span class="left-menu-title">Demandes aux contrôleurs</span>
+          </a>
+        </li>
+        <li>
+          <a href="veille.php">
+            <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
+            <span class="left-menu-title">Veilles</span>
+          </a>
+        </li>
+        <li>
+          <a href="newsletter.php">
+            <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
+            <span class="left-menu-title">Newletters</span>
+          </a>
+        </li>
+        <li>
+          <a href="explore.php">
+            <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+            <span class="left-menu-title">Partage de code</span>
+          </a>
+        </li>
+        <li>
+          <a href="badges.php">
+            <svg class="olymp-badge-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-badge-icon"></use></svg>
+            <span class="left-menu-title">Mes badges</span>
+          </a>
+        </li>
+        <li>
+          <a href="birthday.php">
+           <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+           <span class="left-menu-title">Les anniversaires</span>
+         </a>
+       </li>
+       <li>
+        <a href="stats.php">
+          <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
+          <span class="left-menu-title">Mes stats</span>
         </a>
       </li>
       <li>
-        <a href="accueil.php">
-          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-newsfeed-icon"></use></svg>
-          <span class="left-menu-title">Check clients</span>
+        <a href="account_setting.php">
+          <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
+          <span class="left-menu-title">Mon compte</span>
         </a>
       </li>
-      <li>
-        <a href="achat_photos.php">
-          <svg class="olymp-multimedia-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-multimedia-icon"></use></svg>
-          <span class="left-menu-title">Achats de photos</span>
-        </a>
-      </li>
-      <li>
-        <a href="help.php">
-          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-          <span class="left-menu-title">Demandes aux contrôleurs</span>
-        </a>
-      </li>
-      <li>
-        <a href="veille.php">
-          <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
-          <span class="left-menu-title">Veilles</span>
-        </a>
-      </li>
-      <li>
-        <a href="newsletter.php">
-          <svg class="olymp-star-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-          <span class="left-menu-title">Newletters</span>
-        </a>
-      </li>
-      <li>
-        <a href="explore.php">
-          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
-          <span class="left-menu-title">Partage de code</span>
-        </a>
-      </li>
-      <li>
-        <a href="badges.php">
-          <svg class="olymp-badge-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-badge-icon"></use></svg>
-          <span class="left-menu-title">Mes badges</span>
-        </a>
-      </li>
-      <li>
-        <a href="birthday.php">
-         <svg class="olymp-cupcake-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
-         <span class="left-menu-title">Les anniversaires</span>
-       </a>
-     </li>
-     <li>
-      <a href="stats.php">
-        <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
-        <span class="left-menu-title">Mes stats</span>
-      </a>
-    </li>
-    <li>
-      <a href="account_setting.php">
-        <svg class="olymp-settings-v2-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-settings-v2-icon"></use></svg>
-        <span class="left-menu-title">Mon compte</span>
-      </a>
-    </li>
-  </ul>
+    </ul>
 
 
-</div>
+  </div>
 </div>
 </div>
