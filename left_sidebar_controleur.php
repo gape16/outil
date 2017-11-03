@@ -29,6 +29,11 @@
         </a>
       </li>
       <li>
+        <a href="remontees_admin.php">
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
+        </a>
+      </li>
+      <li>
         <a href="veille_admin.php">
           <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
         </a>
@@ -101,7 +106,13 @@
       <li>
         <a href="help_admin.php">
           <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
-          <span class="left-menu-title">Demandes aux contrôleurs</span>
+          <span class="left-menu-title">Les demandes d'aide</span>
+        </a>
+      </li>
+      <li>
+        <a href="remontees_admin.php">
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
+          <span class="left-menu-title">Les remontées</span>
         </a>
       </li>
       <li>

@@ -416,25 +416,6 @@ if (isset($_SESSION['id_statut'])) {
 											<script src="js/jquery.fullPage.min.js"></script>
 											<?php 
 											if($_SESSION['id_statut']==1) {
-						//page graphistes 
-												?><script src="js/notifications.js"></script><?php
-											}elseif  ($_SESSION['id_statut']==2){
-						//page  redacteurs
-												?><script src="js/notifications_redac.js"></script><?php
-											}
-											elseif ($_SESSION['id_statut']==3) {
-						//page leader
-												?><script src="js/notifications_leader.js"></script><?php
-											}elseif ($_SESSION['id_statut']==4) {
-						//page controleur
-												?><script src="js/notifications_controleur.js"></script><?php
-											}elseif($_SESSION['id_statut']==5){
-						//page admin
-												?><script src="js/notifications_admin.js"></script><?php
-											}
-											?>
-											<?php 
-											if($_SESSION['id_statut']==1) {
 												//page graphistes 
 												?><script src="js/notifications.js"></script><?php
 											}elseif  ($_SESSION['id_statut']==2){
@@ -463,12 +444,11 @@ if (isset($_SESSION['id_statut'])) {
 															'warning'
 															).then(function () {
 																$(location).attr('href', 'accueil.php');
-									  				// console.log(data);
-									  			})
+															})
 														}
 														$('#fullpage').fullpage({
 															scrollingSpeed: 700,
-															css3: false, 
+															css3: false,
 															onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
 																var leavingSlide = $(this);
 																<?php if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {?>

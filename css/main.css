@@ -24,6 +24,9 @@ a.btn-haxor {
 .opencode p {
 	word-break: break-all;
 }
+.main-header .content-bg:before{
+	height: 340%;
+}
 .mb {
 	margin-bottom: 20px;
 }

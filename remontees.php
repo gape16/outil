@@ -123,9 +123,27 @@ if (isset($_SESSION['id_statut'])) {
 
 		<div class="header-spacer header-spacer-small"></div>
 
+		<div class="main-header">
+			<div class="content-bg-wrap">
+				<div class="content-bg bg-music"></div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+						<div class="main-header-content">
+							<h1>N'hésitez plus, faites remonter les problemes</h1>
+							<p>C'est ici que vous allez pouvoir remonter les problemes</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<img class="img-bottom" src="img/music-bottom.png" alt="friends">
+		</div>
+
 		<!-- Main Content Groups -->
 
-		<div class="container mt">
+		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="ui-block">
@@ -165,106 +183,126 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
 		</div>
 		<!-- ... end Main Content Groups -->
 
-		<!-- jQuery first, then Other JS. -->
-		<script src="js/jquery-3.2.0.min.js"></script>
-		<!-- Js effects for material design. + Tooltips -->
-		<script src="js/material.min.js"></script>
-		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-		<script src="js/theme-plugins.js"></script>
-		<!-- Init functions -->
-		<script src="js/main.js"></script>
-		<script src="js/alterclass.js"></script>
-		<script src="js/chat.js"></script>
-		<!-- Select / Sorting script -->
-		<script src="js/selectize.min.js"></script>
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="ui-block">
+						<div class="ui-block-title">
+							<h6 class="title">Historique des remontées</h6> 
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Recherche</label>
+								<input class="form-control search" placeholder="" value="" type="text">
+								<span class="material-input"></span></div>
+							</div>
+							<table class="event-item-table">
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+			<!-- jQuery first, then Other JS. -->
+			<script src="js/jquery-3.2.0.min.js"></script>
+			<!-- Js effects for material design. + Tooltips -->
+			<script src="js/material.min.js"></script>
+			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+			<script src="js/theme-plugins.js"></script>
+			<!-- Init functions -->
+			<script src="js/main.js"></script>
+			<script src="js/alterclass.js"></script>
+			<script src="js/chat.js"></script>
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
+
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-		<script src="js/mediaelement-and-player.min.js"></script>
-		<script src="js/mediaelement-playlist-plugin.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-		<script src="js/charte.js"></script>
-		<?php 
-		if($_SESSION['id_statut']==1) {
+			<script src="js/charte.js"></script>
+			<?php 
+			if($_SESSION['id_statut']==1) {
 						//page graphistes 
-			?><script src="js/notifications.js"></script><?php
-		}elseif  ($_SESSION['id_statut']==2){
+				?><script src="js/notifications.js"></script><?php
+			}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-			?><script src="js/notifications_redac.js"></script><?php
-		}
-		elseif ($_SESSION['id_statut']==3) {
+				?><script src="js/notifications_redac.js"></script><?php
+			}
+			elseif ($_SESSION['id_statut']==3) {
 						//page leader
-			?><script src="js/notifications_leader.js"></script><?php
-		}elseif ($_SESSION['id_statut']==4) {
+				?><script src="js/notifications_leader.js"></script><?php
+			}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-			?><script src="js/notifications_controleur.js"></script><?php
-		}elseif($_SESSION['id_statut']==5){
+				?><script src="js/notifications_controleur.js"></script><?php
+			}elseif($_SESSION['id_statut']==5){
 						//page admin
-			?><script src="js/notifications_admin.js"></script><?php
-		}
-		?>
-		<script>
-			$(function(){
-				$('.valider_remontee').on('click', function(){
-					var categorie = $('select.categorie').val();
-					var titre = $('.titre').val();
-					var description = $('#description').val();
-					if (categorie != 0) {
-						$('.categorie').removeClass('empty');
-						if (titre.length >= 5) {
-							$('.titre').removeClass('empty');
-							if (description.length >= 30) {
-								$('#description').removeClass('empty');
-								$.ajax({
-									url: 'formulaire.php',
-									type: 'POST',
-									data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
-								})
-								.done(function() {
-									swal(
-										'Remontée effectuée',
-										'Votre remontée sera étudiée sous peu',
-										'success'
-										)
-									setTimeout(function(){
-										location.reload();
-									},1000);
-								})
+				?><script src="js/notifications_admin.js"></script><?php
+			}
+			?>
+			<script>
+				$(function(){
+					$('.valider_remontee').on('click', function(){
+						var categorie = $('select.categorie').val();
+						var titre = $('.titre').val();
+						var description = $('#description').val();
+						if (categorie != 0) {
+							$('.categorie').removeClass('empty');
+							if (titre.length >= 5) {
+								$('.titre').removeClass('empty');
+								if (description.length >= 30) {
+									$('#description').removeClass('empty');
+									$.ajax({
+										url: 'formulaire.php',
+										type: 'POST',
+										data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
+									})
+									.done(function(data) {
+										$('table.event-item-table').html('');
+										$(data).appendTo('table.event-item-table');
+										swal(
+											'Remontée effectuée',
+											'Votre remontée sera étudiée sous peu',
+											'success'
+											)
+										setTimeout(function(){
+											location.reload();
+										},1000);
+									})
+								}else{
+									$('#description').addClass('empty');
+									$('#description').prev().html('30 caractères minimum requis');
+								}
 							}else{
-								$('#description').addClass('empty');
-								$('#description').prev().html('30 caractères minimum requis');
+								$('.titre').addClass('empty');
+								$('.titre').prev().html('5 caractères minimum requis');
 							}
 						}else{
-							$('.titre').addClass('empty');
-							$('.titre').prev().html('5 caractères minimum requis');
+							$('.categorie').addClass('empty');
+							$('.categorie').prev().html('Une catégorie est requise');
 						}
-					}else{
-						$('.categorie').addClass('empty');
-						$('.categorie').prev().html('Une catégorie est requise');
-					}
-				})
+					})
 
-				$('.reni').on('click', function(){
-					$('select.categorie').val(0);
-					$('.titre').val('');
-					$('#description').val('');
+					$('.reni').on('click', function(){
+						$('select.categorie').val(0);
+						$('.titre').val('');
+						$('#description').val('');
+					})
 				})
-			})
-		</script>
-	</body>
-	</html>
-	<?php
-	
-}else{
-	header('Location: login.php');
-}
-?>
+			</script>
+		</body>
+		</html>
+		<?php
+
+	}else{
+		header('Location: login.php');
+	}
+	?>

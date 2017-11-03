@@ -314,7 +314,7 @@ if (isset($_SESSION['id_statut'])) {
 				<script src="js/simpleUpload.min.js"></script>
 
 				<script src="js/charte.js"></script>
-				<?php 
+<!-- 				<?php 
 				if($_SESSION['id_statut']==1) {
 						//page graphistes 
 					?><script src="js/notifications.js"></script><?php
@@ -332,7 +332,7 @@ if (isset($_SESSION['id_statut'])) {
 						//page admin
 					?><script src="js/notifications_admin.js"></script><?php
 				}
-				?>
+				?> -->
 
 
 				<script>
@@ -352,6 +352,12 @@ if (isset($_SESSION['id_statut'])) {
 							var file = $("#file-select").prop("files");
 							var description = $('#description').val();
 							var names = $.map(file, function (val) { return val.name; });
+							console.log(lienveille);
+							console.log(titreveille);
+							console.log(categorie);
+							console.log(file);
+							console.log(description);
+							console.log(names);
 							if (titreveille.length >= 5) {
 								$('.titreveille').removeClass('empty');
 								if (categorie != 0) {
@@ -364,7 +370,7 @@ if (isset($_SESSION['id_statut'])) {
 											data: {lienveille: lienveille, titreveille: titreveille, categorie_veille: categorie, description_veille: description, file_veille: names}
 										})
 										.done(function(data) {
-											location.reload();
+											//location.reload();
 										})
 										$('#file-select').simpleUpload("upload.php", {
 

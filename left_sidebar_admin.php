@@ -33,7 +33,7 @@
         </a>
       </li>
       <li>
-        <a href="remontees.php">
+        <a href="remontees_admin.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
         </a>
       </li>
@@ -95,7 +95,7 @@
         </a>
       </li>
       <li>
-        <a href="remontees.php">
+        <a href="remontees_admin.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
           <span class="left-menu-title">Les remontées</span>
         </a>
