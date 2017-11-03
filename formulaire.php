@@ -411,6 +411,7 @@ if (isset($_POST['changement_etat_id_non'])) {
 	$query_up_aide_etat->bindParam(2, $id_aide);
 	$query_up_aide_etat->execute();
 }
+
 if (isset($_POST['idGpp'])){
 	$idGpp = utf8_decode($_POST['idGpp']);
 	$valueCheck = $_POST['valueCheck'];
@@ -422,6 +423,16 @@ if (isset($_POST['idGpp'])){
 	$date = date('Y-m-d H:i:s');
 	$envoi=$_POST['envoi'];
 	$pret=0;
+
+	$chrono=$_POST['chrono'];
+	$query_ins_chrono=$bdd->prepare("INSERT INTO temps_check (id_user, idgpp, id_etat, temps) VALUES (?,?,?,?)");
+	$query_ins_chrono->bindParam(1, $id_graph);
+	$query_ins_chrono->bindParam(2, $idGpp);
+	$query_ins_chrono->bindParam(3, $etatFinal);
+	$query_ins_chrono->bindParam(4, $chrono);
+	$query_ins_chrono->execute();
+	echo "INSERT INTO temps_check (id_user, idgpp, id_etat, temps) VALUES ('$id_graph','$idGpp','$etatFinal','$chrono')";
+
 	if($etatFinal > 1 && $etatFinal < 4){
 		if($etatFinal == 2 && $envoi=="ok"){
 			$date_stat=date("Y-m-d");
