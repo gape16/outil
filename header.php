@@ -16,7 +16,7 @@ $query_select_notif->bindParam(1, $id_graph);
 $query_select_notif->execute();
 $nb_notifs=$query_select_notif->rowCount();
 if($nb_notifs==0){
-  $query_insert_notif = $bdd->prepare("INSERT INTO notifications (notif_A, notif_B, notif_C, id_user) VALUES ('0','0','0',?)");
+  $query_insert_notif = $bdd->prepare("INSERT INTO notifications (notif_A, notif_B, notif_C, notif_D, id_user) VALUES ('0','0','0','0',?)");
   $query_insert_notif->bindParam(1, $id_graph);
   $query_insert_notif->execute();
 }
@@ -305,12 +305,12 @@ if($nb_notifs==0){
   <a href="" class="author-name fn">
     <div class="author-title">
       <?php echo utf8_encode($infos["prenom"]." ".$infos['nom']);?><svg class="olymp-dropdown-arrow-icon"><svg id="olymp-dropdown-arrow-icon" viewBox="0 0 48 32" width="100%" height="100%">
-      <title>dropdown-arrow-icon</title>
-      <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
-    </svg></svg>
-  </div>
-  <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
-</a>
+        <title>dropdown-arrow-icon</title>
+        <path d="M41.888 0.104l-17.952 19.064-17.952-19.064-5.984 6.352 23.936 25.44 23.936-25.44z"></path>
+      </svg></svg>
+    </div>
+    <span class="author-subtitle"><?php echo utf8_encode($infos["nom_statut"]);?></span>
+  </a>
 </div>
 
 
