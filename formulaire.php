@@ -921,9 +921,10 @@ if(isset($_POST['lienveille'])){
 		$i++;
 	}
 	$like_veille = 0;
+	$accept_veille = 1;
 	$date_veille = date('Y-m-d H:i:s');
 	$description = $_POST['description_veille'];
-	$requete_veille = $bdd->prepare("INSERT INTO veille (titre, categorie, file, description, lien, date_veille, like_veille)	VALUES (?, ?, ?, ?, ?, ?, ?)");
+	$requete_veille = $bdd->prepare("INSERT INTO veille (titre, categorie, file, description, lien, date_veille, like_veille,accept_veille)	VALUES (?, ?, ?, ?, ?, ?, ?,?)");
 	$requete_veille->bindParam(1, $titreveille);
 	$requete_veille->bindParam(2, $categorie);
 	$requete_veille->bindParam(3, $file);
@@ -931,6 +932,7 @@ if(isset($_POST['lienveille'])){
 	$requete_veille->bindParam(5, $lienveille);
 	$requete_veille->bindParam(6, $date_veille);
 	$requete_veille->bindParam(7, $like_veille);
+	$requete_veille->bindParam(8, $accept_veille);
 	$requete_veille->execute();
 	$requete_show_veille = $bdd->prepare("SELECT * from veille order by id_veille desc limit 1");
 	$requete_show_veille->execute();
