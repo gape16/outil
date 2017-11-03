@@ -467,7 +467,8 @@ if (isset($_SESSION['id_statut'])) {
 									  			})
 														}
 														$('#fullpage').fullpage({
-															lazyLoading: false,
+															scrollingSpeed: 700,
+															css3: false, 
 															onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
 																var leavingSlide = $(this);
 																<?php if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {?>
