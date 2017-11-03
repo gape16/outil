@@ -59,10 +59,10 @@ $query_inser_code->execute();
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 	<style>
-		.align-center {
-			width: 100%;
-		}
-	</style>
+	.align-center {
+		width: 100%;
+	}
+</style>
 </head>
 
 <body>
@@ -140,10 +140,8 @@ $query_inser_code->execute();
 			<div class="row">
 				<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
 					<div class="main-header-content">
-						<h1>Olympus Blog</h1>
-						<p>Welcome to our blog! Here you’ll find news about the latest features of our network, plugins,
-							interviews with our developers and lots of other cool things! We also feature the best profiles
-							and fan pages, so keep an eye out or let us know if you wanna appear here or if you wanna nominate someone.
+						<h1>Découvrez le code des autres</h1>
+						<p>Ici vous trouverez des astuces et vous pouvez créer et partager du code avec les autres.
 						</p>
 					</div>
 				</div>
@@ -179,7 +177,7 @@ $query_inser_code->execute();
 							<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
 							<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
 							<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
-							<li class="cat-list__item fr"><a href="code.php">Créer son code</a></li>
+							<?php if($_SESSION['id_statut']==1) {?><li class="cat-list__item fr"><a href="code.php">Créer son code</a></li> <?php } ?>
 						</ul>
 						<div class="row sorting-container" id="veille_code" data-layout="masonry">
 							<?php foreach ($query_code as $key => $value) {?>

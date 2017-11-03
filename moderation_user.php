@@ -278,14 +278,14 @@ if (isset($_SESSION['id_statut'])) {
 								<label class="control-label">Ta date de naissance</label>
 								<input autocomplete="off" name="datetimepicker" value="10/11/1984" />
 							</div>
-							<select class="form-control check_statut" size="auto" name="statut" required>
+							<select class="form-control check_statut mb" size="auto" name="statut" required>
 								<option value="0">Choisir un statut</option>
 								<?php foreach ($query_statut as $key => $statut) {?>
 								<option value="<?php echo $statut['id_statut']?>"><?php echo utf8_encode($statut['nom_statut']);?></option>
 								<?php }?>
 							</select>
 
-							<select class="form-control check_leader" size="auto" name="leader" required>
+							<select class="form-control check_leader mb" size="auto" name="leader" required>
 								<option value="0">Choisir un leader</option>
 								<?php foreach ($query_statut_sel as $key => $statut_sel) {?>
 								<option value="<?php echo $statut_sel['id_user']?>"><?php echo utf8_encode($statut_sel['prenom']);?> <?php echo utf8_encode($statut_sel['nom']);?></option>
@@ -411,7 +411,7 @@ if (isset($_SESSION['id_statut'])) {
 						$query4=$bdd->prepare("SELECT * FROM user inner join statut on user.id_statut = statut.id_statut where user.id_statut='4' order by user.id_statut");
 						$query4->execute();
 						foreach ($query4 as $value4) {?>
-						<li class="lemodal_moderation" id="<?php echo $value4['id_user'];?>" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value4['id_user'];?>">">
+						<li class="lemodal_moderation" id="<?php echo $value4['id_user'];?>" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value4['id_user'];?>">
 							<input type="hidden" class="temp_stat" value="<?php echo $value4['temp_statut'];?>">
 							<div class="playlist-thumb" >
 								<img src="<?php echo $value['photo'];?>" alt="thumb-composition">
