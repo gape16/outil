@@ -178,7 +178,7 @@ if (isset($_SESSION['id_statut'])) {
 						<div id="fullpage">
 							<div id="loader-wrapper">
 								<div id="loader"></div>
-
+								<input type="hidden" class="chrono">
 								<div class="loader-section section-left"></div>
 								<div class="loader-section section-right"></div>
 
@@ -359,6 +359,9 @@ if (isset($_SESSION['id_statut'])) {
 																									<textarea name="description" id="description_graph" cols="30" rows="10"><?php echo $card['commentaire_graph'];?></textarea>
 																									<input type="hidden" id="description_control" value="<?php echo $card['commentaire_controleur'];?>">
 																									<?php }?>
+																									<?php if ($etat_test['id_etat'] == 1 || $etat_test['id_etat'] == 4) {?>
+																									<input type="hidden" id="description_control" value="">
+																									<?php }?>
 																								</div>
 																								<div class="voirplus">
 																									<a href="tuto.php?page=<?php echo  $card['id_check']; ?>" target="_blank">En savoir plus</a>
@@ -416,6 +419,19 @@ if (isset($_SESSION['id_statut'])) {
 											<script src="js/jquery.fullPage.min.js"></script>
 											<?php 
 											if($_SESSION['id_statut']==1) {
+												?><script src="js/notifications.js"></script><?php
+											}elseif  ($_SESSION['id_statut']==2){
+												?><script src="js/notifications_redac.js"></script><?php
+											}elseif ($_SESSION['id_statut']==3) {
+												?><script src="js/notifications_leader.js"></script><?php
+											}elseif ($_SESSION['id_statut']==4) {
+												?><script src="js/notifications_controleur.js"></script><?php
+											}elseif($_SESSION['id_statut']==5){
+												?><script src="js/notifications_admin.js"></script><?php
+											}
+											?>
+											<?php 
+											if($_SESSION['id_statut']==1) {
 												//page graphistes 
 												?><script src="js/notifications.js"></script><?php
 											}elseif  ($_SESSION['id_statut']==2){
@@ -434,7 +450,35 @@ if (isset($_SESSION['id_statut'])) {
 											}
 											?>
 											<script>
+												var startTime = 0
+												var start = 0
+												var end = 0
+												var diff = 0
+												var timerID = 0
+
+												start = new Date();
+												chrono();
+												function chrono(){
+													end = new Date()
+													diff = end - start
+													diff = new Date(diff)
+													var sec = diff.getSeconds()
+													var min = diff.getMinutes()
+													var hr = diff.getHours()-1
+													if (min < 10){
+														min = "0" + min
+													}
+													if (sec < 10){
+														sec = "0" + sec
+													}
+													var chrono_final = hr + ":" + min + ":" + sec;
+													timerID = setTimeout("chrono()", 10);
+													$(".chrono").val(chrono_final);
+												}
+
 												$(document).ready(function() {
+													
+
 													use=$(".use").val();
 													pren=$(".use_nom").val();
 													if (use==1) {
@@ -452,242 +496,232 @@ if (isset($_SESSION['id_statut'])) {
 															onSlideLeave: function( anchorLink, index, slideIndex, direction, nextSlideIndex){
 																var leavingSlide = $(this);
 																<?php if ($etat_test['id_etat'] != 3 && $etat_test['id_etat'] != 6) {?>
-													//leaving the first slide of the 2nd Section to the right
-													if(index == 1 && slideIndex == 4 && direction == 'right'){
-														<?php }else{?>		
-															if(index == 1 && slideIndex == 0 && direction == 'right'){
-																<?php }?>
-																var checked = new Array();
-																var i = 0;
-																var idCheck = [];
-																var valueCheck = [];
-																var arrayCheck = [];
-																var arraycom_contr = [];
-																var arraycom_graph= [];
-																var idGpp = $('.idgpp').val();
-																var etatFinal = $('.etat_final').val();
-																$("div[class*='card_']").each(function(){
-																	var check = "card_";
-																	checked[i] = new Array();
-																	var cls = $(this).attr('class').split(' ');
-																	for (var i = 0; i < cls.length; i++) {
-																		if (cls[i].indexOf(check) > -1) {
-																			var id_emet = cls[i].slice(check.length, cls[i].length);
+																	if(index == 1 && slideIndex == 4 && direction == 'right'){
+																		<?php }else{?>		
+																			if(index == 1 && slideIndex == 0 && direction == 'right'){
+																				<?php }?>
+																				var checked = new Array();
+																				var i = 0;
+																				var idCheck = [];
+																				var valueCheck = [];
+																				var arrayCheck = [];
+																				var arraycom_contr = [];
+																				var arraycom_graph= [];
+																				var idGpp = $('.idgpp').val();
+																				var chronoo=$(".chrono").val();
+																				var etatFinal = $('.etat_final').val();
+																				$("div[class*='card_']").each(function(){
+																					var check = "card_";
+																					checked[i] = new Array();
+																					var cls = $(this).attr('class').split(' ');
+																					for (var i = 0; i < cls.length; i++) {
+																						if (cls[i].indexOf(check) > -1) {
+																							var id_emet = cls[i].slice(check.length, cls[i].length);
+																						}
+																					} 
+																					if($(this).find('.checkbox').hasClass('box-valide')){
+																						idCheck.push(id_emet);
+																						valueCheck.push(1);
+																						arraycom_contr.push($(this).find('#description_control').val());
+																						arraycom_graph.push($(this).find('#description_graph').val());
+																					}else{
+																						idCheck.push(id_emet);	
+																						valueCheck.push(0);	
+																						arraycom_contr.push($(this).find('#description_control').val());
+																						arraycom_graph.push($(this).find('#description_graph').val());		
+																					}
+																					i++;
+																				});
+																				if (etatFinal==2) {
+																					swal({
+																						title: 'Que voulez vous faire?',
+																						text: "Vous ne pourrez pas revenir en arrière!",
+																						type: 'warning',
+																						showCancelButton: true,
+																						confirmButtonColor: '#3085d6',
+																						cancelButtonColor: '#d33',
+																						confirmButtonText: 'Refuser',
+																						cancelButtonText: 'accepter!',
+																						confirmButtonClass: 'btn btn-success',
+																						cancelButtonClass: 'btn btn-danger',
+																						buttonsStyling: false
+																					}).then(function () {
+																						$.ajax({
+																							url: 'formulaire.php',
+																							type: 'POST',
+																							data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"retour", chrono:chronoo},
+																						})
+																						.done(function(data) {
+																							swal(
+																								'Retour maquette!',
+																								'La maquette va être renvoyée au graphiste !',
+																								'success'
+																								).then(function () {
+																									$(location).attr('href', 'accueil.php');
+																								})
+																							})
+																					}, function (dismiss) {
+																						if (dismiss === 'cancel') {
+																							$.ajax({
+																								url: 'formulaire.php',
+																								type: 'POST',
+																								data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"ok", chrono:chronoo},
+																							})
+																							.done(function(data) {
+																								swal(
+																									'Validation faite!',
+																									'le site passe en créa graph !',
+																									'success'
+																									).then(function () {
+																										$(location).attr('href', 'accueil.php');
+																									})
+																								})
+																						}
+																					})
+																				}else if (etatFinal==5) {
+																					swal({
+																						title: 'Que voulez vous faire?',
+																						text: "Vous ne pourrez pas revenir en arrière!",
+																						type: 'warning',
+																						showCancelButton: true,
+																						confirmButtonColor: '#3085d6',
+																						cancelButtonColor: '#d33',
+																						confirmButtonText: 'Refuser',
+																						cancelButtonText: 'accepter!',
+																						confirmButtonClass: 'btn btn-success',
+																						cancelButtonClass: 'btn btn-danger',
+																						buttonsStyling: false
+																					}).then(function () {
+																						$.ajax({
+																							url: 'formulaire.php',
+																							type: 'POST',
+																							data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"retour", chrono:chronoo},
+																						})
+																						.done(function(data) {
+																							swal(
+																								'Retour CQ!',
+																								'Le site va être renvoyée au graphiste !',
+																								'success'
+																								).then(function () {
+																									$(location).attr('href', 'accueil.php');
+																								})
+																							})
+																					}, function (dismiss) {
+																						if (dismiss === 'cancel') {
+																							$.ajax({
+																								url: 'formulaire.php',
+																								type: 'POST',
+																								data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"ok", chrono:chronoo},
+																							})
+																							.done(function(data) {
+																								swal(
+																									'Validation faite!',
+																									'le site part en validation !',
+																									'success'
+																									).then(function () {
+																										$(location).attr('href', 'accueil.php');
+																									})
+																								})
+																						}
+																					})
+																				}else if(etatFinal==1){
+																					swal({
+																						title: 'êtes vous sûr?',
+																						text: "Vous allez valider votre checklist!",
+																						type: 'warning',
+																						showCancelButton: true,
+																						confirmButtonColor: '#3085d6',
+																						cancelButtonColor: '#d33',
+																						confirmButtonText: 'Oui, envoyer!'
+																					}).then(function () {
+																						$.ajax({
+																							url: 'formulaire.php',
+																							type: 'POST',
+																							data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal, com_graph:arraycom_graph,com_contr:arraycom_contr, chrono:chronoo},
+																						})
+																						.done(function(data) {
+																							swal(
+																								'Validation faite!',
+																								'Votre maquette va être transmise aux contrôleurs !',
+																								'success'
+																								).then(function (data) {
+																									$(location).attr('href', 'accueil.php');
+																								})
+																							})
+																					})
+																				}else if(etatFinal==4){
+																					swal({
+																						title: 'êtes vous sûr?',
+																						text: "Vous allez valider votre checklist!",
+																						type: 'warning',
+																						showCancelButton: true,
+																						confirmButtonColor: '#3085d6',
+																						cancelButtonColor: '#d33',
+																						confirmButtonText: 'Oui, envoyer!'
+																					}).then(function () {
+																						$.ajax({
+																							url: 'formulaire.php',
+																							type: 'POST',
+																							data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal, com_graph:arraycom_graph, chrono:chronoo},
+																						})
+																						.done(function(data) {
+																							swal(
+																								'Validation faite!',
+																								'Votre site va être transmis aux contrôleurs !',
+																								'success'
+																								).then(function (data) {
+																									$(location).attr('href', 'accueil.php');
+																								})
+																							})
+																					})
+																				}else if(etatFinal==3) {
+																					$.ajax({
+																						url: 'formulaire.php',
+																						type: 'POST',
+																						data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, chrono:chronoo},
+																					})
+																					.done(function(data) {
+																						swal(
+																							'Renvoi maquette fait!',
+																							'La maquette va être renvoyée aux contrôleurs !',
+																							'success'
+																							).then(function () {
+																								$(location).attr('href', 'accueil.php');
+																							})
+																						})
+
+																				}else if(etatFinal==6) {
+																					$.ajax({
+																						url: 'formulaire.php',
+																						type: 'POST',
+																						data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, chrono:chronoo},
+																					})
+																					.done(function(data) {
+																						swal(
+																							'Renvoi CQ fait!',
+																							'Le site va être renvoyée aux contrôleurs !',
+																							'success'
+																							).then(function () {
+																								$(location).attr('href', 'accueil.php');
+																							})
+																						})
+
+																				}
+																				return false;
+																			}
+
+
+																		},
+
+																		afterSlideLoad: function( anchorLink, index, slideAnchor, slideIndex){
+																			var loadedSlide = $(this);
+																			if (slideIndex == 0){
+																				$('div.fp-controlArrow.fp-prev').hide()
+																			} else {
+																				$('div.fp-controlArrow.fp-prev').show()
+																			}
 																		}
-																	} 
-																	if($(this).find('.checkbox').hasClass('box-valide')){
-																		idCheck.push(id_emet);
-																		valueCheck.push(1);
-																		arraycom_contr.push($(this).find('#description_control').val());
-																		arraycom_graph.push($(this).find('#description_graph').val());
-																	}else{
-																		idCheck.push(id_emet);	
-																		valueCheck.push(0);	
-																		arraycom_contr.push($(this).find('#description_control').val());
-																		arraycom_graph.push($(this).find('#description_graph').val());		
-																	}
-																	i++;
-																});
-																if (etatFinal==2) {
-																	swal({
-																		title: 'Que voulez vous faire?',
-																		text: "Vous ne pourrez pas revenir en arrière!",
-																		type: 'warning',
-																		showCancelButton: true,
-																		confirmButtonColor: '#3085d6',
-																		cancelButtonColor: '#d33',
-																		confirmButtonText: 'Refuser',
-																		cancelButtonText: 'accepter!',
-																		confirmButtonClass: 'btn btn-success',
-																		cancelButtonClass: 'btn btn-danger',
-																		buttonsStyling: false
-																	}).then(function () {
-										//retour maquette
-										$.ajax({
-											url: 'formulaire.php',
-											type: 'POST',
-											data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"retour"},
-										})
-										.done(function(data) {
-											swal(
-												'Retour maquette!',
-												'La maquette va être renvoyée au graphiste !',
-												'success'
-												).then(function () {
-													$(location).attr('href', 'accueil.php');
-													// console.log(data);
-												})
-											})
-									}, function (dismiss) {
-									  // maquette ok
-									  if (dismiss === 'cancel') {
-									  	$.ajax({
-									  		url: 'formulaire.php',
-									  		type: 'POST',
-									  		data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"ok"},
-									  	})
-									  	.done(function(data) {
-									  		swal(
-									  			'Validation faite!',
-									  			'le site passe en créa graph !',
-									  			'success'
-									  			).then(function () {
-									  				$(location).attr('href', 'accueil.php');
-									  				// console.log(data);
-									  			})
-									  		})
-									  }
-									})
-																}else if (etatFinal==5) {
-																	swal({
-																		title: 'Que voulez vous faire?',
-																		text: "Vous ne pourrez pas revenir en arrière!",
-																		type: 'warning',
-																		showCancelButton: true,
-																		confirmButtonColor: '#3085d6',
-																		cancelButtonColor: '#d33',
-																		confirmButtonText: 'Refuser',
-																		cancelButtonText: 'accepter!',
-																		confirmButtonClass: 'btn btn-success',
-																		cancelButtonClass: 'btn btn-danger',
-																		buttonsStyling: false
-																	}).then(function () {
-										//retour maquette
-										$.ajax({
-											url: 'formulaire.php',
-											type: 'POST',
-											data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"retour"},
-										})
-										.done(function(data) {
-											swal(
-												'Retour CQ!',
-												'Le site va être renvoyée au graphiste !',
-												'success'
-												).then(function () {
-													$(location).attr('href', 'accueil.php');
-												})
-											})
-									}, function (dismiss) {
-									  // maquette ok
-									  if (dismiss === 'cancel') {
-									  	$.ajax({
-									  		url: 'formulaire.php',
-									  		type: 'POST',
-									  		data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph, envoi:"ok"},
-									  	})
-									  	.done(function(data) {
-									  		swal(
-									  			'Validation faite!',
-									  			'le site part en validation !',
-									  			'success'
-									  			).then(function () {
-									  				$(location).attr('href', 'accueil.php');
-									  				// console.log(data);
-									  			})
-									  		})
-									  }
-									})
-																}else if(etatFinal==1){
-																	swal({
-																		title: 'êtes vous sûr?',
-																		text: "Vous allez valider votre checklist!",
-																		type: 'warning',
-																		showCancelButton: true,
-																		confirmButtonColor: '#3085d6',
-																		cancelButtonColor: '#d33',
-																		confirmButtonText: 'Oui, envoyer!'
-																	}).then(function () {
-																		$.ajax({
-																			url: 'formulaire.php',
-																			type: 'POST',
-																			data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal, com_graph:arraycom_graph},
-																		})
-																		.done(function(data) {
-																			swal(
-																				'Validation faite!',
-																				'Votre maquette va être transmise aux contrôleurs !',
-																				'success'
-																				).then(function (data) {
-																					$(location).attr('href', 'accueil.php');
-																				})
-																			})
-																	})
-																}else if(etatFinal==4){
-																	swal({
-																		title: 'êtes vous sûr?',
-																		text: "Vous allez valider votre checklist!",
-																		type: 'warning',
-																		showCancelButton: true,
-																		confirmButtonColor: '#3085d6',
-																		cancelButtonColor: '#d33',
-																		confirmButtonText: 'Oui, envoyer!'
-																	}).then(function () {
-																		$.ajax({
-																			url: 'formulaire.php',
-																			type: 'POST',
-																			data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal, com_graph:arraycom_graph},
-																		})
-																		.done(function(data) {
-																			swal(
-																				'Validation faite!',
-																				'Votre site va être transmis aux contrôleurs !',
-																				'success'
-																				).then(function (data) {
-																					$(location).attr('href', 'accueil.php');
-																				})
-																			})
-																	})
-																}else if(etatFinal==3) {
-										//retour maquette
-										$.ajax({
-											url: 'formulaire.php',
-											type: 'POST',
-											data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph},
-										})
-										.done(function(data) {
-											swal(
-												'Renvoi maquette fait!',
-												'La maquette va être renvoyée aux contrôleurs !',
-												'success'
-												).then(function () {
-													$(location).attr('href', 'accueil.php');
-												})
-											})
-
-									}else if(etatFinal==6) {
-										//retour maquette
-										$.ajax({
-											url: 'formulaire.php',
-											type: 'POST',
-											data: {idCheck: idCheck, valueCheck: valueCheck, idGpp: idGpp,etatFinal:etatFinal,com_contr:arraycom_contr,com_graph:arraycom_graph},
-										})
-										.done(function(data) {
-											swal(
-												'Renvoi CQ fait!',
-												'Le site va être renvoyée aux contrôleurs !',
-												'success'
-												).then(function () {
-													$(location).attr('href', 'accueil.php');
-												})
-											})
-
-									}
-									return false;
-								}
-
-
-							},
-
-							afterSlideLoad: function( anchorLink, index, slideAnchor, slideIndex){
-								var loadedSlide = $(this);
-    						//after loadin;g the 0th (first) slide
-    						if (slideIndex == 0){
-    							$('div.fp-controlArrow.fp-prev').hide()
-    						} else {
-    							$('div.fp-controlArrow.fp-prev').show()
-    						}
-    					}
-    				});
+																	});
 });
 
 $(document).ready(function() {

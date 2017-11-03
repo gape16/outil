@@ -1123,47 +1123,6 @@ if(isset($_POST['categorie_remontees'])){
 	$requete_remontee->bindParam(6, $accept_remontees);
 	$requete_remontee->bindParam(7, $commentaires);
 	$requete_remontee->execute();
-	foreach ($requete_remontee as $key => $value) {
-		$date_tab=explode("-", $value['date_remontees']);
-		$jour_tab=explode(" ",$date_tab[2]);
-		$jour=$jour_tab[0];
-		$m=$date_tab[1];
-		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-		?>
-		<tr class="event-item">
-			<td class="upcoming">
-				<div class="date-event">
-					<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
-					<span class="day"><?php echo $jour;?></span>
-					<span class="month"><?php echo $months[(int)$m]; ?></span>
-				</div>
-			</td>
-			<td class="author">
-				<div class="event-author inline-items">
-					<div class="author-thumb">
-						<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
-					</div>
-					<div class="author-date">
-						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-						<time class="published"><?php echo utf8_encode($value['id_user']);?></time>
-					</div>
-				</div>
-			</td>
-			<td class="location">
-				<div class="place inline-items">
-					<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-					<a target="_blank" style="color:inherit;"><?php echo $value['id_categorie_remontees'];?></a>
-				</div>
-			</td>
-			<td class="description">
-				<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
-			</td>
-			<td class="add-event">
-				<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-id="<?php echo utf8_encode($value['id_remontees']);?>" data-target="#problemos"></a>
-			</td>
-		</tr>
-		<?php
-	}
 }
 if (isset($_POST['commentaire_remontees'])) {
 	$accept_remontees = 1;
