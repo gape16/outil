@@ -90,6 +90,9 @@ if (isset($_SESSION['id_statut'])) {
 			.main-header .content-bg:before{
 				height: 287% !important;
 			}
+			.introjs-prevbutton{
+				float:left;
+			}
 		</style>
 		<script src="js/webfontloader.min.js"></script>
 		<script>
@@ -160,8 +163,8 @@ if (isset($_SESSION['id_statut'])) {
 		}elseif ($_SESSION['id_statut']==4) {
 			//page controleur
 			include('header_controleur.php');
-		}elseif($_SESSION['id_statut']==5){
-			//page admin
+		}elseif ($_SESSION['id_statut']==5) {
+			//page controleur
 			include('header_admin.php');
 		}
 		?>
@@ -371,16 +374,46 @@ if (isset($_SESSION['id_statut'])) {
 		<script>
 			$(function(){
 				var introguide = introJs();
+				<<<<<<< HEAD
+				=======
+				introguide.setOption("nextLabel", "\x26rarr; Suivant");
+				introguide.setOption("prevLabel", "Retour \x26larr;");
+				introguide.setOption("skipLabel", "Passer");
+				introguide.setOption("hidePrev", true);
+				>>>>>>> 652ef3f4c77fd4bd35eed364125c3e5531f06311
 				introguide.setOptions({
 					steps: [
 					{
 						element: '#first',
+						<<<<<<< HEAD
 						intro: 'This guided tour will explain the Hongkiat demo page interface.<br><br>Use the arrow keys for navigation or hit ESC to exit the tour immediately.',
+						=======
+						intro: 'Cette partie vous permettra de recevoir des notifications en temps réel pour les nouveaux codes créés.',
+						>>>>>>> 652ef3f4c77fd4bd35eed364125c3e5531f06311
 						position: 'bottom'
 					},
 					{
 						element: '#second',
+						<<<<<<< HEAD
 						intro: 'Click this main logo to view a list of all Hongkiat demos.',
+						=======
+						intro: 'De même mais cette fois pour être au courant des dernières veilles technologique ajoutées.',
+						position: 'bottom'
+					},
+					{
+						element: '#third',
+						intro: 'Une notification pour savoir quand votre demande a bien été traitée.',
+						position: 'bottom'
+					},
+					{
+						element: '#quad',
+						intro: 'Enfin, une notification pour savoir quand une réponse a été apporté.',
+						position: 'bottom'
+					},
+					{
+						element: '#five',
+						intro: 'Cette partie est pour la configuration de votre compte.',
+						>>>>>>> 652ef3f4c77fd4bd35eed364125c3e5531f06311
 						position: 'bottom'
 					}
 					]

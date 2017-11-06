@@ -153,6 +153,9 @@ if (isset($_SESSION['id_statut'])) {
 			font-size: 11px;
 			font-weight: 500;
 		}
+		a.composition-name{
+			color: #2b2929 !important;
+		}
 	</style>
 </head>
 
@@ -387,8 +390,8 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 
 							<div class="composition">
-								<a href="#" class="composition-name"><?php echo $value3['prenom'];?> <?php echo $value3['nom'];?></a>
-								<a href="#" class="composition-author"><?php echo $value3['nom_statut'];?></a>
+								<a class="composition-name"><?php echo $value3['prenom'];?> <?php echo $value3['nom'];?></a>
+								<a class="composition-author"><?php echo $value3['nom_statut'];?></a>
 							</div>
 							<div class="composition-time">
 								<time class="published" datetime="2017-03-24T18:18"><?php echo $value3['date_ajout'];?></time>
@@ -418,8 +421,8 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 
 							<div class="composition">
-								<a href="#" class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
-								<a href="#" class="composition-author"><?php echo $value4['nom_statut'];?></a>
+								<a class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
+								<a class="composition-author"><?php echo $value4['nom_statut'];?></a>
 							</div>
 							<div class="composition-time">
 								<time class="published" datetime="2017-03-24T18:18"><?php echo $value4['date_ajout'];?></time>
@@ -447,8 +450,8 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 
 							<div class="composition">
-								<a href="#" class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
-								<a href="#" class="composition-author"><?php echo $value4['nom_statut'];?></a>
+								<a class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
+								<a class="composition-author"><?php echo $value4['nom_statut'];?></a>
 							</div>
 							<div class="composition-time">
 								<time class="published" datetime="2017-03-24T18:18"><?php echo $value4['date_ajout'];?></time>
@@ -593,6 +596,30 @@ if (isset($_SESSION['id_statut'])) {
 				e.preventDefault();
 				e.stopPropagation();
 				$(".form_user").submit();
+			})
+			$("body").on('click', '.remove_us', function(e){
+				e.preventDefault();
+				e.stopPropagation();
+				var id=$("#le_id").val();
+				swal({
+					title: 'êtes vous sûr?',
+					text: "Vous allez supprimer l'utilisateur!",
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Oui!'
+				}).then(function () {
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {remove_user_moderation: id}
+					})
+					.done(function(data) {
+						$("#"+id).remove();
+						$('#problemos').modal('toggle');
+					})
+				})
 			})
 			$(".valid_user").on('click', function(e){
 				e.preventDefault();
