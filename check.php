@@ -506,6 +506,7 @@ if (isset($_SESSION['id_statut'])) {
 																				var valueCheck = [];
 																				var arrayCheck = [];
 																				var arraycom_contr = [];
+																				var soprod="";
 																				var arraycom_graph= [];
 																				var idGpp = $('.idgpp').val();
 																				var chronoo=$(".chrono").val();
@@ -524,11 +525,17 @@ if (isset($_SESSION['id_statut'])) {
 																						valueCheck.push(1);
 																						arraycom_contr.push($(this).find('#description_control').val());
 																						arraycom_graph.push($(this).find('#description_graph').val());
+																						if($(this).find('#description_control').val()!=''){
+																							soprod+=$(this).find('h4').html()+" : "+$(this).find('#description_control').val()+"<br>";
+																						}
 																					}else{
 																						idCheck.push(id_emet);	
 																						valueCheck.push(0);	
 																						arraycom_contr.push($(this).find('#description_control').val());
-																						arraycom_graph.push($(this).find('#description_graph').val());		
+																						arraycom_graph.push($(this).find('#description_graph').val());	
+																						if($(this).find('#description_control').val()!=''){
+																							soprod+=$(this).find('h4').html()+" : "+$(this).find('#description_control').val()+"<br>";
+																						}	
 																					}
 																					i++;
 																				});
@@ -557,7 +564,22 @@ if (isset($_SESSION['id_statut'])) {
 																								'La maquette va être renvoyée au graphiste !',
 																								'success'
 																								).then(function () {
-																									$(location).attr('href', 'accueil.php');
+																									swal({
+																										title: 'Commentaires SoProd',
+																										type: 'info',
+																										html:
+																										'<b>Commentaires à mettre dans SoProd:</b><br>, ' + soprod,
+																										showCloseButton: false,
+																										showCancelButton: false,
+																										focusConfirm: false,
+																										confirmButtonText:
+																										'<i class="fa fa-thumbs-up"></i> fait!',
+																										confirmButtonAriaLabel: 'Thumbs up, great!',
+																										cancelButtonText:
+																										'<i class="fa fa-thumbs-down"></i>',
+																									}).then(function () {
+																										$(location).attr('href', 'accueil.php');
+																									})
 																								})
 																							})
 																					}, function (dismiss) {

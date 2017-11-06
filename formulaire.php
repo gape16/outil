@@ -1231,7 +1231,7 @@ if (isset($_POST['moderation_modif_user'])) {
 	?>
 	<form method="post" action="moderation_user.php" class="form_user">
 		<div class="row">
-			<input type="hidden" value="<?php echo $moderation_modif_user;?>" name="le_id">
+			<input type="hidden" value="<?php echo $moderation_modif_user;?>" name="le_id" id="le_id">
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<div class="form-group label-floating">
 					<label class="control-label">Nom</label>
@@ -1266,8 +1266,9 @@ if (isset($_POST['moderation_modif_user'])) {
 						<?php }?>
 					</select>
 				</div>
+				<button class="btn btn-primary btn-lg remove_us" style="float:left;width: 50%;">Supprimer l'utilisateur</button>
 
-				<button class="btn btn-primary btn-lg full-width modif_us">Modifier l'utilisateur</button>
+				<button class="btn btn-primary btn-lg  modif_us" style="float:left;width:50%;background: #1ed760;color: white;">Modifier l'utilisateur</button>
 			</div>
 
 
@@ -1625,4 +1626,10 @@ if(isset($_POST['nb_aide_graph'])){
 	$query->bindParam(2, $graph);
 	$query->execute();
 	echo $query->rowCount();
+}
+if(isset($_POST['remove_user_moderation'])){
+	$id_user=$_POST['remove_user_moderation'];
+	$query=$bdd->prepare("DELETE FROM user where id_user = ?");
+	$query->bindParam(1, $id_user);
+	$query->execute();
 }

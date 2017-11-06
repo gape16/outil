@@ -184,7 +184,7 @@ if($nb_notifs==0){
       </div>
     </div>
 
-    <div class="control-icon more has-items">
+    <div class="control-icon more has-items" id="third">
       <svg class="olymp-thunder-icon"><svg id="olymp-thunder-icon" viewBox="0 0 26 32" width="100%" height="100%">
         <title>thunder-icon</title>
         <path d="M25.6 11.198h-8l6.4-11.198-18.669 0.005-5.331 17.597h4.798l-1.598 14.398 4.8-4.458v-4.914l-1.6 1.371 1.6-9.602h-3.2l3.2-11.2h9.6l-4.8 11.2h4.8v4.23l8-7.43zM11.2 22.4h3.2v-3.2h-3.2v3.2z"></path>
@@ -227,7 +227,7 @@ if($nb_notifs==0){
       <a href="achat_photos.php" class="view-all bg-primary">Voir tous les achats de photos</a>
     </div>
   </div>
-  <div class="control-icon more has-items">
+  <div class="control-icon more has-items" id="quad">
     <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right" data-original-title="" title=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
 
     <div class="label-avatar bg-primary label_aide" <?php if($query_notif_coded->rowCount() == 0){ echo "style='display:none;'"; }?>><?php if($query_notif_coded->rowCount()!=0){ echo $query_notif_coded->rowCount();}?></div>
@@ -266,7 +266,7 @@ if($nb_notifs==0){
     <a href="help_admin.php" class="view-all bg-primary">Voir les demandes</a>
   </div>
 </div>
-<div class="author-page author vcard inline-items more" >
+<div class="author-page author vcard inline-items more" id="five">
   <div class="author-thumb">
     <img alt="author" src="<?php echo utf8_encode($infos["photo_avatar"]);?>" class="avatar">
     <span class="icon-status online"></span>
