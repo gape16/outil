@@ -30,6 +30,11 @@ a.btn-haxor {
 .mb {
 	margin-bottom: 20px;
 }
+.btn-hax:hover {
+	background-color: #1ed760;
+	border-color: #1ed760;
+	opacity: 1;
+}
 .nomb{
 	margin-bottom: 0;
 }

@@ -13,6 +13,9 @@ if (isset($_SESSION['id_statut'])) {
 	$selection_categorie_remontees = $bdd->prepare("SELECT * FROM categorie_remontees");
 	$selection_categorie_remontees->execute();
 
+	$query_select_remontees = $bdd->prepare("SELECT * FROM remontees inner join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees inner join etat_remontees on remontees.accept_remontees = etat_remontees.id_etat_remontees order by date_remontees DESC");
+	$query_select_remontees->execute();
+
 	?>
 
 	<!DOCTYPE html>
@@ -95,14 +98,14 @@ if (isset($_SESSION['id_statut'])) {
 			include('header.php');
 		}elseif  ($_SESSION['id_statut']==2){
 			//page  redacteurs
-			include('header.php');
+			include('header_redac.php');
 		}
 		elseif ($_SESSION['id_statut']==3) {
 			//page leader
-			include('header.php');
+			include('header_leader.php');
 		}elseif ($_SESSION['id_statut']==4) {
 			//page controleur
-			include('header_admin.php');
+			include('header_controleur.php');
 		}elseif($_SESSION['id_statut']==5){
 			//page admin
 			include('header_admin.php');
@@ -123,9 +126,27 @@ if (isset($_SESSION['id_statut'])) {
 
 		<div class="header-spacer header-spacer-small"></div>
 
+
+		<div class="main-header">
+			<div class="content-bg-wrap">
+				<div class="content-bg bg-music"></div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+						<div class="main-header-content">
+							<h1>N'hésitez plus, demandez de l'aide</h1>
+							<p>C'est ici que vous allez pouvoir faire les demandes d'aide sur vos problèmes d'intégration</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<img class="img-bottom" src="img/music-bottom.png" alt="friends">
+		</div>
 		<!-- Main Content Groups -->
 
-		<div class="container mt">
+		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="ui-block">
@@ -171,100 +192,150 @@ if (isset($_SESSION['id_statut'])) {
 			</div>
 		</div>
 		<!-- ... end Main Content Groups -->
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="ui-block">
+						<div class="ui-block-title ui-block-title-small">
+							<h6 class="title">Historique des remontées</h6>
+						</div>
+						<table class="event-item-table">
+							<tbody>
+								<?php foreach ($query_select_remontees as $key => $value){
+									$date_tab=explode("-", $value['date_remontees']);
+									$jour_tab=explode(" ",$date_tab[2]);
+									$jour=$jour_tab[0];
 
-		<!-- jQuery first, then Other JS. -->
-		<script src="js/jquery-3.2.0.min.js"></script>
-		<!-- Js effects for material design. + Tooltips -->
-		<script src="js/material.min.js"></script>
-		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-		<script src="js/theme-plugins.js"></script>
-		<!-- Init functions -->
-		<script src="js/main.js"></script>
-		<script src="js/alterclass.js"></script>
-		<script src="js/chat.js"></script>
-		<!-- Select / Sorting script -->
-		<script src="js/selectize.min.js"></script>
+									$m=$date_tab[1];
+									$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 
-		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+									?>
+									<tr class="event-item">
+										<td class="upcoming">
+											<div class="date-event">
+												<svg class="olymp-small-calendar-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+												<span class="day"><?php echo $jour; ?></span>
+												<span class="month"><?php echo $months[(int)$m]; ?></span>
+											</div>
+										</td>
+										<td class="author">
+											<div class="event-author inline-items">
+												<div class="author-date">
+													<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+												</div>
+											</div>
+										</td>
+										<td class="location">
+											<p class="categorie"><?php echo utf8_encode($value['categorie_remontees']);?></p>
+										</td>
+										<td class="users">
+											<p class="description"><?php echo utf8_encode($value['description']);?></p>
+										</td>
+										<td class="description"></td>
+										<td class="add-event">
+											<a class="btn btn-breez btn-sm" style="background:#9a9fbf;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
+										</td>
+									</tr>
+									<?php } ?>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- jQuery first, then Other JS. -->
+			<script src="js/jquery-3.2.0.min.js"></script>
+			<!-- Js effects for material design. + Tooltips -->
+			<script src="js/material.min.js"></script>
+			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+			<script src="js/theme-plugins.js"></script>
+			<!-- Init functions -->
+			<script src="js/main.js"></script>
+			<script src="js/alterclass.js"></script>
+			<script src="js/chat.js"></script>
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
+
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-		<script src="js/mediaelement-and-player.min.js"></script>
-		<script src="js/mediaelement-playlist-plugin.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-		<script src="js/charte.js"></script>
-		<?php 
-		if($_SESSION['id_statut']==1) {
+			<script src="js/charte.js"></script>
+			<?php 
+			if($_SESSION['id_statut']==1) {
 						//page graphistes 
-			?><script src="js/notifications.js"></script><?php
-		}elseif  ($_SESSION['id_statut']==2){
+				?><script src="js/notifications.js"></script><?php
+			}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-			?><script src="js/notifications_redac.js"></script><?php
-		}
-		elseif ($_SESSION['id_statut']==3) {
+				?><script src="js/notifications_redac.js"></script><?php
+			}
+			elseif ($_SESSION['id_statut']==3) {
 						//page leader
-			?><script src="js/notifications_leader.js"></script><?php
-		}elseif ($_SESSION['id_statut']==4) {
+				?><script src="js/notifications_leader.js"></script><?php
+			}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-			?><script src="js/notifications_controleur.js"></script><?php
-		}elseif($_SESSION['id_statut']==5){
+				?><script src="js/notifications_controleur.js"></script><?php
+			}elseif($_SESSION['id_statut']==5){
 						//page admin
-			?><script src="js/notifications_admin.js"></script><?php
-		}
-		?>
-		<script>
-			$(function(){
-				$('.valider_remontee').on('click', function(){
-					var categorie = $('select.categorie').val();
-					var titre = $('.titre').val();
-					var description = $('#description').val();
-					if (categorie != 0) {
-						$('.categorie').removeClass('empty');
-						if (titre.length >= 5) {
-							$('.titre').removeClass('empty');
-							if (description.length >= 30) {
-								$('#description').removeClass('empty');
-								$.ajax({
-									url: 'formulaire.php',
-									type: 'POST',
-									data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
-								})
-								.done(function() {
-									swal(
-										'Remontée effectuée',
-										'Votre remontée sera étudiée sous peu',
-										'success'
-										)
-									setTimeout(function(){
-										location.reload();
-									},1000);
-								})
+				?><script src="js/notifications_admin.js"></script><?php
+			}
+			?>
+			<script>
+				$(function(){
+					$('.valider_remontee').on('click', function(){
+						var categorie = $('select.categorie').val();
+						var titre = $('.titre').val();
+						var description = $('#description').val();
+						if (categorie != 0) {
+							$('.categorie').removeClass('empty');
+							if (titre.length >= 5) {
+								$('.titre').removeClass('empty');
+								if (description.length >= 30) {
+									$('#description').removeClass('empty');
+									$.ajax({
+										url: 'formulaire.php',
+										type: 'POST',
+										data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
+									})
+									.done(function(data) {
+										swal(
+											'Remontée effectuée',
+											'Votre remontée sera étudiée sous peu',
+											'success'
+											)
+										setTimeout(function(){
+											location.reload();
+										},1000);
+									})
+								}else{
+									$('#description').addClass('empty');
+									$('#description').prev().html('30 caractères minimum requis');
+								}
 							}else{
-								$('#description').addClass('empty');
-								$('#description').prev().html('30 caractères minimum requis');
+								$('.titre').addClass('empty');
+								$('.titre').prev().html('5 caractères minimum requis');
 							}
 						}else{
-							$('.titre').addClass('empty');
-							$('.titre').prev().html('5 caractères minimum requis');
+							$('.categorie').addClass('empty');
+							$('.categorie').prev().html('Une catégorie est requise');
 						}
-					}else{
-						$('.categorie').addClass('empty');
-						$('.categorie').prev().html('Une catégorie est requise');
-					}
-				})
+					})
 
-				$('.reni').on('click', function(){
-					$('select.categorie').val(0);
-					$('.titre').val('');
-					$('#description').val('');
+					$('.reni').on('click', function(){
+						$('select.categorie').val(0);
+						$('.titre').val('');
+						$('#description').val('');
+					})
 				})
-			})
-		</script>
-	</body>
-	</html>
-	<?php
-	
-}else{
-	header('Location: login.php');
-}
-?>
+			</script>
+		</body>
+		</html>
+		<?php
+
+	}else{
+		header('Location: login.php');
+	}
+	?>

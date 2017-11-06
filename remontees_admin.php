@@ -10,9 +10,11 @@ if (isset($_SESSION['id_statut'])) {
 		// si c'est un graph qui se connect
 
 
-		$selection_remontees = $bdd->prepare("SELECT * FROM remontees inner join user on remontees.id_user = user.id_user inner join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees");
+		$selection_remontees = $bdd->prepare("SELECT * FROM remontees inner join user on remontees.id_user = user.id_user inner join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees WHERE accept_remontees != 2 ");
 		$selection_remontees->execute();
 
+		$selection_etat_remontees = $bdd->prepare("SELECT * FROM etat_remontees");
+		$selection_etat_remontees->execute();
 		?>
 
 		<!DOCTYPE html>
@@ -96,14 +98,14 @@ if (isset($_SESSION['id_statut'])) {
 				include('header.php');
 			}elseif  ($_SESSION['id_statut']==2){
 			//page  redacteurs
-				include('header.php');
+				include('header_redac.php');
 			}
 			elseif ($_SESSION['id_statut']==3) {
 			//page leader
-				include('header.php');
+				include('header_leader.php');
 			}elseif ($_SESSION['id_statut']==4) {
 			//page controleur
-				include('header_admin.php');
+				include('header_controleur.php');
 			}elseif($_SESSION['id_statut']==5){
 			//page admin
 				include('header_admin.php');
@@ -124,39 +126,32 @@ if (isset($_SESSION['id_statut'])) {
 
 			<div class="header-spacer header-spacer-small"></div>
 
-			<div class="main-header">
-				<div class="content-bg-wrap">
-					<div class="content-bg bg-music"></div>
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
-							<div class="main-header-content">
-								<h1>N'hésitez plus, achetez vos photos!</h1>
-								<p>C'est ici que vous allez pouvoir faire les demandes d'achat de photos et vidéos. vous pourrez télécharger au plus vite gràce au système de notification.
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<img class="img-bottom" src="img/music-bottom.png" alt="friends">
-			</div>
-
 			<!-- Main Content Groups -->
 
 			<div class="container">
 				<div class="row">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<ul class="cat-list-bg-style align-center sorting-menu">
+							<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
+
+							<?php foreach ($selection_etat_remontees as $key => $value) {?>
+							<li class="cat-list__item" data-filter="<?php echo($value['id_etat_remontees']) ?>"><a href="#" class=""><?php echo utf8_encode($value['etat_remontees']) ?></a></li>
+							<?php }
+							?>
+						</ul>
 						<div class="ui-block">
 							<div class="ui-block-title">
 								<h6 class="title">Demande d'évolution / remontées</h6>
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Recherche</label>
+									<input class="form-control search" placeholder="" value="" type="text">
+								</div>
 							</div>
 							<div class="ui-block-content">
 								<table class="event-item-table">
 									<tbody>
 										<?php foreach ($selection_remontees as $key => $value) {?>
-										<tr class="event-item">
+										<tr class="event-item sorting-item <?php echo($value['id_categorie_remontees']) ?>">
 											<td class="upcoming">
 												<div class="date-event">
 													<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
@@ -165,9 +160,6 @@ if (isset($_SESSION['id_statut'])) {
 											</td>
 											<td class="author">
 												<div class="event-author inline-items">
-													<div class="author-thumb">
-														<img src="img/avatar43-sm.jpg" alt="author">
-													</div>
 													<div class="author-date">
 														<a class="author-name h6"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
 													</div>
@@ -209,11 +201,14 @@ if (isset($_SESSION['id_statut'])) {
 									<textarea class="form-control commentaires" ></textarea>
 								</div>
 								<div class="row">
-									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<a href="#" class="btn btn-secondary btn-lg full-width refuser_remontees">Refuser</a>
+									<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<a href="#" class="btn btn-secondary full-width refuser_remontees">Refuser</a>
 									</div>
-									<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<a href="#" class="btn btn-green btn-lg full-width accepter_remontees">Valider</a>
+									<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<a href="#" class="btn  btn-secondary full-width traitement_remontees btn-hax">En traitement</a>
+									</div>
+									<div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<a href="#" class="btn btn-green full-width accepter_remontees">Valider</a>
 									</div>
 								</div>
 								<input type="hidden" class="hax_id_remontees">
@@ -230,12 +225,17 @@ if (isset($_SESSION['id_statut'])) {
 						<!-- Init functions -->
 						<script src="js/main.js"></script>
 						<script src="js/alterclass.js"></script>
-						<script src="js/chat.js"></script>
+						<!-- <script src="js/chat.js"></script> -->
 						<!-- Select / Sorting script -->
 						<script src="js/selectize.min.js"></script>
 
-						<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+						<!-- Swiper / Sliders -->
+						<script src="js/swiper.jquery.min.js"></script>
 
+						<script src="js/isotope.pkgd.min.js"></script>
+
+						<script src="js/mediaelement-and-player.min.js"></script>
+						<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
 						<script src="js/mediaelement-and-player.min.js"></script>
 						<script src="js/mediaelement-playlist-plugin.min.js"></script>
@@ -267,6 +267,46 @@ if (isset($_SESSION['id_statut'])) {
 								$('.hax_id_remontees').val(id_remontees);
 							})
 
+							// $('.search').keyup(function(){
+							// 	var search = $(this).val();
+							// 	if(search.length >= 3){
+							// 		$.ajax({
+							// 			url: 'formulaire.php',
+							// 			type: 'POST',
+							// 			data: {search_remontees: search},
+							// 		})
+							// 		.done(function(data) {
+							// 			console.log(data);
+							// 			$('table.event-item-table').html('');
+							// 			$(data).appendTo('table.event-item-table');
+							// 		})
+							// 	}else{
+							// 		$.ajax({
+							// 			url: 'formulaire.php',
+							// 			type: 'POST',
+							// 			data: {search_empty: search},
+							// 		})
+							// 		.done(function(data) {
+							// 			console.log(data);
+							// 			$('table.event-item-table').html('');
+							// 			$(data).appendTo('table.event-item-table');
+							// 		})
+							// 	}
+							// });
+
+							$('.cat-list__item').on('click', function(){
+								var etat = $(this).data('filter');
+								$('.event-item').css('display', 'table-row');
+								$('.event-item').each(function(){
+									if (!$(this).hasClass(etat)) {
+										$(this).css('display', 'none');
+									}
+								})
+							})
+							$('.cat-list__item.active').on('click', function(){
+								$('.event-item').css('display', 'table-row');
+							})
+
 							$('.accepter_remontees').on('click', function(){
 								var commentaire = $('.commentaires').val();
 								var id_remontees = $('.hax_id_remontees').val();
@@ -291,7 +331,6 @@ if (isset($_SESSION['id_statut'])) {
 									$('.commentaires').addClass('empty');
 									$('.commentaires').prev().html('30 caractères minimum requis');
 								}
-								
 							})
 
 							$('.refuser_remontees').on('click', function(){
@@ -320,27 +359,53 @@ if (isset($_SESSION['id_statut'])) {
 								}
 							})
 
+							$('.traitement_remontees').on('click', function(){
+								var commentaire = $('.commentaires').val();
+								var id_remontees = $('.hax_id_remontees').val();
+								if (commentaire.length >= 30) {
+									$('.commentaires').removeClass('empty');
+									$.ajax({
+										url: 'formulaire.php',
+										type: 'POST',
+										data: {commentaire_remontees_traitement: commentaire, id_remontees: id_remontees},
+									})
+									.done(function(data) {
+										swal(
+											'Remontée en traitement',
+											'La remontée est en cours de traitement',
+											'success'
+											)
+										setTimeout(function(){
+											location.reload();
+										},1500);
+									})
+								}else{
+									$('.commentaires').addClass('empty');
+									$('.commentaires').prev().html('30 caractères minimum requis');
+								}
+							})
+
 							$('.search').keyup(function(){
 								var search = $(this).val();
 								if(search.length >= 3){
 									$.ajax({
 										url: 'formulaire.php',
 										type: 'POST',
-										data: {admin_search: search},
+										data: {admin_remontees_search: search},
 									})
 									.done(function(data) {
-										$('.admin_card').html('');
-										$(data).appendTo('.admin_card');
+										$('table.event-item-table tbody').html('');
+										$(data).appendTo('table.event-item-table tbody');
 									})
 								}else{
 									$.ajax({
 										url: 'formulaire.php',
 										type: 'POST',
-										data: {admin_search_empty: search},
+										data: {admin_remontees_search_empty: search},
 									})
 									.done(function(data) {
-										$('.admin_card').html('');
-										$(data).appendTo('.admin_card');
+										$('table.event-item-table tbody').html('');
+										$(data).appendTo('table.event-item-table tbody');
 									})
 								}
 							});

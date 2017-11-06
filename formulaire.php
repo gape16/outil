@@ -1118,7 +1118,7 @@ if(isset($_POST['categorie_remontees'])){
 	$description_remontees = utf8_decode($_POST['description_remontees']);
 	$id_user = $_SESSION['id_graph'];
 	$date = date('Y-m-d H:i:s');
-	$accept_remontees = 0;
+	$accept_remontees = 1;
 	$commentaires = '';
 	$requete_remontee = $bdd->prepare("INSERT INTO remontees (titre, description, id_categorie_remontees, date_remontees, id_user, accept_remontees, commentaires) VALUES (?,?,?,?,?,?,?)");
 	$requete_remontee->bindParam(1, $titre_remontees);
@@ -1130,8 +1130,18 @@ if(isset($_POST['categorie_remontees'])){
 	$requete_remontee->bindParam(7, $commentaires);
 	$requete_remontee->execute();
 }
-if (isset($_POST['commentaire_remontees'])) {
-	$accept_remontees = 1;
+if (isset($_POST['commentaire_remontees_refus'])) {
+	$decline_remontees = 2;
+	$id_remontees = utf8_decode($_POST['id_remontees']);
+	$commentaire = utf8_decode($_POST['commentaire_remontees_refus']);
+	$requete_decline_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
+	$requete_decline_remontee->bindParam(1, $decline_remontees);
+	$requete_decline_remontee->bindParam(2, $commentaire);
+	$requete_decline_remontee->bindParam(3, $id_remontees);
+	$requete_decline_remontee->execute();
+}
+if (isset($_POST['commentaire_remontees_traitement'])) {
+	$accept_remontees = 3;
 	$id_remontees = utf8_decode($_POST['id_remontees']);
 	$commentaire = utf8_decode($_POST['commentaire_remontees']);
 	$requete_accept_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
@@ -1140,15 +1150,15 @@ if (isset($_POST['commentaire_remontees'])) {
 	$requete_accept_remontee->bindParam(3, $id_remontees);
 	$requete_accept_remontee->execute();
 }
-if (isset($_POST['commentaire_remontees_refus'])) {
-	$decline_remontees = 0;
+if (isset($_POST['commentaire_remontees'])) {
+	$accept_remontees = 4;
 	$id_remontees = utf8_decode($_POST['id_remontees']);
-	$commentaire = utf8_decode($_POST['commentaire_remontees_refus']);
-	$requete_decline_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
-	$requete_decline_remontee->bindParam(1, $decline_remontees);
-	$requete_decline_remontee->bindParam(2, $commentaire);
-	$requete_decline_remontee->bindParam(3, $id_remontees);
-	$requete_decline_remontee->execute();
+	$commentaire = utf8_decode($_POST['commentaire_remontees']);
+	$requete_accept_remontee = $bdd->prepare("UPDATE remontees SET accept_remontees = ?, commentaires = ? where id_remontees = ?");
+	$requete_accept_remontee->bindParam(1, $accept_remontees);
+	$requete_accept_remontee->bindParam(2, $commentaire);
+	$requete_accept_remontee->bindParam(3, $id_remontees);
+	$requete_accept_remontee->execute();
 }
 if (isset($_POST['newLeader'])) {
 	$newLeader=$_POST['newLeader'];
@@ -1614,4 +1624,59 @@ if(isset($_POST['nb_aide_graph'])){
 	$query->bindParam(2, $graph);
 	$query->execute();
 	echo $query->rowCount();
+}
+
+
+if(isset($_POST['admin_remontees_search'])){
+	$search = $_POST['admin_remontees_search'];
+	$varsearch = "%" . $search . "%";
+	$requete_search = $bdd->prepare("SELECT * FROM remontees inner join user on remontees.id_user=user.id_user WHERE titre or description LIKE ? order by date_remontees DESC");
+	$requete_search->bindParam(1, $varsearch);
+	$requete_search->execute();
+	$nb_result = $requete_search->rowCount();
+	$tab_search = array();
+	if ($nb_result == 0) {?>
+	<tr class="event-item">
+		<td class="upcoming">
+			<div class="date-event">
+				<h2>Aucun résultat n'a été trouvé</h2>
+			</div>
+		</td>
+	</tr>
+	<?php }else{
+		foreach ($requete_search as $key => $value) {
+			$date_tab=explode("-", $value['date_remontees']);
+			$jour_tab=explode(" ",$date_tab[2]);
+			$jour=$jour_tab[0];
+			$m=$date_tab[1];
+			$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+			?>
+			<tr class="event-item sorting-item <?php echo($value['id_categorie_remontees']) ?>">
+				<td class="upcoming">
+					<div class="date-event">
+						<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+						<span class="day"><?php echo $value['date_remontees'];?></span>
+					</div>
+				</td>
+				<td class="author">
+					<div class="event-author inline-items">
+						<div class="author-date">
+							<a class="author-name h6"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
+						</div>
+					</div>
+				</td>
+				<td class="users">
+					<p class="description"><span>Catégorie: <?php echo utf8_encode($value['categorie_remontees']);?></span></p>
+				</td>
+				<td class="users">
+					<p class="description"><?php echo utf8_encode($value['description']);?></p>
+				</td>
+				<td class="add-event">
+					<a data-toggle="modal" data-target="#modal_remontees" class="btn btn-breez btn-sm open_modal">Voir</a>
+				</td>
+				<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
+			</tr>
+			<?php
+		}
+	}
 }

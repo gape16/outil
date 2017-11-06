@@ -226,7 +226,7 @@ $query_inser_code->execute();
 		include('header.php');
 	}elseif  ($_SESSION['id_statut']==2){
 			//page  redacteurs
-		include('header.php');
+		include('header_redac.php');
 	}
 	elseif ($_SESSION['id_statut']==3) {
 			//page leader
@@ -238,7 +238,7 @@ $query_inser_code->execute();
 			//page admin
 		include('header_admin.php');
 	}
-	?> 
+	?>
 
 	<!-- ... end Header -->
 

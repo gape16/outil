@@ -104,20 +104,19 @@ $query_inser_code->execute();
 		include('header.php');
 	}elseif  ($_SESSION['id_statut']==2){
 			//page  redacteurs
-		include('header.php');
+		include('header_redac.php');
 	}
 	elseif ($_SESSION['id_statut']==3) {
 			//page leader
-		include('header.php');
+		include('header_leader.php');
 	}elseif ($_SESSION['id_statut']==4) {
 			//page controleur
-		include('header_admin.php');
+		include('header_controleur.php');
 	}elseif($_SESSION['id_statut']==5){
 			//page admin
 		include('header_admin.php');
 	}
 	?>
-
 	<!-- ... end Header -->
 
 
