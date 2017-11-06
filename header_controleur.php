@@ -55,34 +55,34 @@ if($nb_notifs==0){
           $query_notif_code->execute();
         }
         if($result['notif_B']==0){
-          $query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
-          $query_notif_code->execute();
-          $result_notif_code=$query_notif_code->fetch();
-          $dernier=$result_notif_code['id_veille'];
-          $query_inser_code=$bdd->prepare("UPDATE notifications set notif_B = ? where id_user = ?");
-          $query_inser_code->bindParam(1, $dernier);
-          $query_inser_code->bindParam(2, $id_graph);
-          $query_inser_code->execute();
+          $query_notif_codeb=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
+          $query_notif_codeb->execute();
+          $result_notif_codeb=$query_notif_codeb->fetch();
+          $dernierb=$result_notif_codeb['id_veille'];
+          $query_inser_codeb=$bdd->prepare("UPDATE notifications set notif_B = ? where id_user = ?");
+          $query_inser_codeb->bindParam(1, $dernierb);
+          $query_inser_codeb->bindParam(2, $id_graph);
+          $query_inser_codeb->execute();
         }else{
-          $dernier=$result['notif_B'];
-          $query_notif_code=$bdd->prepare("SELECT description, titre, file, categorie_veille.categorie FROM veille inner join categorie_veille on veille.categorie = categorie_veille.id_categorie_veille WHERE id_veille > ? and accept_veille = 1 order by id_veille DESC");
-          $query_notif_code->bindParam(1, $dernier);
-          $query_notif_code->execute();
+          $dernierb=$result['notif_B'];
+          $query_notif_codeb=$bdd->prepare("SELECT description, titre, file, categorie_veille.categorie FROM veille inner join categorie_veille on veille.categorie = categorie_veille.id_categorie_veille WHERE id_veille > ? and accept_veille = 1 order by id_veille DESC");
+          $query_notif_codeb->bindParam(1, $dernierb);
+          $query_notif_codeb->execute();
         }
         if($result['notif_C']==0){
-          $query_notif_code=$bdd->prepare("SELECT * FROM achat_photos order by id_achat DESC limit 1");
-          $query_notif_code->execute();
-          $result_notif_code=$query_notif_code->fetch();
-          $dernier=$result_notif_code['id_achat'];
-          $query_inser_code=$bdd->prepare("UPDATE notifications set notif_C = ? where id_user = ?");
-          $query_inser_code->bindParam(1, $dernier);
-          $query_inser_code->bindParam(2, $id_graph);
-          $query_inser_code->execute();
+          $query_notif_codec=$bdd->prepare("SELECT * FROM achat_photos order by id_achat DESC limit 1");
+          $query_notif_codec->execute();
+          $result_notif_codec=$query_notif_codec->fetch();
+          $dernierc=$result_notif_codec['id_achat'];
+          $query_inser_codec=$bdd->prepare("UPDATE notifications set notif_C = ? where id_user = ?");
+          $query_inser_codec->bindParam(1, $dernierc);
+          $query_inser_codec->bindParam(2, $id_graph);
+          $query_inser_codec->execute();
         }else{
-          $dernier=$result['notif_C'];
-          $query_notif_code=$bdd->prepare("SELECT id_client, categorie, etat_achat.etat, photo FROM achat_photos inner join user on achat_photos.id_controleur = user.id_user inner join etat_achat on achat_photos.id_etat_achat = etat_achat.etat WHERE id_achat > ? and id_etat_achat = 0 order by id_achat DESC");
-          $query_notif_code->bindParam(1, $dernier);
-          $query_notif_code->execute();
+          $dernierc=$result['notif_C'];
+          $query_notif_codec=$bdd->prepare("SELECT id_client, categorie, etat_achat.etat, photo FROM achat_photos inner join user on achat_photos.id_controleur = user.id_user inner join etat_achat on achat_photos.id_etat_achat = etat_achat.etat WHERE id_achat > ? and id_etat_achat = 0 order by id_achat DESC");
+          $query_notif_codec->bindParam(1, $dernierc);
+          $query_notif_codec->execute();
         }
         if($result['notif_D']==0){
           $query_notif_coded=$bdd->prepare("SELECT * FROM aide order by id_aide DESC limit 1");
@@ -100,7 +100,7 @@ if($nb_notifs==0){
           $query_notif_coded->execute();
         }
         ?>
-        <div class="label-avatar bg-blue label_notifs" <?php if($query_notif_code->rowCount() == 0){ echo "style='display:none;'"; }?>><?php if($query_notif_code->rowCount() != 0){ echo $query_notif_code->rowCount();}?></div>
+        <div class="label-avatar bg-blue label_notifs"  <?php if($query_notif_code->rowCount() == 0){ echo "style='display:none;'"; }?>><?php if($query_notif_code->rowCount() != 0){ echo $query_notif_code->rowCount();}?></div>
 
         <div class="more-dropdown more-with-triangle triangle-top-center">
           <div class="ui-block-title ui-block-title-small">
