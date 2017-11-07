@@ -93,59 +93,30 @@ if (isset($_SESSION['id_statut'])) {
 
 		<body>
 
-			<!-- Fixed Sidebar Left -->
 			<?php 
 			if($_SESSION['id_statut']==1) {
-			//page graphistes 
+		//page graphistes 
 				include('left_sidebar.php');
-			}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
-				include('left_sidebar_redac.php');
-			}
-			elseif ($_SESSION['id_statut']==3) {
-			//page leader
-				include('left_sidebar_leader.php');
-			}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
-				include('left_sidebar_controleur.php');
-			}elseif($_SESSION['id_statut']==5){
-			//page admin
-				include('left_sidebar_admin.php');
-			}
-			?>
-
-			<!-- ... end Fixed Sidebar Left -->
-
-			<!-- Fixed Sidebar Right -->
-
-			<?php include('fixed_sidebar_right.php');?>
-
-			<!-- ... end Fixed Sidebar Right -->
-
-
-			<!-- Header -->
-
-			<?php 
-			if($_SESSION['id_statut']==1) {
-			//page graphistes 
 				include('header.php');
 			}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
+		//page  redacteurs
+				include('left_sidebar_redac.php');
 				include('header_redac.php');
 			}
 			elseif ($_SESSION['id_statut']==3) {
-			//page leader
+		//page leader
+				include('left_sidebar_leader.php');
 				include('header_leader.php');
 			}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
+		//page controleur
+				include('left_sidebar_controleur.php');
 				include('header_controleur.php');
 			}elseif($_SESSION['id_statut']==5){
-			//page admin
+		//page admin
+				include('left_sidebar_admin.php');
 				include('header_admin.php');
 			}
 			?>
-
-			<!-- ... end Header -->
 
 
 			<!-- Responsive Header -->
@@ -153,9 +124,6 @@ if (isset($_SESSION['id_statut'])) {
 			<?php include('responsive_header.php');?>
 			
 			<!-- ... end Responsive Header -->
-
-			<!-- ... end Responsive Header -->
-
 
 			<div class="header-spacer header-spacer-small"></div>
 
@@ -278,12 +246,6 @@ if (isset($_SESSION['id_statut'])) {
 					</div>
 				</div>
 
-				<!-- Window-popup-CHAT for responsive min-width: 768px -->
-
-				<?php include('chat_box.php');?>
-
-				<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
 				<!-- jQuery first, then Other JS. -->
 				<script src="js/jquery-3.2.0.min.js"></script>
 				<!-- Js effects for material design. + Tooltips -->
@@ -293,7 +255,6 @@ if (isset($_SESSION['id_statut'])) {
 				<!-- Init functions -->
 				<script src="js/main.js"></script>
 				<script src="js/alterclass.js"></script>
-				<!-- <script src="js/chat.js"></script> -->
 				<!-- Select / Sorting script -->
 				<script src="js/selectize.min.js"></script>
 

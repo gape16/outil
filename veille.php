@@ -36,7 +36,7 @@ if (isset($_SESSION['id_statut'])) {
 
 	$id_graph=$_SESSION['id_graph'];
 
-	$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
+	$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by date_veille DESC limit 1");
 	$query_notif_code->execute();
 	$result_notif_code=$query_notif_code->fetch();
 	$dernier=$result_notif_code['id_veille'];
@@ -92,59 +92,30 @@ if (isset($_SESSION['id_statut'])) {
 
 	<body>
 
-		<!-- Fixed Sidebar Left -->
 		<?php 
 		if($_SESSION['id_statut']==1) {
-			//page graphistes 
+		//page graphistes 
 			include('left_sidebar.php');
-		}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
-			include('left_sidebar_redac.php');
-		}
-		elseif ($_SESSION['id_statut']==3) {
-			//page leader
-			include('left_sidebar_leader.php');
-		}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
-			include('left_sidebar_controleur.php');
-		}elseif($_SESSION['id_statut']==5){
-			//page admin
-			include('left_sidebar_admin.php');
-		}
-		?>
-
-		<!-- ... end Fixed Sidebar Left -->
-
-		<!-- Fixed Sidebar Right -->
-
-		<?php include('fixed_sidebar_right.php');?>
-
-		<!-- ... end Fixed Sidebar Right -->
-
-
-		<!-- Header -->
-
-		<?php 
-		if($_SESSION['id_statut']==1) {
-			//page graphistes 
 			include('header.php');
 		}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
+		//page  redacteurs
+			include('left_sidebar_redac.php');
 			include('header_redac.php');
 		}
 		elseif ($_SESSION['id_statut']==3) {
-			//page leader
+		//page leader
+			include('left_sidebar_leader.php');
 			include('header_leader.php');
 		}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
+		//page controleur
+			include('left_sidebar_controleur.php');
 			include('header_controleur.php');
 		}elseif($_SESSION['id_statut']==5){
-			//page admin
+		//page admin
+			include('left_sidebar_admin.php');
 			include('header_admin.php');
 		}
 		?>
-
-		<!-- ... end Header -->
 
 
 		<!-- Responsive Header -->
@@ -152,9 +123,6 @@ if (isset($_SESSION['id_statut'])) {
 		<?php include('responsive_header.php');?>
 		
 		<!-- ... end Responsive Header -->
-
-		<!-- ... end Responsive Header -->
-
 
 		<div class="header-spacer header-spacer-small"></div>
 
@@ -225,19 +193,7 @@ if (isset($_SESSION['id_statut'])) {
 			</div>
 		</div>
 	</div>
-
-
-
-
-
 	<!-- ... end Window-popup Create Friends Group Add Friends -->
-
-	<!-- Window-popup-CHAT for responsive min-width: 768px -->
-
-	<?php include('chat_box.php');?>
-
-	<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
 
 	<!-- jQuery first, then Other JS. -->
 	<script src="js/jquery-3.2.0.min.js"></script>
@@ -248,7 +204,6 @@ if (isset($_SESSION['id_statut'])) {
 	<!-- Init functions -->
 	<script src="js/main.js"></script>
 	<script src="js/alterclass.js"></script>
-	<!-- <script src="js/chat.js"></script> -->
 	<!-- Select / Sorting script -->
 	<script src="js/selectize.min.js"></script>
 

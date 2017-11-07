@@ -136,7 +136,7 @@ if (isset($_POST['numClient'])) {
 		$class_etat="crea-maquette";
 		$new_card="";
 		$class_img="img/Crea-maquette.png";
-		$new_card.='<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+		$new_card.='<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">';
 		$new_card.='	<div class="ui-block hauteur-card" data-mh="friend-groups-item">';
 		$new_card.='		<div class="friend-item friend-groups '.$class_etat.'">';
 		$new_card.='			<div class="friend-item-content">';
@@ -727,8 +727,10 @@ if(isset($_POST['note'])){
 if(isset($_POST['search'])){
 	$search = $_POST['search'];
 	$varsearch = "%" . $search . "%";
-	$requete_search = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide where titre LIKE ? order by date_aide DESC");
+	$requete_search = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide WHERE titre LIKE ? or description LIKE ? or id_client LIKE ? order by date_aide DESC");
 	$requete_search->bindParam(1, $varsearch);
+	$requete_search->bindParam(2, $varsearch);
+	$requete_search->bindParam(3, $varsearch);
 	$requete_search->execute();
 	$nb_result = $requete_search->rowCount();
 	$tab_search = array();
@@ -849,7 +851,7 @@ if(isset($_POST['admin_search'])){
 		$m=$date_tab[1];
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 		?>
-		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6 change_card projet_<?php echo $value['id_client'];?> qualif_<?php echo $value['id_etat'];?>">
+		<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6 change_card projet_<?php echo $value['id_client'];?> qualif_<?php echo $value['id_etat'];?>">
 			<div class="ui-block" data-mh="friend-groups-item">
 				<div class="friend-item friend-groups resetmh">
 					<div class="friend-item-content">

@@ -116,61 +116,31 @@ if (isset($_SESSION['id_statut'])) {
 	<body>
 
 
-		<!-- Fixed Sidebar Left -->
 		<?php 
 		if($_SESSION['id_statut']==1) {
-			//page graphistes 
+		//page graphistes 
 			include('left_sidebar.php');
-		}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
-			include('left_sidebar_redac.php');
-		}
-		elseif ($_SESSION['id_statut']==3) {
-			//page leader
-			include('left_sidebar_leader.php');
-		}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
-			include('left_sidebar_controleur.php');
-		}elseif($_SESSION['id_statut']==5){
-			//page admin
-			include('left_sidebar_admin.php');
-		}
-		?>
-
-
-		<!-- ... end Fixed Sidebar Left -->
-
-		<!-- Fixed Sidebar Right -->
-
-		<?php include('fixed_sidebar_right.php');?>
-
-		<!-- ... end Fixed Sidebar Right -->
-
-
-		<!-- Header -->
-
-		<?php 
-		if($_SESSION['id_statut']==1) {
-			//page graphistes 
 			include('header.php');
 		}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
+		//page  redacteurs
+			include('left_sidebar_redac.php');
 			include('header_redac.php');
 		}
 		elseif ($_SESSION['id_statut']==3) {
-			//page leader
+		//page leader
+			include('left_sidebar_leader.php');
 			include('header_leader.php');
 		}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
+		//page controleur
+			include('left_sidebar_controleur.php');
 			include('header_controleur.php');
-		}elseif ($_SESSION['id_statut']==5) {
-			//page controleur
+		}elseif($_SESSION['id_statut']==5){
+		//page admin
+			include('left_sidebar_admin.php');
 			include('header_admin.php');
 		}
 		?>
 
-
-		<!-- ... end Header -->
 
 
 		<!-- Responsive Header -->
@@ -209,11 +179,11 @@ if (isset($_SESSION['id_statut'])) {
 
 		<div class="container cards">
 			<div class="row">
-				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<div class="friend-item friend-groups create-group hauteur-card ajout-client" data-mh="friend-groups-item">
+				<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="friend-item friend-groups create-group hauteur-card ajout-client" data-toggle="modal" data-target="#create-friend-group-1" data-mh="friend-groups-item">
 						<a href="#" class="full-block" data-toggle="modal" data-target="#create-friend-group-1"></a>
 						<div class="content">
-							<a href="#" class="  btn btn-control bg-blue" data-toggle="modal" data-target="#create-friend-group-1">
+							<a href="#" class=" btn btn-control bg-blue">
 								<svg class="olymp-plus-icon"><use xlink:href="icons/icons.svg#olymp-plus-icon"></use></svg>
 							</a>
 							<div class="author-content">
@@ -250,7 +220,7 @@ if (isset($_SESSION['id_statut'])) {
 					$class_img="img/Site-valide.png";
 				}
 				?>
-				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<div class="ui-block hauteur-card" data-mh="friend-groups-item">
 						<div class="friend-item friend-groups <?php echo $class_etat;?>">
 							<div class="friend-item-content">
@@ -322,15 +292,6 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- ... end Window-popup Create Friends Group -->
 
 
-		<!-- ... end Window-popup Create Friends Group Add Friends -->
-
-		<!-- Window-popup-CHAT for responsive min-width: 768px -->
-
-		<?php include('chat_box.php');?>
-
-		<!-- ... end Window-popup-CHAT for responsive min-width: 768px -->
-
-
 		<!-- jQuery first, then Other JS. -->
 		<script src="js/jquery-3.2.0.min.js"></script>
 		<!-- Js effects for material design. + Tooltips -->
@@ -340,7 +301,6 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- Init functions -->
 		<script src="js/main.js"></script>
 		<script src="js/alterclass.js"></script>
-		<!-- <script src="js/chat.js"></script> -->
 		<!-- Select / Sorting script -->
 		<script src="js/selectize.min.js"></script>
 
