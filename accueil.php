@@ -374,29 +374,19 @@ if (isset($_SESSION['id_statut'])) {
 		<script>
 			$(function(){
 				var introguide = introJs();
-				<<<<<<< HEAD
-				=======
 				introguide.setOption("nextLabel", "\x26rarr; Suivant");
 				introguide.setOption("prevLabel", "Retour \x26larr;");
 				introguide.setOption("skipLabel", "Passer");
 				introguide.setOption("hidePrev", true);
-				>>>>>>> 652ef3f4c77fd4bd35eed364125c3e5531f06311
 				introguide.setOptions({
 					steps: [
 					{
 						element: '#first',
-						<<<<<<< HEAD
-						intro: 'This guided tour will explain the Hongkiat demo page interface.<br><br>Use the arrow keys for navigation or hit ESC to exit the tour immediately.',
-						=======
 						intro: 'Cette partie vous permettra de recevoir des notifications en temps réel pour les nouveaux codes créés.',
-						>>>>>>> 652ef3f4c77fd4bd35eed364125c3e5531f06311
 						position: 'bottom'
 					},
 					{
 						element: '#second',
-						<<<<<<< HEAD
-						intro: 'Click this main logo to view a list of all Hongkiat demos.',
-						=======
 						intro: 'De même mais cette fois pour être au courant des dernières veilles technologique ajoutées.',
 						position: 'bottom'
 					},
@@ -413,7 +403,6 @@ if (isset($_SESSION['id_statut'])) {
 					{
 						element: '#five',
 						intro: 'Cette partie est pour la configuration de votre compte.',
-						>>>>>>> 652ef3f4c77fd4bd35eed364125c3e5531f06311
 						position: 'bottom'
 					}
 					]
