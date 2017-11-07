@@ -44,6 +44,14 @@ a.btn-haxor {
 .modifier{
 	cursor: pointer;
 }
+.event-item {
+	padding: 30px;
+	border-top: 1px solid #e6ecf5;
+	border-bottom: none;
+}
+.event-item:first-child {
+	border-top: none;
+}
 .hax.imgg {
 	width: 200px;
 }

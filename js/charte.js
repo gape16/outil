@@ -239,7 +239,6 @@ $('.newpassword').on('click', function(){
 	}
 })
 
-
 //AJOUT CLIENT
 $('.btn-addclient').on('click', function(){
 	var numClient = $('.numclient').val();

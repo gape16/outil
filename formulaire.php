@@ -1636,10 +1636,11 @@ if(isset($_POST['nb_aide_graph'])){
 }
 
 if(isset($_POST['admin_remontees_search'])){
-	$search = $_POST['admin_remontees_search'];
+	$search = utf8_decode($_POST['admin_remontees_search']);
 	$varsearch = "%" . $search . "%";
-	$requete_search = $bdd->prepare("SELECT * FROM remontees inner join user on remontees.id_user=user.id_user  inner join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees WHERE titre or description LIKE ? order by date_remontees DESC");
+	$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on remontees.accept_remontees = etat_remontees.id_etat_remontees WHERE titre LIKE ? or description LIKE ? order by date_remontees DESC");
 	$requete_search->bindParam(1, $varsearch);
+	$requete_search->bindParam(2, $varsearch);
 	$requete_search->execute();
 	$nb_result = $requete_search->rowCount();
 	$tab_search = array();
@@ -1670,20 +1671,23 @@ if(isset($_POST['admin_remontees_search'])){
 				<td class="author">
 					<div class="event-author inline-items">
 						<div class="author-date">
-							<a class="author-name h6"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
+							<a class="author-name h6 auteur"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
 						</div>
 					</div>
 				</td>
-				<td class="users">
-					<p class="description"><span>Catégorie: <?php echo utf8_encode($value['categorie_remontees']);?></span></p>
+				<td class="categorie">
+					<p class="categorie"><?php echo utf8_encode($value['categorie_remontees']);?></p>
 				</td>
 				<td class="users">
-					<p class="description"><?php echo utf8_encode($value['description']);?></p>
+					<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
 				</td>
 				<td class="add-event">
-					<a data-toggle="modal" data-target="#modal_remontees" class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
+					<a <?php if ($value['accept_remontees'] != 3) {?> data-toggle="modal" data-target="#modal_remontees" <?php }?> class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
 				</td>
+				<input type="hidden" class="description" value="<?php echo utf8_encode($value['description']);?>">
+				<input type="hidden" class="commentaires" value="<?php echo utf8_encode($value['commentaires']);?>">
 				<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
+				<input type="hidden" class="kats" value="<?php echo utf8_encode($value['kats']);?>">
 			</tr>
 			<?php
 		}
@@ -1692,7 +1696,7 @@ if(isset($_POST['admin_remontees_search'])){
 
 
 if(isset($_POST['admin_remontees_search_empty'])){
-	$requete_search = $bdd->prepare("SELECT * FROM remontees inner join user on remontees.id_user=user.id_user  inner join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees order by date_remontees DESC");
+	$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on etat_remontees.id_etat_remontees = remontees.accept_remontees order by date_remontees DESC");
 	$requete_search->execute();
 	$nb_result = $requete_search->rowCount();
 	$tab_search = array();
@@ -1714,20 +1718,23 @@ if(isset($_POST['admin_remontees_search_empty'])){
 			<td class="author">
 				<div class="event-author inline-items">
 					<div class="author-date">
-						<a class="author-name h6"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
+						<a class="author-name h6 auteur"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
 					</div>
 				</div>
 			</td>
-			<td class="users">
-				<p class="description"><span>Catégorie: <?php echo utf8_encode($value['categorie_remontees']);?></span></p>
+			<td class="categorie">
+				<p class="categorie"><?php echo utf8_encode($value['categorie_remontees']);?></p>
 			</td>
 			<td class="users">
-				<p class="description"><?php echo utf8_encode($value['description']);?></p>
+				<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
 			</td>
 			<td class="add-event">
-				<a data-toggle="modal" data-target="#modal_remontees" class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
+				<a <?php if ($value['accept_remontees'] != 3) {?> data-toggle="modal" data-target="#modal_remontees" <?php }?> class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
 			</td>
+			<input type="hidden" class="description" value="<?php echo utf8_encode($value['description']);?>">
+			<input type="hidden" class="commentaires" value="<?php echo utf8_encode($value['commentaires']);?>">
 			<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
+			<input type="hidden" class="kats" value="<?php echo utf8_encode($value['kats']);?>">
 		</tr>
 		<?php
 	}

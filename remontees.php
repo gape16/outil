@@ -63,11 +63,14 @@ if (isset($_SESSION['id_statut'])) {
 			font-size: 1.5rem;
 			text-align: center;
 			display: block;
+			color: #2C2C2C;
+			font-weight: normal;
+			text-transform: uppercase;
 		}
 		.modal h6.title {
 			text-align: center;
 			position: relative;
-			left: 35px;
+			left: 70px;
 		}
 		span.categorie {
 			display: block;
@@ -95,6 +98,15 @@ if (isset($_SESSION['id_statut'])) {
 		.open_modal {
 			cursor: pointer;
 		}
+		.hax-modal {
+			width: 960px;
+			max-width: 960px;
+			margin: 200px auto;
+		}
+		.ui-block-title {
+			padding: 28px 25px 23px;
+		}
+
 	</style>
 </head>
 
@@ -287,7 +299,7 @@ if (isset($_SESSION['id_statut'])) {
 		</div>
 
 		<div class="modal fade show" id="modal_remontees">
-			<div class="modal-dialog ui-block window-popup create-event">
+			<div class="modal-dialog ui-block window-popup create-event hax-modal">
 				<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
 					<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
 				</a>
