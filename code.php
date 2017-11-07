@@ -170,7 +170,7 @@ $query_inser_code->execute();
 	.option {
 		position: fixed;
 		bottom: 10px;
-		right: 80px;
+		right: 10px;
 		font-size: 14px;
 		color: #888da8;
 		text-transform: capitalize;
@@ -491,6 +491,9 @@ elseif ($_SESSION['id_statut']==3) {
 						})
 						.done(function(data) {
 							 $('#check_code').modal('toggle'); 
+							setTimeout(function(){
+								window.location.replace("explore.php");
+							}, 1000);
 						})
 					}else{
 						$('#check_code textarea').addClass('empty');
