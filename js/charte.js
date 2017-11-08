@@ -758,6 +758,7 @@ function charger_commentaires(){
 			$("#problemos li").each(function(){
 				if($(this).attr('id')>testeur){
 					testeur = $(this).attr('id');
+					console.log(testeur)
 				}
 			})
 			var id_commentair = testeur;
