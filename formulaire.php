@@ -1767,9 +1767,10 @@ if(isset($_POST['remove_user_moderation'])){
 if(isset($_POST['admin_help_search'])){
 	$search = utf8_decode($_POST['admin_help_search']);
 	$varsearch = "%" . $search . "%";
-	$requete_search_admin = $bdd->prepare("SELECT * FROM aide left join user on aide.id_user=user.id_user WHERE titre LIKE ? or description LIKE ? order by date_aide DESC");
+	$requete_search_admin = $bdd->prepare("SELECT * FROM aide left join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide WHERE titre LIKE ? or description LIKE ? or id_client LIKE ? order by date_aide DESC");
 	$requete_search_admin->bindParam(1, $varsearch);
 	$requete_search_admin->bindParam(2, $varsearch);
+	$requete_search_admin->bindParam(3, $varsearch);
 	$requete_search_admin->execute();
 	$nb_result = $requete_search_admin->rowCount();
 	$tab_search = array();
@@ -1825,7 +1826,7 @@ if(isset($_POST['admin_help_search'])){
 
 
 if(isset($_POST['admin_help_search_empty'])){
-	$requete_help_empty_search = $bdd->prepare("SELECT * FROM aide left join user on remontees.id_user=user.id_user order by date_aide DESC");
+	$requete_help_empty_search = $bdd->prepare("SELECT * FROM aide left join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide order by date_aide DESC");
 	$requete_help_empty_search->execute();
 	$nb_result = $requete_help_empty_search->rowCount();
 	$tab_search = array();
