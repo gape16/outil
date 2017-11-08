@@ -1298,19 +1298,33 @@ if (isset($_GET['page'])) {
 
 if(isset($_POST['stat_controleur'])){
 	$stat_controleur=$_POST['stat_controleur'];
-	$date_control=date('Y-m-d');
-	$query_stats_control=$bdd->prepare("SELECT nb_validation_maquette, nb_retour_maquette,nb_validation_cq, nb_retour_cq FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control = ? and stat_controle.id_controleur=?");
-	$query_stats_control->bindParam(1, $date_control);
-	$query_stats_control->bindParam(2, $stat_controleur);
+	// $date_control=date('Y-m-d');
+	$debut_tempo = $_POST['debut_cont'];
+	$fin_tempo = $_POST['fin_cont'];
+	$date_tempo = str_replace('/', '-', $debut_tempo);
+	$debut =  date('Y-m-d', strtotime($date_tempo));
+	$date_tempo = str_replace('/', '-', $fin_tempo);
+	$fin =  date('Y-m-d', strtotime($date_tempo));
+	$query_stats_control=$bdd->prepare("SELECT nb_validation_maquette, nb_retour_maquette,nb_validation_cq, nb_retour_cq FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control >= ? and date_stat_control <= ? and stat_controle.id_controleur=?");
+	$query_stats_control->bindParam(1, $debut);
+	$query_stats_control->bindParam(2, $fin);
+	$query_stats_control->bindParam(3, $stat_controleur);
 	$query_stats_control->execute();
 	$result=$query_stats_control->fetch();
 	print_r(json_encode($result));
 }
 
 if(isset($_POST['stat_controleur_total'])){
-	$date_control=date('Y-m-d');
-	$query_stats_control_total=$bdd->prepare("SELECT sum(nb_validation_maquette) as val_maquette_toto, sum(nb_retour_maquette) as retour_maquette_toto, sum(nb_validation_cq) as val_cq_toto, sum(nb_retour_cq) as retour_cq_toto FROM stat_controle where date_stat_control = ?");
-	$query_stats_control_total->bindParam(1, $date_control);
+	// $date_control=date('Y-m-d');
+	$debut_tempo = $_POST['debut_cont'];
+	$fin_tempo = $_POST['fin_cont'];
+	$date_tempo = str_replace('/', '-', $debut_tempo);
+	$debut =  date('Y-m-d', strtotime($date_tempo));
+	$date_tempo = str_replace('/', '-', $fin_tempo);
+	$fin =  date('Y-m-d', strtotime($date_tempo));
+	$query_stats_control_total=$bdd->prepare("SELECT sum(nb_validation_maquette) as val_maquette_toto, sum(nb_retour_maquette) as retour_maquette_toto, sum(nb_validation_cq) as val_cq_toto, sum(nb_retour_cq) as retour_cq_toto FROM stat_controle where date_stat_control >= ? and date_stat_control <= ?");
+	$query_stats_control_total->bindParam(1, $debut);
+	$query_stats_control_total->bindParam(2, $fin);
 	$query_stats_control_total->execute();
 	$resultat_total_control=$query_stats_control_total->fetch();
 	print_r(json_encode($resultat_total_control));
