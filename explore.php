@@ -138,42 +138,44 @@ $query_inser_code->execute();
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="clients-grid">
+				<div class="container">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 np">
+						<div class="clients-grid">
 
-						<ul class="cat-list-bg-style align-center sorting-menu">
-							<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
-							<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
-							<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
-							<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
-							<?php if($_SESSION['id_statut']==1) {?><li class="cat-list__item fr"><a href="code.php">Créer son code</a></li> <?php } ?>
-						</ul>
-						<div class="row sorting-container" id="veille_code" data-layout="masonry">
-							<?php foreach ($query_code as $key => $value) {?>
-							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
-								<div class="ui-block">
-									<article class="hentry blog-post">
-										<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
-											<div class="post-content">
-												<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
-												<h4><?php echo utf8_encode($value['titre']);?></h4>
-												<p><?php echo utf8_encode($value['description']);?></p>
+							<ul class="cat-list-bg-style align-center sorting-menu">
+								<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
+								<li class="cat-list__item" data-filter=".HTML"><a href="#" class="">HTML</a></li>
+								<li class="cat-list__item" data-filter=".CSS"><a href="#" class="">CSS</a></li>
+								<li class="cat-list__item" data-filter=".JS"><a href="#" class="">JS</a></li>
+								<?php if($_SESSION['id_statut']==1 || $_SESSION['id_statut']==4) {?><li class="cat-list__item fr"><a href="code.php">Créer son code</a></li> <?php } ?>
+							</ul>
+							<div class="row sorting-container" id="veille_code" data-layout="masonry">
+								<?php foreach ($query_code as $key => $value) {?>
+								<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
+									<div class="ui-block">
+										<article class="hentry blog-post">
+											<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
+												<div class="post-content">
+													<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
+													<h4><?php echo utf8_encode($value['titre']);?></h4>
+													<p><?php echo utf8_encode($value['description']);?></p>
 
-												<div class="author-date">
-													<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
-													<div class="post__date">
-														<time class="published">
-															<?php echo utf8_encode($value['date_code']);?>
-														</time>
+													<div class="author-date">
+														<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
+														<div class="post__date">
+															<time class="published">
+																<?php echo utf8_encode($value['date_code']);?>
+															</time>
+														</div>
 													</div>
 												</div>
-											</div>
-											<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
-										</a>
-									</article>
+												<input class="id_code" type="hidden" value="<?php echo utf8_encode($value['id_code']);?>">
+											</a>
+										</article>
+									</div>
 								</div>
+								<?php }?>
 							</div>
-							<?php }?>
 						</div>
 					</div>
 				</div>

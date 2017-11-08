@@ -560,6 +560,8 @@ $("body").on('click', ".moproblem", function(e){
 	})
 	.done(function(data) {
 		var infos = JSON.parse(data);
+		console.log(infos);
+		console.log(infos.length);
 		// console.log(data);
 		$(".user_popup").html(infos[0]['prenom']+" "+infos[0]['nom']);
 		$(".date_popup").html(infos[0]['date_aide']);
@@ -571,12 +573,14 @@ $("body").on('click', ".moproblem", function(e){
 		$(".etat").css("background",infos[0]['couleur']);
 		$(".etat").css("color","white");
 		var liste = "";
-		for (var i = 1; i <= infos.length - 1; i++) {
+		var total = infos.length*1 - 2*1;
+		console.log(total);
+		for (var i = 1; i <= total; i++) {
 			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 			liste+='<div class="post__author author vcard inline-items">';
 			liste+='<img src="'+infos[i]['photo']+'" alt="author">';
 			liste+='<div class="author-date">';
-			liste+='<a class="h6 post__author-name fn" href="02-ProfilePage.html">'+infos[i]['nom_commentaire']+'</a>';
+			liste+='<a class="h6 post__author-name fn">'+infos[i]['nom_commentaire']+'</a>';
 			liste+='<div class="post__date">';
 			liste+='<time class="published" datetime="'+infos[i]['date_commentaire']+'">';
 			liste+=''+infos[i]['date_commentaire']+'';
@@ -584,7 +588,7 @@ $("body").on('click', ".moproblem", function(e){
 			liste+='</div></div>';
 			liste+='</div>';
 			liste+='<p>'+infos[i]['commentaire']+'</p>';
-			liste+='<a href="#" class="post-add-icon inline-items like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
+			liste+='<a class="post-add-icon inline-items com like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
 			liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
 			liste+='<span>'+infos[i]['like']+'</span>';
 			liste+='</a>';
@@ -592,6 +596,7 @@ $("body").on('click', ".moproblem", function(e){
 		}
 		$(".comments-list").empty();
 		$(".comments-list").append(liste);
+
 	})
 })
 
@@ -772,7 +777,7 @@ function charger_commentaires(){
 					liste+='</div></div>';
 					liste+='</div>';
 					liste+='<p>'+infos[i]['commentaire']+'</p>';
-					liste+='<a href="#" class="post-add-icon inline-items like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
+					liste+='<a class="post-add-icon inline-items com like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
 					liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
 					liste+='<span>'+infos[i]['like']+'</span>';
 					liste+='</a>';
@@ -874,5 +879,3 @@ if (jour >= 20) {
 		}
 	})
 }
-
-

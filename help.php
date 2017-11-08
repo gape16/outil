@@ -290,7 +290,7 @@ if (isset($_SESSION['id_statut'])) {
 									<h6 class="event-description-title">Infos pratiques</h6>
 									<div class="place inline-items">
 										<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-											<a href="" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
+											<a href="" target="_blank" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
 
 										</div>
 
@@ -352,7 +352,7 @@ if (isset($_SESSION['id_statut'])) {
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 					<script src="js/simpleUpload.min.js"></script>
 					<script src="js/charte.js"></script>
-					<?php 
+					<!-- <?php 
 					if($_SESSION['id_statut']==1) {
 						//page graphistes 
 						?><script src="js/notifications.js"></script><?php
@@ -370,7 +370,7 @@ if (isset($_SESSION['id_statut'])) {
 						//page admin
 						?><script src="js/notifications_admin.js"></script><?php
 					}
-					?>
+					?> -->
 
 					<script>
 						$('.search').keyup(function(){
@@ -399,6 +399,9 @@ if (isset($_SESSION['id_statut'])) {
 								})
 							}
 						});
+
+						
+
 					</script>
 				</body>
 				</html>

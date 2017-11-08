@@ -150,7 +150,7 @@ if (isset($_POST['numClient'])) {
 		$new_card.='					</div>';
 		$new_card.='				</div>';
 		$new_card.='				<div class="control-block-button bouton-check">';
-		$new_card.='					<a href="'.utf8_encode($adresseCms).'" target="_blank" class="  btn btn-control bg-blue bouton-icone1" data-toggle="modal" data-target="#create-friend-group-add-friends">';
+		$new_card.='					<a href="'.utf8_encode($adresseCms).'" target="_blank" class="  btn btn-control bg-blue bouton-icone1">';
 		$new_card.='						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35%" version="1.1" height="35%" viewBox="0 0 64 64" enable-background="new 0 0 64 64">';
 		$new_card.='							<path d="m60.135,3.875c-5.156-5.166-13.545-5.168-18.697,0l-11.576,11.619c-0.788,0.791-0.788,2.074 0,2.865 0.79,0.792 2.067,0.792 2.856,0l11.576-11.618c3.578-3.589 9.401-3.587 12.984,0 3.578,3.591 3.578,9.435 0,13.024l-15.292,15.339c-1.732,1.739-4.038,2.697-6.49,2.697-2.451,0-4.758-0.959-6.492-2.697-0.789-0.792-2.067-0.792-2.857,0-0.788,0.791-0.788,2.074 0,2.865 2.499,2.505 5.818,3.885 9.35,3.885s6.848-1.381 9.347-3.885l15.292-15.338c5.152-5.17 5.152-13.584-0.001-18.756z" fill="#FFFFFF"/>';
 		$new_card.='							<path d="m31.015,45.904l-11.312,11.346c-1.732,1.739-4.039,2.697-6.491,2.697-2.451,0-4.759-0.958-6.489-2.697-3.578-3.591-3.578-9.434 0-13.023l15.289-15.338c3.582-3.588 9.406-3.588 12.983,0 0.789,0.793 2.067,0.793 2.856,0 0.789-0.791 0.789-2.072 0-2.864-5.152-5.17-13.541-5.17-18.697,0l-15.288,15.336c-5.155,5.17-5.155,13.584 4.44089e-16,18.754 2.497,2.506 5.816,3.885 9.346,3.885 3.531,0 6.853-1.379 9.348-3.885l11.31-11.345c0.79-0.791 0.79-2.074 0-2.865-0.788-0.792-2.067-0.792-2.855-0.001z" fill="#FFFFFF"/>';
@@ -248,7 +248,7 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key]['etat_aide'] = utf8_encode($value['etat_aide']);
 		$tab[$key]['couleur'] = utf8_encode($value['couleur']);
 	}
-	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by date_commentaire ASC");
+	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_aide inner join user on commentaires_aide.id_user=user.id_user where id_aide = ? order by like_com DESC");
 	$query_com_aide->bindParam(1, $id_aide);
 	$query_com_aide->execute();
 	foreach ($query_com_aide as $key_com => $value_com)
@@ -948,7 +948,7 @@ if(isset($_POST['lienveille'])){
 				</div>
 
 				<div class="post-content">
-					<a href="#" class="h4 post-title"><?php echo($value['titre']) ?></a>
+					<a class="h4 post-title"><?php echo($value['titre']) ?></a>
 					<p><?php echo($value['description']) ?>											</p>
 
 					<div class="author-date not-uppercase">
@@ -958,7 +958,7 @@ if(isset($_POST['lienveille'])){
 							</time>
 						</div>
 					</div>
-					<a href="#" class="post-add-icon inline-items" style="fill: #ff5e3a;color: #ff5e3a;"><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
+					<a class="post-add-icon inline-items" style="fill: #ff5e3a;color: #ff5e3a;"><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
 				</div>
 			</article>
 		</div>
@@ -1747,4 +1747,109 @@ if(isset($_POST['remove_user_moderation'])){
 	$query=$bdd->prepare("DELETE FROM user where id_user = ?");
 	$query->bindParam(1, $id_user);
 	$query->execute();
+}
+
+
+if(isset($_POST['admin_help_search'])){
+	$search = utf8_decode($_POST['admin_help_search']);
+	$varsearch = "%" . $search . "%";
+	$requete_search_admin = $bdd->prepare("SELECT * FROM aide left join user on aide.id_user=user.id_user WHERE titre LIKE ? or description LIKE ? order by date_aide DESC");
+	$requete_search_admin->bindParam(1, $varsearch);
+	$requete_search_admin->bindParam(2, $varsearch);
+	$requete_search_admin->execute();
+	$nb_result = $requete_search_admin->rowCount();
+	$tab_search = array();
+	if ($nb_result == 0) {?>
+	<tr class="event-item">
+		<td class="upcoming">
+			<div class="date-event">
+				<h2>Aucun résultat n'a été trouvé</h2>
+			</div>
+		</td>
+	</tr>
+	<?php }else{
+		foreach ($requete_search_admin as $key => $value) {
+			$date_tab=explode("-", $value['date_aide']);
+			$jour_tab=explode(" ",$date_tab[2]);
+			$jour=$jour_tab[0];
+			$m=$date_tab[1];
+			$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+			?>
+			<tr class="event-item">
+				<td class="upcoming">
+					<div class="date-event">
+						<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+						<span class="day"><?php echo $jour;?></span>
+						<span class="month"><?php echo $months[(int)$m]; ?></span>
+					</div>
+				</td>
+				<td class="author">
+					<div class="event-author inline-items">
+						<div class="author-date">
+							<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+						</div>
+					</div>
+				</td>
+				<td class="location">
+					<div class="place inline-items">
+						<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+						<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+					</div>
+				</td>
+				<td class="description">
+					<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+				</td>
+				<td class="add-event">
+					<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
+				</td>
+			</tr>
+			<?php
+		}
+	}
+}
+
+
+
+if(isset($_POST['admin_help_search_empty'])){
+	$requete_help_empty_search = $bdd->prepare("SELECT * FROM aide left join user on remontees.id_user=user.id_user order by date_aide DESC");
+	$requete_help_empty_search->execute();
+	$nb_result = $requete_help_empty_search->rowCount();
+	$tab_search = array();
+	foreach ($requete_help_empty_search as $key => $value) {
+		$date_tab=explode("-", $value['date_aide']);
+		$jour_tab=explode(" ",$date_tab[2]);
+		$jour=$jour_tab[0];
+		$m=$date_tab[1];
+		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+		?>
+		<tr class="event-item">
+			<td class="upcoming">
+				<div class="date-event">
+					<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+					<span class="day"><?php echo $jour;?></span>
+					<span class="month"><?php echo $months[(int)$m]; ?></span>
+				</div>
+			</td>
+			<td class="author">
+				<div class="event-author inline-items">
+					<div class="author-date">
+						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+					</div>
+				</div>
+			</td>
+			<td class="location">
+				<div class="place inline-items">
+					<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+					<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+				</div>
+			</td>
+			<td class="description">
+				<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+			</td>
+			<td class="add-event">
+				<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
+			</td>
+		</tr>
+		<?php
+	}
 }

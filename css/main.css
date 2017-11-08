@@ -17,6 +17,9 @@ a.btn-haxor {
 .main-header {
 	max-width: 100%;
 }
+span.chat-message-item {
+	word-break: break-all;
+}
 .hauteur-card {
 	height: 280px !important;
 	overflow: hidden;
@@ -1025,6 +1028,9 @@ span.notif {
 	}
 	.infos-check {
 		padding: 16px 25px;
+	}
+	.np{
+		padding: 0;
 	}
 	.available-widget label {
 		position: absolute;

@@ -59,6 +59,12 @@ if (isset($_SESSION['id_statut'])) {
 			.refuser_remontees {
 				background: tomato;
 			}
+			.etat_1 .open_modal, .etat_3 .open_modal {
+				cursor: initial;
+			}
+			.open_modal {
+				cursor: pointer;
+			}
 		</style>
 	</head>
 

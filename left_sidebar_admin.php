@@ -18,7 +18,7 @@
         </a>
       </li>
       <li>
-        <a href="stats.php">
+        <a href="stats_admin.php">
           <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
         </a>
       </li>
@@ -77,7 +77,7 @@
         </a>
       </li>
       <li>
-        <a href="stats.php">
+        <a href="stats_admin.php">
           <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
           <span class="left-menu-title">Les stats</span>
         </a>

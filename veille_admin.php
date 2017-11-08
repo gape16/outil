@@ -37,7 +37,7 @@ if (isset($_SESSION['id_statut'])) {
 
 		$id_graph=$_SESSION['id_graph'];
 
-		$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by id_veille DESC limit 1");
+		$query_notif_code=$bdd->prepare("SELECT * FROM veille where accept_veille = 1 order by date_veille DESC limit 1");
 		$query_notif_code->execute();
 		$result_notif_code=$query_notif_code->fetch();
 		$dernier=$result_notif_code['id_veille'];

@@ -92,7 +92,7 @@ if (isset($_SESSION['id_statut'])) {
 			position: initial;
 			left: initial;
 		}
-		.etat_3 .open_modal {
+		.etat_1 .open_modal, .etat_3 .open_modal {
 			cursor: initial;
 		}
 		.open_modal {

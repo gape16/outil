@@ -224,7 +224,9 @@ if (isset($_SESSION['id_statut'])) {
 					data: {clic_accept: 'value1', id_code: id_code},
 				})
 				.done(function() {
-					swal('Code accepté !')
+					swal('Code accepté !').then(function(){
+						location.reload();
+					})
 				})		
 			})
 		</script>
