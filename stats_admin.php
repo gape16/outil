@@ -47,6 +47,7 @@ if (isset($_SESSION['id_statut'])) {
 			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 			<link rel="stylesheet" type="text/css" href="css/main.css">
 
+			<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 
 		</head>
 
@@ -196,6 +197,29 @@ if (isset($_SESSION['id_statut'])) {
 
 			<div class="container">
 				<div class="row">
+					<div class='col-sm-5'>
+						<div class="form-group date-time-picker label-floating">
+							<label class="control-label">Date début</label>
+							<input name="datetimepicker" value="" id="date_debut_control"/>
+							<span class="input-group-addon">
+								<svg class="olymp-calendar-icon"><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+							</span>
+						</div>
+					</div>
+					<div class='col-sm-5'>
+						<div class="form-group date-time-picker label-floating">
+							<label class="control-label">Date fin</label>
+							<input name="datetimepicker" value="" id="date_fin_control"/>
+							<span class="input-group-addon">
+								<svg class="olymp-calendar-icon"><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+							</span>
+						</div>
+					</div>
+					<div class='col-sm-2'>
+						<div class="form-group">
+							<button type="button" class="btn btn-success valid_date_control">Valider</button>
+						</div>
+					</div>
 					<?php 
 					$date_control=date('Y-m-d');
 					$query_stats_control=$bdd->prepare("SELECT * FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control = ?");
@@ -451,10 +475,20 @@ if (isset($_SESSION['id_statut'])) {
 				<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 				<script src="js/run-chart.js"></script>
 				<script src="js/charte.js"></script>
+				<!-- Select / Sorting script -->
+				<script src="js/selectize.min.js"></script>
 
+				<!-- Swiper / Sliders -->
+				<script src="js/swiper.jquery.min.js"></script>
+
+				<!-- Datepicker input field script-->
+				<script src="js/moment.min.js"></script>
+				<script src="js/daterangepicker.min.js"></script>
 
 				<script src="js/mediaelement-and-player.min.js"></script>
 				<script src="js/mediaelement-playlist-plugin.min.js"></script>
+
+
 
 				<?php 
 				if($_SESSION['id_statut']==1) {
@@ -477,8 +511,11 @@ if (isset($_SESSION['id_statut'])) {
 				?>
 				<script>
 					$(function(){
+						$(".neww").css('display','none');
+						$(".display-flex.content-around").css('display','none');
 						$(".new_graph").on('change', function(){
-							$(".neww").css('display','flex');
+							$(".neww").css('display','block');
+							$(".display-flex.content-around").css('display','flex');
 							var new_date = $('.new_date').val();
 							var new_graph=$(this).val();
 							$.ajax({
@@ -662,7 +699,8 @@ $(".new_date").on('change', function(){
 	if(new_graph==0){
 		alert('choisir un collaborateur');
 	}else{
-		$(".neww").css('display','flex');
+		$(".neww").css('display','block');
+		$(".display-flex.content-around").css('display','flex');
 		$.ajax({
 			url: 'formulaire.php',
 			type: 'POST',
@@ -842,102 +880,114 @@ $(".new_date").on('change', function(){
 </script>
 <script>
 	$(function(){
-		var pieColorChart = document.getElementById("pie-color-chart");
-		$.ajax({
-			url: 'formulaire.php',
-			type: 'POST',
-			data: {stat_controleur_total: 'controleur'},
-		})
-		.done(function(data) {
-			var myObject = JSON.parse(data);
-			a=myObject['val_maquette_toto'];
-			b=myObject['retour_maquette_toto'];
-			c=myObject['val_cq_toto'];
-			d=myObject['retour_cq_toto'];
-			if (pieColorChart !== null) {
-				var ctx_pc = pieColorChart.getContext("2d");
-				var data_pc = {
-					labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
-					datasets: [
-					{
-						data: [a,b,c,d],
-						borderWidth: 0,
-						backgroundColor: [
-						"#7c5ac2",
-						"#08ddc1",
-						"#ff5e3a",
-						"#ffd71b"
-						]
-					}]
-				};
+		$(".graphique_control").hide();
+		$(".valid_date_control").on('click', function(){
+			if($("#date_fin_control").val()!=''){
+				$(".graphique_control").show();
+				var debut = $("#date_debut_control").val();
+				var fin = $("#date_fin_control").val();
 
-				var pieColorEl = new Chart(ctx_pc, {
-					type: 'doughnut',
-					data: data_pc,
-					options: {
-						deferred: {           
-							delay: 300        
-						},
-						cutoutPercentage:93,
-						legend: {
-							display: false
-						},
-						animation: {
-							animateScale: true
-						}
-					}
-				});
-			}
-		})	
-		$(".graphique_control").each(function( index ){
-			var pieColorChart = document.getElementById("pie-color-chart"+index);
-			var controleur = $(this).find('.controleur').val();
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {stat_controleur: controleur},
-			})
-			.done(function(data) {
-				var myObject = JSON.parse(data);
-				a=myObject['nb_validation_maquette'];
-				b=myObject['nb_retour_maquette'];
-				c=myObject['nb_validation_cq'];
-				d=myObject['nb_retour_cq'];
-				if (pieColorChart !== null) {
-					var ctx_pc = pieColorChart.getContext("2d");
-					var data_pc = {
-						labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
-						datasets: [
-						{
-							data: [a,b,c,d],
-							borderWidth: 0,
-							backgroundColor: [
-							"#7c5ac2",
-							"#08ddc1",
-							"#ff5e3a",
-							"#ffd71b"
-							]
-						}]
-					};
 
-					var pieColorEl = new Chart(ctx_pc, {
-						type: 'doughnut',
-						data: data_pc,
-						options: {
-							deferred: {           
-								delay: 300        
-							},
-							cutoutPercentage:93,
-							legend: {
-								display: false
-							},
-							animation: {
-								animateScale: true
+				var pieColorChart = document.getElementById("pie-color-chart");
+				$.ajax({
+					url: 'formulaire.php',
+					type: 'POST',
+					data: {stat_controleur_total: 'controleur', debut_cont:debut, fin_cont:fin},
+				})
+				.done(function(data) {
+					console.log(data);
+					var myObject = JSON.parse(data);
+					a=myObject['val_maquette_toto'];
+					b=myObject['retour_maquette_toto'];
+					c=myObject['val_cq_toto'];
+					d=myObject['retour_cq_toto'];
+					if (pieColorChart !== null) {
+						var ctx_pc = pieColorChart.getContext("2d");
+						var data_pc = {
+							labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
+							datasets: [
+							{
+								data: [a,b,c,d],
+								borderWidth: 0,
+								backgroundColor: [
+								"#7c5ac2",
+								"#08ddc1",
+								"#ff5e3a",
+								"#ffd71b"
+								]
+							}]
+						};
+
+						var pieColorEl = new Chart(ctx_pc, {
+							type: 'doughnut',
+							data: data_pc,
+							options: {
+								deferred: {           
+									delay: 300        
+								},
+								cutoutPercentage:93,
+								legend: {
+									display: false
+								},
+								animation: {
+									animateScale: true
+								}
 							}
+						});
+					}
+				})	
+				$(".graphique_control").each(function( index ){
+					var pieColorChart = document.getElementById("pie-color-chart"+index);
+					var controleur = $(this).find('.controleur').val();
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {stat_controleur: controleur, debut_cont:debut, fin_cont:fin},
+					})
+					.done(function(data) {
+						console.log(data);
+						var myObject = JSON.parse(data);
+						a=myObject['nb_validation_maquette'];
+						b=myObject['nb_retour_maquette'];
+						c=myObject['nb_validation_cq'];
+						d=myObject['nb_retour_cq'];
+						if (pieColorChart !== null) {
+							var ctx_pc = pieColorChart.getContext("2d");
+							var data_pc = {
+								labels: ["nb_validation_maquette", "nb_retour_maquette", "nb_validation_cq", "nb_retour_cq"],
+								datasets: [
+								{
+									data: [a,b,c,d],
+									borderWidth: 0,
+									backgroundColor: [
+									"#7c5ac2",
+									"#08ddc1",
+									"#ff5e3a",
+									"#ffd71b"
+									]
+								}]
+							};
+
+							var pieColorEl = new Chart(ctx_pc, {
+								type: 'doughnut',
+								data: data_pc,
+								options: {
+									deferred: {           
+										delay: 300        
+									},
+									cutoutPercentage:93,
+									legend: {
+										display: false
+									},
+									animation: {
+										animateScale: true
+									}
+								}
+							});
 						}
-					});
-				}
-			})				
+					})				
+				})
+			}
 		})
 	})
 </script>
