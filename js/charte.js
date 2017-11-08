@@ -575,9 +575,6 @@ $("body").on('click', ".moproblem", function(e){
 		var liste = "";
 		var total = infos.length*1 - 1*1;
 		for (var i = 1; i <= total; i++) {
-			console.log(infos[i]['id_commentaires_aide']);
-		}
-		for (var i = 1; i <= total; i++) {
 			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 			liste+='<div class="post__author author vcard inline-items">';
 			liste+='<img src="'+infos[i]['photo']+'" alt="author">';
@@ -754,13 +751,12 @@ function charger_commentaires(){
 					var id_emet = cls[i].slice(check.length, cls[i].length);
 				}
 			}
-			var testeur = 0;
-			$("#problemos li").each(function(){
-				if($(this).attr('id')>testeur){
-					testeur = $(this).attr('id');
-				}
-			})
-			var id_commentair = testeur;
+			var max = 0;
+			$('#problemos li').each(function() {
+				max = Math.max(this.id, max);
+			});
+			// console.log(max); 
+			var id_commentair = max;
 			if(id_commentair==undefined){
 				id_commentair=0;
 			}
