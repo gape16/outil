@@ -560,8 +560,8 @@ $("body").on('click', ".moproblem", function(e){
 	})
 	.done(function(data) {
 		var infos = JSON.parse(data);
-		console.log(infos);
-		console.log(infos.length);
+		// console.log(infos);
+		// console.log(infos.length);
 		// console.log(data);
 		$(".user_popup").html(infos[0]['prenom']+" "+infos[0]['nom']);
 		$(".date_popup").html(infos[0]['date_aide']);
@@ -573,8 +573,10 @@ $("body").on('click', ".moproblem", function(e){
 		$(".etat").css("background",infos[0]['couleur']);
 		$(".etat").css("color","white");
 		var liste = "";
-		var total = infos.length*1 - 2*1;
-		console.log(total);
+		var total = infos.length*1 - 1*1;
+		for (var i = 1; i <= total; i++) {
+			console.log(infos[i]['id_commentaires_aide']);
+		}
 		for (var i = 1; i <= total; i++) {
 			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 			liste+='<div class="post__author author vcard inline-items">';
@@ -752,7 +754,13 @@ function charger_commentaires(){
 					var id_emet = cls[i].slice(check.length, cls[i].length);
 				}
 			}
-			var id_commentair = $("#problemos").find("li").last().attr('id');
+			var testeur = 0;
+			$("#problemos li").each(function(){
+				if($(this).attr('id')>testeur){
+					testeur = $(this).attr('id');
+				}
+			})
+			var id_commentair = testeur;
 			if(id_commentair==undefined){
 				id_commentair=0;
 			}
@@ -762,6 +770,7 @@ function charger_commentaires(){
 				data: {id_timer_aide: id_emet, id_timer_com:id_commentair},
 			})
 			.done(function(data) {
+				// console.log(data);
 				var liste = "";
 				var infos = JSON.parse(data);
 				for (var i = 0; i <= infos.length - 1; i++) {
