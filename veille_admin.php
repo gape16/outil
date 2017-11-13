@@ -218,7 +218,7 @@ if (isset($_SESSION['id_statut'])) {
 							</ul>
 							<div class="row sorting-container" id="clients-grid-1" data-layout="masonry">
 								<?php foreach ($selection_article_veille as $key => $value) {?>
-								<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
+								<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
 									<div class="ui-block">
 										<article class="hentry blog-post">
 											<div class="post-thumb">

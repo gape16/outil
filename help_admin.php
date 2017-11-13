@@ -81,19 +81,17 @@ if (isset($_SESSION['id_statut'])) {
 			<link rel="stylesheet" href="css/main.css">
 			<link rel="stylesheet" href="css/jquery.fancybox.min.css">
 			<style>
-			.comments-list li:first-child::after {
-				content: "Meilleure réponse";
+			.comments-list li:first-child > a::after {
+				content: "";
 				display: block;
-				width: 50px;
-				height: 50px;
-				background: url(img/gold-medal.png);
+				width: 25px;
+				height: 25px;
+				background: url(img/check.svg);
 				background-repeat: no-repeat;
-				background-size: cover;
+				background-size: 25px 25px;
 				position: absolute;
-				top: 25px;
-				right: 25px;
-				padding-top: 50px;
-				text-align: center;
+				bottom: 22px;
+				left: 75px;
 			}
 		</style>
 	</head>

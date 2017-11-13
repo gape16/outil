@@ -115,7 +115,7 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- ... end Main Header Events -->
 
 
-		<div class="container">
+		<div class="container hax-width">
 			<div class="row">
 				<?php for ($i=1; $i < 13; $i++) { 
 					if ($i<10) {
@@ -145,10 +145,10 @@ if (isset($_SESSION['id_statut'])) {
 									<img src="<?php echo utf8_encode($value['photo']);?>" alt="author">
 								</div>
 								<div class="birthday-author-name">
-									<a href="#" class="h6 author-name"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></a>
+									<a href="#" class="h6 author-name"><?php echo $value['prenom']." ".$value['nom'];?></a>
 									<div class="birthday-date"><?php echo explode("-",$value['date_naissance'])[2];?> <?php echo $tab[$i-1];?> <?php echo explode("-",$value['date_naissance'])[0];?></div>
 								</div>
-								<a href="#" class="btn btn-sm bg-blue">Participer<div class="ripple-container"></div></a>
+								<a data-toggle="modal" data-target="#anniversaire" data-id="<?php echo $value['id_user'];?>" class="btn btn-sm bg-blue participer">Participer<div class="ripple-container"></div></a>
 							</div>
 						</div>
 					</div>
@@ -158,89 +158,139 @@ if (isset($_SESSION['id_statut'])) {
 
 				</div>
 			</div>
-			<div class="modal fade show" id="anniversaire">
-				<div class="modal-dialog ui-block window-popup edit-widget edit-widget-pool">
+			<!-- Window-popup Event Private Public -->
+			<div class="modal fade show" id="anniversaire" >
+				<div class="modal-dialog ui-block window-popup event-private-public private-event">
 					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-						<svg class="olymp-close-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
 					</a>
-					<div class="ui-block-title">
-						<h6 class="title">Numéro client : </h6>
-					</div>
-					<div class="ui-block">
-						<div class="ui-block-content">
-							<div class="row modalcheck">	
-								<div class="form-group is-empty label-floating ">
-									<label class="control-label">Note sur /10</label>
-									<input class="form-control note" placeholder="" value="" type="text">
+					<article class="hentry post has-post-thumbnail thumb-full-width private-event">
+
+						<div class="row">
+							<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+								<div class="post__author author vcard inline-items">
+									<div class="author-date">
+										<a class="h6 post__author-name fn user_popup" href="#">PARTICIPATION ANNIVERSAIRE</a>
+										<div class="post__date date_popup">
+											<time class="published" datetime="2017-03-24T18:18">
+
+											</time>
+										</div>
+									</div>
+
+								</div>
+								<h1 class="titreproblemos">
+
+								</h1>
+								<p class="descproblemos">
+
+								</p>
+								<div class="hax imgg"></div>
+							</div>
+							<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+								<div class="event-description">
+									<h6 class="event-description-title">Infos pratiques</h6>
+									<div class="place inline-items">
+										<img class="avatar" src="<?php echo $value['photo_avatar'];?>" alt="author">
+										<span class="who"></span>
+										<span class="when"></span>
+									</div>
 								</div>
 							</div>
-							<div class="row">	
-								<div class="col-lg-6 col-sm-12">
-									<a href="#" data-dismiss="modal" class="btn btn-secondary btn-md full-width">Refuser</a>
+						</article>
+
+						<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
+							<ul class="comments-list">
+
+							</ul>
+
+						</div>
+
+						<form class="comment-form inline-items">
+
+							<div class="form-group with-icon-right ">
+								<textarea class="form-control envoi_message_anniversaire" placeholder=""  ></textarea>
+								<input type="hidden" class="id_anniversaire">
+								<div class="add-options-message">
+									<a href="#" class="options-message anniversaire_envoi">
+										<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+									</a>
 								</div>
 
-								<div class="col-lg-6 col-sm-12">
-									<a href="#" data-dismiss="modal" class="btn btn-md full-width accept">Accepter</a>
-								</div>
-							</div>
+								<span class="material-input"></span><span class="material-input"></span></div>
+
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
-	<!-- ... end Window-popup Create Friends Group Add Friends -->
+			<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 
-	<!-- jQuery first, then Other JS. -->
-	<script src="js/jquery-3.2.0.min.js"></script>
-	<!-- Js effects for material design. + Tooltips -->
-	<script src="js/material.min.js"></script>
-	<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-	<script src="js/theme-plugins.js"></script>
-	<!-- Init functions -->
-	<script src="js/main.js"></script>
+			<!-- jQuery first, then Other JS. -->
+			<script src="js/jquery-3.2.0.min.js"></script>
+			<!-- Js effects for material design. + Tooltips -->
+			<script src="js/material.min.js"></script>
+			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+			<script src="js/theme-plugins.js"></script>
+			<!-- Init functions -->
+			<script src="js/main.js"></script>
 
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
 
-	<!-- Swiper / Sliders -->
-	<script src="js/swiper.jquery.min.js"></script>
+			<!-- Swiper / Sliders -->
+			<script src="js/swiper.jquery.min.js"></script>
 
-	<!-- Datepicker input field script-->
-	<script src="js/moment.min.js"></script>
-	<script src="js/daterangepicker.min.js"></script>
+			<!-- Datepicker input field script-->
+			<script src="js/moment.min.js"></script>
+			<script src="js/daterangepicker.min.js"></script>
 
-	<!-- Calendar events script -->
-	<script src="js/fullcalendar.js"></script>
+			<!-- Calendar events script -->
+			<script src="js/fullcalendar.js"></script>
 
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
-	<?php 
-	if($_SESSION['id_statut']==1) {
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<?php 
+			if($_SESSION['id_statut']==1) {
 						//page graphistes 
-		?><script src="js/notifications.js"></script><?php
-	}elseif  ($_SESSION['id_statut']==2){
+				?><script src="js/notifications.js"></script><?php
+			}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-		?><script src="js/notifications_redac.js"></script><?php
-	}
-	elseif ($_SESSION['id_statut']==3) {
+				?><script src="js/notifications_redac.js"></script><?php
+			}
+			elseif ($_SESSION['id_statut']==3) {
 						//page leader
-		?><script src="js/notifications_leader.js"></script><?php
-	}elseif ($_SESSION['id_statut']==4) {
+				?><script src="js/notifications_leader.js"></script><?php
+			}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-		?><script src="js/notifications_controleur.js"></script><?php
-	}elseif($_SESSION['id_statut']==5){
+				?><script src="js/notifications_controleur.js"></script><?php
+			}elseif($_SESSION['id_statut']==5){
 						//page admin
-		?><script src="js/notifications_admin.js"></script><?php
-	}
-	?>
-	<script src="js/charte.js"></script>
+				?><script src="js/notifications_admin.js"></script><?php
+			}
+			?>
+			<script src="js/charte.js"></script>
+			<script src="js/alterclass.js"></script>
+			<script>
+				$(function(){
 
-</body>
-</html>
-<?php }else{
-	header('Location: login.php');
-}
-?>
+					$('.participer').on('click', function(){
+						var qui = $(this).parent().find('.author-name').html();
+						var quand = $(this).parent().find('.birthday-date').html();
+						console.log(qui);
+						console.log(quand);
+						$('#anniversaire .who').html('');
+						$('#anniversaire .when').html('');
+						$('#anniversaire .who').append(qui);
+						$('#anniversaire .when').append(quand);
+					})
+				})
+			</script>
+		</body>
+		</html>
+		<?php }else{
+			header('Location: login.php');
+		}
+		?>

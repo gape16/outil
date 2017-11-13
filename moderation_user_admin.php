@@ -287,18 +287,18 @@ if (isset($_SESSION['id_statut'])) {
 							$query=$bdd->prepare("SELECT * FROM user inner join statut on user.id_statut = statut.id_statut order by id_user DESC limit 5");
 							$query->execute();
 							foreach ($query as $key => $value) {?>
-							<li class="js-open-popup" data-popup-target=".playlist-popup">
-								<div class="playlist-thumb" data-toggle="tooltip" data-placement="top" title="PLAY / ADD TO PLAYER">
+							<li>
+								<div class="playlist-thumb">
 									<img src="<?php echo $value['photo'];?>" alt="thumb-composition">
 									<div class="overlay"></div>
-									<a href="#" class="play-icon">
+									<a class="play-icon">
 										<svg class="olymp-music-play-icon-big"><use xlink:href="icons/icons-music.svg#olymp-music-play-icon-big"></use></svg>
 									</a>
 								</div>
 
 								<div class="composition">
-									<a href="#" class="composition-name"><?php echo $value['prenom'];?> <?php echo $value['nom'];?></a>
-									<a href="#" class="composition-author"><?php echo $value['nom_statut'];?></a>
+									<a class="composition-name"><?php echo $value['prenom'];?> <?php echo $value['nom'];?></a>
+									<a class="composition-author"><?php echo $value['nom_statut'];?></a>
 								</div>
 								<div class="composition-time">
 									<time class="published" datetime="2017-03-24T18:18"><?php echo $value['date_ajout'];?></time>
@@ -355,8 +355,8 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 
 								<div class="composition">
-									<a href="#" class="composition-name"><?php echo $value3['prenom'];?> <?php echo $value3['nom'];?></a>
-									<a href="#" class="composition-author"><?php echo $value3['nom_statut'];?></a>
+									<a class="composition-name"><?php echo $value3['prenom'];?> <?php echo $value3['nom'];?></a>
+									<a class="composition-author"><?php echo $value3['nom_statut'];?></a>
 								</div>
 								<div class="composition-time">
 									<time class="published" datetime="2017-03-24T18:18"><?php echo $value3['date_ajout'];?></time>
@@ -386,8 +386,8 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 
 								<div class="composition">
-									<a href="#" class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
-									<a href="#" class="composition-author"><?php echo $value4['nom_statut'];?></a>
+									<a class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
+									<a class="composition-author"><?php echo $value4['nom_statut'];?></a>
 								</div>
 								<div class="composition-time">
 									<time class="published" datetime="2017-03-24T18:18"><?php echo $value4['date_ajout'];?></time>
@@ -415,8 +415,8 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 
 								<div class="composition">
-									<a href="#" class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
-									<a href="#" class="composition-author"><?php echo $value4['nom_statut'];?></a>
+									<a class="composition-name"><?php echo $value4['prenom'];?> <?php echo $value4['nom'];?></a>
+									<a class="composition-author"><?php echo $value4['nom_statut'];?></a>
 								</div>
 								<div class="composition-time">
 									<time class="published" datetime="2017-03-24T18:18"><?php echo $value4['date_ajout'];?></time>

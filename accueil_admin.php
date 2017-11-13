@@ -291,32 +291,39 @@ if (isset($_SESSION['id_statut'])) {
 					var numClient = $(this).parents('.hauteur-card').find('.country').html();
 					var raisonSociale = $(this).parents('.hauteur-card').find('a.h5.author-name').html();
 					var adresseCms = $(this).parents('.hauteur-card').find('.liencms').attr('href');
-					var graph = $(this).parents('.hauteur-card').find('.graph').val();
-					var recupId = $(this).parents('.hauteur-card').attr('class');
-					var idClient = recupId.split('admin_');
-					var check_qualif="qualif_";
-					var cls_qualif = $(".hauteur-card").attr('class').split(' ');
-					console.log(cls_qualif);
-					for (var i = 0; i < cls_qualif.length; i++) {
-						if (cls_qualif[i].indexOf(check_qualif) > -1) {
-							var id_qualif = cls_qualif[i].slice(check_qualif.length, cls_qualif[i].length);
-						}
-					}
-					var check_id="projet_";
-					var cls_id = $(".hauteur-card").attr('class').split(' ');
-					for (var i = 0; i < cls_id.length; i++) {
-						if (cls_id[i].indexOf(check_id) > -1) {
-							var id_client = cls_id[i].slice(check_id.length, cls_id[i].length);
-						}
-					}
+					var graph = $(this).parents('.change_card').find('.graph').val();
+					var id_client = $(this).parents('.change_card').find('.id_client').val();
+					var recupId = $(this).parents('.change_card').attr('class');
+					var etat = recupId.split('qualif_');
+					console.log(etat[1]);
 
+					// var idClient = recupId.split('admin_');
+					// var check_qualif="qualif_";
+					// var cls_qualif = $(".hauteur-card").attr('class').split(' ');
+					// console.log(cls_qualif);
+
+
+					// for (var i = 0; i < cls_qualif.length; i++) {
+					// 	if (cls_qualif[i].indexOf(check_qualif) > -1) {
+					// 		var id_qualif = cls_qualif[i].slice(check_qualif.length, cls_qualif[i].length);
+					// 	}
+					// }
+					// var check_id="projet_";
+					// var cls_id = $(".hauteur-card").attr('class').split(' ');
+					// for (var i = 0; i < cls_id.length; i++) {
+					// 	if (cls_id[i].indexOf(check_id) > -1) {
+					// 		var id_client = cls_id[i].slice(check_id.length, cls_id[i].length);
+					// 	}
+					// }
+
+					// console.log(id_qualif);
+					// console.log(id_client);
+					
 					$('.numclient').val(numClient);
 					$('.raisonsociale').val(raisonSociale);
 					$('.adressecms').val(adresseCms);
 					$('.changegraph').val(graph);
-					$('select.changequalif').val(id_qualif);
-					console.log(id_qualif);
-					console.log(id_client);
+					$('select.changequalif').val(etat);
 					$('.btn-modif').on('click', function(){
 						var numClient = $('#change .numclient').val();
 						var raisonSociale = $('#change .raisonsociale').val();

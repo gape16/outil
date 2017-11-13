@@ -31,7 +31,7 @@ if (isset($_SESSION['id_statut'])) {
 	$selection_categorie2 = $bdd->prepare("SELECT * FROM categorie_veille");
 	$selection_categorie2->execute();
 
-	$selection_article_veille = $bdd->prepare("SELECT * FROM veille");
+	$selection_article_veille = $bdd->prepare("SELECT * FROM veille order by date_veille DESC");
 	$selection_article_veille->execute();
 
 	$id_graph=$_SESSION['id_graph'];
@@ -87,158 +87,159 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/jquery.fancybox.min.css">
+		<style>
+	</style>
+</head>
 
-	</head>
+<body>
 
-	<body>
-
-		<?php 
-		if($_SESSION['id_statut']==1) {
+	<?php 
+	if($_SESSION['id_statut']==1) {
 		//page graphistes 
-			include('left_sidebar.php');
-			include('header.php');
-		}elseif  ($_SESSION['id_statut']==2){
+		include('left_sidebar.php');
+		include('header.php');
+	}elseif  ($_SESSION['id_statut']==2){
 		//page  redacteurs
-			include('left_sidebar_redac.php');
-			include('header_redac.php');
-		}
-		elseif ($_SESSION['id_statut']==3) {
+		include('left_sidebar_redac.php');
+		include('header_redac.php');
+	}
+	elseif ($_SESSION['id_statut']==3) {
 		//page leader
-			include('left_sidebar_leader.php');
-			include('header_leader.php');
-		}elseif ($_SESSION['id_statut']==4) {
+		include('left_sidebar_leader.php');
+		include('header_leader.php');
+	}elseif ($_SESSION['id_statut']==4) {
 		//page controleur
-			include('left_sidebar_controleur.php');
-			include('header_controleur.php');
-		}elseif($_SESSION['id_statut']==5){
+		include('left_sidebar_controleur.php');
+		include('header_controleur.php');
+	}elseif($_SESSION['id_statut']==5){
 		//page admin
-			include('left_sidebar_admin.php');
-			include('header_admin.php');
-		}
-		?>
+		include('left_sidebar_admin.php');
+		include('header_admin.php');
+	}
+	?>
 
 
-		<!-- Responsive Header -->
+	<!-- Responsive Header -->
 
-		<?php include('responsive_header.php');?>
-		
-		<!-- ... end Responsive Header -->
+	<?php include('responsive_header.php');?>
 
-		<div class="header-spacer header-spacer-small"></div>
+	<!-- ... end Responsive Header -->
+
+	<div class="header-spacer header-spacer-small"></div>
 
 
-		
-		<div class="main-header">
-			<div class="content-bg-wrap">
-				<div class="content-bg bg-events"></div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
-						<div class="main-header-content">
-							<h1>Retrouvez toutes les veilles technologiques</h1>
-							<p>Bienvenu sur la page de la veille technologique qui vous permettra de trouver un maximum d'informations sur les nouveautés sans aller sur le net!
-							</p>
-						</div>
+
+	<div class="main-header">
+		<div class="content-bg-wrap">
+			<div class="content-bg bg-events"></div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+					<div class="main-header-content">
+						<h1>Retrouvez toutes les veilles technologiques</h1>
+						<p>Bienvenu sur la page de la veille technologique qui vous permettra de trouver un maximum d'informations sur les nouveautés sans aller sur le net!
+						</p>
 					</div>
 				</div>
 			</div>
-
-			<img class="img-bottom" src="img/event-bottom.png" alt="friends">
 		</div>
 
-		<!-- Main Content Groups -->
-		<div class="container">
-			<div class="row">
+		<img class="img-bottom" src="img/event-bottom.png" alt="friends">
+	</div>
 
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="clients-grid">
+	<!-- Main Content Groups -->
+	<div class="container">
+		<div class="row">
 
-						<ul class="cat-list-bg-style align-center sorting-menu">
-							<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="clients-grid">
 
-							<?php foreach ($selection_categorie2 as $key => $value) {?>
-							<li class="cat-list__item" data-filter=".<?php echo($value['id_categorie_veille']) ?>"><a href="#" class=""><?php echo($value['categorie']) ?></a></li>
-							<?php }
-							?>
-						</ul>
-						<div class="row sorting-container" id="veille_code" data-layout="masonry">
-							<?php foreach ($selection_article_veille as $key => $value) {?>
-							<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
-								<div class="ui-block">
-									<article class="hentry blog-post">
-										<div class="post-thumb">
-											<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
-										</div>
-										<div class="post-content">
-											<a href="#" class="h4 post-title"><?php echo($value['titre']) ?></a>
-											<p><?php echo($value['description']) ?>											</p>
+					<ul class="cat-list-bg-style align-center sorting-menu">
+						<li class="cat-list__item active" data-filter="*"><a href="#" class="">Toutes les catégories</a></li>
 
-											<div class="author-date not-uppercase">
-												<div class="post__date">
-													<time class="published" datetime="2017-03-24T18:18">
-														<?php echo($value['date_veille']) ?>
-													</time>
-												</div>
+						<?php foreach ($selection_categorie2 as $key => $value) {?>
+						<li class="cat-list__item" data-filter=".<?php echo($value['id_categorie_veille']) ?>"><a href="#" class=""><?php echo($value['categorie']) ?></a></li>
+						<?php }
+						?>
+					</ul>
+					<div class="row sorting-container" id="veille_code" data-layout="masonry">
+						<?php foreach ($selection_article_veille as $key => $value) {?>
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
+							<div class="ui-block">
+								<article class="hentry blog-post">
+									<div class="post-thumb">
+										<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
+									</div>
+									<div class="post-content">
+										<a href="#" class="h4 post-title"><?php echo($value['titre']) ?></a>
+										<p><?php echo($value['description']) ?>											</p>
+
+										<div class="author-date not-uppercase">
+											<div class="post__date">
+												<time class="published" datetime="2017-03-24T18:18">
+													<?php echo($value['date_veille']) ?>
+												</time>
 											</div>
-											<a class="post-add-icon inline-items like_veille_<?php echo($value['id_veille']) ?>" <?php if($value['like_veille'] != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
 										</div>
-									</article>
-								</div>
+										<a class="post-add-icon inline-items like_veille_<?php echo($value['id_veille']) ?>" <?php if($value['like_veille'] != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg><span><?php echo($value['like_veille']) ?></span></a>
+									</div>
+								</article>
 							</div>
-							<?php } ?>
 						</div>
+						<?php } ?>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- ... end Window-popup Create Friends Group Add Friends -->
+</div>
+<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-	<!-- jQuery first, then Other JS. -->
-	<script src="js/jquery-3.2.0.min.js"></script>
-	<!-- Js effects for material design. + Tooltips -->
-	<script src="js/material.min.js"></script>
-	<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-	<script src="js/theme-plugins.js"></script>
-	<!-- Init functions -->
-	<script src="js/main.js"></script>
-	<script src="js/alterclass.js"></script>
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
+<!-- jQuery first, then Other JS. -->
+<script src="js/jquery-3.2.0.min.js"></script>
+<!-- Js effects for material design. + Tooltips -->
+<script src="js/material.min.js"></script>
+<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+<script src="js/theme-plugins.js"></script>
+<!-- Init functions -->
+<script src="js/main.js"></script>
+<script src="js/alterclass.js"></script>
+<!-- Select / Sorting script -->
+<script src="js/selectize.min.js"></script>
 
-	<!-- Swiper / Sliders -->
-	<script src="js/swiper.jquery.min.js"></script>
+<!-- Swiper / Sliders -->
+<script src="js/swiper.jquery.min.js"></script>
 
-	<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
 
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
+<script src="js/mediaelement-and-player.min.js"></script>
+<script src="js/mediaelement-playlist-plugin.min.js"></script>
 
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+<script src="js/mediaelement-and-player.min.js"></script>
+<script src="js/mediaelement-playlist-plugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-	<script src="js/charte.js"></script>
-	<?php 
-	if($_SESSION['id_statut']==1) {
+<script src="js/charte.js"></script>
+<?php 
+if($_SESSION['id_statut']==1) {
 						//page graphistes 
-		?><script src="js/notifications.js"></script><?php
-	}elseif  ($_SESSION['id_statut']==2){
+	?><script src="js/notifications.js"></script><?php
+}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-		?><script src="js/notifications_redac.js"></script><?php
-	}
-	elseif ($_SESSION['id_statut']==3) {
+	?><script src="js/notifications_redac.js"></script><?php
+}
+elseif ($_SESSION['id_statut']==3) {
 						//page leader
-		?><script src="js/notifications_leader.js"></script><?php
-	}elseif ($_SESSION['id_statut']==4) {
+	?><script src="js/notifications_leader.js"></script><?php
+}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-		?><script src="js/notifications_controleur.js"></script><?php
-	}elseif($_SESSION['id_statut']==5){
+	?><script src="js/notifications_controleur.js"></script><?php
+}elseif($_SESSION['id_statut']==5){
 						//page admin
-		?><script src="js/notifications_admin.js"></script><?php
-	}
-	?>
+	?><script src="js/notifications_admin.js"></script><?php
+}
+?>
 
 </body>
 </html>

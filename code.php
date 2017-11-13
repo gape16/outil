@@ -31,7 +31,7 @@ $query_inser_code->execute();
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="code_wrap">
 <head>
 
 	<title>Code</title>
@@ -96,6 +96,7 @@ $query_inser_code->execute();
 	#code_editors {
 		margin-left: 70px;
 		width: 100%;
+		float: left;
 	}
 	#code_editors .code_box {
 		width: 33%;
@@ -130,20 +131,22 @@ $query_inser_code->execute();
 	.CodeMirror {
 		color: white;
 	}
+	iframe#content {
+		border: none;
+		width: 100%;
+		height: 60vh;
+		padding: 0 0 0 70px;
+	}
 
 	/* Output Area */
-	#output {
-		height: 100%;
-		margin-top: 330px;
-		padding: 0 70px;
+	#code_wrap #output {
+		height: 60vh;
+		float: left;
+		width: 100%;
 	}
 	.CodeMirror-scroll {
 		background: #1d1f20;
 		padding-bottom: 30px;
-	}
-	#output iframe {
-		width: 100%; height: 100%;
-		border: 0;
 	}
 	.CodeMirror-gutters {
 		background-color: #1d1f20;
@@ -213,12 +216,6 @@ $query_inser_code->execute();
 	}
 	?>
 
-	<!-- Responsive Header -->
-
-	<?php include('responsive_header.php');?>
-
-	<!-- ... end Responsive Header -->
-
 	<div class="header-spacer header-spacer-small"></div>
 
 
@@ -240,7 +237,7 @@ $query_inser_code->execute();
 	
 	<!-- Sandboxing -->
 	<section id="output">
-		<iframe></iframe>
+		<iframe id="content"></iframe>
 		<?php  if (!isset($_GET['id_code'])) {?>
 		<a href="#" class="option" data-toggle="modal" data-target="#check_code">Proposer le code</a>
 		<?php } ?>
@@ -323,6 +320,8 @@ $query_inser_code->execute();
 <!-- For CSS -->
 <script src="http://codemirror.net/mode/css/css.js"></script>
 
+
+
 <?php 
 if($_SESSION['id_statut']==1) {
 						//page graphistes 
@@ -343,6 +342,8 @@ elseif ($_SESSION['id_statut']==3) {
 }
 ?>
 <script src="js/charte.js"></script>
+<script src="js/html2canvas.js"></script>
+<script src="js/canvas2image.js"></script>
 <script>
 	(function() {
 
@@ -352,10 +353,10 @@ elseif ($_SESSION['id_statut']==3) {
 	"<html>\n\t" +
 	"<head>\n\t\t" +
 	"<meta charset=\"utf-8\">\n\t\t" +
-	"<title>Test</title>\n\n\t\t\n\t" +
+	"<title>Code !</title>\n\n\t\t\n\t" +
 	"<script src='https://code.jquery.com/jquery-3.2.1.min.js'><\/script>\n\t\t" + 
 	"</head>\n\t" +
-	"<body>\n\t\n\t" +
+	"<body class='test'>\n\t\n\t" +
 	"</body>\n" +
 	"</html>";
 	
@@ -513,7 +514,19 @@ elseif ($_SESSION['id_statut']==3) {
 	})
 }());
 
+$(function(){
+	 $(".option").on('click', function(){
+		        html2canvas($("body.test"), {
+			            onrendered: function (canvas) {
+				                var url = canvas.toDataURL();
 
+				                var triggerDownload = $("<a>").attr("href", url).attr("download", "test.jpeg").appendTo("body");
+				                triggerDownload[0].click();
+				                triggerDownload.remove();
+			            }
+		        });
+	    }) 
+})
 </script>
 </body>
 </html>

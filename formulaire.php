@@ -244,6 +244,7 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key]['capture'] = utf8_encode($value['capture']);
 		$tab[$key]['nom'] = utf8_encode($value['nom']);
 		$tab[$key]['prenom'] = utf8_encode($value['prenom']);
+		$tab[$key]['photo_avatar'] = $value['photo_avatar'];
 		$tab[$key]['photo'] = $value['photo'];
 		$tab[$key]['etat_aide'] = utf8_encode($value['etat_aide']);
 		$tab[$key]['couleur'] = utf8_encode($value['couleur']);
@@ -257,7 +258,7 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key_com+1]['commentaire'] = utf8_encode($value_com['commentaire']);
 		$tab[$key_com+1]['date_commentaire'] = $value_com['date_commentaire'];
 		$tab[$key_com+1]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
-		$tab[$key_com+1]['photo'] = $value_com['photo'];
+		$tab[$key_com+1]['photo_avatar'] = $value_com['photo_avatar'];
 		$tab[$key_com+1]['like'] = $value_com['like_com'];
 		$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
 		$query_sel_lik->bindParam(1, $_SESSION['id_graph']);
@@ -376,7 +377,7 @@ if (isset($_POST['id_timer_aide'])) {
 		$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
 		$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
 		$tabf[$key_com]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
-		$tabf[$key_com]['photo'] = $value_com['photo'];
+		$tabf[$key_com]['photo_avatar'] = $value_com['photo_avatar'];
 		$tabf[$key_com]['like'] = $value_com['like_com'];
 		$query_sel_lik = $bdd->prepare("SELECT id_like from like_com where id_graph = ? and id_com = ?");
 		$query_sel_lik->bindParam(1, $_SESSION['id_graph']);
@@ -838,7 +839,7 @@ if(isset($_POST['search_empty'])){
 if(isset($_POST['admin_search'])){
 	$search = $_POST['admin_search'];
 	$varsearch = "%" . $search . "%";
-	$requete_search = $bdd->prepare("SELECT * FROM client WHERE raison_social LIKE ? or num_client LIKE ? order by date_integration DESC");
+	$requete_search = $bdd->prepare("SELECT * FROM client inner join etat on client.id_etat = etat.id_etat WHERE raison_social LIKE ? or num_client LIKE ? order by date_integration DESC");
 	$requete_search->bindParam(1, $varsearch);
 	$requete_search->bindParam(2, $varsearch);
 	$requete_search->execute();
@@ -850,10 +851,33 @@ if(isset($_POST['admin_search'])){
 		$jour=$jour_tab[0];
 		$m=$date_tab[1];
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+		if($value['id_etat']==1){
+			$class_etat="crea-maquette";
+			$class_img="img/Crea-maquette.png";
+		}elseif ($value['id_etat']==2) {
+			$class_etat="ctrl-maquette";
+			$class_img="img/Ctrl-maquette.png";
+		}elseif ($value['id_etat']==3) {
+			$class_etat="retour-crea";
+			$class_img="img/Retour-crea.png";
+		}elseif ($value['id_etat']==4) {
+			$class_etat="crea-graphique";
+			$class_img="img/Crea-graphique.png";
+		}elseif ($value['id_etat']==5) {
+			$class_etat="ctrl-design";
+			$class_img="img/Ctrl-design.png";
+		}elseif ($value['id_etat']==6) {
+			$class_etat="retour-crea";
+			$class_img="img/Retour-graphique.png";
+		}elseif ($value['id_etat']==7) {
+			$class_etat="site-valide";
+			$class_img="img/Site-valide.png";
+		}
+
 		?>
 		<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6 change_card projet_<?php echo $value['id_client'];?> qualif_<?php echo $value['id_etat'];?>">
-			<div class="ui-block" data-mh="friend-groups-item">
-				<div class="friend-item friend-groups resetmh">
+			<div class="ui-block hauteur-card" data-mh="friend-groups-item">
+				<div class="friend-item friend-groups  <?php echo $class_etat;?>">
 					<div class="friend-item-content">
 						<div class="more">
 							<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
@@ -866,31 +890,35 @@ if(isset($_POST['admin_search'])){
 								</li>
 							</ul>
 						</div>
-						<div class="friend-avatar">
-							<div class="author-thumb">
-								<img src="img/crea_maquette.png" alt="Olympus">
+						<div class="friend-avatar entete-card">
+							<div class="author-thumb etat-card">
+								<img src="<?php echo $class_img;?>" alt="Olympus">
 							</div>
-							<div class="author-content">
-								<a href="#" class="h5 author-name raisonsocial"><?php echo $value['raison_social'];?></a>
-								<div class="country numclient"><?php echo $value['num_client'];?></div>
+							<div class="author-content texte-card">
+								<a href="#" class="h5 author-name"><?php echo utf8_encode($value['raison_social']);?></a>
+								<div class="country"><?php echo $value['num_client'];?></div>
 							</div>
 						</div>
-						<ul class="friends-harmonic">
-							<p>NOM DU GRAPH</p>
-						</ul>
-						<div class="control-block-button">
-							<a href="<?php echo $value['lien_CMS'];?><" target="_blank" class="cms btn btn-control bg-blue">
-								<svg class="olymp-happy-faces-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
+						<div class="control-block-button bouton-check">
+							<a href="<?php echo utf8_encode($value['lien_CMS']);?>" target="_blank" class="liencms btn btn-control bg-blue bouton-icone1">
+								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35%" version="1.1" height="35%" viewBox="0 0 64 64" enable-background="new 0 0 64 64">
+									<path d="m60.135,3.875c-5.156-5.166-13.545-5.168-18.697,0l-11.576,11.619c-0.788,0.791-0.788,2.074 0,2.865 0.79,0.792 2.067,0.792 2.856,0l11.576-11.618c3.578-3.589 9.401-3.587 12.984,0 3.578,3.591 3.578,9.435 0,13.024l-15.292,15.339c-1.732,1.739-4.038,2.697-6.49,2.697-2.451,0-4.758-0.959-6.492-2.697-0.789-0.792-2.067-0.792-2.857,0-0.788,0.791-0.788,2.074 0,2.865 2.499,2.505 5.818,3.885 9.35,3.885s6.848-1.381 9.347-3.885l15.292-15.338c5.152-5.17 5.152-13.584-0.001-18.756z" fill="#FFFFFF"/>
+									<path d="m31.015,45.904l-11.312,11.346c-1.732,1.739-4.039,2.697-6.491,2.697-2.451,0-4.759-0.958-6.489-2.697-3.578-3.591-3.578-9.434 0-13.023l15.289-15.338c3.582-3.588 9.406-3.588 12.983,0 0.789,0.793 2.067,0.793 2.856,0 0.789-0.791 0.789-2.072 0-2.864-5.152-5.17-13.541-5.17-18.697,0l-15.288,15.336c-5.155,5.17-5.155,13.584 4.44089e-16,18.754 2.497,2.506 5.816,3.885 9.346,3.885 3.531,0 6.853-1.379 9.348-3.885l11.31-11.345c0.79-0.791 0.79-2.074 0-2.865-0.788-0.792-2.067-0.792-2.855-0.001z" fill="#FFFFFF"/>
+								</svg>
 							</a>
-							<a href="check.php?idgpp=<?php echo $value['IDGPP'];?><" class="btn btn-control btn-grey-lighter">
-								<svg class="olymp-settings-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
+							<a href="check.php?idgpp=<?php echo utf8_encode($value['IDGPP']);?>" class="btn btn-control btn-grey-lighter bouton-icone2">
+								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="35%" height="35%" viewBox="0 0 394.893 394.893" style="enable-background:new 0 0 394.893 394.893;" xml:space="preserve">
+									<path d="M344.426,191.963c-6.904,0-12.5,5.597-12.5,12.5V350.91H25V43.982h246.57c6.904,0,12.5-5.597,12.5-12.5    c0-6.903-5.596-12.5-12.5-12.5H12.5c-6.903,0-12.5,5.597-12.5,12.5V363.41c0,6.903,5.597,12.5,12.5,12.5h331.926    c6.902,0,12.5-5.597,12.5-12.5V204.463C356.926,197.56,351.33,191.963,344.426,191.963z" fill="#FFFFFF"/>
+									<path d="M391.23,27.204c-4.881-4.881-12.795-4.881-17.678,0L169.957,230.801l-50.584-50.584c-4.882-4.881-12.796-4.881-17.678,0    c-4.881,4.882-4.881,12.796,0,17.678l59.423,59.423c2.441,2.44,5.64,3.661,8.839,3.661c3.199,0,6.398-1.221,8.839-3.661    L391.23,44.882C396.113,40,396.113,32.086,391.23,27.204z" fill="#FFFFFF"/>
+								</svg>
 							</a>
-							<input type="hidden" class="idgpp" value="<?php echo $value['IDGPP'];?>">
-							<input type="hidden" class="graph" value="<?php echo $value['id_graph_maquette'];?>">
 						</div>
 					</div>
 				</div>
 			</div>
+			<input type="hidden" class="idgpp" value="<?php echo $value['IDGPP'];?>">
+			<input type="hidden" class="graph" value="<?php echo $value['id_graph_maquette'];?>">
+			<input type="hidden" class="id_client" value="<?php echo $value['id_client'];?>">
 		</div>
 		<?php
 	}
@@ -939,7 +967,7 @@ if(isset($_POST['lienveille'])){
 	$requete_show_veille = $bdd->prepare("SELECT * from veille order by id_veille desc limit 1");
 	$requete_show_veille->execute();
 	foreach ($requete_show_veille as $key => $value) {?>
-	<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
+	<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie']) ?>">
 		<div class="ui-block">
 			<article class="hentry blog-post">
 
@@ -1049,7 +1077,7 @@ if(isset($_POST['search_code'])){
 			$m=$date_tab[1];
 			$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 			?>
-			<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
+			<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
 				<div class="ui-block">
 					<article class="hentry blog-post">
 						<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
@@ -1088,7 +1116,7 @@ if(isset($_POST['search_code_empty'])){
 		$m=$date_tab[1];
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 		?>
-		<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
+		<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo($value['categorie_code']) ?>">
 			<div class="ui-block">
 				<article class="hentry blog-post">
 					<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
@@ -1867,4 +1895,70 @@ if(isset($_POST['admin_help_search_empty'])){
 		</tr>
 		<?php
 	}
+}
+
+// CHANGEMENT DATE DE NAISSANCE
+// if (isset($_POST['date_naissance'])) {
+// 	$date_naissance = $_POST['date_naissance'];
+// 	$id_graph = $_SESSION['id_graph'];
+// 	$requete_changer_date = $bdd->prepare("UPDATE user SET date_naissance = ? where id_user = ?");
+// 	$requete_changer_date->bindParam(1, $date_naissance);
+// 	$requete_changer_date->bindParam(2, $id_graph);
+// 	$requete_changer_date->execute();
+// 	var_dump($requete_changer_date);
+// }
+
+
+if(isset($_POST['popup_anniversaire'])){
+	$id_anniversaire=$_POST['popup_anniversaire'];
+	$tab=array();
+	$query_com_anniversaire = $bdd->prepare("SELECT * FROM commentaires_anniversaire inner join user on commentaires_anniversaire.id_user=user.id_user where id_user_anniversaire = ? order by date_commentaire DESC");
+	$query_com_anniversaire->bindParam(1, $id_anniversaire);
+	$query_com_anniversaire->execute();
+	foreach ($query_com_anniversaire as $key_com => $value_com)
+	{
+		$tab[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
+		$tab[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
+		$tab[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
+		$tab[$key_com]['id_commentaires_anniversaire'] = $value_com['id_commentaires_anniversaire'];
+		$tab[$key_com]['photo_avatar'] = $value_com['photo_avatar'];
+		$tab[$key_com]['like'] = $value_com['like_com'];
+	}
+	print_r(json_encode($tab));
+}
+
+if (isset($_POST['envoi_com_anniversaire'])) {
+	$commentaire=utf8_decode($_POST['envoi_com_anniversaire']);
+	$id_graph=$_SESSION['id_graph'];
+	$id_anniversaire = $_POST['id_anniversaire_com'];
+	$date_com=$date=date('Y-m-d H:i:s');
+	$like=0;
+	$tabf=array();
+	$query_ins_com = $bdd->prepare("INSERT INTO commentaires_anniversaire (id_user_anniversaire, commentaire, id_user, date_commentaire, like_com) VALUES (?, ?, ?, ?, ?)");
+	$query_ins_com->bindParam(1, $id_anniversaire);
+	$query_ins_com->bindParam(2, $commentaire);
+	$query_ins_com->bindParam(3, $id_graph);
+	$query_ins_com->bindParam(4, $date_com);
+	$query_ins_com->bindParam(5, $like);
+	$query_ins_com->execute();
+}
+
+if (isset($_POST['id_timer_anniversaire'])) {
+	$id_anniversaire=$_POST['id_timer_anniversaire'];
+	$id_com=$_POST['id_timer_com'];
+	$query_com_aide = $bdd->prepare("SELECT * FROM commentaires_anniversaire inner join user on commentaires_anniversaire.id_user=user.id_user where id_user_anniversaire = ? and id_commentaires_anniversaire > ? order by date_commentaire ASC");
+	$query_com_aide->bindParam(1, $id_anniversaire);
+	$query_com_aide->bindParam(2, $id_com);
+	$query_com_aide->execute();	
+	$tabf=array();
+	foreach ($query_com_aide as $key_com => $value_com)
+	{
+		$tabf[$key_com]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
+		$tabf[$key_com]['commentaire'] = utf8_encode($value_com['commentaire']);
+		$tabf[$key_com]['date_commentaire'] = $value_com['date_commentaire'];
+		$tabf[$key_com]['id_commentaires_anniversaire'] = $value_com['id_commentaires_anniversaire'];
+		$tabf[$key_com]['photo_avatar'] = $value_com['photo_avatar'];
+		$tabf[$key_com]['like'] = $value_com['like_com'];
+	}
+	print_r(json_encode($tabf));
 }
