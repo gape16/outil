@@ -1305,370 +1305,581 @@ if(isset($_POST['stat_controleur'])){
 	$debut =  date('Y-m-d', strtotime($date_tempo));
 	$date_tempo = str_replace('/', '-', $fin_tempo);
 	$fin =  date('Y-m-d', strtotime($date_tempo));
-	$query_stats_control=$bdd->prepare("SELECT nb_validation_maquette, nb_retour_maquette,nb_validation_cq, nb_retour_cq FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control >= ? and date_stat_control <= ? and stat_controle.id_controleur=?");
+	$query_stats_control=$bdd->prepare("SELECT user.id_user, prenom, nom, sum(nb_validation_maquette) as nb_validation_maquette, sum(nb_retour_maquette) as nb_retour_maquette, sum(nb_validation_cq) as nb_validation_cq, sum(nb_retour_cq) as nb_retour_cq FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control >= ? and date_stat_control <= ? group by id_controleur");
 	$query_stats_control->bindParam(1, $debut);
 	$query_stats_control->bindParam(2, $fin);
-	$query_stats_control->bindParam(3, $stat_controleur);
 	$query_stats_control->execute();
-	$result=$query_stats_control->fetch();
-	print_r(json_encode($result));
-}
+	foreach ($query_stats_control as $key => $value) {
+		$total_control=$value['nb_validation_maquette']+$value['nb_retour_maquette']+$value['nb_validation_cq']+$value['nb_retour_cq'];
+		?>
+		<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-xs-12 graphique_control">
+			<input type="hidden" value="<?php echo $value['id_user'];?>" class="controleur">
+			<div class="ui-block" data-mh="pie-chart">
+				<div class="ui-block-title">
+					<div class="h6 title">Stats Controles <?php echo utf8_encode($value['prenom']);?></div>
+					<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+				</div>
+				<div class="ui-block-content">
+					<div class="chart-with-statistic">
+						<ul class="statistics-list-count">
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-purple"></span>
+										Validations maquettes
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_validation_maquette'];?></div>
+							</li>
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-breez"></span>
+										Retours maquettes
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_retour_maquette'];?></div>
+							</li>
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-primary"></span>
+										Validations CQ
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_validation_cq'];?></div>
+							</li>
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-yellow"></span>
+										Retours CQ
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_retour_cq'];?></div>
+							</li>
+						</ul>
 
-if(isset($_POST['stat_controleur_total'])){
-	// $date_control=date('Y-m-d');
-	$debut_tempo = $_POST['debut_cont'];
-	$fin_tempo = $_POST['fin_cont'];
-	$date_tempo = str_replace('/', '-', $debut_tempo);
-	$debut =  date('Y-m-d', strtotime($date_tempo));
-	$date_tempo = str_replace('/', '-', $fin_tempo);
-	$fin =  date('Y-m-d', strtotime($date_tempo));
-	$query_stats_control_total=$bdd->prepare("SELECT sum(nb_validation_maquette) as val_maquette_toto, sum(nb_retour_maquette) as retour_maquette_toto, sum(nb_validation_cq) as val_cq_toto, sum(nb_retour_cq) as retour_cq_toto FROM stat_controle where date_stat_control >= ? and date_stat_control <= ?");
+
+						<div class="chart-js chart-js-pie-color">
+							<canvas id="pie-color-chart<?php echo $key;?>" width="180" height="180"></canvas>
+							<div class="general-statistics"><?php echo $total_control;?>
+								<span>Actions contrôleurs</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<?php 
+	}
+	$query_stats_control_total=$bdd->prepare("SELECT sum(nb_validation_maquette) as nb_validation_maquette, sum(nb_retour_maquette) as nb_retour_maquette, sum(nb_validation_cq) as nb_validation_cq, sum(nb_retour_cq) as nb_retour_cq FROM stat_controle where date_stat_control >= ? and date_stat_control <= ?");
 	$query_stats_control_total->bindParam(1, $debut);
 	$query_stats_control_total->bindParam(2, $fin);
 	$query_stats_control_total->execute();
-	$resultat_total_control=$query_stats_control_total->fetch();
-	print_r(json_encode($resultat_total_control));
-}
+	foreach ($query_stats_control_total as $key => $value) {
+		$total_control=$value['nb_validation_maquette']+$value['nb_retour_maquette']+$value['nb_validation_cq']+$value['nb_retour_cq'];
+		?>
+		<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-xs-12 graphique_control_total">
+			<input type="hidden" class="controleur">
+			<div class="ui-block" data-mh="pie-chart">
+				<div class="ui-block-title">
+					<div class="h6 title">Stats Controles Total</div>
+					<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+				</div>
+				<div class="ui-block-content">
+					<div class="chart-with-statistic">
+						<ul class="statistics-list-count">
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-purple"></span>
+										Validations maquettes
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_validation_maquette'];?></div>
+							</li>
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-breez"></span>
+										Retours maquettes
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_retour_maquette'];?></div>
+							</li>
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-primary"></span>
+										Validations CQ
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_validation_cq'];?></div>
+							</li>
+							<li>
+								<div class="points">
+									<span>
+										<span class="statistics-point bg-yellow"></span>
+										Retours CQ
+									</span>
+								</div>
+								<div class="count-stat"><?php echo $value['nb_retour_cq'];?></div>
+							</li>
+						</ul>
 
-if (isset($_POST['code_stat'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=date('Y');
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $id_graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
 
-if (isset($_POST['achat_stat'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=date('Y');
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $id_graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
+						<div class="chart-js chart-js-pie-color">
+							<canvas id="pie-color-chart-total" width="180" height="180"></canvas>
+							<div class="general-statistics"><?php echo $total_control;?>
+								<span>Actions totales</span>
+							</div>
+						</div>
+					</div>
+				</div>
 
-if (isset($_POST['aide_stat'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=date('Y');
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $id_graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
-
-if(isset($_POST['stat_total'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=date('Y');
-	$tableau = array(); 
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	print_r(json_encode($tableau));
-}
-if (isset($_POST['code_stat_date'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['code_stat_date'];
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $id_graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
-
-if (isset($_POST['achat_stat_date'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['achat_stat_date'];
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $id_graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
-
-if (isset($_POST['aide_stat_date'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['aide_stat_date'];
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $id_graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
-
-if(isset($_POST['stat_total_date'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['stat_total_date'];
-	$tableau = array(); 
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	print_r(json_encode($tableau));
-}
-
-if(isset($_POST['nb_code'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['nb_code'];
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	echo $query->rowCount();
-}
-
-if(isset($_POST['nb_achat'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['nb_achat'];
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	echo $query->rowCount();
-}
-
-if(isset($_POST['nb_aide'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['nb_aide'];
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $id_graph);
-	$query->execute();
-	echo $query->rowCount();
-}
-// stat.php pour chaque graph
-if (isset($_POST['code_stat_date_graph'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['code_stat_date_annee'];
-	$graph=$_POST['code_stat_date_graph'];
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
-
-if (isset($_POST['achat_stat_date_graph'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['achat_stat_date_annee'];
-	$graph=$_POST['achat_stat_date_graph'];
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
-
-if (isset($_POST['aide_stat_date_graph'])) {
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['aide_stat_date_annee'];
-	$graph=$_POST['aide_stat_date_graph'];
-	$tableau = array(); 
-	for ($i=1; $i <= 12; $i++) { 
-		if($i<10){
-			$u="0".$i;
-		}else{
-			$u=$i;
-		}
-		$varsearch = "%" . $annee . "-". $u ."%";
-		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-		$query->bindParam(1, $varsearch);
-		$query->bindParam(2, $graph);
-		$query->execute();
-		$tableau[]= $query->rowCount();
-	}
-	print_r(json_encode($tableau));
-}
-
-if(isset($_POST['stat_total_date_graph'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['stat_total_date_annee'];
-	$graph=$_POST['stat_total_date_graph'];
-	$tableau = array(); 
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $graph);
-	$query->execute();
-	$tableau[]= $query->rowCount();
-	print_r(json_encode($tableau));
-}
-
-if(isset($_POST['nb_code_graph'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['nb_code_annee'];
-	$graph=$_POST['nb_code_graph'];
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $graph);
-	$query->execute();
-	echo $query->rowCount();
-}
-
-if(isset($_POST['nb_achat_graph'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['nb_achat_annee'];
-	$graph=$_POST['nb_achat_graph'];
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $graph);
-	$query->execute();
-	echo $query->rowCount();
-}
-
-if(isset($_POST['nb_aide_graph'])){
-	$id_graph=$_SESSION['id_graph'];
-	$annee=$_POST['nb_aide_annee'];
-	$graph=$_POST['nb_aide_graph'];
-	$varsearch = "%" . $annee . "-%";
-	$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
-	$query->bindParam(1, $varsearch);
-	$query->bindParam(2, $graph);
-	$query->execute();
-	echo $query->rowCount();
-}
-
-if(isset($_POST['admin_remontees_search'])){
-	$search = utf8_decode($_POST['admin_remontees_search']);
-	$varsearch = "%" . $search . "%";
-	$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on remontees.accept_remontees = etat_remontees.id_etat_remontees WHERE titre LIKE ? or description LIKE ? order by date_remontees DESC");
-	$requete_search->bindParam(1, $varsearch);
-	$requete_search->bindParam(2, $varsearch);
-	$requete_search->execute();
-	$nb_result = $requete_search->rowCount();
-	$tab_search = array();
-	if ($nb_result == 0) {?>
-	<tr class="event-item">
-		<td class="upcoming">
-			<div class="date-event">
-				<h2>Aucun résultat n'a été trouvé</h2>
 			</div>
-		</td>
-	</tr>
-	<?php }else{
+		</div>
+		<?php }
+	// $result=$query_stats_control->fetchAll();
+	// print_r(json_encode($result));
+	}
+	if(isset($_POST['stat_controleur_dessin'])){
+	// $date_control=date('Y-m-d');
+		$control=$_POST['stat_controleur_dessin'];
+		$debut_tempo = $_POST['debut_cont'];
+		$fin_tempo = $_POST['fin_cont'];
+		$date_tempo = str_replace('/', '-', $debut_tempo);
+		$debut =  date('Y-m-d', strtotime($date_tempo));
+		$date_tempo = str_replace('/', '-', $fin_tempo);
+		$fin =  date('Y-m-d', strtotime($date_tempo));
+		$query_stats_control=$bdd->prepare("SELECT user.id_user, prenom, nom, sum(nb_validation_maquette) as nb_validation_maquette, sum(nb_retour_maquette) as nb_retour_maquette, sum(nb_validation_cq) as nb_validation_cq, sum(nb_retour_cq) as nb_retour_cq FROM stat_controle inner join user on stat_controle.id_controleur = user.id_user where date_stat_control >= ? and date_stat_control <= ? and id_controleur = ? group by id_controleur");
+		$query_stats_control->bindParam(1, $debut);
+		$query_stats_control->bindParam(2, $fin);
+		$query_stats_control->bindParam(3, $control);
+		$query_stats_control->execute();
+		$result=$query_stats_control->fetch();
+		print_r(json_encode($result));
+	}
+	if(isset($_POST['stat_controleur_dessin_total'])){
+	// $date_control=date('Y-m-d');
+		$debut_tempo = $_POST['debut_cont'];
+		$fin_tempo = $_POST['fin_cont'];
+		$date_tempo = str_replace('/', '-', $debut_tempo);
+		$debut =  date('Y-m-d', strtotime($date_tempo));
+		$date_tempo = str_replace('/', '-', $fin_tempo);
+		$fin =  date('Y-m-d', strtotime($date_tempo));
+		$query_stats_control=$bdd->prepare("SELECT sum(nb_validation_maquette) as nb_validation_maquette, sum(nb_retour_maquette) as nb_retour_maquette, sum(nb_validation_cq) as nb_validation_cq, sum(nb_retour_cq) as nb_retour_cq FROM stat_controle where date_stat_control >= ? and date_stat_control <= ?");
+		$query_stats_control->bindParam(1, $debut);
+		$query_stats_control->bindParam(2, $fin);
+		$query_stats_control->execute();
+		$result=$query_stats_control->fetch();
+		print_r(json_encode($result));
+	}
+
+	if(isset($_POST['stat_controleur_total'])){
+// $date_control=date('Y-m-d');
+		$debut_tempo = $_POST['debut_cont'];
+		$fin_tempo = $_POST['fin_cont'];
+		$date_tempo = str_replace('/', '-', $debut_tempo);
+		$debut =  date('Y-m-d', strtotime($date_tempo));
+		$date_tempo = str_replace('/', '-', $fin_tempo);
+		$fin =  date('Y-m-d', strtotime($date_tempo));
+		$query_stats_control_total=$bdd->prepare("SELECT sum(nb_validation_maquette) as val_maquette_toto, sum(nb_retour_maquette) as retour_maquette_toto, sum(nb_validation_cq) as val_cq_toto, sum(nb_retour_cq) as retour_cq_toto FROM stat_controle where date_stat_control >= ? and date_stat_control <= ?");
+		$query_stats_control_total->bindParam(1, $debut);
+		$query_stats_control_total->bindParam(2, $fin);
+		$query_stats_control_total->execute();
+		$resultat_total_control=$query_stats_control_total->fetch();
+		print_r(json_encode($resultat_total_control));
+	}
+
+	if (isset($_POST['code_stat'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=date('Y');
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $id_graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if (isset($_POST['achat_stat'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=date('Y');
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $id_graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if (isset($_POST['aide_stat'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=date('Y');
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $id_graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if(isset($_POST['stat_total'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=date('Y');
+		$tableau = array(); 
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		print_r(json_encode($tableau));
+	}
+	if (isset($_POST['code_stat_date'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['code_stat_date'];
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $id_graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if (isset($_POST['achat_stat_date'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['achat_stat_date'];
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $id_graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if (isset($_POST['aide_stat_date'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['aide_stat_date'];
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $id_graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if(isset($_POST['stat_total_date'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['stat_total_date'];
+		$tableau = array(); 
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		print_r(json_encode($tableau));
+	}
+
+	if(isset($_POST['nb_code'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['nb_code'];
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		echo $query->rowCount();
+	}
+
+	if(isset($_POST['nb_achat'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['nb_achat'];
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		echo $query->rowCount();
+	}
+
+	if(isset($_POST['nb_aide'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['nb_aide'];
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $id_graph);
+		$query->execute();
+		echo $query->rowCount();
+	}
+// stat.php pour chaque graph
+	if (isset($_POST['code_stat_date_graph'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['code_stat_date_annee'];
+		$graph=$_POST['code_stat_date_graph'];
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if (isset($_POST['achat_stat_date_graph'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['achat_stat_date_annee'];
+		$graph=$_POST['achat_stat_date_graph'];
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if (isset($_POST['aide_stat_date_graph'])) {
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['aide_stat_date_annee'];
+		$graph=$_POST['aide_stat_date_graph'];
+		$tableau = array(); 
+		for ($i=1; $i <= 12; $i++) { 
+			if($i<10){
+				$u="0".$i;
+			}else{
+				$u=$i;
+			}
+			$varsearch = "%" . $annee . "-". $u ."%";
+			$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+			$query->bindParam(1, $varsearch);
+			$query->bindParam(2, $graph);
+			$query->execute();
+			$tableau[]= $query->rowCount();
+		}
+		print_r(json_encode($tableau));
+	}
+
+	if(isset($_POST['stat_total_date_graph'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['stat_total_date_annee'];
+		$graph=$_POST['stat_total_date_graph'];
+		$tableau = array(); 
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		$tableau[]= $query->rowCount();
+		print_r(json_encode($tableau));
+	}
+
+	if(isset($_POST['nb_code_graph'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['nb_code_annee'];
+		$graph=$_POST['nb_code_graph'];
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_code FROM code where date_code like ? and id_user = ? and accept_code = 1");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		echo $query->rowCount();
+	}
+
+	if(isset($_POST['nb_achat_graph'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['nb_achat_annee'];
+		$graph=$_POST['nb_achat_graph'];
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_achat FROM achat_photos where date_achat like ? and id_graph = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		echo $query->rowCount();
+	}
+
+	if(isset($_POST['nb_aide_graph'])){
+		$id_graph=$_SESSION['id_graph'];
+		$annee=$_POST['nb_aide_annee'];
+		$graph=$_POST['nb_aide_graph'];
+		$varsearch = "%" . $annee . "-%";
+		$query=$bdd->prepare("SELECT id_aide FROM aide where date_aide like ? and id_user = ?");
+		$query->bindParam(1, $varsearch);
+		$query->bindParam(2, $graph);
+		$query->execute();
+		echo $query->rowCount();
+	}
+
+	if(isset($_POST['admin_remontees_search'])){
+		$search = utf8_decode($_POST['admin_remontees_search']);
+		$varsearch = "%" . $search . "%";
+		$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on remontees.accept_remontees = etat_remontees.id_etat_remontees WHERE titre LIKE ? or description LIKE ? order by date_remontees DESC");
+		$requete_search->bindParam(1, $varsearch);
+		$requete_search->bindParam(2, $varsearch);
+		$requete_search->execute();
+		$nb_result = $requete_search->rowCount();
+		$tab_search = array();
+		if ($nb_result == 0) {?>
+		<tr class="event-item">
+			<td class="upcoming">
+				<div class="date-event">
+					<h2>Aucun résultat n'a été trouvé</h2>
+				</div>
+			</td>
+		</tr>
+		<?php }else{
+			foreach ($requete_search as $key => $value) {
+				$date_tab=explode("-", $value['date_remontees']);
+				$jour_tab=explode(" ",$date_tab[2]);
+				$jour=$jour_tab[0];
+				$m=$date_tab[1];
+				$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+				?>
+				<tr class="event-item sorting-item categorie_<?php echo($value['id_categorie_remontees']) ?> etat_<?php echo($value['accept_remontees']) ?>">
+					<td class="upcoming">
+						<div class="date-event">
+							<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+							<span class="day"><?php echo $jour;?></span>
+							<span class="month"><?php echo $months[(int)$m]; ?></span>
+						</div>
+					</td>
+					<td class="author">
+						<div class="event-author inline-items">
+							<div class="author-date">
+								<a class="author-name h6 auteur"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
+							</div>
+						</div>
+					</td>
+					<td class="categorie">
+						<p class="categorie"><?php echo utf8_encode($value['categorie_remontees']);?></p>
+					</td>
+					<td class="users">
+						<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
+					</td>
+					<td class="add-event">
+						<a <?php if ($value['accept_remontees'] != 3) {?> data-toggle="modal" data-target="#modal_remontees" <?php }?> class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
+					</td>
+					<input type="hidden" class="description" value="<?php echo utf8_encode($value['description']);?>">
+					<input type="hidden" class="commentaires" value="<?php echo utf8_encode($value['commentaires']);?>">
+					<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
+					<input type="hidden" class="kats" value="<?php echo utf8_encode($value['kats']);?>">
+				</tr>
+				<?php
+			}
+		}
+	}
+
+
+	if(isset($_POST['admin_remontees_search_empty'])){
+		$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on etat_remontees.id_etat_remontees = remontees.accept_remontees order by date_remontees DESC");
+		$requete_search->execute();
+		$nb_result = $requete_search->rowCount();
+		$tab_search = array();
 		foreach ($requete_search as $key => $value) {
 			$date_tab=explode("-", $value['date_remontees']);
 			$jour_tab=explode(" ",$date_tab[2]);
@@ -1708,81 +1919,81 @@ if(isset($_POST['admin_remontees_search'])){
 			<?php
 		}
 	}
-}
+
+	if(isset($_POST['remove_user_moderation'])){
+		$id_user=$_POST['remove_user_moderation'];
+		$query=$bdd->prepare("DELETE FROM user where id_user = ?");
+		$query->bindParam(1, $id_user);
+		$query->execute();
+	}
 
 
-if(isset($_POST['admin_remontees_search_empty'])){
-	$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on etat_remontees.id_etat_remontees = remontees.accept_remontees order by date_remontees DESC");
-	$requete_search->execute();
-	$nb_result = $requete_search->rowCount();
-	$tab_search = array();
-	foreach ($requete_search as $key => $value) {
-		$date_tab=explode("-", $value['date_remontees']);
-		$jour_tab=explode(" ",$date_tab[2]);
-		$jour=$jour_tab[0];
-		$m=$date_tab[1];
-		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-		?>
-		<tr class="event-item sorting-item categorie_<?php echo($value['id_categorie_remontees']) ?> etat_<?php echo($value['accept_remontees']) ?>">
+	if(isset($_POST['admin_help_search'])){
+		$search = utf8_decode($_POST['admin_help_search']);
+		$varsearch = "%" . $search . "%";
+		$requete_search_admin = $bdd->prepare("SELECT * FROM aide left join user on aide.id_user=user.id_user WHERE titre LIKE ? or description LIKE ? order by date_aide DESC");
+		$requete_search_admin->bindParam(1, $varsearch);
+		$requete_search_admin->bindParam(2, $varsearch);
+		$requete_search_admin->execute();
+		$nb_result = $requete_search_admin->rowCount();
+		$tab_search = array();
+		if ($nb_result == 0) {?>
+		<tr class="event-item">
 			<td class="upcoming">
 				<div class="date-event">
-					<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
-					<span class="day"><?php echo $jour;?></span>
-					<span class="month"><?php echo $months[(int)$m]; ?></span>
+					<h2>Aucun résultat n'a été trouvé</h2>
 				</div>
 			</td>
-			<td class="author">
-				<div class="event-author inline-items">
-					<div class="author-date">
-						<a class="author-name h6 auteur"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
-					</div>
-				</div>
-			</td>
-			<td class="categorie">
-				<p class="categorie"><?php echo utf8_encode($value['categorie_remontees']);?></p>
-			</td>
-			<td class="users">
-				<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
-			</td>
-			<td class="add-event">
-				<a <?php if ($value['accept_remontees'] != 3) {?> data-toggle="modal" data-target="#modal_remontees" <?php }?> class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
-			</td>
-			<input type="hidden" class="description" value="<?php echo utf8_encode($value['description']);?>">
-			<input type="hidden" class="commentaires" value="<?php echo utf8_encode($value['commentaires']);?>">
-			<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
-			<input type="hidden" class="kats" value="<?php echo utf8_encode($value['kats']);?>">
 		</tr>
-		<?php
+		<?php }else{
+			foreach ($requete_search_admin as $key => $value) {
+				$date_tab=explode("-", $value['date_aide']);
+				$jour_tab=explode(" ",$date_tab[2]);
+				$jour=$jour_tab[0];
+				$m=$date_tab[1];
+				$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+				?>
+				<tr class="event-item">
+					<td class="upcoming">
+						<div class="date-event">
+							<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+							<span class="day"><?php echo $jour;?></span>
+							<span class="month"><?php echo $months[(int)$m]; ?></span>
+						</div>
+					</td>
+					<td class="author">
+						<div class="event-author inline-items">
+							<div class="author-date">
+								<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
+							</div>
+						</div>
+					</td>
+					<td class="location">
+						<div class="place inline-items">
+							<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+							<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+						</div>
+					</td>
+					<td class="description">
+						<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+					</td>
+					<td class="add-event">
+						<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
+					</td>
+				</tr>
+				<?php
+			}
+		}
 	}
-}
-
-if(isset($_POST['remove_user_moderation'])){
-	$id_user=$_POST['remove_user_moderation'];
-	$query=$bdd->prepare("DELETE FROM user where id_user = ?");
-	$query->bindParam(1, $id_user);
-	$query->execute();
-}
 
 
-if(isset($_POST['admin_help_search'])){
-	$search = utf8_decode($_POST['admin_help_search']);
-	$varsearch = "%" . $search . "%";
-	$requete_search_admin = $bdd->prepare("SELECT * FROM aide left join user on aide.id_user=user.id_user WHERE titre LIKE ? or description LIKE ? order by date_aide DESC");
-	$requete_search_admin->bindParam(1, $varsearch);
-	$requete_search_admin->bindParam(2, $varsearch);
-	$requete_search_admin->execute();
-	$nb_result = $requete_search_admin->rowCount();
-	$tab_search = array();
-	if ($nb_result == 0) {?>
-	<tr class="event-item">
-		<td class="upcoming">
-			<div class="date-event">
-				<h2>Aucun résultat n'a été trouvé</h2>
-			</div>
-		</td>
-	</tr>
-	<?php }else{
-		foreach ($requete_search_admin as $key => $value) {
+
+	if(isset($_POST['admin_help_search_empty'])){
+		$requete_help_empty_search = $bdd->prepare("SELECT * FROM aide left join user on remontees.id_user=user.id_user order by date_aide DESC");
+		$requete_help_empty_search->execute();
+		$nb_result = $requete_help_empty_search->rowCount();
+		$tab_search = array();
+		foreach ($requete_help_empty_search as $key => $value) {
 			$date_tab=explode("-", $value['date_aide']);
 			$jour_tab=explode(" ",$date_tab[2]);
 			$jour=$jour_tab[0];
@@ -1820,50 +2031,3 @@ if(isset($_POST['admin_help_search'])){
 			<?php
 		}
 	}
-}
-
-
-
-if(isset($_POST['admin_help_search_empty'])){
-	$requete_help_empty_search = $bdd->prepare("SELECT * FROM aide left join user on remontees.id_user=user.id_user order by date_aide DESC");
-	$requete_help_empty_search->execute();
-	$nb_result = $requete_help_empty_search->rowCount();
-	$tab_search = array();
-	foreach ($requete_help_empty_search as $key => $value) {
-		$date_tab=explode("-", $value['date_aide']);
-		$jour_tab=explode(" ",$date_tab[2]);
-		$jour=$jour_tab[0];
-		$m=$date_tab[1];
-		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-		?>
-		<tr class="event-item">
-			<td class="upcoming">
-				<div class="date-event">
-					<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
-					<span class="day"><?php echo $jour;?></span>
-					<span class="month"><?php echo $months[(int)$m]; ?></span>
-				</div>
-			</td>
-			<td class="author">
-				<div class="event-author inline-items">
-					<div class="author-date">
-						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-					</div>
-				</div>
-			</td>
-			<td class="location">
-				<div class="place inline-items">
-					<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-					<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
-				</div>
-			</td>
-			<td class="description">
-				<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
-			</td>
-			<td class="add-event">
-				<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
-			</td>
-		</tr>
-		<?php
-	}
-}

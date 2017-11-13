@@ -379,7 +379,7 @@ if (isset($_SESSION['id_statut'])) {
 							$query4=$bdd->prepare("SELECT * FROM user inner join statut on user.id_statut = statut.id_statut where user.id_statut='4' order by user.id_statut");
 							$query4->execute();
 							foreach ($query4 as $value4) {?>
-							<li class="lemodal_moderation" id="<?php echo $value4['id_user'];?>" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value4['id_user'];?>">">
+							<li class="lemodal_moderation" id="<?php echo $value4['id_user'];?>" data-toggle="modal" data-target="#problemos" data-id="<?php echo $value4['id_user'];?>">
 								<input type="hidden" class="temp_stat" value="<?php echo $value4['temp_statut'];?>">
 								<div class="playlist-thumb" >
 									<img src="<?php echo $value['photo'];?>" alt="thumb-composition">
