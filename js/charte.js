@@ -289,12 +289,17 @@ $('.btn-addclient').on('click', function(){
 			$('#profile .connec').trigger('click');
 		}
 	})
-		//BIND ENTER COMMENTAIRE
-		$("textarea.form-control.envoi_message_aide").keypress(function(e) {
-			if(e.which == 13) {
-				$(".aide_envoi").trigger( "click" );
-			}
-		}); 
+	//BIND ENTER COMMENTAIRE
+	$("textarea.form-control.envoi_message_aide").keypress(function(e) {
+		if(e.which == 13) {
+			$(".aide_envoi").trigger( "click" );
+		}
+	}); 
+	$("textarea.form-control.envoi_message_anniversaire").keypress(function(e) {
+		if(e.which == 13) {
+			$(".anniversaire_envoi").trigger( "click" );
+		}
+	}); 
 
 
 // MODAL HELP
@@ -577,7 +582,7 @@ $("body").on('click', ".moproblem", function(e){
 		for (var i = 1; i <= total; i++) {
 			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 			liste+='<div class="post__author author vcard inline-items">';
-			liste+='<img src="'+infos[i]['photo']+'" alt="author">';
+			liste+='<img src="'+infos[i]['photo_avatar']+'" alt="author">';
 			liste+='<div class="author-date">';
 			liste+='<a class="h6 post__author-name fn">'+infos[i]['nom_commentaire']+'</a>';
 			liste+='<div class="post__date">';
@@ -772,9 +777,9 @@ function charger_commentaires(){
 				for (var i = 0; i <= infos.length - 1; i++) {
 					liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 					liste+='<div class="post__author author vcard inline-items">';
-					liste+='<img src="'+infos[i]['photo']+'" alt="author">';
+					liste+='<img src="'+infos[i]['photo_avatar']+'" alt="author">';
 					liste+='<div class="author-date">';
-					liste+='<a class="h6 post__author-name fn" href="02-ProfilePage.html">'+infos[i]['nom_commentaire']+'</a>';
+					liste+='<a class="h6 post__author-name fn">'+infos[i]['nom_commentaire']+'</a>';
 					liste+='<div class="post__date">';
 					liste+='<time class="published" datetime="'+infos[i]['date_commentaire']+'">';
 					liste+=''+infos[i]['date_commentaire']+'';
@@ -791,7 +796,6 @@ function charger_commentaires(){
 					$target.animate({scrollTop: $(".comments-list").height()}, 200);
 				}
 				$(".comments-list").append(liste);
-
 			})
 		}
 		charger_commentaires();
@@ -884,3 +888,117 @@ if (jour >= 20) {
 		}
 	})
 }
+
+
+
+
+
+function charger_commentaires_anniversaire(){
+	setTimeout( function(){
+		if($("#anniversaire").is('[class*="show"]')){
+			var check="dial_";
+			var cls = $("#anniversaire").attr('class').split(' ');
+			for (var i = 0; i < cls.length; i++) {
+				if (cls[i].indexOf(check) > -1) {
+					var id_emet = cls[i].slice(check.length, cls[i].length);
+				}
+			}
+			var max = 0;
+			$('#anniversaire li').each(function() {
+				max = Math.max(this.id, max);
+			});
+			// console.log(max); 
+			var id_commentair = max;
+			if(id_commentair==undefined){
+				id_commentair=0;
+			}
+			$.ajax({
+				url: 'formulaire.php',
+				type: 'POST',
+				data: {id_timer_anniversaire: id_emet, id_timer_com:id_commentair},
+			})
+			.done(function(data) {
+				console.log(data);
+				var liste = "";
+				var infos = JSON.parse(data);
+				for (var i = 0; i <= infos.length - 1; i++) {
+					liste+='<li id="'+infos[i]['id_commentaires_anniversaire']+'">';
+					liste+='<div class="post__author author vcard inline-items">';
+					liste+='<img src="'+infos[i]['photo_avatar']+'" alt="author">';
+					liste+='<div class="author-date">';
+					liste+='<a class="h6 post__author-name fn">'+infos[i]['nom_commentaire']+'</a>';
+					liste+='<div class="post__date">';
+					liste+='<time class="published" datetime="'+infos[i]['date_commentaire']+'">';
+					liste+=''+infos[i]['date_commentaire']+'';
+					liste+='</time>';
+					liste+='</div></div>';
+					liste+='</div>';
+					liste+='<p>'+infos[i]['commentaire']+'</p>';
+					liste+='</li>';
+					var $target = $('.comments-list').parent(); 
+					$target.animate({scrollTop: $(".comments-list").height()}, 200);
+				}
+				$(".comments-list").append(liste);
+			})
+		}
+		charger_commentaires_anniversaire();
+	}, 500);
+}
+
+$("body").on('click', ".participer", function(e){
+	var qui = $(this).parent().find('.author-name').html();
+	var quand = $(this).parent().find('.birthday-date').html();
+	$('#anniversaire .who').html('');
+	$('#anniversaire .when').html('');
+	$('#anniversaire .who').append(qui);
+	$('#anniversaire .when').append(quand);
+	var id_anniversaire = $(this).data("id");
+	$(".id_anniversaire").val(id_anniversaire);
+	$("#anniversaire").alterClass("dial_*", '');
+	$("#anniversaire").addClass('dial_'+id_anniversaire);
+
+	charger_commentaires_anniversaire();
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {popup_anniversaire: id_anniversaire}
+	})
+	.done(function(data) {
+		var infos = JSON.parse(data);
+		var liste = "";
+		var total = infos.length*1 - 1*1;
+		console.log(infos.length);
+		for (var i = 0; i <= total; i++) {
+			liste+='<li id="'+infos[i]['id_commentaires_anniversaire']+'">';
+			liste+='<div class="post__author author vcard inline-items">';
+			liste+='<img src="'+infos[i]['photo_avatar']+'" alt="author">';
+			liste+='<div class="author-date">';
+			liste+='<a class="h6 post__author-name fn">'+infos[i]['nom_commentaire']+'</a>';
+			liste+='<div class="post__date">';
+			liste+='<time class="published" datetime="'+infos[i]['date_commentaire']+'">';
+			liste+=''+infos[i]['date_commentaire']+'';
+			liste+='</time>';
+			liste+='</div></div>';
+			liste+='</div>';
+			liste+='<p>'+infos[i]['commentaire']+'</p>';
+			liste+='</li>';
+		}
+		$(".comments-list").empty();
+		$(".comments-list").append(liste);
+	})
+})
+
+$(".anniversaire_envoi").on('click', function(e){
+	e.preventDefault();
+	var mess = $(".envoi_message_anniversaire").val();
+	var id_anniversaire_com = $(".id_anniversaire").val();
+	$.ajax({
+		url: 'formulaire.php',
+		type: 'POST',
+		data: {envoi_com_anniversaire: mess, id_anniversaire_com:id_anniversaire_com}
+	})
+	.done(function(data) {
+		$(".envoi_message_anniversaire").val('');
+		$(".envoi_message_anniversaire").html('');
+	})
+})

@@ -32,7 +32,7 @@ if($nb_notifs==0){
     <div class="control-block" >
 
       <div class="control-icon more has-items" id="first">
-        <svg class="olymp-status-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-status-icon"></use></svg>
+        <svg class="olymp-status-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
         <?php 
         $bdd->exec('SET NAMES utf8');
         $query_select=$bdd->prepare("SELECT * FROM notifications where id_user = ?");
@@ -142,10 +142,7 @@ if($nb_notifs==0){
     </div>
 
     <div class="control-icon more has-items" id="second">
-      <svg class="olymp-chat---messages-icon"><svg id="olymp-chat---messages-icon" viewBox="0 0 40 32" width="100%" height="100%">
-        <title>chat---messages-icon</title>
-        <path d="M24.381 7.621h-21.333c-1.378 0-3.048 1.606-3.048 3.046v13.716c0 1.443 1.67 3.048 3.048 3.048v4.57l12.19-4.568v-3.051l-9.143 3.051v-3.051h-3.048v-13.714h21.333v16.763c1.378 0 3.048-1.605 3.048-3.048v-13.716c0-1.44-1.67-3.046-3.048-3.046zM18.286 27.432h3.048v-3.048h-3.048v3.048zM6.095 16.763h15.238v-3.046h-15.238v3.046zM6.095 21.336h9.143v-3.048h-9.143v3.048zM15.238 3.051h24.381c0-1.443-1.67-3.049-3.048-3.049h-21.333c-1.378 0-3.048 1.606-3.048 3.049v1.527h3.048v-1.527zM36.571 16.763l-4.571-0.002v3.051l-3.048-1.016v3.301l6.095 2.284v-4.568c0.779 0 1.524 0 1.524 0 1.378 0 3.048-1.606 3.048-3.049v-4.571h-3.048v4.571zM36.571 9.144h3.048v-3.048h-3.048v3.048z"></path>
-      </svg></svg>
+      <svg class="olymp-status-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
       <div class="label-avatar bg-purple label_veille"  <?php if($query_notif_codeb->rowCount() == 0){ echo "style='display:none;'"; }?>><?php if($query_notif_codeb->rowCount() != 0){echo $query_notif_codeb->rowCount();}?></div>
 
       <div class="more-dropdown more-with-triangle triangle-top-center">
@@ -185,10 +182,7 @@ if($nb_notifs==0){
     </div>
 
     <div class="control-icon more has-items" id="third">
-      <svg class="olymp-thunder-icon"><svg id="olymp-thunder-icon" viewBox="0 0 26 32" width="100%" height="100%">
-        <title>thunder-icon</title>
-        <path d="M25.6 11.198h-8l6.4-11.198-18.669 0.005-5.331 17.597h4.798l-1.598 14.398 4.8-4.458v-4.914l-1.6 1.371 1.6-9.602h-3.2l3.2-11.2h9.6l-4.8 11.2h4.8v4.23l8-7.43zM11.2 22.4h3.2v-3.2h-3.2v3.2z"></path>
-      </svg></svg>
+      <svg class="olymp-status-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   data-original-title="Accueil"><use xlink:href="icons/icons.svg#olymp-multimedia-icon"></use></svg>
 
       <div class="label-avatar bg-primary label_achat" <?php if($query_notif_codec->rowCount() == 0){ echo "style='display:none;'"; }?>><?php if($query_notif_codec->rowCount()!=0){ echo $query_notif_codec->rowCount();}?></div>
 
@@ -209,7 +203,7 @@ if($nb_notifs==0){
             foreach ($query_notif_codec as $key => $value) {?>
             <li>
               <div class="author-thumb">
-                <img src="<?php echo $value['photo'];?>" alt="author">
+                <img src="<?php echo $value['photo_avatar'];?>" alt="author test">
               </div>
               <div class="notification-event">
                 <a href="achat_photos.php" class="h6 notification-friend"><?php echo $value['id_client'];?></a>

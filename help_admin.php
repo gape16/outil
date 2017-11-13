@@ -80,228 +80,241 @@ if (isset($_SESSION['id_statut'])) {
 			<!-- Custom CSS -->
 			<link rel="stylesheet" href="css/main.css">
 			<link rel="stylesheet" href="css/jquery.fancybox.min.css">
+			<style>
+			.comments-list li:first-child > a::after {
+				content: "";
+				display: block;
+				width: 25px;
+				height: 25px;
+				background: url(img/check.svg);
+				background-repeat: no-repeat;
+				background-size: 25px 25px;
+				position: absolute;
+				bottom: 22px;
+				left: 75px;
+			}
+		</style>
+	</head>
 
-		</head>
+	<body>
 
-		<body>
-
-			<?php 
-			if($_SESSION['id_statut']==1) {
+		<?php 
+		if($_SESSION['id_statut']==1) {
 		//page graphistes 
-				include('left_sidebar.php');
-				include('header.php');
-			}elseif  ($_SESSION['id_statut']==2){
+			include('left_sidebar.php');
+			include('header.php');
+		}elseif  ($_SESSION['id_statut']==2){
 		//page  redacteurs
-				include('left_sidebar_redac.php');
-				include('header_redac.php');
-			}
-			elseif ($_SESSION['id_statut']==3) {
+			include('left_sidebar_redac.php');
+			include('header_redac.php');
+		}
+		elseif ($_SESSION['id_statut']==3) {
 		//page leader
-				include('left_sidebar_leader.php');
-				include('header_leader.php');
-			}elseif ($_SESSION['id_statut']==4) {
+			include('left_sidebar_leader.php');
+			include('header_leader.php');
+		}elseif ($_SESSION['id_statut']==4) {
 		//page controleur
-				include('left_sidebar_controleur.php');
-				include('header_controleur.php');
-			}elseif($_SESSION['id_statut']==5){
+			include('left_sidebar_controleur.php');
+			include('header_controleur.php');
+		}elseif($_SESSION['id_statut']==5){
 		//page admin
-				include('left_sidebar_admin.php');
-				include('header_admin.php');
-			}
-			?>
+			include('left_sidebar_admin.php');
+			include('header_admin.php');
+		}
+		?>
 
-			<!-- Responsive Header -->
+		<!-- Responsive Header -->
 
-			<?php include('responsive_header.php');?>
+		<?php include('responsive_header.php');?>
 
-			<!-- ... end Responsive Header -->
-
-
-			<div class="header-spacer header-spacer-small"></div>
+		<!-- ... end Responsive Header -->
 
 
-			<div class="main-header">
-				<div class="content-bg-wrap">
-					<div class="content-bg bg-music"></div>
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
-							<div class="main-header-content">
-								<h1>N'hésitez plus, demandez de l'aide!</h1>
-								<p>C'est ici que vous allez pouvoir faire les demandes d'aide.</p>
-							</div>
-						</div>
-					</div>
-				</div>
+		<div class="header-spacer header-spacer-small"></div>
 
-				<img class="img-bottom" src="img/music-bottom.png" alt="friends">
+
+		<div class="main-header">
+			<div class="content-bg-wrap">
+				<div class="content-bg bg-music"></div>
 			</div>
-
-			<!-- Main Content Groups -->
 			<div class="container">
 				<div class="row">
-					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="ui-block">
-							<div class="ui-block-title ui-block-title-small">
-								<h6 class="title">Historique de mes achats</h6>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Recherche</label>
-									<input class="form-control search" placeholder="" value="" type="text">
-									<span class="material-input"></span></div>
-								</div>
-								<table class="event-item-table">
-									<tbody>
-										<?php foreach ($query_select_aide as $key => $value) {
-											$date_tab=explode("-", $value['date_aide']);
-											$jour_tab=explode(" ",$date_tab[2]);
-											$jour=$jour_tab[0];
+					<div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+						<div class="main-header-content">
+							<h1>N'hésitez plus, demandez de l'aide!</h1>
+							<p>C'est ici que vous allez pouvoir faire les demandes d'aide.</p>
+						</div>
+					</div>
+				</div>
+			</div>
 
-											$m=$date_tab[1];
-											$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+			<img class="img-bottom" src="img/music-bottom.png" alt="friends">
+		</div>
 
-											?>
-											<tr class="event-item">
-												<td class="upcoming">
-													<div class="date-event">
-														<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
-														<span class="day"><?php echo $jour;?></span>
-														<span class="month"><?php echo $months[(int)$m]; ?></span>
+		<!-- Main Content Groups -->
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="ui-block">
+						<div class="ui-block-title">
+							<h6 class="title">Historique des demandes d'aide</h6>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Recherche</label>
+								<input class="form-control search" placeholder="" value="" type="text">
+								<span class="material-input"></span></div>
+							</div>
+							<table class="event-item-table">
+								<tbody>
+									<?php foreach ($query_select_aide as $key => $value) {
+										$date_tab=explode("-", $value['date_aide']);
+										$jour_tab=explode(" ",$date_tab[2]);
+										$jour=$jour_tab[0];
+
+										$m=$date_tab[1];
+										$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+
+										?>
+										<tr class="event-item">
+											<td class="upcoming">
+												<div class="date-event">
+													<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+													<span class="day"><?php echo $jour;?></span>
+													<span class="month"><?php echo $months[(int)$m]; ?></span>
+												</div>
+											</td>
+											<td class="author">
+												<div class="event-author inline-items">
+													<div class="author-date">
+														<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
 													</div>
-												</td>
-												<td class="author">
-													<div class="event-author inline-items">
-														<div class="author-date">
-															<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-														</div>
-													</div>
-												</td>
-												<td class="location">
-													<div class="place inline-items">
-														<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-														<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
-													</div>
-												</td>
-												<td class="description">
-													<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
-												</td>
-												<td class="add-event">
-													<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
-												</td>
-											</tr>
-											<?php }?>
-										</tbody>
-									</table>
-								</div>
+												</div>
+											</td>
+											<td class="location">
+												<div class="place inline-items">
+													<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+													<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+												</div>
+											</td>
+											<td class="description">
+												<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+											</td>
+											<td class="add-event">
+												<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;">Ouvrir</a>
+											</td>
+										</tr>
+										<?php }?>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<!-- Window-popup Event Private Public -->
-					<div class="modal fade show" id="problemos">
-						<div class="modal-dialog ui-block window-popup event-private-public private-event">
-							<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-								<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-							</a>
-							<article class="hentry post has-post-thumbnail thumb-full-width private-event">
+				<!-- Window-popup Event Private Public -->
+				<div class="modal fade show" id="problemos">
+					<div class="modal-dialog ui-block window-popup event-private-public private-event">
+						<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+							<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+						</a>
+						<article class="hentry post has-post-thumbnail thumb-full-width private-event">
 
-								<div class="row">
-									<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-										<div class="post__author author vcard inline-items">
-											<img src="img/author-page.jpg" alt="author">
-
-											<div class="author-date">
-												<a class="h6 post__author-name fn user_popup" href="#">USER</a>
-												<div class="post__date date_popup">
-													<time class="published" datetime="2017-03-24T18:18">
-														DATE
-													</time>
-												</div>
-											</div>
-
-										</div>
-										<h1 class="titreproblemos">
-											Titre du probleme
-										</h1>
-										<p class="descproblemos">
-											Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the
-											new design project we have been working on. Cheers!
-										</p>
-									</div>
-									<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-										<div class="event-description">
-											<h6 class="event-description-title">Infos pratiques</h6>
-											<div class="place inline-items">
-												<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-													<a href="" class="lien_cms"><span>Lien CMS</span></a></div>
-													<div class="hax imgg"></div>
-												</div>
-												<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-												<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
-												marquer comme résolue</a>
-												<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
-												marquer comme en cours</a>
-												<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-trash-o" aria-hidden="true"></i>
-												marquer comme impossible</a>
-											</div>
-										</div>
-									</div>
-
-								</article>
-
-								<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
-									<ul class="comments-list">
-
-									</ul>
-
-								</div>
-
-								<form class="comment-form inline-items">
-
+							<div class="row">
+								<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 									<div class="post__author author vcard inline-items">
 										<img src="img/author-page.jpg" alt="author">
-									</div>
 
-									<div class="form-group with-icon-right ">
-										<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
-										<input type="hidden" class="id_aide">
-										<div class="add-options-message">
-											<a href="#" class="options-message aide_envoi">
-												<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
-											</a>
+										<div class="author-date">
+											<a class="h6 post__author-name fn user_popup" href="#">USER</a>
+											<div class="post__date date_popup">
+												<time class="published" datetime="2017-03-24T18:18">
+													DATE
+												</time>
+											</div>
 										</div>
 
-										<span class="material-input"></span><span class="material-input"></span></div>
-
-									</form>
+									</div>
+									<h1 class="titreproblemos">
+										Titre du probleme
+									</h1>
+									<p class="descproblemos">
+										Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the
+										new design project we have been working on. Cheers!
+									</p>
 								</div>
+								<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+									<div class="event-description">
+										<h6 class="event-description-title">Infos pratiques</h6>
+										<div class="place inline-items">
+											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+												<a href="" target="_blank" class="lien_cms"><span>Lien CMS</span></a></div>
+												<div class="hax imgg"></div>
+											</div>
+											<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
+											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+											marquer comme résolue</a>
+											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
+											marquer comme en cours</a>
+											<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-trash-o" aria-hidden="true"></i>
+											marquer comme impossible</a>
+										</div>
+									</div>
+								</div>
+
+							</article>
+
+							<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
+								<ul class="comments-list">
+
+								</ul>
+
 							</div>
-						</form>
-					</div>
+
+							<form class="comment-form inline-items">
+
+								<div class="post__author author vcard inline-items">
+									<img src="img/author-page.jpg" alt="author">
+								</div>
+
+								<div class="form-group with-icon-right ">
+									<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
+									<input type="hidden" class="id_aide">
+									<div class="add-options-message">
+										<a href="#" class="options-message aide_envoi">
+											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+										</a>
+									</div>
+
+									<span class="material-input"></span><span class="material-input"></span></div>
+
+								</form>
+							</div>
+						</div>
+					</form>
 				</div>
-				<!-- ... end Window-popup Create Friends Group Add Friends -->
+			</div>
+			<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-				<!-- jQuery first, then Other JS. -->
-				<script src="js/jquery-3.2.0.min.js"></script>
-				<!-- Js effects for material design. + Tooltips -->
-				<script src="js/material.min.js"></script>
-				<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-				<script src="js/theme-plugins.js"></script>
-				<!-- Init functions -->
-				<script src="js/main.js"></script>
-				<!-- Select / Sorting script -->
-				<script src="js/selectize.min.js"></script>
+			<!-- jQuery first, then Other JS. -->
+			<script src="js/jquery-3.2.0.min.js"></script>
+			<!-- Js effects for material design. + Tooltips -->
+			<script src="js/material.min.js"></script>
+			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+			<script src="js/theme-plugins.js"></script>
+			<!-- Init functions -->
+			<script src="js/main.js"></script>
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
 
-				<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-				<script src="js/mediaelement-and-player.min.js"></script>
-				<script src="js/mediaelement-playlist-plugin.min.js"></script>
-				<script src="js/alterclass.js"></script>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="js/alterclass.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-				<script src="js/charte.js"></script>
-				<?php 
+			<script src="js/charte.js"></script>
+				<!-- <?php 
 				if($_SESSION['id_statut']==1) {
 						//page graphistes 
 					?><script src="js/notifications.js"></script><?php
@@ -319,7 +332,7 @@ if (isset($_SESSION['id_statut'])) {
 						//page admin
 					?><script src="js/notifications_admin.js"></script><?php
 				}
-				?>
+				?> -->
 				<script>
 					$('.search').keyup(function(){
 						var search = $(this).val();
@@ -330,6 +343,7 @@ if (isset($_SESSION['id_statut'])) {
 								data: {admin_help_search: search},
 							})
 							.done(function(data) {
+								console.log(data);
 								$('table.event-item-table tbody').html('');
 								$(data).appendTo('table.event-item-table tbody');
 							})
