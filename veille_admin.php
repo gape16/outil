@@ -313,12 +313,6 @@ if (isset($_SESSION['id_statut'])) {
 							var file = $("#file-select").prop("files");
 							var description = $('#description').val();
 							var names = $.map(file, function (val) { return val.name; });
-							console.log(lienveille);
-							console.log(titreveille);
-							console.log(categorie);
-							console.log(file);
-							console.log(description);
-							console.log(names);
 							if (titreveille.length >= 5) {
 								$('.titreveille').removeClass('empty');
 								if (categorie != 0) {

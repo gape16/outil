@@ -177,7 +177,7 @@ if (isset($_SESSION['id_statut'])) {
 												<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
 													<ul class="your-profile-menu">
 														<li>
-															<a class="accountsetting" href="accountsetting.html">Parametre du compte</a>
+															<a class="accountsetting" href="accountsetting.php">Parametre du compte</a>
 														</li>
 														<li>
 															<a class="changepassword" href="changePassword.html">Changer le mot de passe</a>
@@ -214,23 +214,65 @@ if (isset($_SESSION['id_statut'])) {
 					<script src="js/mediaelement-and-player.min.js"></script>
 					<script src="js/mediaelement-playlist-plugin.min.js"></script>
 					<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+					<script src="js/simpleUpload.min.js"></script>
 
 					<script src="js/charte.js"></script>
 					<script src="js/account.js"></script>
 
 					<script>
 						$(function(){
-							$('body').on('click', '.valider_accountsetting', function(){
-								var date = $('.date').val();
-								console.log(date);
+							$('body').on('click', '.confirm_date', function(){
+								var date = $(".date").val();
 								$.ajax({
 									url: 'formulaire.php',
 									type: 'POST',
 									data: {date_naissance: date},
 								})
 								.done(function(data) {
-									console.log(data);
+									swal(
+										'Modification validée!',
+										'Votre date de naissance a bien été changé!',
+										'success'
+										)
 								})
+							})
+
+							$("body").on('change', '#file-s', function (){
+								var file = $(this).prop("files");
+								var names = $.map(file, function (val) { return val.name; });
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {file_avatar: names},
+								})
+								.done(function(data) {
+									console.log(data);
+
+								})
+								$(this).simpleUpload("upload_avatar.php", {
+
+									start: function(file){
+									//upload started
+									console.log(file);
+								},
+								progress: function(progress){
+									//received progress
+									console.log(progress);
+								},
+								success: function(data){
+									console.log(data);
+									swal(
+										'validé!',
+										'Votre avatar a bien été changé!',
+										'success'
+										)
+								},
+								error: function(error){
+									//upload failed
+									console.log(error);
+								}
+
+							});
 							})
 						})
 					</script> 

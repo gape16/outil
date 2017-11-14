@@ -936,6 +936,26 @@ if(isset($_POST['admin_search_empty'])){
 		$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
 	}
 }
+
+if(isset($_POST['file_avatar'])){
+	$file_arr = $_POST['file_avatar'];
+	$file="";
+	$i=0;
+	foreach ($file_arr as $key => $value) {
+		if ($i!=0) {
+			$file.=";";
+		}
+		$file.=$value;
+		$i++;
+	}
+	$id_graph=$_SESSION['id_graph'];
+	$file="uploads/avatar/thumb/".$file;
+	$requ=$bdd->prepare("UPDATE user set photo_avatar = ? where id_user = ?");
+	$requ->bindParam(1,$file);
+	$requ->bindParam(2, $id_graph);
+	$requ->execute();
+}
+
 if(isset($_POST['lienveille'])){
 	$lienveille = $_POST['lienveille'];
 	$titreveille = $_POST['titreveille'];
@@ -2124,15 +2144,17 @@ if(isset($_POST['stat_controleur'])){
 	}
 
 // CHANGEMENT DATE DE NAISSANCE
-// if (isset($_POST['date_naissance'])) {
-// 	$date_naissance = $_POST['date_naissance'];
-// 	$id_graph = $_SESSION['id_graph'];
-// 	$requete_changer_date = $bdd->prepare("UPDATE user SET date_naissance = ? where id_user = ?");
-// 	$requete_changer_date->bindParam(1, $date_naissance);
-// 	$requete_changer_date->bindParam(2, $id_graph);
-// 	$requete_changer_date->execute();
-// 	var_dump($requete_changer_date);
-// }
+	if (isset($_POST['date_naissance'])) {
+		$date_naissance = $_POST['date_naissance'];
+		$date_tempo = str_replace('/', '-', $date_naissance);
+		$debut =  date('Y-m-d', strtotime($date_tempo));
+		$id_graph = $_SESSION['id_graph'];
+		$requete_changer_date = $bdd->prepare("UPDATE user SET date_naissance = ? where id_user = ?");
+		$requete_changer_date->bindParam(1, $debut);
+		$requete_changer_date->bindParam(2, $id_graph);
+		$requete_changer_date->execute();
+		echo "UPDATE user SET date_naissance = '$debut' where id_user = '$id_graph'";
+	}
 
 
 	if(isset($_POST['popup_anniversaire'])){

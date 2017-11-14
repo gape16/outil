@@ -1,3 +1,18 @@
+<?php
+
+// Connexion à la base de donnée et insertion de session_start
+include('connexion_session.php');
+$id_graph=$_SESSION['id_graph'];
+$requete=$bdd->prepare("SELECT date_naissance FROM user where id_user = ?");
+$requete->bindParam(1, $id_graph);
+$requete->execute();
+$result=$requete->fetch();
+$date_naissance = $result['date_naissance'];
+$date_tempo = str_replace('-', '/', $date_naissance);
+$debut =  date('d/m/Y', strtotime($date_tempo));
+?>
+
+
 <div class="ui-block-title">
 	<h6 class="title">Parametre du compte</h6>
 </div>
@@ -7,15 +22,15 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb">
 				<p>Modifier l'image de profil</p>
 				<form action="">
-					<input class="mb" type="file" name="pic" accept="image/*">
+					<input class="mb" type="file" name="photos" id="file-s">
 				</form>
 				<p>Modifier la date de naissance</p>
 				<div class="form-group date-time-picker label-floating">
 					<label class="control-label">Ta date de naissance</label>
-					<input autocomplete="off" class="check date" name="datetimepicker" value="10/11/1984" />
+					<input autocomplete="off" class="check date" name="datetimepicker" value="<?php echo $debut;?>" />
 				</div>
-				<a href="#" class="btn btn-green btn-lg full-width valider_accountsetting">
-				Valider</a>
+				<a class="btn btn-primary btn-lg full-width confirm_date" style="color:white;cursor:pointer;">
+				Changer ma date de naissance</a>
 			</div>
 		</div>
 	</form>
@@ -40,22 +55,12 @@
 <script src="js/mediaelement-and-player.min.js"></script>
 <script src="js/mediaelement-playlist-plugin.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-
+<script src="js/simpleUpload.min.js"></script>
 <script src="js/charte.js"></script>
 <script src="js/account.js"></script>
 
 <script>
 	$(function(){
-		$('body').on('click', '.valider_accountsetting', function(){
-			var date = $('.date').val();
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {date_naissance: date},
-			})
-			.done(function(data) {
-				console.log(data);
-			})
-		})
+		
 	})
 </script>
