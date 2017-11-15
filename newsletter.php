@@ -23,6 +23,8 @@ if (isset($_SESSION['id_statut'])) {
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
 		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
@@ -256,11 +258,11 @@ if (isset($_SESSION['id_statut'])) {
 									<div class="form-group with-icon label-floating is-empty">
 										<label class="control-label">Publier une newsletter...</label>
 										<textarea class="form-control" placeholder="" style="display: none;"></textarea>
-										<div contenteditable="true" id="content_news"></div>
-										<input type="file" id="choose_photo" style="display: none;">
+										<div contenteditable="true" id="content_news"><img src="uploads/newsletter/screen-wordpress.jpg"></div>
+										<input type="file" id="choose_photo" name="photos" style="display: none;">
 									</div>
 									<div class="add-options-message">
-										<div class="toolbar">
+										<div class="toolbar" style="display: none;">
 											<a href="#" data-command='undo'><i class='fa fa-undo'></i></a>
 											<a href="#" data-command='redo'><i class='fa fa-repeat'></i></a>
 											<div class="fore-wrapper"><i class='fa fa-font' style='color:#C96;'></i>
@@ -289,15 +291,11 @@ if (isset($_SESSION['id_statut'])) {
 											<a href="#" data-command='moins'><i class="fa fa-font" style="font-size: 10px;"></i></a>
 											<a href="#" data-command='plus'><i class="fa fa-font" style="font-size: 15px;"></i></a>
 										</div>
-										<a class="options-message" data-toggle="tooltip" data-placement="top"   data-original-title="ADD PHOTOS">
+										<a class="options-message" data-toggle="tooltip">
 											<svg class="olymp-camera-icon" data-toggle="modal" data-target="#update-header-photo"><use xlink:href="icons/icons.svg#olymp-camera-icon"></use></svg>
 										</a>
-										<a class="options-message" data-toggle="tooltip" data-placement="top"   data-original-title="TAG YOUR FRIENDS">
-											<svg class="olymp-computer-icon"><use xlink:href="icons/icons.svg#olymp-computer-icon"></use></svg>
-										</a>
-
-										<a class="options-message" data-toggle="tooltip" data-placement="top"   data-original-title="ADD LOCATION">
-											<svg class="olymp-small-pin-icon"><use xlink:href="icons/icons.svg#olymp-small-pin-icon"></use></svg>
+										<a class="options-message toolbar_show">
+											<svg class="olymp-settings-icon"><use xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
 										</a>
 
 										<button class="btn btn-primary btn-md-2">Poster</button>
@@ -1907,13 +1905,13 @@ if (isset($_SESSION['id_statut'])) {
 	<script src="js/alterclass.js"></script>
 	<!-- Select / Sorting script -->
 	<script src="js/selectize.min.js"></script>
-
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 	<script src="js/simplecalendar.js"></script>
 	<script src="js/mediaelement-and-player.min.js"></script>
 	<script src="js/mediaelement-playlist-plugin.min.js"></script>
-
+	<script src="js/simpleUpload.min.js"></script>
 	<script src="js/intro.min.js"></script>
 	<script src="js/charte.js"></script>
 	<?php 
@@ -1984,6 +1982,37 @@ if (isset($_SESSION['id_statut'])) {
 					$(this).parent().addClass('is-focused');
 				}
 			})
+			$(".toolbar_show").on('click', function(){
+				$(".toolbar").toggle("slow");
+			})
+			$("#choose_photo").on('change', function(){
+				var file = $(this).prop("files");
+				var names = $.map(file, function (val) { return val.name; });
+				$(this).simpleUpload("upload_news.php", {
+
+					start: function(file){
+									//upload started
+									console.log(file);
+								},
+								progress: function(progress){
+									//received progress
+									console.log(progress);
+								},
+								success: function(data){
+									console.log(data);
+									$("#content_news").append("<img src='uploads/newsletter/"+names[0]+"'>");
+								},
+								error: function(error){
+									//upload failed
+									console.log(error);
+								}
+
+							});
+			})
+			$('#content_news img').resizable({
+				animate: true,
+				ghost: true
+			});
 		})
 	</script>
 </body>

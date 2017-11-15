@@ -179,7 +179,7 @@ if (isset($_SESSION['id_statut'])) {
 
 		<div class="container cards">
 			<div class="row">
-				<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<div class="friend-item friend-groups create-group hauteur-card ajout-client" data-toggle="modal" data-target="#create-friend-group-1" data-mh="friend-groups-item">
 						<a href="#" class="full-block" data-toggle="modal" data-target="#create-friend-group-1"></a>
 						<div class="content">
@@ -220,7 +220,7 @@ if (isset($_SESSION['id_statut'])) {
 					$class_img="img/Site-valide.png";
 				}
 				?>
-				<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<div class="ui-block hauteur-card" data-mh="friend-groups-item">
 						<div class="friend-item friend-groups <?php echo $class_etat;?>">
 							<div class="friend-item-content">
