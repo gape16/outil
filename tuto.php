@@ -51,6 +51,64 @@ if (isset($_SESSION['id_statut'])) {
 		.help-support-list li svg{
 			min-width: 14px;
 		}
+		li {
+			list-style-type: circle;
+		}
+		.main-header-content p {
+			text-align: left !important;
+		}
+		h4.title {
+			color: #515365;
+		}
+		.main-header-content p {
+			color: #888da8;
+		}
+		.margin{
+			margin-top: 20px;
+			margin-bottom: 55px;
+		}
+		.img-margin {
+			margin-top: 0 !important;
+		}
+		p.mt {
+			margin-top: 20px;
+		}
+		.li-active {
+			color: #ff5e3a !important;
+		}
+		.li-off{
+			color: #888da8;
+		}
+		img.img-typo {
+			display: block;
+			margin: 0 auto;
+			margin-bottom: 20px;
+			margin-top: 50px;
+		}
+		.mb{
+			margin-bottom: 20px;
+		}
+		img.third {
+			width: 33.3333%;
+			float: left;
+			padding: 16px;
+		}
+		blockquote {
+			background: tomato;
+			color: white;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.31);
+			border-radius: 5px;
+		}
+		p.center {
+			text-align: center;
+		}
+		p.faketitle {
+			font-weight: 500;
+			font-size: 115%;
+		}
+		h4, h5 {
+			font-weight: 400;
+		}
 	</style>
 </head>
 
@@ -135,13 +193,6 @@ if (isset($_SESSION['id_statut'])) {
 
 
 		<section class="align-right pt160 pb80 section-move-bg call-to-action-animation scrollme">
-			<div class="container">
-				<div class="row">
-					<div class="col-xl-10 m-auto col-lg-10 col-md-12 col-sm-12 col-xs-12">
-						<a href="#" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registration-login-form-popup">Start Making Friends Now!</a>
-					</div>
-				</div>
-			</div>
 			<img class="first-img" alt="guy" src="img/guy.png" style="bottom: 0;opacity: 1;transform: scale(1);">
 			<div class="content-bg-wrap">
 				<div class="content-bg bg-section1"></div>
@@ -201,6 +252,8 @@ if (isset($_SESSION['id_statut'])) {
 		<script>
 			$(function(){
 				$(".letuto").on('click', function(e){
+					$('.letuto').removeClass('li-active');
+					$(this).toggleClass('li-active');
 					e.preventDefault();
 					var check = "point_";
 					checked = new Array();
@@ -225,6 +278,9 @@ if (isset($_SESSION['id_statut'])) {
 						})						
 					})
 				})
+				// $('li').on('click', function(){
+
+				// })
 			})
 		</script>
 

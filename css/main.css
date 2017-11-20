@@ -78,14 +78,37 @@ a.composition-author {
 .event-item:first-child {
 	border-top: none;
 }
-.hax.imgg {
-	width: 200px;
-}
 .event-item-table td {
 	padding: 15px;
 }
 p.description {
 	max-width: 100% !important;
+}
+.btn-fixed {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+	height: 50px;
+	width: 50px;
+	background: #ff5e3a;
+	background: -webkit-linear-gradient(#ff5e3a, #ff5e3a);
+	background: linear-gradient(#ff5e3a, #ff5e3a);
+	border-radius: 50px;
+	box-shadow: 3px 3px #cccccc;
+	padding: 20px;
+	color: #ffffff;
+	display: inline-block;
+	font-size: 24px;
+	text-align: center;
+	text-shadow: 1px 1px #000000;
+}
+.btn-fixed p {
+	margin: auto;
+	color: white;
+	cursor: pointer;
+}
+.lien_cms {
+	margin-bottom: 0 !important;
 }
 a.btn.btn-breez.btn-sm.check_proposition {
 	display: none;
@@ -658,8 +681,15 @@ textarea#description_control, textarea#description_graph {
 #problemos .modal-dialog, #anniversaire .modal-dialog {
 	margin: auto;
 	width: 70vw;
+	height: 85vh;
 	max-width: 70vw;
 	margin-top: 10vh;
+}
+#problemos .post {
+	max-height: 45vh;
+}
+#problemos .comments-list li {
+	padding: 15px;
 }
 a.btn.btn-sm.bg-blue.participer {
 	color: white;
