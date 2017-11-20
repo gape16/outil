@@ -1520,8 +1520,8 @@ if(isset($_POST['stat_controleur'])){
 			</div>
 		</div>
 		<?php }
-// $result=$query_stats_control->fetchAll();
-// print_r(json_encode($result));
+	// $result=$query_stats_control->fetchAll();
+	// print_r(json_encode($result));
 	}
 	if(isset($_POST['stat_controleur_dessin'])){
 	// $date_control=date('Y-m-d');
@@ -2239,72 +2239,6 @@ if(isset($_POST['stat_controleur'])){
 			$tabf[$key_com]['like'] = $value_com['like_com'];
 		}
 		print_r(json_encode($tabf));
-	}
-
-	if (isset($_POST['categorie_template'])) {
-		$categorie=$_POST['categorie_template'];
-		$titre=$_POST['titre'];
-		$shortcode=utf8_decode($_POST['shortcode']);
-		$date_com=$date=date('Y-m-d H:i:s');
-		$id_graph=$_SESSION['id_graph'];
-		$accept=0;
-		$previsualisation=$_POST['visu'];
-		$file="";
-		$i=0;
-		foreach ($previsualisation as $key => $value) {
-			if ($i!=0) {
-				$file.=";";
-			}
-			$file.=$value;
-			$i++;
-		}
-		$betheme=$_POST['betheme'];
-		$file_betheme="";
-		$i=0;
-		foreach ($betheme as $key => $value) {
-			if ($i!=0) {
-				$file_betheme.=";";
-			}
-			$file_betheme.=$value;
-			$i++;
-		}
-		$slider=$_POST['slider'];
-		$file_slider="";
-		$i=0;
-		foreach ($slider as $key => $value) {
-			if ($i!=0) {
-				$file_slider.=";";
-			}
-			$file_slider.=$value;
-			$i++;
-		}
-		$query_template = $bdd->prepare("INSERT INTO template (categorie, titre, shortcode, betheme, slider, previsualisation, id_user, date_template, accept_template) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$query_template->bindParam(1, $categorie);
-		$query_template->bindParam(2, $titre);
-		$query_template->bindParam(3, $shortcode);
-		$query_template->bindParam(4, $file_betheme);
-		$query_template->bindParam(5, $file_slider);
-		$query_template->bindParam(6, $file);
-		$query_template->bindParam(7, $id_graph);
-		$query_template->bindParam(8, $date);
-		$query_template->bindParam(9, $accept);
-		$query_template->execute();
-	}
-
-	if (isset($_POST['id_template'])) {
-		$accept=1;
-		$id_template=$_POST['id_template'];
-		$query_accept_template = $bdd->prepare("UPDATE template SET accept_template = ? where id_template = ?");
-		$query_accept_template->bindParam(1, $accept);
-		$query_accept_template->bindParam(2, $id_template);
-		$query_accept_template->execute();
-	}
-
-	if (isset($_POST['refus_template'])) {
-		$id_template=$_POST['id_template'];
-		$query_delete_template = $bdd->prepare("DELETE FROM template where id_template = ?");
-		$query_delete_template->bindParam(1, $id_template);
-		$query_delete_template->execute();
 	}
 
 	if (isset($_POST['lecontenu'])) {
