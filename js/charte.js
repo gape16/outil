@@ -573,7 +573,7 @@ $("body").on('click', ".moproblem", function(e){
 		$(".titreproblemos").html(infos[0]['titre']);
 		$(".descproblemos").html(infos[0]['description']);
 		$(".lien_cms").attr("href",infos[0]['adresse_cms']);
-		$(".imgg").html("<img src='uploads/help/"+infos[0]['capture']+"' style='width:80%;'>");
+		$(".imgg").html("<a class='fancy-img' href='uploads/help/"+infos[0]['capture']+"' data-fancybox><img src='uploads/help/"+infos[0]['capture']+"'></a>");
 		$(".etat").html(infos[0]['etat_aide']);
 		$(".etat").css("background",infos[0]['couleur']);
 		$(".etat").css("color","white");
@@ -582,7 +582,9 @@ $("body").on('click', ".moproblem", function(e){
 		for (var i = 1; i <= total; i++) {
 			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 			liste+='<div class="post__author author vcard inline-items">';
+			liste+='<a class="fancy-img" href="uploads/template/previsualisation/" data-fancybox>';
 			liste+='<img src="'+infos[i]['photo_avatar']+'" alt="author">';
+			liste+='</a>';
 			liste+='<div class="author-date">';
 			liste+='<a class="h6 post__author-name fn">'+infos[i]['nom_commentaire']+'</a>';
 			liste+='<div class="post__date">';
@@ -1002,3 +1004,16 @@ $(".anniversaire_envoi").on('click', function(e){
 		$(".envoi_message_anniversaire").html('');
 	})
 })
+
+$("input").on('keyup', function(){
+	if($(this).html()!=""){
+		$(this).parent().addClass('is-focused');
+	}
+}) 
+
+$("input").on('blur', function(){
+	if($(this).html()!=""){
+		$(this).parent().addClass('is-focused');
+	}
+}) 
+

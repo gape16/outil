@@ -87,6 +87,16 @@ if (isset($_SESSION['id_statut'])) {
 				bottom: 22px;
 				left: 75px;
 			}
+			.imgg img {
+				margin-bottom: 20px;
+			}
+			#askforhelp .modal-dialog {
+				max-width: 60vw;
+			}
+			#askforhelp .modal-dialog {
+				max-width: 60vw;
+				margin-top: 100px;
+			}
 		</style>
 	</head>
 
@@ -147,7 +157,7 @@ if (isset($_SESSION['id_statut'])) {
 			<img class="img-bottom" src="img/music-bottom.png" alt="friends">
 		</div>
 
-		<div class="container">
+		<!-- <div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="ui-block">
@@ -185,7 +195,6 @@ if (isset($_SESSION['id_statut'])) {
 								<form class="upload_veille">
 									<input type="file" id="file-select" name="photos" required="required">
 								</form>
-
 							</div>
 							<div class="row whitecolor">
 								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -200,8 +209,7 @@ if (isset($_SESSION['id_statut'])) {
 					</div>
 				</div>
 			</div>
-		</div>
-
+		</div> -->
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -222,7 +230,6 @@ if (isset($_SESSION['id_statut'])) {
 
 									$m=$date_tab[1];
 									$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
-
 									?>
 									<tr class="event-item">
 										<td class="upcoming">
@@ -255,7 +262,6 @@ if (isset($_SESSION['id_statut'])) {
 										<td class="add-event">
 											<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
 										</td>
-
 									</tr>
 									<?php }?>
 								</tbody>
@@ -282,7 +288,7 @@ if (isset($_SESSION['id_statut'])) {
 								<div class="author-date">
 									<a class="h6 post__author-name fn user_popup" href="#"></a>
 									<div class="post__date date_popup">
-										<time class="published" datetime="2017-03-24T18:18">
+										<time class="published">
 											
 										</time>
 									</div>
@@ -295,17 +301,17 @@ if (isset($_SESSION['id_statut'])) {
 							<p class="descproblemos">
 								
 							</p>
-							<div class="hax imgg"></div>
 						</div>
 						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 							<div class="event-description">
 								<h6 class="event-description-title">Infos pratiques</h6>
 								<div class="place inline-items">
-									<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-										<a href="" target="_blank" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div>
+									<!-- <div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+										<a href="" target="_blank" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div> -->
+										<a class="btn btn-green btn-sm full-width lien_cms">Lien CMS</a>
 
 									</div>
-
+									<div class="hax imgg"></div>
 									<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
 
 								</div>
@@ -321,11 +327,6 @@ if (isset($_SESSION['id_statut'])) {
 					</div>
 
 					<form class="comment-form inline-items">
-
-						<div class="post__author author vcard inline-items">
-							<img src="<?php echo $value['photo_avatar'];?>" alt="author">
-						</div>
-
 						<div class="form-group with-icon-right ">
 							<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
 							<input type="hidden" class="id_aide">
@@ -342,6 +343,64 @@ if (isset($_SESSION['id_statut'])) {
 				</div>
 				<!-- ... end Window-popup Create Friends Group Add Friends -->
 
+
+
+
+				<!-- Window-popup Event Private Public -->
+				<div class="modal fade show" id="askforhelp">
+					<div class="modal-dialog ui-block window-popup event-private-public private-event">
+						<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+							<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+						</a>
+						<div class="ui-block-content">
+							<form class="form-group label-floating is-empty help form-reset">
+								<div class="form-group is-empty label-floating ">
+									<select name="type">
+										<option value="0">Choisir une catégorie</option>
+										<option value="1">Graph</option>
+										<option value="2">SEO</option>
+									</select>
+								</div>
+								<div class="form-group is-empty label-floating ">
+									<label class="control-label">Numéro client</label>
+									<input class="form-control numclient" placeholder="" value="" type="text">
+								</div>
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Adresse CMS</label>
+									<input class="form-control adressecms" placeholder="" value="" type="text">
+								</div>
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Titre du problème</label>
+									<input class="form-control titre_probleme" placeholder="" value="" type="text">
+								</div>
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Description du problème</label>
+									<textarea name="description" id="description" cols="30" rows="10"></textarea>
+									<p><span class="count">0</span> / 140 caractères</p>
+								</div>
+							</form>
+							<div class="form-group label-floating is-empty">
+								<form class="upload_veille">
+									<input type="file" id="file-select" name="photos" required="required">
+								</form>
+							</div>
+							<div class="row whitecolor">
+								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
+								</div>
+								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+									Valider la demande</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ... end Window-popup Create Friends Group Add Friends -->
+
+
+
+				<div class="btn-fixed" data-toggle="modal" data-target="#askforhelp"><p>+</p></div>
 
 				<!-- jQuery first, then Other JS. -->
 				<script src="js/jquery-3.2.0.min.js"></script>
@@ -363,6 +422,7 @@ if (isset($_SESSION['id_statut'])) {
 				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 				<script src="js/simpleUpload.min.js"></script>
 				<script src="js/charte.js"></script>
+				<script src="js/jquery.fancybox.min.js"></script>
 					<!-- <?php 
 					if($_SESSION['id_statut']==1) {
 						//page graphistes 
@@ -382,7 +442,6 @@ if (isset($_SESSION['id_statut'])) {
 						?><script src="js/notifications_admin.js"></script><?php
 					}
 					?> -->
-
 					<script>
 						$('.search').keyup(function(){
 							var search = $(this).val();

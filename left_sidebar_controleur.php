@@ -29,6 +29,12 @@
         </a>
       </li>
       <li>
+        <a href="microdata.php">
+          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+          <span class="left-menu-title">Générateur de microdata </span>
+        </a>
+      </li>
+      <li>
         <a href="remontees_admin.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
         </a>
@@ -46,6 +52,11 @@
       <li>
         <a href="explore.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
+        </a>
+      </li>
+      <li>
+        <a href="template.php">
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-status-icon"></use></svg>
         </a>
       </li>
       <li>
@@ -110,6 +121,12 @@
         </a>
       </li>
       <li>
+        <a href="microdata.php">
+          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+          <span class="left-menu-title">Générateur de microdata </span>
+        </a>
+      </li>
+      <li>
         <a href="remontees_admin.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
           <span class="left-menu-title">Les remontées</span>
@@ -131,6 +148,12 @@
         <a href="explore.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-calendar-icon"></use></svg>
           <span class="left-menu-title">Partage de code</span>
+        </a>
+      </li>
+      <li>
+        <a href="template.php">
+          <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-status-icon"></use></svg>
+          <span class="left-menu-title">Les templates</span>
         </a>
       </li>
       <li>

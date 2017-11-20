@@ -22,6 +22,12 @@
         </a>
       </li>
       <li>
+        <a href="microdata.php">
+          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+          <span class="left-menu-title">Générateur de microdata </span>
+        </a>
+      </li>
+      <li>
         <a href="veille.php">
           <svg class="olymp-magnifying-glass-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-magnifying-glass-icon"></use></svg>
         </a>
@@ -79,6 +85,12 @@
         <a href="help.php">
           <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-happy-faces-icon"></use></svg>
           <span class="left-menu-title">Demandes aux contrôleurs</span>
+        </a>
+      </li>
+      <li>
+        <a href="microdata.php">
+          <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+          <span class="left-menu-title">Générateur de microdata </span>
         </a>
       </li>
       <li>

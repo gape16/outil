@@ -115,7 +115,7 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- ... end Main Header Events -->
 
 
-		<div class="container hax-width">
+		<div class="container">
 			<div class="row">
 				<?php for ($i=1; $i < 13; $i++) { 
 					if ($i<10) {

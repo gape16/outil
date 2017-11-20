@@ -1,9 +1,9 @@
 <?php
 session_start();
 /* Connexion à une base ODBC avec l'invocation de pilote */
-//$dsn = 'mysql:dbname=hloevenbqua;host=hloevenbqua.mysql.db';
-//$user = 'hloevenbqua';
-//$password = 'NUy66DcYqKVLmbwm';
+// $dsn = 'mysql:dbname=hloevenbqua;host=hloevenbqua.mysql.db';
+// $user = 'hloevenbqua';
+// $password = 'NUy66DcYqKVLmbwm';
 
 $dsn = 'mysql:dbname=nouvelle_charte;host=localhost';
 $user = 'root';
