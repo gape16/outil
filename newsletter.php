@@ -2,6 +2,36 @@
 
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
+
+function time_elapsed_string($datetime, $full = false) {
+	$now = new DateTime;
+	$ago = new DateTime($datetime);
+	$diff = $now->diff($ago);
+
+	$diff->w = floor($diff->d / 7);
+	$diff->d -= $diff->w * 7;
+
+	$string = array(
+		'y' => 'an',
+		'm' => 'mois',
+		'w' => 'semaine',
+		'd' => 'jour',
+		'h' => 'heure',
+		'i' => 'minute',
+		's' => 'seconde',
+	);
+	foreach ($string as $k => &$v) {
+		if ($diff->$k) {
+			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+		} else {
+			unset($string[$k]);
+		}
+	}
+
+	if (!$full) $string = array_slice($string, 0, 1);
+	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
+}
+
 if (isset($_SESSION['id_statut'])) {
 	$id_graph=$_SESSION['id_graph'];
 	// $bdd->exec('SET NAMES utf8');
@@ -10,6 +40,8 @@ if (isset($_SESSION['id_statut'])) {
 	$requete->execute();
 	$result_user=$requete->fetch(PDO::FETCH_ASSOC);
 	?>
+
+
 
 	<!DOCTYPE html>
 	<html lang="en">
@@ -38,6 +70,8 @@ if (isset($_SESSION['id_statut'])) {
 		<!-- <link href="css/introjs-dark.css" rel="stylesheet"> -->
 		<link rel="stylesheet" type="text/css" href="css/introjs-rtl.css">
 		<link rel="stylesheet" type="text/css" href="css/simplecalendar.css">
+
+		<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 		<style>
 		#content_news {
 			padding-left: 70px !important;
@@ -149,6 +183,85 @@ if (isset($_SESSION['id_statut'])) {
 			background: #FFF;
 			margin-bottom: 2px;
 		}
+		#newsfeed-items-grid div.lepost {
+			padding-left: 0!important;
+			padding-bottom: 40px;
+		}
+		@font-face {
+			font-family: 'weather';
+			src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.eot');
+			src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.eot?#iefix') format('embedded-opentype'),
+			url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.woff') format('woff'),
+			url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.ttf') format('truetype'),
+			url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/93/artill_clean_icons-webfont.svg#artill_clean_weather_iconsRg') format('svg');
+			font-weight: normal;
+			font-style: normal;
+		}
+		.icon-0:before { content: ":"; }
+		.icon-1:before { content: "p"; }
+		.icon-2:before { content: "S"; }
+		.icon-3:before { content: "Q"; }
+		.icon-4:before { content: "S"; }
+		.icon-5:before { content: "W"; }
+		.icon-6:before { content: "W"; }
+		.icon-7:before { content: "W"; }
+		.icon-8:before { content: "W"; }
+		.icon-9:before { content: "I"; }
+		.icon-10:before { content: "W"; }
+		.icon-11:before { content: "I"; }
+		.icon-12:before { content: "I"; }
+		.icon-13:before { content: "I"; }
+		.icon-14:before { content: "I"; }
+		.icon-15:before { content: "W"; }
+		.icon-16:before { content: "I"; }
+		.icon-17:before { content: "W"; }
+		.icon-18:before { content: "U"; }
+		.icon-19:before { content: "Z"; }
+		.icon-20:before { content: "Z"; }
+		.icon-21:before { content: "Z"; }
+		.icon-22:before { content: "Z"; }
+		.icon-23:before { content: "Z"; }
+		.icon-24:before { content: "E"; }
+		.icon-25:before { content: "E"; }
+		.icon-26:before { content: "3"; }
+		.icon-27:before { content: "a"; }
+		.icon-28:before { content: "A"; }
+		.icon-29:before { content: "a"; }
+		.icon-30:before { content: "A"; }
+		.icon-31:before { content: "6"; }
+		.icon-32:before { content: "1"; }
+		.icon-33:before { content: "6"; }
+		.icon-34:before { content: "1"; }
+		.icon-35:before { content: "W"; }
+		.icon-36:before { content: "1"; }
+		.icon-37:before { content: "S"; }
+		.icon-38:before { content: "S"; }
+		.icon-39:before { content: "S"; }
+		.icon-40:before { content: "M"; }
+		.icon-41:before { content: "W"; }
+		.icon-42:before { content: "I"; }
+		.icon-43:before { content: "W"; }
+		.icon-44:before { content: "a"; }
+		.icon-45:before { content: "S"; }
+		.icon-46:before { content: "U"; }
+		.icon-47:before { content: "S"; }
+		i {
+			color: #fff;
+			font-family: weather;
+			font-size: 86px;
+			width: 64px;
+			height: 65px;
+			font-weight: normal;
+			font-style: normal;
+			line-height: 1.0;
+			text-transform: none;
+		}
+		.weekly-forecast i{
+			font-size: 33px;
+		}
+		.calendar tbody td{
+			cursor: pointer;
+		}
 	</style>
 	<script src="js/webfontloader.min.js"></script>
 	<script>
@@ -258,7 +371,7 @@ if (isset($_SESSION['id_statut'])) {
 									<div class="form-group with-icon label-floating is-empty">
 										<label class="control-label">Publier une newsletter...</label>
 										<textarea class="form-control" placeholder="" style="display: none;"></textarea>
-										<div contenteditable="true" id="content_news"><img src="uploads/newsletter/screen-wordpress.jpg"></div>
+										<div contenteditable="true" id="content_news"></div>
 										<input type="file" id="choose_photo" name="photos" style="display: none;">
 									</div>
 									<div class="add-options-message">
@@ -298,7 +411,7 @@ if (isset($_SESSION['id_statut'])) {
 											<svg class="olymp-settings-icon"><use xlink:href="icons/icons.svg#olymp-settings-icon"></use></svg>
 										</a>
 
-										<button class="btn btn-primary btn-md-2">Poster</button>
+										<button class="btn btn-primary btn-md-2 post_this">Poster</button>
 										<button   class="btn btn-md-2 btn-border-think btn-transparent c-grey">Aperçu</button>
 
 									</div>
@@ -369,1650 +482,894 @@ if (isset($_SESSION['id_statut'])) {
 
 				<div id="newsfeed-items-grid">
 
-					<div class="ui-block">
-						<article class="hentry post video">
+					<?php
+					$post=$bdd->prepare("SELECT * FROM newsletter inner join user on newsletter.id_user = user.id_user order by id_news DESC");
+					$post->execute();
+					foreach ($post as $key => $value) {
+						$like_id=$value['id_news'];
+						$like=$bdd->prepare("SELECT * FROM like_news inner join user on like_news.id_graph = user.id_user where id_news = ?");
+						$like->bindParam(1, $like_id);
+						$like->execute();
+						$like_bis=$bdd->prepare("SELECT * FROM like_news inner join user on like_news.id_graph = user.id_user where id_news = ? limit 2");
+						$like_bis->bindParam(1, $like_id);
+						$like_bis->execute();
+						$nb_like=$like->rowCount();
+						?>
 
-							<div class="post__author author vcard inline-items">
-								<img src="img/avatar7-sm.jpg" alt="author">
-
-								<div class="author-date">
-									<a class="h6 post__author-name fn" href="#">Marina Valentine</a> shared a <a href="#">link</a>
-									<div class="post__date">
-										<time class="published" datetime="2004-07-24T18:18">
-											March 4 at 2:05pm
-										</time>
-									</div>
-								</div>
-
-								<div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Edit Post</a>
-										</li>
-										<li>
-											<a href="#">Delete Post</a>
-										</li>
-										<li>
-											<a href="#">Turn Off Notifications</a>
-										</li>
-										<li>
-											<a href="#">Select as Featured</a>
-										</li>
-									</ul>
-								</div>
-
-							</div>
-
-							<p>Hey <a href="#">Cindi</a>, you should really check out this new song by Iron Maid. The next time they come to the city we should totally go!</p>
-
-							<div class="post-video">
-								<div class="video-thumb">
-									<img src="img/video-youtube1.jpg" alt="photo">
-									<a href="https://youtube.com/watch?v=excVFQ2TWig" class="play-video">
-										<svg class="olymp-play-icon"><use xlink:href="icons/icons.svg#olymp-play-icon"></use></svg>
-									</a>
-								</div>
-
-								<div class="video-content">
-									<a href="#" class="h4 title">Iron Maid - ChillGroves</a>
-									<p>Lorem ipsum dolor sit amet, consectetur ipisicing elit, sed do eiusmod tempor incididunt
-										ut labore et dolore magna aliqua...
-									</p>
-									<a href="#" class="link-site">YOUTUBE.COM</a>
-								</div>
-							</div>
-
-							<div class="post-additional-info inline-items">
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-									<span>18</span>
-								</a>
-
-								<ul class="friends-harmonic">
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic9.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic10.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic7.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic8.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic11.jpg" alt="friend">
-										</a>
-									</li>
-								</ul>
-
-								<div class="names-people-likes">
-									<a href="#">Jenny</a>, <a href="#">Robert</a> and
-									<br>18 more liked this
-								</div>
-
-								<div class="comments-shared">
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-speech-balloon-icon"><use xlink:href="icons/icons.svg#olymp-speech-balloon-icon"></use></svg>
-
-										<span>0</span>
-									</a>
-
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-
-										<span>16</span>
-									</a>
-								</div>
-
-
-							</div>
-
-							<div class="control-block-button post-control-button">
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-like-post-icon"><use xlink:href="icons/icons.svg#olymp-like-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-								</a>
-
-							</div>
-
-						</article>
-					</div>
-
-					<div class="ui-block">
-						<article class="hentry post">
-
-							<div class="post__author author vcard inline-items">
-								<img src="img/avatar10-sm.jpg" alt="author">
-
-								<div class="author-date">
-									<a class="h6 post__author-name fn" href="#">Elaine Dreyfuss</a>
-									<div class="post__date">
-										<time class="published" datetime="2004-07-24T18:18">
-											9 hours ago
-										</time>
-									</div>
-								</div>
-
-								<div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Edit Post</a>
-										</li>
-										<li>
-											<a href="#">Delete Post</a>
-										</li>
-										<li>
-											<a href="#">Turn Off Notifications</a>
-										</li>
-										<li>
-											<a href="#">Select as Featured</a>
-										</li>
-									</ul>
-								</div>
-
-							</div>
-
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut
-								labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris consequat.
-							</p>
-
-							<div class="post-additional-info inline-items">
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-									<span>24</span>
-								</a>
-
-								<ul class="friends-harmonic">
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic7.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic8.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic9.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic10.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic11.jpg" alt="friend">
-										</a>
-									</li>
-								</ul>
-
-								<div class="names-people-likes">
-									<a href="#">You</a>, <a href="#">Elaine</a> and
-									<br>22 more liked this
-								</div>
-
-
-								<div class="comments-shared">
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-speech-balloon-icon"><use xlink:href="icons/icons.svg#olymp-speech-balloon-icon"></use></svg>
-										<span>17</span>
-									</a>
-
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-										<span>24</span>
-									</a>
-								</div>
-
-
-							</div>
-
-							<div class="control-block-button post-control-button">
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-like-post-icon"><use xlink:href="icons/icons.svg#olymp-like-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-								</a>
-
-							</div>
-
-						</article>
-
-						<ul class="comments-list">
-							<li>
+						<div class="ui-block">
+							<article class="hentry post">
+								<input type="hidden" class="news_id" value="<?php echo $like_id;?>">
 								<div class="post__author author vcard inline-items">
-									<img src="img/author-page.jpg" alt="author">
+									<img src="<?php echo utf8_encode($value['photo_avatar']);?>" alt="author">
 
 									<div class="author-date">
-										<a class="h6 post__author-name fn" href="02-ProfilePage.html">James Spiegel</a>
+										<a class="h6 post__author-name fn" href="#"><?php echo utf8_encode($value['prenom'].' '.$value['nom']);?></a>
 										<div class="post__date">
 											<time class="published" datetime="2004-07-24T18:18">
-												38 mins ago
+												<?php echo time_elapsed_string($value['date_creation']);?>
 											</time>
 										</div>
 									</div>
-
-									<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-								</div>
-
-								<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-									<span>3</span>
-								</a>
-								<a href="#" class="reply">Reply</a>
-							</li>
-							<li>
-								<div class="post__author author vcard inline-items">
-									<img src="img/avatar1-sm.jpg" alt="author">
-
-									<div class="author-date">
-										<a class="h6 post__author-name fn" href="#">Mathilda Brinker</a>
-										<div class="post__date">
-											<time class="published" datetime="2004-07-24T18:18">
-												1 hour ago
-											</time>
+									<?php 
+									if($value['id_user']==$id_graph){
+										?>
+										<div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
+											<ul class="more-dropdown">
+												<li>
+													<a href="#">Modifier l'article</a>
+												</li>
+												<li>
+													<a href="#">Supprimer l'article</a>
+												</li>
+												
+											</ul>
 										</div>
+										<?php }?>
 									</div>
 
-									<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+									<?php echo $value['content'];?>
 
-								</div>
+									<div class="post-additional-info inline-items">
 
-								<p>Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum
-									quia dolor sit amet, consectetur adipisci velit en lorem ipsum duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
-								</p>
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-									<span>8</span>
-								</a>
-								<a href="#" class="reply">Reply</a>
-							</li>
-						</ul>
-
-						<a href="#" class="more-comments">View more comments <span>+</span></a>
-
-						<form class="comment-form inline-items">
-
-							<div class="post__author author vcard inline-items">
-								<img src="img/author-page.jpg" alt="author">
-
-								<div class="form-group with-icon-right ">
-									<textarea class="form-control" placeholder=""  ></textarea>
-									<div class="add-options-message">
-										<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
-											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-camera-icon"></use></svg>
+										<a href="#" class="post-add-icon inline-items">
+											<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+											<span><?php echo $nb_like;?></span>
 										</a>
+
+										<ul class="friends-harmonic">
+											<?php foreach ($like as $key => $value_lik) {?>
+											<li>
+												<a href="#">
+													<img src="<?php echo $value_lik['photo_avatar'];?>" alt="friend">
+												</a>
+											</li>
+											<?php }?>
+										</ul>
+
+										<div class="names-people-likes">
+											<?php
+											$i=0;
+											foreach ($like_bis as $key => $value_like) {
+												if($i!=0){
+													echo ",";
+												}
+												if($value_like['id_graph'] == $id_graph){
+													echo "<a href='#'>Vous</a>";
+												}else{?>
+												<a href="#"><?php echo $value_like['prenom']." ".$value_like['nom'];?></a>
+												<?php }
+												$i++;
+											}
+											if($nb_like>2){
+												$test=$nb_like-2;
+												if($test==1){
+													echo "<br>et ".$test." autre personne";
+												}else{
+													echo "<br>et ".$test." autres personnes";
+												}
+											}
+											if($nb_like>0){?>
+											aimez
+											<?php }?>
+										</div>
+
+
+										<?php
+										$com_news=$bdd->prepare("SELECT * FROM commentaires_news where id_news = ?");
+										$com_news->bindParam(1, $like_id);
+										$com_news->execute();
+										$nb_com_news=$com_news->rowCount();
+										?>
+										<div class="comments-shared">
+											<a href="#" class="post-add-icon inline-items ajouter_com">
+												<svg class="olymp-speech-balloon-icon"><use xlink:href="icons/icons.svg#olymp-speech-balloon-icon"></use></svg>
+												<span><?php echo $nb_com_news;?></span>
+											</a>
+										</div>
+
+
 									</div>
-								</div>
-							</div>
 
-						</form>
+								</article>
 
-					</div>
-
-					<div class="ui-block">
-						<article class="hentry post has-post-thumbnail">
-
-							<div class="post__author author vcard inline-items">
-								<img src="img/avatar5-sm.jpg" alt="author">
-
-								<div class="author-date">
-									<a class="h6 post__author-name fn" href="#">Green Goo Rock</a>
-									<div class="post__date">
-										<time class="published" datetime="2004-07-24T18:18">
-											March 8 at 6:42pm
-										</time>
-									</div>
-								</div>
-
-								<div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Edit Post</a>
-										</li>
-										<li>
-											<a href="#">Delete Post</a>
-										</li>
-										<li>
-											<a href="#">Turn Off Notifications</a>
-										</li>
-										<li>
-											<a href="#">Select as Featured</a>
-										</li>
-									</ul>
-								</div>
-
-							</div>
-
-							<p>Hey guys! We are gona be playing this Saturday of <a href="#">The Marina Bar</a> for their new Mystic Deer Party.
-								If you wanna hang out and have a really good time, come and join us. We’l be waiting for you!
-							</p>
-
-							<div class="post-thumb">
-								<img src="img/post__thumb1.jpg" alt="photo">
-							</div>
-
-							<div class="post-additional-info inline-items">
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-									<span>49</span>
-								</a>
-
-								<ul class="friends-harmonic">
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic9.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic10.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic7.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic8.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic11.jpg" alt="friend">
-										</a>
-									</li>
+								<ul class="comments-list comments_<?php echo $like_id;?>" style="display: none;">
+									
 								</ul>
 
-								<div class="names-people-likes">
-									<a href="#">Jimmy</a>, <a href="#">Andrea</a> and
-									<br>47 more liked this
-								</div>
-
-
-								<div class="comments-shared">
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-speech-balloon-icon"><use xlink:href="icons/icons.svg#olymp-speech-balloon-icon"></use></svg>
-										<span>264</span>
-									</a>
-
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-										<span>37</span>
-									</a>
-								</div>
-
-
+								<form class="comment-form inline-items">
+									<div class="post__author author vcard inline-items">
+										<img src="img/author-page.jpg" alt="author">
+										<div class="form-group with-icon-right ">
+											<textarea class="form-control" placeholder=""  ></textarea>
+											<div class="add-options-message">
+												<a href="#" class="options-message">
+													<svg class="olymp-chat---messages-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+												</a>
+											</div>
+										</div>
+									</div>
+								</form>
 							</div>
-
-							<div class="control-block-button post-control-button">
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-like-post-icon"><use xlink:href="icons/icons.svg#olymp-like-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-								</a>
-
-							</div>
-
-						</article>
+							<?php
+						}
+						?>
 					</div>
 
+
+					<a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+
+
+				</main>
+
+				<!-- ... end Main Content -->
+
+
+				<!-- Left Sidebar -->
+
+				<aside class="col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-xs-12">
 					<div class="ui-block">
-						<article class="hentry post has-post-thumbnail">
-
-							<div class="post__author author vcard inline-items">
-								<img src="img/avatar3-sm.jpg" alt="author">
-
-								<div class="author-date">
-									<a class="h6 post__author-name fn" href="#">Sarah Hetfield</a>
-									<div class="post__date">
-										<time class="published" datetime="2004-07-24T18:18">
-											March 2 at 9:06am
-										</time>
-									</div>
-								</div>
-
-								<div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Edit Post</a>
-										</li>
-										<li>
-											<a href="#">Delete Post</a>
-										</li>
-										<li>
-											<a href="#">Turn Off Notifications</a>
-										</li>
-										<li>
-											<a href="#">Select as Featured</a>
-										</li>
-									</ul>
-								</div>
-
-							</div>
-
-							<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-								pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-								mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.
-							</p>
-
-							<div class="post-additional-info inline-items">
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-									<span>0 Likes</span>
-								</a>
-
-								<div class="comments-shared">
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-speech-balloon-icon"><use xlink:href="icons/icons.svg#olymp-speech-balloon-icon"></use></svg>
-										<span>0 Comments</span>
-									</a>
-
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-										<span>2 Shares</span>
-									</a>
-								</div>
-
-
-							</div>
-
-							<div class="control-block-button post-control-button">
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-like-post-icon"><use xlink:href="icons/icons.svg#olymp-like-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-								</a>
-
-							</div>
-
-						</article>
-					</div>
-
-					<div class="ui-block">
-						<article class="hentry post has-post-thumbnail">
-
-							<div class="post__author author vcard inline-items">
-								<img src="img/avatar2-sm.jpg" alt="author">
-
-								<div class="author-date">
-									<a class="h6 post__author-name fn" href="#">Nicholas Grissom</a>
-									<div class="post__date">
-										<time class="published" datetime="2004-07-24T18:18">
-											March 2 at 8:34am
-										</time>
-									</div>
-								</div>
-
-								<div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
-									<ul class="more-dropdown">
-										<li>
-											<a href="#">Edit Post</a>
-										</li>
-										<li>
-											<a href="#">Delete Post</a>
-										</li>
-										<li>
-											<a href="#">Turn Off Notifications</a>
-										</li>
-										<li>
-											<a href="#">Select as Featured</a>
-										</li>
-									</ul>
-								</div>
-
-							</div>
-
-							<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-								pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-								mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-								accusantium doloremque.
-							</p>
-
-							<div class="post-additional-info inline-items">
-
-								<a href="#" class="post-add-icon inline-items">
-									<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-									<span>22</span>
-								</a>
-
-								<ul class="friends-harmonic">
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic9.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic10.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic7.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic8.jpg" alt="friend">
-										</a>
-									</li>
-									<li>
-										<a href="#">
-											<img src="img/friend-harmonic11.jpg" alt="friend">
-										</a>
-									</li>
-								</ul>
-
-								<div class="names-people-likes">
-									<a href="#">Jimmy</a>, <a href="#">Andrea</a> and
-									<br>47 more liked this
-								</div>
-
-
-								<div class="comments-shared">
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-speech-balloon-icon"><use xlink:href="icons/icons.svg#olymp-speech-balloon-icon"></use></svg>
-										<span>0</span>
-									</a>
-
-									<a href="#" class="post-add-icon inline-items">
-										<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-										<span>2</span>
-									</a>
-								</div>
-
-
-							</div>
-
-							<div class="control-block-button post-control-button">
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-like-post-icon"><use xlink:href="icons/icons.svg#olymp-like-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-comments-post-icon"><use xlink:href="icons/icons.svg#olymp-comments-post-icon"></use></svg>
-								</a>
-
-								<a href="#" class="btn btn-control">
-									<svg class="olymp-share-icon"><use xlink:href="icons/icons.svg#olymp-share-icon"></use></svg>
-								</a>
-
-							</div>
-
-						</article>
-					</div>
-
-				</div>
-
-
-				<a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-
-			</main>
-
-			<!-- ... end Main Content -->
-
-
-			<!-- Left Sidebar -->
-
-			<aside class="col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-xs-12">
-				<div class="ui-block">
-					<div class="widget w-wethear">
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-						<div class="wethear-now inline-items">
-							<div class="temperature-sensor">64°</div>
-							<div class="max-min-temperature">
-								<span>58°</span>
-								<span>76°</span>
-							</div>
-
-							<svg class="olymp-weather-partly-sunny-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-partly-sunny-icon"></use></svg>
-						</div>
-
-						<div class="wethear-now-description">
-							<div class="climate">Partly Sunny</div>
-							<span>Real Feel: <span>67°</span></span>
-							<span>Chance of Rain: <span>49%</span></span>
-						</div>
-
-						<ul class="weekly-forecast">
-
-							<li>
-								<div class="day">sun</div>
-								<svg class="olymp-weather-sunny-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-sunny-icon"></use></svg>
-
-								<div class="temperature-sensor-day">60°</div>
-							</li>
-
-							<li>
-								<div class="day">mon</div>
-								<svg class="olymp-weather-partly-sunny-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-partly-sunny-icon"></use></svg>
-								<div class="temperature-sensor-day">58°</div>
-							</li>
-
-							<li>
-								<div class="day">tue</div>
-								<svg class="olymp-weather-cloudy-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-cloudy-icon"></use></svg>
-
-								<div class="temperature-sensor-day">67°</div>
-							</li>
-
-							<li>
-								<div class="day">wed</div>
-								<svg class="olymp-weather-rain-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-rain-icon"></use></svg>
-
-								<div class="temperature-sensor-day">70°</div>
-							</li>
-
-							<li>
-								<div class="day">thu</div>
-								<svg class="olymp-weather-storm-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-storm-icon"></use></svg>
-
-								<div class="temperature-sensor-day">58°</div>
-							</li>
-
-							<li>
-								<div class="day">fri</div>
-								<svg class="olymp-weather-snow-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-snow-icon"></use></svg>
-
-								<div class="temperature-sensor-day">68°</div>
-							</li>
-
-							<li>
-								<div class="day">sat</div>
-
-								<svg class="olymp-weather-wind-icon-header"><use xlink:href="icons/icons-weather.svg#olymp-weather-wind-icon-header"></use></svg>
-
-								<div class="temperature-sensor-day">65°</div>
-							</li>
-
-						</ul>
-
-						<div class="date-and-place">
-							<h5 class="date">Saturday, March 26th</h5>
-							<div class="place">San Francisco, CA</div>
-						</div>
-
-					</div>
-				</div>
-
-
-				<div class="ui-block">
-					<div class="calendar-container">
-						<div class="calendar">
-							<header>
-								<h6 class="month">March 2017</h6>
-								<a class="calendar-btn-prev fontawesome-angle-left" href="#"></a>
-								<a class="calendar-btn-next fontawesome-angle-right" href="#"></a>
-							</header>
-							<table>
-								<thead>
-									<tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>San</td></tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td date-month="12" date-day="1">1</td>
-										<td date-month="12" date-day="2" class="event-uncomplited event-complited">
-											2
-										</td>
-										<td date-month="12" date-day="3">3</td>
-										<td date-month="12" date-day="4">4</td>
-										<td date-month="12" date-day="5">5</td>
-										<td date-month="12" date-day="6">6</td>
-										<td date-month="12" date-day="7">7</td>
-									</tr>
-									<tr>
-										<td date-month="12" date-day="8">8</td>
-										<td date-month="12" date-day="9">9</td>
-										<td date-month="12" date-day="10" class="event-complited">10</td>
-										<td date-month="12" date-day="11">11</td>
-										<td date-month="12" date-day="12">12</td>
-										<td date-month="12" date-day="13">13</td>
-										<td date-month="12" date-day="14">14</td>
-									</tr>
-									<tr>
-										<td date-month="12" date-day="15" class="event-complited-2">15</td>
-										<td date-month="12" date-day="16">16</td>
-										<td date-month="12" date-day="17">17</td>
-										<td date-month="12" date-day="18">18</td>
-										<td date-month="12" date-day="19">19</td>
-										<td date-month="12" date-day="20">20</td>
-										<td date-month="12" date-day="21">21</td>
-									</tr>
-									<tr>
-										<td date-month="12" date-day="22">22</td>
-										<td date-month="12" date-day="23">23</td>
-										<td date-month="12" date-day="24">24</td>
-										<td date-month="12" date-day="25">25</td>
-										<td date-month="12" date-day="26">26</td>
-										<td date-month="12" date-day="27">27</td>
-										<td date-month="12" date-day="28" class="event-uncomplited">28</td>
-									</tr>
-									<tr>
-										<td date-month="12" date-day="29">29</td>
-										<td date-month="12" date-day="30">30</td>
-										<td date-month="12" date-day="31">31</td>
-									</tr>
-								</tbody>
-							</table>
-							<div class="list">
-
-
-								<div id="accordion-1" role="tablist" aria-multiselectable="true" class="day-event" date-month="12" date-day="2">
-									<div class="ui-block-title ui-block-title-small">
-										<h6 class="title">TODAY’S EVENTS</h6>
-									</div>
-									<div class="card">
-										<div class="card-header" role="tab" id="headingOne-1">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">9:00am</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne-1">
-													Breakfast at the Agency<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-												</a>
-											</h5>
-										</div>
-
-										<div id="collapseOne-1" class="collapse" role="tabpanel" >
-											<div class="card-body">
-												Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the new design project we have been working on. Cheers!
-											</div>
-											<div class="place inline-items">
-												<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<span>Daydreamz Agency</span>
-											</div>
-
-											<ul class="friends-harmonic inline-items">
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic5.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic10.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic7.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic8.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic2.jpg" alt="friend">
-													</a>
-												</li>
-												<li class="with-text">
-													Will Assist
-												</li>
-											</ul>
-										</div>
-									</div>
-
-									<div class="card">
-										<div class="card-header" role="tab" id="headingTwo-1">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">9:00am</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-1" aria-expanded="true" aria-controls="collapseTwo-1">
-													Send the new “Olympus” project files to the Agency<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-												</a>
-											</h5>
-										</div>
-
-										<div id="collapseTwo-1" class="collapse" role="tabpanel">
-											<div class="card-body">
-												Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the new design project we have been working on. Cheers!
-											</div>
-										</div>
-
-									</div>
-
-									<div class="card">
-										<div class="card-header" role="tab" id="headingThree-1">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">6:30am</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#" aria-expanded="false">
-													Take Querty to the Veterinarian
-												</a>
-											</h5>
-										</div>
-										<div class="place inline-items">
-											<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-											<span>Daydreamz Agency</span>
-										</div>
-									</div>
-
-									<a href="#" class="check-all">Check all your Events</a>
-								</div>
-
-								<div id="accordion-2" role="tablist" aria-multiselectable="true" class="day-event" date-month="12" date-day="10">
-									<div class="ui-block-title ui-block-title-small">
-										<h6 class="title">TODAY’S EVENTS</h6>
-									</div>
-									<div class="card">
-										<div class="card-header" role="tab" id="headingOne-2">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">9:00am</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-2" aria-expanded="true" aria-controls="collapseOne-2">
-													Breakfast at the Agency<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-												</a>
-											</h5>
-										</div>
-
-										<div id="collapseOne-2" class="collapse" role="tabpanel">
-											<div class="card-body">
-												Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the new design project we have been working on. Cheers!
-											</div>
-											<div class="place inline-items">
-												<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<span>Daydreamz Agency</span>
-											</div>
-
-											<ul class="friends-harmonic inline-items">
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic5.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic10.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic7.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic8.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic2.jpg" alt="friend">
-													</a>
-												</li>
-												<li class="with-text">
-													Will Assist
-												</li>
-											</ul>
-										</div>
-
-									</div>
-
-									<a href="#" class="check-all">Check all your Events</a>
-								</div>
-
-								<div id="accordion-3" role="tablist" aria-multiselectable="true" class="day-event" date-month="12" date-day="15">
-									<div class="ui-block-title ui-block-title-small">
-										<h6 class="title">TODAY’S EVENTS</h6>
-									</div>
-									<div class="card">
-										<div class="card-header" role="tab" id="headingOne-3">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">9:00am</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-3" aria-expanded="true" aria-controls="collapseOne-3">
-													Breakfast at the Agency<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-												</a>
-											</h5>
-										</div>
-
-										<div id="collapseOne-3" class="collapse" role="tabpanel">
-											<div class="card-body">
-												Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the new design project we have been working on. Cheers!
-											</div>
-
-											<div class="place inline-items">
-												<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<span>Daydreamz Agency</span>
-											</div>
-
-											<ul class="friends-harmonic inline-items">
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic5.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic10.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic7.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic8.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic2.jpg" alt="friend">
-													</a>
-												</li>
-												<li class="with-text">
-													Will Assist
-												</li>
-											</ul>
-										</div>
-
-									</div>
-
-									<div class="card">
-										<div class="card-header" role="tab" id="headingTwo-3">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">12:00pm</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo-3" aria-expanded="true" aria-controls="collapseTwo-3">
-													Send the new “Olympus” project files to the Agency<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-												</a>
-											</h5>
-										</div>
-
-										<div id="collapseTwo-3" class="collapse" role="tabpanel" >
-											<div class="card-body">
-												Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the new design project we have been working on. Cheers!
-											</div>
-										</div>
-
-									</div>
-
-									<div class="card">
-										<div class="card-header" role="tab" id="headingThree-3">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">6:30pm</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#" aria-expanded="false">
-													Take Querty to the Veterinarian
-												</a>
-											</h5>
-										</div>
-										<div class="place inline-items">
-											<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-											<span>Daydreamz Agency</span>
-										</div>
-									</div>
-
-									<a href="#" class="check-all">Check all your Events</a>
-								</div>
-
-								<div id="accordion-4" role="tablist" aria-multiselectable="true" class="day-event" date-month="12" date-day="28">
-									<div class="ui-block-title ui-block-title-small">
-										<h6 class="title">TODAY’S EVENTS</h6>
-									</div>
-									<div class="card">
-										<div class="card-header" role="tab" id="headingOne-4">
-											<div class="event-time">
-												<span class="circle"></span>
-												<time datetime="2004-07-24T18:18">9:00am</time>
-												<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-											</div>
-											<h5 class="mb-0">
-												<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne-4" aria-expanded="true" aria-controls="collapseOne-4">
-													Breakfast at the Agency<svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg>
-												</a>
-											</h5>
-										</div>
-
-										<div id="collapseOne-4" class="collapse" role="tabpanel" aria-labelledby="headingOne-4">
-											<div class="card-body">
-												Hi Guys! I propose to go a litle earlier at the agency to have breakfast and talk a little more about the new design project we have been working on. Cheers!
-											</div>
-											<div class="place inline-items">
-												<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<span>Daydreamz Agency</span>
-											</div>
-
-											<ul class="friends-harmonic inline-items">
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic5.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic10.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic7.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic8.jpg" alt="friend">
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<img src="img/friend-harmonic2.jpg" alt="friend">
-													</a>
-												</li>
-												<li class="with-text">
-													Will Assist
-												</li>
-											</ul>
-										</div>
-
-									</div>
-
-									<a href="#" class="check-all">Check all your Events</a>
-								</div>
-
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="ui-block">
-					<div class="ui-block-title">
-						<h6 class="title">Pages You May Like</h6>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
-
-					<ul class="widget w-friend-pages-added notification-list friend-requests">
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar41-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">The Marina Bar</a>
-								<span class="chat-message-item">Restaurant / Bar</span>
-							</div>
-							<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="ADD TO YOUR FAVS">
-								<a href="#">
-									<svg class="olymp-star-icon"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-								</a>
-							</span>
-
-						</li>
-
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar42-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Tapronus Rock</a>
-								<span class="chat-message-item">Rock Band</span>
-							</div>
-							<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="ADD TO YOUR FAVS">
-								<a href="#">
-									<svg class="olymp-star-icon"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-								</a>
-							</span>
-						</li>
-
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar43-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Pixel Digital Design</a>
-								<span class="chat-message-item">Company</span>
-							</div>
-							<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="ADD TO YOUR FAVS">
-								<a href="#">
-									<svg class="olymp-star-icon"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-								</a>
-							</span>
-						</li>
-
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar44-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Thompson’s Custom Clothing Boutique</a>
-								<span class="chat-message-item">Clothing Store</span>
-							</div>
-							<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="ADD TO YOUR FAVS">
-								<a href="#">
-									<svg class="olymp-star-icon"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-								</a>
-							</span>
-						</li>
-
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar45-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Crimson Agency</a>
-								<span class="chat-message-item">Company</span>
-							</div>
-							<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="ADD TO YOUR FAVS">
-								<a href="#">
-									<svg class="olymp-star-icon"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-								</a>
-							</span>
-						</li>
-
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar46-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Mannequin Angel</a>
-								<span class="chat-message-item">Clothing Store</span>
-							</div>
-							<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="ADD TO YOUR FAVS">
-								<a href="#">
-									<svg class="olymp-star-icon"><use xlink:href="icons/icons.svg#olymp-star-icon"></use></svg>
-								</a>
-							</span>
-						</li>
-
-					</ul>
-
-				</div>
-			</aside>
-
-			<!-- ... end Left Sidebar -->
-
-
-			<!-- Right Sidebar -->
-
-			<aside class="col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-12 col-xs-12">
-
-				<div class="ui-block">
-					<div class="widget w-birthday-alert">
-						<div class="icons-block">
-							<svg class="olymp-cupcake-icon"><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+						<div class="widget w-wethear" style="display: none;">
 							<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-						</div>
 
-						<div class="content">
-							<div class="author-thumb">
-								<img src="img/avatar48-sm.jpg" alt="author">
+							<div class="wethear-now inline-items">
+								<div class="temperature-sensor"></div>
+								<div class="ic"></div>
 							</div>
-							<span>Today is</span>
-							<a href="#" class="h4 title">Marina Valentine’s Birthday!</a>
-							<p>Leave her a message with your best wishes on her profile page!</p>
-						</div>
-					</div>
-				</div>
 
+							<div class="wethear-now-description">
+								<div class="climate"></div>
+								<span>Bas: <span class="humide"></span>°</span>
+								<span>Haut: <span class="couche"></span>°</span>
+							</div>
 
-				<div class="ui-block">
-					<div class="ui-block-title">
-						<h6 class="title">Friend Suggestions</h6>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
+							<ul class="weekly-forecast">
 
-					<ul class="widget w-friend-pages-added notification-list friend-requests">
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar38-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Francine Smith</a>
-								<span class="chat-message-item">8 Friends in Common</span>
-							</div>
-							<span class="notification-icon">
-								<a href="#" class="accept-request">
-									<span class="icon-add without-text">
-										<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-									</span>
-								</a>
-							</span>
+								<li>
+									<div class="day">sun</div>
+									<svg class="olymp-weather-sunny-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-sunny-icon"></use></svg>
 
-						</li>
+									<div class="temperature-sensor-day demain"></div>
+								</li>
 
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar39-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Hugh Wilson</a>
-								<span class="chat-message-item">6 Friends in Common</span>
-							</div>
-							<span class="notification-icon">
-								<a href="#" class="accept-request">
-									<span class="icon-add without-text">
-										<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-									</span>
-								</a>
-							</span>
+								<li>
+									<div class="day">mon</div>
+									<svg class="olymp-weather-partly-sunny-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-partly-sunny-icon"></use></svg>
+									<div class="temperature-sensor-day">58°</div>
+								</li>
 
-						</li>
+								<li>
+									<div class="day">tue</div>
+									<svg class="olymp-weather-cloudy-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-cloudy-icon"></use></svg>
 
-						<li class="inline-items">
-							<div class="author-thumb">
-								<img src="img/avatar40-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Karen Masters</a>
-								<span class="chat-message-item">6 Friends in Common</span>
-							</div>
-							<span class="notification-icon">
-								<a href="#" class="accept-request">
-									<span class="icon-add without-text">
-										<svg class="olymp-happy-face-icon"><use xlink:href="icons/icons.svg#olymp-happy-face-icon"></use></svg>
-									</span>
-								</a>
-							</span>
+									<div class="temperature-sensor-day">67°</div>
+								</li>
 
-						</li>
+								<li>
+									<div class="day">wed</div>
+									<svg class="olymp-weather-rain-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-rain-icon"></use></svg>
 
-					</ul>
+									<div class="temperature-sensor-day">70°</div>
+								</li>
 
-				</div>
+								<li>
+									<div class="day">thu</div>
+									<svg class="olymp-weather-storm-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-storm-icon"></use></svg>
 
-				<div class="ui-block">
+									<div class="temperature-sensor-day">58°</div>
+								</li>
 
-					<div class="ui-block-title">
-						<h6 class="title">Activity Feed</h6>
-						<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-					</div>
+								<li>
+									<div class="day">fri</div>
+									<svg class="olymp-weather-snow-icon"><use xlink:href="icons/icons-weather.svg#olymp-weather-snow-icon"></use></svg>
 
-					<ul class="widget w-activity-feed notification-list">
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar49-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Marina Polson</a> commented on Jason Mark’s <a href="#" class="notification-link">photo.</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 mins ago</time></span>
-							</div>
-						</li>
+									<div class="temperature-sensor-day">68°</div>
+								</li>
 
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar9-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Jake Parker </a> liked Nicholas Grissom’s <a href="#" class="notification-link">status update.</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">5 mins ago</time></span>
-							</div>
-						</li>
+								<li>
+									<div class="day">sat</div>
 
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar50-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Mary Jane Stark </a> added 20 new photos to her <a href="#" class="notification-link">gallery album.</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">12 mins ago</time></span>
-							</div>
-						</li>
+									<svg class="olymp-weather-wind-icon-header"><use xlink:href="icons/icons-weather.svg#olymp-weather-wind-icon-header"></use></svg>
 
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar51-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Nicholas Grissom </a> updated his profile <a href="#" class="notification-link">photo</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
-							</div>
-						</li>
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar48-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Marina Valentine </a> commented on Chris Greyson’s <a href="#" class="notification-link">status update</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
-							</div>
-						</li>
+									<div class="temperature-sensor-day">65°</div>
+								</li>
 
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar52-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Green Goo Rock </a> posted a <a href="#" class="notification-link">status update</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
-							</div>
-						</li>
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar10-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Elaine Dreyfuss  </a> liked your <a href="#" class="notification-link">blog post</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 hours ago</time></span>
-							</div>
-						</li>
+							</ul>
 
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar10-sm.jpg" alt="author">
+							<div class="date-and-place">
+								<h5 class="date">Saturday, March 26th</h5>
+								<div class="place">San Francisco, CA</div>
 							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Elaine Dreyfuss  </a> commented on your <a href="#" class="notification-link">blog post</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 hours ago</time></span>
-							</div>
-						</li>
 
-						<li>
-							<div class="author-thumb">
-								<img src="img/avatar53-sm.jpg" alt="author">
-							</div>
-							<div class="notification-event">
-								<a href="#" class="h6 notification-friend">Bruce Peterson </a> changed his <a href="#" class="notification-link">profile picture</a>.
-								<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">15 hours ago</time></span>
-							</div>
-						</li>
-
-					</ul>
-				</div>
-
-
-				<div class="ui-block">
-					<div class="widget w-action">
-
-						<img src="img/logo.png" alt="Olympus">
-						<div class="content">
-							<h4 class="title">OLYMPUS</h4>
-							<span>THE BEST SOCIAL NETWORK THEME IS HERE!</span>
-							<a href="01-LandingPage.html" class="btn btn-bg-secondary btn-md">Register Now!</a>
 						</div>
 					</div>
-				</div>
-
-			</aside>
-
-			<!-- ... end Right Sidebar -->
-
-		</div>
-	</div>
 
 
-	<!-- Window-popup Update Header Photo -->
+					<div class="ui-block">
+						<div class="calendar-container">
+							<div class="calendar">
+								
+								<?php
+								$monthNames = Array("Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre");
+								if (!isset($_REQUEST["month"])){ $_REQUEST["month"] = date("n"); }
+								if (!isset($_REQUEST["year"])){ $_REQUEST["year"] = date("Y"); }
+								$cMonth = $_REQUEST["month"];
+								$cYear = $_REQUEST["year"];
 
-	<div class="modal fade" id="update-header-photo">
-		<div class="modal-dialog ui-block window-popup update-header-photo">
-			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-			</a>
+								$prev_year = $cYear;
+								$next_year = $cYear;
+								$prev_month = $cMonth-1;
+								$next_month = $cMonth+1;
 
-			<div class="ui-block-title">
-				<h6 class="title">Choix de la photo</h6>
-			</div>
-
-			<a href="#" class="upload-photo-item add_ph">
-				<svg class="olymp-computer-icon"><use xlink:href="icons/icons.svg#olymp-computer-icon"></use></svg>
-
-				<h6>Télécharger une Photo</h6>
-				<span>Depuis mon ordinateur.</span>
-			</a>
-
-			<a href="#" class="upload-photo-item" data-toggle="modal" data-target="#externe_link">
-
-				<svg class="olymp-photos-icon"><use xlink:href="icons/icons.svg#olymp-photos-icon"></use></svg>
-
-				<h6>Choisir une photo</h6>
-				<span>Depuis un lien externe</span>
-			</a>
-		</div>
-	</div>
-
-
-	<!-- ... end Main Content Groups -->
-	<div class="modal fade" id="externe_link">
-		<div class="modal-dialog ui-block window-popup">
-			<div class="ui-block-title">
-				<h6 class="title">Insérer le lien de la photo</h6>
-			</div>
-			<div class="ui-block-content">
-				<div class="form-group is-empty label-floating ">
-					<label class="control-label">Indiquer le lien externe</label>
-					<input class="form-control" placeholder="" value="" type="text">
-				</div>
-				<a href="#" class="btn btn-secondary btn-lg btn--half-width">Annuler</a>
-				<a href="#" class="btn btn-primary btn-lg btn--half-width">Confirmer</a>
-			</div>
-		</div>
-	</div>
-
-	<!-- Window-popup Create Friends Group -->
-	<div class="modal fade" id="create-friend-group-1">
-		<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-1">
-			<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-				<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-			</a>
-
-			<div class="ui-block-title">
-				<h6 class="title">Ajouter un client</h6>
-			</div>
-
-			<div class="ui-block-content">
-				<form class="form-group label-floating is-empty addclient">
-					<div class="form-group is-empty label-floating ">
-						<label class="control-label">Numéro client</label>
-						<input class="form-control numclient" placeholder="" value="" type="text">
-					</div>
-					<div class="form-group label-floating is-empty">
-						<label class="control-label">Raison sociale</label>
-						<input class="form-control raisonsociale" placeholder="" value="" type="text">
-					</div>
-					<div class="form-group label-floating is-empty">
-						<label class="control-label">Adresse CMS</label>
-						<input class="form-control adressecms" placeholder="" value="" type="text">
-					</div>
-				</form>
-				<a href="#" class="btn btn-blue btn-lg full-width btn-addclient">Ajouter le client</a>
-			</div>
-
-
-		</div>
-	</div>
-	<!-- ... end Window-popup Create Friends Group -->
-
-
-	<!-- jQuery first, then Other JS. -->
-	<script src="js/jquery-3.2.0.min.js"></script>
-	<!-- Js effects for material design. + Tooltips -->
-	<script src="js/material.min.js"></script>
-	<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-	<script src="js/theme-plugins.js"></script>
-	<!-- Init functions -->
-	<script src="js/main.js"></script>
-	<script src="js/alterclass.js"></script>
-	<!-- Select / Sorting script -->
-	<script src="js/selectize.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
-
-	<script src="js/simplecalendar.js"></script>
-	<script src="js/mediaelement-and-player.min.js"></script>
-	<script src="js/mediaelement-playlist-plugin.min.js"></script>
-	<script src="js/simpleUpload.min.js"></script>
-	<script src="js/intro.min.js"></script>
-	<script src="js/charte.js"></script>
-	<?php 
-	if($_SESSION['id_statut']==1) {
-						//page graphistes 
-		?><script src="js/notifications.js"></script><?php
-	}elseif  ($_SESSION['id_statut']==2){
-						//page  redacteurs
-		?><script src="js/notifications_redac.js"></script><?php
-	}
-	elseif ($_SESSION['id_statut']==3) {
-						//page leader
-		?><script src="js/notifications_leader.js"></script><?php
-	}elseif ($_SESSION['id_statut']==4) {
-						//page controleur
-		?><script src="js/notifications_controleur.js"></script><?php
-	}elseif($_SESSION['id_statut']==5){
-						//page admin
-		?><script src="js/notifications_admin.js"></script><?php
-	}
-	?>
-	<script>
-		$(function(){
-			var colorPalette = ['000000', 'FF9966', '6699FF', '99FF66', 'CC0000', '00CC00', '0000CC', '333333', '0066FF', 'FFFFFF'];
-			var forePalette = $('.fore-palette');
-			var backPalette = $('.back-palette');
-
-			for (var i = 0; i < colorPalette.length; i++) {
-				forePalette.append('<a href="#" data-command="forecolor" data-value="' + '#' + colorPalette[i] + '" style="background-color:' + '#' + colorPalette[i] + ';" class="palette-item"></a>');
-				backPalette.append('<a href="#" data-command="backcolor" data-value="' + '#' + colorPalette[i] + '" style="background-color:' + '#' + colorPalette[i] + ';" class="palette-item"></a>');
-			}
-
-			$('.toolbar a').click(function(e) {
-				var command = $(this).data('command');
-				if (command == 'h1' || command == 'h2' || command == 'p') {
-					document.execCommand('formatBlock', false, command);
-				}
-				if (command == 'moins') {
-					document.execCommand($(this).data('command'), false, $(this).data('value'));
-				}
-				if (command == 'plus') {
-					document.execCommand($(this).data('command'), false, $(this).data('value'));
-				}
-				if (command == 'forecolor' || command == 'backcolor') {
-					document.execCommand($(this).data('command'), false, $(this).data('value'));
-				}
-				if (command == 'createlink' || command == 'insertimage') {
-					url = prompt('Enter the link here: ', 'http:\/\/');
-					document.execCommand($(this).data('command'), false, url);
-				} else document.execCommand($(this).data('command'), false, null);
-			});
-
-			$(".add_ph").on('click', function(){
-				$("#choose_photo").click();
-			})
-
-			$("#choose_photo").on('change', function(){
-				$("#content_news").append('<img src="'+$(this).val()+'">');
-			})
-
-			$("#content_news").on('keyup', function(){
-				if($(this).html()!=""){
-					$(this).parent().addClass('is-focused');
-				}
-			})
-			$("#content_news").on('blur', function(){
-				if($(this).html()!=""){
-					$(this).parent().addClass('is-focused');
-				}
-			})
-			$(".toolbar_show").on('click', function(){
-				$(".toolbar").toggle("slow");
-			})
-			$("#choose_photo").on('change', function(){
-				var file = $(this).prop("files");
-				var names = $.map(file, function (val) { return val.name; });
-				$(this).simpleUpload("upload_news.php", {
-
-					start: function(file){
-									//upload started
-									console.log(file);
-								},
-								progress: function(progress){
-									//received progress
-									console.log(progress);
-								},
-								success: function(data){
-									console.log(data);
-									$("#content_news").append("<img src='uploads/newsletter/"+names[0]+"'>");
-								},
-								error: function(error){
-									//upload failed
-									console.log(error);
+								if ($prev_month == 0 ) {
+									$prev_month = 12;
+									$prev_year = $cYear - 1;
 								}
+								if ($next_month == 13 ) {
+									$next_month = 1;
+									$next_year = $cYear + 1;
+								}
+								?>
+								<header>
+									<h2 class="month"><?php echo $monthNames[$cMonth-1]; ?></h2>
+									<a class="btn-prev fontawesome-angle-left" href="<?php echo $_SERVER["PHP_SELF"] . "?month=". $prev_month . "&year=" . $prev_year; ?>"></a>
+									<a class="btn-next fontawesome-angle-right" href="<?php echo $_SERVER["PHP_SELF"] . "?month=". $next_month . "&year=" . $next_year; ?>"></a>
+								</header>
 
+								<table>
+									<thead>
+										<tr>
+											<td>DIM</td>
+											<td>LUN</td>
+											<td>MAR</td>
+											<td>MER</td>
+											<td>JEU</td>
+											<td>VEN</td>
+											<td>SAM</td>
+										</tr>
+									</thead>
+									<tbody>
+										<?php
+										$timestamp = mktime(0,0,0,$cMonth,1,$cYear);
+										$maxday = date("t",$timestamp);
+										$thismonth = getdate ($timestamp);
+										$startday = $thismonth['wday'];
+										for ($i=0; $i<($maxday+$startday); $i++) {
+											if(($i % 7) == 0 ) echo "<tr>";
+											if($i < $startday) echo "<td></td>";
+											else echo "<td align='center' date-month='".$thismonth['mon']."' date-year='".$cYear."' date-day='".($i - $startday + 1)."' valign='middle' height='20px'>". ($i - $startday + 1) . "</td>";
+											if(($i % 7) == 6 ) echo "</tr>";
+										}
+										?>
+										
+									</tbody>
+								</table>
+								<div class="list">
+									<?php
+									$list=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? group by CAST(date_event AS DATE)");
+									$list->bindParam(1, $id_graph);
+									$list->execute();
+									foreach ($list as $key => $value) {
+										$heure_temp=explode(" ", $value['date_event']);
+										$heure=substr($heure_temp[1],0,5);
+										$toto="%".$heure_temp[0]."%";
+										$date_temp=explode("-", $heure_temp[0]);
+										$year=$date_temp[0];
+										$mois=$date_temp[1];
+										$jour=$date_temp[2];
+										if($jour<10){
+											$jour = substr($jour, 1);
+										}
+										?>
+
+										<div role="tablist" aria-multiselectable="true" class="day-event" date-month="<?php echo $mois;?>" date-day="<?php echo $jour;?>">
+											<div class="ui-block-title ui-block-title-small">
+												<h6 class="title"><?php echo utf8_encode($value['titre']);?></h6>
+											</div>
+											<?php
+											$list_bis=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? and date_event like ?");
+											$list_bis->bindParam(1, $id_graph);
+											$list_bis->bindParam(2, $toto);
+											$list_bis->execute();
+											foreach ($list_bis as $key => $value_bis) {
+												$heure_temp_bis=explode(" ", $value_bis['date_event']);
+												$heure_bis=substr($heure_temp_bis[1],0,5);
+												?>
+												<div class="card">
+													<div class="card-header" role="tab" id="headingOne-1">
+														<div class="event-time">
+															<span class="circle"></span>
+															<time datetime="2004-07-24T18:18"><?php echo $heure_bis;?></time>
+															<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+														</div>
+														<h5 class="mb-0">
+															<a <?php if($value_bis['description']!=""){?> data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne-1" <?php }?>>
+																<?php echo utf8_encode($value_bis['titre']);?><?php if($value_bis['description']!=""){?><svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg><?php }?>
+															</a>
+														</h5>
+													</div>
+
+													<div id="collapseOne-1" class="collapse" role="tabpanel" >
+														<div class="card-body">
+															<?php echo utf8_encode($value_bis['description']);?>
+														</div>
+														<div class="place inline-items">
+															<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+															<span><?php echo utf8_encode($value_bis['lieu']);?></span>
+														</div>
+													</div>
+												</div>
+
+												<?php }?>
+												<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
+											</div>
+											<?php }?>
+											<div role="tablist" aria-multiselectable="true" class="day-event vide">
+												<div class="ui-block-title ui-block-title-small">
+													<h6 class="title">Evenement du jour</h6>
+												</div>
+												<div class="card">
+												</div>
+
+												<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</aside>
+
+						<!-- ... end Left Sidebar -->
+
+
+						<!-- Right Sidebar -->
+						<?php 
+						$date_now=date("Y-m-d");
+						$anniv=$bdd->prepare("SELECT * FROM user where MONTH(date_naissance) = MONTH(NOW()) AND   DAY(date_naissance)   = DAY(NOW()) order by date_naissance ASC");
+						$anniv->execute();
+						$anniv_bis=$bdd->prepare("SELECT * FROM user where MONTH(date_naissance) = MONTH(NOW()) AND   DAY(date_naissance)   = DAY(NOW()) order by date_naissance ASC");
+						$anniv_bis->execute();
+						$nb_anniv=$anniv->rowCount();
+
+						?>
+						<aside class="col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-12 col-xs-12">
+
+							<div class="ui-block">
+								<div class="widget w-birthday-alert">
+									<div class="icons-block">
+										<svg class="olymp-cupcake-icon"><use xlink:href="icons/icons.svg#olymp-cupcake-icon"></use></svg>
+
+									</div>
+
+									<div class="content">
+										<div class="author-thumb">
+											<?php
+											if($nb_anniv>0){ 
+												foreach ($anniv as $key => $value) {
+													?>
+													<img src="<?php echo $value_like['photo_avatar'];?>" alt="author">
+													<?php 
+												}
+												?>
+											</div>
+											<span>Aujourd'hui c'est</span>
+											<a href="#" class="h4 title">L'anniversaire de :<br>
+												<?php
+												foreach ($anniv_bis as $key => $value) {
+													echo utf8_encode($value['prenom']." ".$value['nom']."<br>");
+												}
+
+												?>
+											</a>
+											<p>N'oubliez pas de lui souhaiter un joyeux anniversaire !</p>
+											<?php }else{
+												echo "<a href='#'' class='h4 title'>Il n'y a pas d'anniversaire aujourd'hui</a>";
+												echo "<p>Revenez demain pour voir s'il y en a un !</p>";
+											}?>
+										</div>
+									</div>
+								</div>
+
+
+
+
+								<div class="ui-block">
+
+									<div class="ui-block-title">
+										<h6 class="title">Activity Feed</h6>
+										<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+									</div>
+
+									<ul class="widget w-activity-feed notification-list">
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar49-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Marina Polson</a> commented on Jason Mark’s <a href="#" class="notification-link">photo.</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 mins ago</time></span>
+											</div>
+										</li>
+
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar9-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Jake Parker </a> liked Nicholas Grissom’s <a href="#" class="notification-link">status update.</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">5 mins ago</time></span>
+											</div>
+										</li>
+
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar50-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Mary Jane Stark </a> added 20 new photos to her <a href="#" class="notification-link">gallery album.</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">12 mins ago</time></span>
+											</div>
+										</li>
+
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar51-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Nicholas Grissom </a> updated his profile <a href="#" class="notification-link">photo</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
+											</div>
+										</li>
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar48-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Marina Valentine </a> commented on Chris Greyson’s <a href="#" class="notification-link">status update</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
+											</div>
+										</li>
+
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar52-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Green Goo Rock </a> posted a <a href="#" class="notification-link">status update</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
+											</div>
+										</li>
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar10-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Elaine Dreyfuss  </a> liked your <a href="#" class="notification-link">blog post</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 hours ago</time></span>
+											</div>
+										</li>
+
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar10-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Elaine Dreyfuss  </a> commented on your <a href="#" class="notification-link">blog post</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 hours ago</time></span>
+											</div>
+										</li>
+
+										<li>
+											<div class="author-thumb">
+												<img src="img/avatar53-sm.jpg" alt="author">
+											</div>
+											<div class="notification-event">
+												<a href="#" class="h6 notification-friend">Bruce Peterson </a> changed his <a href="#" class="notification-link">profile picture</a>.
+												<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">15 hours ago</time></span>
+											</div>
+										</li>
+
+									</ul>
+								</div>
+
+							</aside>
+
+							<!-- ... end Right Sidebar -->
+
+						</div>
+					</div>
+
+
+					<!-- Window-popup Update Header Photo -->
+
+					<div class="modal fade" id="update-header-photo">
+						<div class="modal-dialog ui-block window-popup update-header-photo">
+							<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+								<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+							</a>
+
+							<div class="ui-block-title">
+								<h6 class="title">Choix de la photo</h6>
+							</div>
+
+							<a href="#" class="upload-photo-item add_ph">
+								<svg class="olymp-computer-icon"><use xlink:href="icons/icons.svg#olymp-computer-icon"></use></svg>
+
+								<h6>Télécharger une Photo</h6>
+								<span>Depuis mon ordinateur.</span>
+							</a>
+
+							<a href="#" class="upload-photo-item" data-toggle="modal" data-target="#externe_link">
+
+								<svg class="olymp-photos-icon"><use xlink:href="icons/icons.svg#olymp-photos-icon"></use></svg>
+
+								<h6>Choisir une photo</h6>
+								<span>Depuis un lien externe</span>
+							</a>
+						</div>
+					</div>
+
+
+					<!-- ... end Main Content Groups -->
+					<div class="modal fade" id="externe_link">
+						<div class="modal-dialog ui-block window-popup">
+							<div class="ui-block-title">
+								<h6 class="title">Insérer le lien de la photo</h6>
+							</div>
+							<div class="ui-block-content">
+								<div class="form-group is-empty label-floating ">
+									<label class="control-label">Indiquer le lien externe</label>
+									<input class="form-control" placeholder="" value="" type="text">
+								</div>
+								<a href="#" class="btn btn-secondary btn-lg btn--half-width">Annuler</a>
+								<a href="#" class="btn btn-primary btn-lg btn--half-width">Confirmer</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Window-popup Create Friends Group -->
+					<div class="modal fade" id="event_cre">
+						<div class="modal-dialog ui-block window-popup create-friend-group create-friend-group-1">
+							<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+								<svg class="olymp-close-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+							</a>
+
+							<div class="ui-block-title">
+								<h6 class="title">Creation d'un évenement</h6>
+							</div>
+
+							<div class="ui-block-content">
+								<div class="form-group label-floating is-focused">
+									<label class="control-label">Date de l'évenement</label>
+									<input class="form-control event_date" type="text" placeholder="" disabled="">
+									<span class="material-input"></span>
+								</div>
+
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Titre de l'évenement</label>
+									<input class="form-control title_date" type="text" placeholder="">
+									<span class="material-input"></span>
+								</div>
+								<div class="form-group label-floating is-empty">
+									<label class="control-label">Lieu de l'évenement</label>
+									<input class="form-control where_date" type="text" placeholder="">
+									<span class="material-input"></span>
+								</div>
+								<div class="form-group label-floating">
+									<label class="control-label">Heure de l'évenement</label>
+									<input class="form-control hour_date" type="time" placeholder="" value="09:00">
+									<span class="material-input"></span>
+								</div>
+								<div class="form-group label-floating is-empty" style="clear: both;">
+									<label class="control-label">Description de l'évenement</label>
+									<textarea class="form-control description_date" placeholder=""></textarea>
+									<span class="material-input"></span>
+								</div>
+								<a href="#" class="btn btn-breez btn-lg full-width creation-event">Créer</a>
+							</div>
+
+
+						</div>
+					</div>
+					<!-- ... end Window-popup Create Friends Group -->
+
+
+					<!-- jQuery first, then Other JS. -->
+					<script src="js/jquery-3.2.0.min.js"></script>
+					<!-- Js effects for material design. + Tooltips -->
+					<script src="js/material.min.js"></script>
+					<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+					<script src="js/theme-plugins.js"></script>
+					<!-- Init functions -->
+					<script src="js/main.js"></script>
+					<script src="js/alterclass.js"></script>
+					<!-- Select / Sorting script -->
+					<script src="js/selectize.min.js"></script>
+					<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+					<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+
+					<!-- <script src="js/moment.min.js"></script> -->
+					<script src="js/mediaelement-and-player.min.js"></script>
+					<script src="js/mediaelement-playlist-plugin.min.js"></script>
+					<script src="js/simpleUpload.min.js"></script>
+					<script src="js/intro.min.js"></script>
+					<script src="js/charte.js"></script>
+					<script src="js/jquery.simpleWeather.min.js"></script>
+					<script src="js/simplecalendar.js"></script>
+					<script src="js/daterangepicker.min.js"></script>
+					<?php 
+					if($_SESSION['id_statut']==1) {
+						//page graphistes 
+						?><script src="js/notifications.js"></script><?php
+					}elseif  ($_SESSION['id_statut']==2){
+						//page  redacteurs
+						?><script src="js/notifications_redac.js"></script><?php
+					}
+					elseif ($_SESSION['id_statut']==3) {
+						//page leader
+						?><script src="js/notifications_leader.js"></script><?php
+					}elseif ($_SESSION['id_statut']==4) {
+						//page controleur
+						?><script src="js/notifications_controleur.js"></script><?php
+					}elseif($_SESSION['id_statut']==5){
+						//page admin
+						?><script src="js/notifications_admin.js"></script><?php
+					}
+					?>
+					<script>
+
+						/* Does your browser support geolocation? */
+						if ("geolocation" in navigator) {
+							$('.js-geolocation').show(); 
+						} else {
+							$('.js-geolocation').hide();
+						}
+
+
+						function loadWeather(location, woeid) {
+							$.simpleWeather({
+								location: location,
+								woeid: woeid,
+								unit: 'c',
+								success: function(weather) {
+									$(".temperature-sensor").html(weather.temp+"°");
+									$(".ic").html('<i class="icon-'+weather.code+'"></i>');
+									$(".climate").html(weather.city);
+									$(".humide").html(weather.low);
+									$(".couche").html(weather.high);
+									var html="";
+									var jour="";
+									for(var i=1;i<8;i++) {
+										console.log(weather.forecast[i].day);
+										if(weather.forecast[i].day=="Sat"){ jour = "SAM";}
+										if(weather.forecast[i].day=="Sun"){ jour = "DIM";}
+										if(weather.forecast[i].day=="Mon"){ jour = "LUN";}
+										if(weather.forecast[i].day=="Tue"){ jour = "MAR";}
+										if(weather.forecast[i].day=="Wed"){ jour = "MER";}
+										if(weather.forecast[i].day=="Thu"){ jour = "JEU";}
+										if(weather.forecast[i].day=="Fri"){ jour = "VEN";}
+										html += '<li><div class="day">'+jour+'</div><i class="icon-'+weather.forecast[i].code+'"></i><div class="temperature-sensor-day">'+weather.forecast[i].high+'°</div></li>';
+									}
+									$(".weekly-forecast").html(html);
+									$(".date").html(weather.forecast[0].date);
+									$(".w-wethear").show("slow");
+								},
+								error: function(error) {
+									$(".temperature-sensor").html('<p>'+error+'</p>');
+								}
 							});
+						}
+
+						function GetMonthName(monthNumber) {
+							var months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
+							return months[monthNumber - 1];
+						}
+
+						$(function(){
+
+							$("body").on('click', ".creation-event", function(){
+								var date_event=$(".event_date").val();
+								var date_temp =date_event.split("/");
+								var year=date_temp[0];
+								var month=date_temp[1];
+								var day=date_temp[2]; 
+								var titre_event = $(".title_date").val();
+								var lieu_event=$(".where_date").val();
+								var heure_event=$(".hour_date").val();
+								var description_date=$(".description_date").val();
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {date_event: date_event, titre_event:titre_event,lieu_event:lieu_event,heure_event:heure_event,description_date:description_date},
+								})
+								.done(function(data) {
+									$('#event_cre').modal('toggle');
+									$(".list").html(data);
+									$("td").each(function(){
+										if($(this).attr("date-month") == month && $(this).attr("date-year") == year && $(this).attr("date-day")==day){
+											$(this).addClass('event');
+										}
+									})
+								})
+
+							})
+
+							$("body").on('click', ".calendar tbody td", function(e){
+								var mois = $(this).attr("date-month");
+								var jour = $(this).attr("date-day");
+								var an = $(this).attr("date-year");
+								if(!$(this).hasClass('event')){
+									$(".vide .title").html("Evenement pour le "+jour+" "+GetMonthName(mois));
+									$(".vide").slideToggle("slow");
+									$(".vide").attr("date-month",mois);
+									$(".vide").attr("date-day",jour);
+									$(".vide").attr("date-year",an);
+								}
+							})
+
+							$("body").on('click', ".check-all", function(){
+
+								var mois = $(this).parents(".day-event").attr("date-month");
+								var jour = $(this).parents(".day-event").attr("date-day");
+								var an = $(this).parents(".day-event").attr("date-year");
+								$(".event_date").val(an+"/"+mois+"/"+jour);
+								console.log(mois);
+
+							})
+
+
+							navigator.geolocation.getCurrentPosition(function(position) {
+								loadWeather(position.coords.latitude+','+position.coords.longitude); 
+								setInterval(loadWeather(position.coords.latitude+','+position.coords.longitude), 600000);
+							});
+
+							var colorPalette = ['000000', 'FF9966', '6699FF', '99FF66', 'CC0000', '00CC00', '0000CC', '333333', '0066FF', 'FFFFFF'];
+							var forePalette = $('.fore-palette');
+							var backPalette = $('.back-palette');
+
+							for (var i = 0; i < colorPalette.length; i++) {
+								forePalette.append('<a href="#" data-command="forecolor" data-value="' + '#' + colorPalette[i] + '" style="background-color:' + '#' + colorPalette[i] + ';" class="palette-item"></a>');
+								backPalette.append('<a href="#" data-command="backcolor" data-value="' + '#' + colorPalette[i] + '" style="background-color:' + '#' + colorPalette[i] + ';" class="palette-item"></a>');
+							}
+
+							$('.toolbar a').click(function(e) {
+								var command = $(this).data('command');
+								if (command == 'h1' || command == 'h2' || command == 'p') {
+									document.execCommand('formatBlock', false, command);
+								}
+								if (command == 'moins') {
+									document.execCommand($(this).data('command'), false, $(this).data('value'));
+								}
+								if (command == 'plus') {
+									document.execCommand($(this).data('command'), false, $(this).data('value'));
+								}
+								if (command == 'forecolor' || command == 'backcolor') {
+									document.execCommand($(this).data('command'), false, $(this).data('value'));
+								}
+								if (command == 'createlink' || command == 'insertimage') {
+									url = prompt('Enter the link here: ', 'http:\/\/');
+									document.execCommand($(this).data('command'), false, url);
+								} else document.execCommand($(this).data('command'), false, null);
+							});
+
+							$(".add_ph").on('click', function(){
+								$("#choose_photo").click();
+							})
+
+							$("#content_news").on('keyup', function(){
+								if($(this).html()!=""){
+									$(this).parent().addClass('is-focused');
+								}
+							})
+							$("#content_news").on('blur', function(){
+								if($(this).html()!=""){
+									$(this).parent().addClass('is-focused');
+								}
+							})
+							$("input").on('keyup', function(){
+								if($(this).html()!=""){
+									$(this).parent().addClass('is-focused');
+								}
+							})
+							$("input").on('blur', function(){
+								if($(this).html()!=""){
+									$(this).parent().addClass('is-focused');
+								}
+							})
+							$(".toolbar_show").on('click', function(){
+								$(".toolbar").toggle("slow");
+							})
+							$("#choose_photo").on('change', function(){
+								var file = $(this).prop("files");
+								var names = $.map(file, function (val) { return val.name; });
+								$(this).simpleUpload("upload_news.php", {
+
+									start: function(file){
+						//upload started
+						// console.log(file);
+					},
+					progress: function(progress){
+						//received progress
+						// console.log(progress);
+					},
+					success: function(data){	
+						// console.log(data);
+						$("<img src='uploads/newsletter/"+names[0]+"'>").appendTo("#content_news");
+					},
+					error: function(error){
+						//upload failed
+						// console.log(error);
+					}
+
+				});
+							})
+			// $('#content_news img').resizable({
+			// 	animate: true,
+			// 	ghost: true
+			// });
+			$("body").on('click', '#content_news img', function(){
+				var img_h = $(this).innerHeight();
+				var img_w = $(this).innerWidth();
+				$(this).width(img_w-10);
 			})
-			$('#content_news img').resizable({
-				animate: true,
-				ghost: true
-			});
+			$(".post_this").on('click', function(e){
+				if($("#content_news").html()!=""){
+					e.preventDefault();
+					var $target = $("#content_news").attr('contenteditable','false').addClass('lepost');
+					var $clone = $target.clone();
+					$clone.wrap('<div>');
+					var htmlString = $clone.parent().html();
+					console.log(htmlString);
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {lecontenu: htmlString},
+					})
+					.done(function(data) {
+						$("#newsfeed-items-grid").prepend(data);
+						$("#home-1 #content_news").html('');
+						$("form #content_news").attr('contenteditable','true');
+					})
+				}
+			})
+			$("body").on('click', ".ajouter_com", function(e){
+				e.preventDefault();
+				var id_news = $(this).parents(".ui-block").find(".news_id").val();
+				console.log(id_news);
+				if($(".comments-list").css('display')=="none"){
+					$.ajax({
+						url: 'formulaire.php',
+						type: 'POST',
+						data: {id_comment_news: id_news},
+					})
+					.done(function(data) {
+						$(".comments_"+id_news).html(data);
+						$(".comments_"+id_news).slideToggle( "slow" );
+					})
+				}
+				
+			})
 		})
 	</script>
 </body>

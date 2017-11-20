@@ -17,6 +17,36 @@ function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad 
 	return $string;
 	
 }
+
+function time_elapsed_string($datetime, $full = false) {
+	$now = new DateTime;
+	$ago = new DateTime($datetime);
+	$diff = $now->diff($ago);
+
+	$diff->w = floor($diff->d / 7);
+	$diff->d -= $diff->w * 7;
+
+	$string = array(
+		'y' => 'an',
+		'm' => 'mois',
+		'w' => 'semaine',
+		'd' => 'jour',
+		'h' => 'heure',
+		'i' => 'minute',
+		's' => 'seconde',
+	);
+	foreach ($string as $k => &$v) {
+		if ($diff->$k) {
+			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+		} else {
+			unset($string[$k]);
+		}
+	}
+
+	if (!$full) $string = array_slice($string, 0, 1);
+	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
+}
+
 if(isset($_POST['email_first'])){
 	$email_first=$_POST['email_first'];
 	$token_first=$_POST['token_first'];
@@ -2211,69 +2241,226 @@ if(isset($_POST['stat_controleur'])){
 		print_r(json_encode($tabf));
 	}
 
-
-	if (isset($_POST['categorie_template'])) {
-		$categorie=$_POST['categorie_template'];
-		$titre=$_POST['titre'];
-		$shortcode=utf8_decode($_POST['shortcode']);
-		$date_com=$date=date('Y-m-d H:i:s');
+	if (isset($_POST['lecontenu'])) {
+		$lecontenu=utf8_decode($_POST['lecontenu']);
 		$id_graph=$_SESSION['id_graph'];
-		$accept=0;
-		$previsualisation=$_POST['visu'];
-		$file="";
-		$i=0;
-		foreach ($previsualisation as $key => $value) {
-			if ($i!=0) {
-				$file.=";";
-			}
-			$file.=$value;
-			$i++;
-		}
-		$betheme=$_POST['betheme'];
-		$file_betheme="";
-		$i=0;
-		foreach ($betheme as $key => $value) {
-			if ($i!=0) {
-				$file_betheme.=";";
-			}
-			$file_betheme.=$value;
-			$i++;
-		}
-		$slider=$_POST['slider'];
-		$file_slider="";
-		$i=0;
-		foreach ($slider as $key => $value) {
-			if ($i!=0) {
-				$file_slider.=";";
-			}
-			$file_slider.=$value;
-			$i++;
-		}
-		$query_template = $bdd->prepare("INSERT INTO template (categorie, titre, shortcode, betheme, slider, previsualisation, id_user, date_template, accept_template) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$query_template->bindParam(1, $categorie);
-		$query_template->bindParam(2, $titre);
-		$query_template->bindParam(3, $shortcode);
-		$query_template->bindParam(4, $file_betheme);
-		$query_template->bindParam(5, $file_slider);
-		$query_template->bindParam(6, $file);
-		$query_template->bindParam(7, $id_graph);
-		$query_template->bindParam(8, $date);
-		$query_template->bindParam(9, $accept);
-		$query_template->execute();
-	}
+		$date_news=date("Y-m-d H:i:s");
+		$cat=1;
+		$requette_news=$bdd->prepare("INSERT INTO newsletter (id_user, content, date_creation, categorie_news) VALUES (?,?,?,?)");
+		$requette_news->bindParam(1, $id_graph);
+		$requette_news->bindParam(2, $lecontenu);
+		$requette_news->bindParam(3, $date_news);
+		$requette_news->bindParam(4, $cat);
+		$requette_news->execute();
+		$requette_user=$bdd->prepare("SELECT prenom, nom, photo_avatar, id_user from user where id_user = ? ");
+		$requette_user->bindParam(1, $id_graph);
+		$requette_user->execute();
+		$result_user=$requette_user->fetch();
 
-	if (isset($_POST['id_template'])) {
-		$accept=1;
-		$id_template=$_POST['id_template'];
-		$query_accept_template = $bdd->prepare("UPDATE template SET accept_template = ? where id_template = ?");
-		$query_accept_template->bindParam(1, $accept);
-		$query_accept_template->bindParam(2, $id_template);
-		$query_accept_template->execute();
-	}
+		$test=$bdd->prepare("SELECT id_news FROM newsletter where id_user = ? and date_creation = ?");
+		$test->bindParam(1, $id_graph);
+		$test->bindParam(2, $date_news);
+		$test->execute();
+		$id_c=$test->fetch();
+		?>
 
-	if (isset($_POST['refus_template'])) {
-		$id_template=$_POST['id_template'];
-		$query_delete_template = $bdd->prepare("DELETE FROM template where id_template = ?");
-		$query_delete_template->bindParam(1, $id_template);
-		$query_delete_template->execute();
-	}
+		<div class="ui-block">
+			<article class="hentry post">
+				<input type="hidden" class="news_id" value="<?php echo $id_c['id_news'];?>">
+				<div class="post__author author vcard inline-items">
+					<img src="<?php echo utf8_encode($result_user['photo_avatar']);?>" alt="author">
+
+					<div class="author-date">
+						<a class="h6 post__author-name fn" href="#"><?php echo utf8_encode($result_user['prenom'].' '.$result_user['nom']);?></a>
+						<div class="post__date">
+							<time class="published" datetime="2004-07-24T18:18">
+								<?php echo time_elapsed_string($date_news);?>
+							</time>
+						</div>
+					</div>
+					<?php 
+					if($result_user['id_user']==$id_graph){
+						?>
+						<div class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
+							<ul class="more-dropdown">
+								<li>
+									<a href="#">Modifier l'article</a>
+								</li>
+								<li>
+									<a href="#">Supprimer l'article</a>
+								</li>
+
+							</ul>
+						</div>
+						<?php }?>
+					</div>
+
+					<?php echo utf8_encode($lecontenu);?>
+
+					<div class="post-additional-info inline-items">
+
+						<a href="#" class="post-add-icon inline-items">
+							<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+							<span>0</span>
+						</a>
+
+						<ul class="friends-harmonic">
+							
+						</ul>
+
+						<div class="names-people-likes">
+							
+						</div>
+
+						<div class="comments-shared">
+							<a href="#" class="post-add-icon inline-items ajouter_com">
+								<svg class="olymp-speech-balloon-icon"><use xlink:href="icons/icons.svg#olymp-speech-balloon-icon"></use></svg>
+								<span>0</span>
+							</a>
+						</div>
+
+
+					</div>
+
+				</article>
+
+				<ul class="comments-list comments_<?php echo $id_c['id_news'];?>" style="display: none;">
+
+				</ul>
+
+				<form class="comment-form inline-items">
+					<div class="post__author author vcard inline-items">
+						<img src="img/author-page.jpg" alt="author">
+						<div class="form-group with-icon-right ">
+							<textarea class="form-control" placeholder=""  ></textarea>
+							<div class="add-options-message">
+								<a href="#" class="options-message">
+									<svg class="olymp-chat---messages-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<?php 
+
+		}
+
+		if(isset($_POST['id_comment_news'])){
+			$id=$_POST['id_comment_news'];
+			$com_news=$bdd->prepare("SELECT * FROM commentaires_news inner join user on commentaires_news.id_user=user.id_user where id_news = ?");
+			$com_news->bindParam(1, $id);
+			$com_news->execute();
+			foreach ($com_news as $key => $value) {?>
+			<li>
+				<div class="post__author author vcard inline-items">
+					<img src="img/author-page.jpg" alt="author">
+
+					<div class="author-date">
+						<a class="h6 post__author-name fn" href="#"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></a>
+						<div class="post__date">
+							<time class="published" datetime="2004-07-24T18:18">
+								<?php echo time_elapsed_string($value['date_commentaire']);?>
+							</time>
+						</div>
+					</div>
+
+					<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+
+				</div>
+
+				<p><?php echo utf8_encode($value['commentaire']);?></p>
+
+				<a href="#" class="post-add-icon inline-items">
+					<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+					<span><?php echo $value['like_com'];?></span>
+				</a>
+			</li>
+			<?php }
+		}
+
+		if (isset($_POST['description_date'])) {
+			$titre_event=$_POST['titre_event'];
+			$lieu_event=$_POST['lieu_event'];
+			$heure_event=$_POST['heure_event'];
+			$description_date=$_POST['description_date'];
+			$date_event=$_POST['date_event']." ".$heure_event.":00";
+			$id_graph=$_SESSION['id_graph'];
+			$date_creation=date("Y-m-d H:i:s");
+			$event=$bdd->prepare("INSERT INTO calendrier (id_user, date_event, date_creation, titre, description, lieu) VALUES (?,?,?,?,?,?)");
+			$event->bindParam(1, $id_graph);
+			$event->bindParam(2, $date_event);
+			$event->bindParam(3, $date_creation);
+			$event->bindParam(4, $titre_event);
+			$event->bindParam(5, $description_date);
+			$event->bindParam(6, $lieu_event);
+			$event->execute();
+			$list=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? group by CAST(date_event AS DATE)");
+			$list->bindParam(1, $id_graph);
+			$list->execute();
+			foreach ($list as $key => $value) {
+				$heure_temp=explode(" ", $value['date_event']);
+				$heure=substr($heure_temp[1],0,5);
+				$toto="%".$heure_temp[0]."%";
+				$date_temp=explode("-", $heure_temp[0]);
+				$year=$date_temp[0];
+				$mois=$date_temp[1];
+				$jour=$date_temp[2];
+				if($jour<10){
+					$jour = substr($jour, 1);
+				}
+				?>
+
+				<div role="tablist" aria-multiselectable="true" class="day-event" date-month="<?php echo $mois;?>" date-day="<?php echo $jour;?>">
+					<div class="ui-block-title ui-block-title-small">
+						<h6 class="title"><?php echo utf8_encode($value['titre']);?></h6>
+					</div>
+					<?php
+					$list_bis=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? and date_event like ?");
+					$list_bis->bindParam(1, $id_graph);
+					$list_bis->bindParam(2, $toto);
+					$list_bis->execute();
+					foreach ($list_bis as $key => $value_bis) {
+						$heure_temp_bis=explode(" ", $value_bis['date_event']);
+						$heure_bis=substr($heure_temp_bis[1],0,5);
+						?>
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne-1">
+								<div class="event-time">
+									<span class="circle"></span>
+									<time datetime="2004-07-24T18:18"><?php echo $heure_bis;?></time>
+									<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
+								</div>
+								<h5 class="mb-0">
+									<a <?php if($value_bis['description']!=""){?> data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne-1" <?php }?>>
+										<?php echo utf8_encode($value_bis['titre']);?><?php if($value_bis['description']!=""){?><svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg><?php }?>
+									</a>
+								</h5>
+							</div>
+
+							<div id="collapseOne-1" class="collapse" role="tabpanel" >
+								<div class="card-body">
+									<?php echo utf8_encode($value_bis['description']);?>
+								</div>
+								<div class="place inline-items">
+									<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+									<span><?php echo utf8_encode($value_bis['lieu']);?></span>
+								</div>
+							</div>
+						</div>
+
+						<?php }?>
+						<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
+					</div>
+					<?php }?>
+					<div role="tablist" aria-multiselectable="true" class="day-event vide">
+						<div class="ui-block-title ui-block-title-small">
+							<h6 class="title">TODAY’S EVENTS</h6>
+						</div>
+						<div class="card">
+						</div>
+
+						<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
+					</div>
+					<?php }
