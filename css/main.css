@@ -681,12 +681,18 @@ textarea#description_control, textarea#description_graph {
 #problemos .modal-dialog, #anniversaire .modal-dialog {
 	margin: auto;
 	width: 70vw;
-	height: 85vh;
 	max-width: 70vw;
 	margin-top: 10vh;
 }
+td.categorie {
+	border: none;
+}
+p.categorie {
+	border: none;
+}
 #problemos .post {
 	max-height: 45vh;
+	overflow-y: scroll;
 }
 #problemos .comments-list li {
 	padding: 15px;

@@ -823,8 +823,10 @@ $(".validation_aide_ok").on('click', function(e){
 			'Demande d\'aide résolue!',
 			'L\'etat résolu va être partagé avec tout le monde!',
 			'success'
-			)
-	})
+			).then(function(){
+				location.reload();
+			})
+		})
 })
 
 $(".validation_aide_cours").on('click', function(e){
@@ -846,8 +848,10 @@ $(".validation_aide_cours").on('click', function(e){
 			'Demande d\'aide en cours!',
 			'L\'etat en cours va être partagé avec tout le monde!',
 			'info '
-			)
-	})
+			).then(function(){
+				location.reload();
+			})
+		})
 })
 
 $(".validation_aide_non").on('click', function(e){
@@ -870,8 +874,10 @@ $(".validation_aide_non").on('click', function(e){
 			'Demande d\'aide impossible!',
 			'L\'etat impossible va être partagé avec tout le monde!',
 			'error'
-			)
-	})
+			).then(function(){
+				location.reload();
+			})
+		})
 })
 })
 
@@ -1016,4 +1022,9 @@ $("input").on('blur', function(){
 		$(this).parent().addClass('is-focused');
 	}
 }) 
+
+$('input.form-control').on('change', function(){
+	$(this).removeClass('empty');
+})
+
 

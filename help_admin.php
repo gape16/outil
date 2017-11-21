@@ -47,6 +47,7 @@ if (isset($_SESSION['id_statut'])) {
 		<head>
 
 			<title>Demande d'aide</title>
+			<meta http-equiv="refresh" content="120">
 
 			<!-- Required meta tags always come first -->
 			<meta charset="utf-8">
@@ -92,6 +93,26 @@ if (isset($_SESSION['id_statut'])) {
 				position: absolute;
 				bottom: 22px;
 				left: 75px;
+			}
+			.imgg img {
+				margin-bottom: 20px;
+				max-height: 10vh;
+			}
+			#askforhelp .modal-dialog {
+				max-width: 60vw;
+			}
+			#askforhelp .modal-dialog {
+				max-width: 60vw;
+				margin-top: 100px;
+			}
+			a.btn.btn-green.btn-sm.full-width.lien_cms {
+				margin-bottom: 20px !important;
+			}
+			.event-description .place {
+				margin-bottom: 0;
+			}
+			#problemos .modal-dialog {
+				margin-top: 7vh;
 			}
 		</style>
 	</head>
@@ -245,75 +266,70 @@ if (isset($_SESSION['id_statut'])) {
 									<div class="event-description">
 										<h6 class="event-description-title">Infos pratiques</h6>
 										<div class="place inline-items">
-											<div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-												<a href="" target="_blank" class="lien_cms"><span>Lien CMS</span></a></div>
-												<div class="hax imgg"></div>
-											</div>
-											<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
-											marquer comme résolue</a>
-											<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
-											marquer comme en cours</a>
-											<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-trash-o" aria-hidden="true"></i>
-											marquer comme impossible</a>
+											<a target="_blank" class="btn btn-green btn-sm full-width lien_cms">Lien CMS</a>
+											<div class="hax imgg"></div>
 										</div>
+										<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
+										<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_ok" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+										marquer comme résolue</a>
+										<a href="#" class="btn btn-green btn-lg full-width btn-icon-left validation_aide_cours" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;background:#9a9fbf;color:white;"><i class="fa fa-spinner" aria-hidden="true"></i>
+										marquer comme en cours</a>
+										<a href="#" class="btn btn-primary btn-lg full-width btn-icon-left validation_aide_non" style="    padding: 0.6rem 0rem;margin-bottom: 5px !important;"><i class="fa fa-trash-o" aria-hidden="true"></i>
+										marquer comme impossible</a>
 									</div>
 								</div>
-
-							</article>
-
-							<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
-								<ul class="comments-list">
-
-								</ul>
-
 							</div>
 
-							<form class="comment-form inline-items">
+						</article>
 
-								<div class="post__author author vcard inline-items">
-									<img src="img/author-page.jpg" alt="author">
-								</div>
+						<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
+							<ul class="comments-list">
 
-								<div class="form-group with-icon-right ">
-									<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
-									<input type="hidden" class="id_aide">
-									<div class="add-options-message">
-										<a href="#" class="options-message aide_envoi">
-											<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
-										</a>
-									</div>
+							</ul>
 
-									<span class="material-input"></span><span class="material-input"></span></div>
-
-								</form>
-							</div>
 						</div>
-					</form>
-				</div>
+
+						<form class="comment-form inline-items">
+
+							<div class="form-group with-icon-right ">
+								<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
+								<input type="hidden" class="id_aide">
+								<div class="add-options-message">
+									<a href="#" class="options-message aide_envoi">
+										<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+									</a>
+								</div>
+
+								<span class="material-input"></span><span class="material-input"></span></div>
+
+							</form>
+						</div>
+					</div>
+				</form>
 			</div>
-			<!-- ... end Window-popup Create Friends Group Add Friends -->
+		</div>
+		<!-- ... end Window-popup Create Friends Group Add Friends -->
 
-			<!-- jQuery first, then Other JS. -->
-			<script src="js/jquery-3.2.0.min.js"></script>
-			<!-- Js effects for material design. + Tooltips -->
-			<script src="js/material.min.js"></script>
-			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-			<script src="js/theme-plugins.js"></script>
-			<!-- Init functions -->
-			<script src="js/main.js"></script>
-			<!-- Select / Sorting script -->
-			<script src="js/selectize.min.js"></script>
+		<!-- jQuery first, then Other JS. -->
+		<script src="js/jquery-3.2.0.min.js"></script>
+		<!-- Js effects for material design. + Tooltips -->
+		<script src="js/material.min.js"></script>
+		<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+		<script src="js/theme-plugins.js"></script>
+		<!-- Init functions -->
+		<script src="js/main.js"></script>
+		<!-- Select / Sorting script -->
+		<script src="js/selectize.min.js"></script>
 
-			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-			<script src="js/mediaelement-and-player.min.js"></script>
-			<script src="js/mediaelement-playlist-plugin.min.js"></script>
-			<script src="js/alterclass.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+		<script src="js/mediaelement-and-player.min.js"></script>
+		<script src="js/mediaelement-playlist-plugin.min.js"></script>
+		<script src="js/alterclass.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
-			<script src="js/charte.js"></script>
+		<script src="js/charte.js"></script>
 				<!-- <?php 
 				if($_SESSION['id_statut']==1) {
 						//page graphistes 

@@ -4,6 +4,35 @@
 include('connexion_session.php');
 
 
+function time_elapsed_string($datetime, $full = false) {
+	$now = new DateTime;
+	$ago = new DateTime($datetime);
+	$diff = $now->diff($ago);
+
+	$diff->w = floor($diff->d / 7);
+	$diff->d -= $diff->w * 7;
+
+	$string = array(
+		'y' => 'an',
+		'm' => 'mois',
+		'w' => 'semaine',
+		'd' => 'jour',
+		'h' => 'heure',
+		'i' => 'minute',
+		's' => 'seconde',
+	);
+	foreach ($string as $k => &$v) {
+		if ($diff->$k) {
+			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+		} else {
+			unset($string[$k]);
+		}
+	}
+
+	if (!$full) $string = array_slice($string, 0, 1);
+	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
+}
+
 // truncate string at word
 function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad = "...") {  
 	
@@ -41,6 +70,7 @@ if (isset($_SESSION['id_statut'])) {
 		<head>
 
 			<title>Demande d'aide</title>
+			<meta http-equiv="refresh" content="120">
 
 			<!-- Required meta tags always come first -->
 			<meta charset="utf-8">
@@ -89,6 +119,7 @@ if (isset($_SESSION['id_statut'])) {
 			}
 			.imgg img {
 				margin-bottom: 20px;
+				max-height: 10vh;
 			}
 			#askforhelp .modal-dialog {
 				max-width: 60vw;
@@ -157,59 +188,6 @@ if (isset($_SESSION['id_statut'])) {
 			<img class="img-bottom" src="img/music-bottom.png" alt="friends">
 		</div>
 
-		<!-- <div class="container">
-			<div class="row">
-				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="ui-block">
-						<div class="ui-block-title">
-							<h6 class="title">Demande d'aide</h6>
-						</div>
-						<div class="ui-block-content">
-							<form class="form-group label-floating is-empty help form-reset">
-								<div class="form-group is-empty label-floating ">
-									<select name="type">
-										<option value="0">Choisir une catégorie</option>
-										<option value="1">Graph</option>
-										<option value="2">SEO</option>
-									</select>
-								</div>
-								<div class="form-group is-empty label-floating ">
-									<label class="control-label">Numéro client</label>
-									<input class="form-control numclient" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Adresse CMS</label>
-									<input class="form-control adressecms" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Titre du problème</label>
-									<input class="form-control titre_probleme" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Description du problème</label>
-									<textarea name="description" id="description" cols="30" rows="10"></textarea>
-									<p><span class="count">0</span> / 140 caractères</p>
-								</div>
-							</form>
-							<div class="form-group label-floating is-empty">
-								<form class="upload_veille">
-									<input type="file" id="file-select" name="photos" required="required">
-								</form>
-							</div>
-							<div class="row whitecolor">
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
-								</div>
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-									Valider la demande</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -306,179 +284,173 @@ if (isset($_SESSION['id_statut'])) {
 							<div class="event-description">
 								<h6 class="event-description-title">Infos pratiques</h6>
 								<div class="place inline-items">
-									<!-- <div class="hax"><svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-										<a href="" target="_blank" style="color: inherit;" class="lien_cms"><span>Lien CMS</span></a></div> -->
-										<a class="btn btn-green btn-sm full-width lien_cms">Lien CMS</a>
-
-									</div>
-									<div class="hax imgg"></div>
-									<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-
+									<a target="_blank" class="btn btn-green btn-sm full-width lien_cms">Lien CMS</a>
 								</div>
+								<div class="hax imgg"></div>
+								<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
+
 							</div>
 						</div>
-					</article>
-
-					<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
-						<ul class="comments-list">
-
-						</ul>
-
 					</div>
+				</article>
 
-					<form class="comment-form inline-items">
-						<div class="form-group with-icon-right ">
-							<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
-							<input type="hidden" class="id_aide">
-							<div class="add-options-message">
-								<a href="#" class="options-message aide_envoi">
-									<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
-								</a>
-							</div>
+				<div data-mcs-theme="dark" style="max-height: 300px;overflow-y: scroll;">
+					<ul class="comments-list">
 
-							<span class="material-input"></span><span class="material-input"></span></div>
-
-						</form>
-					</div>
+					</ul>
 				</div>
-				<!-- ... end Window-popup Create Friends Group Add Friends -->
+
+				<form class="comment-form inline-items">
+					<div class="form-group with-icon-right ">
+						<textarea class="form-control envoi_message_aide" placeholder=""  ></textarea>
+						<input type="hidden" class="id_aide">
+						<div class="add-options-message">
+							<a href="#" class="options-message aide_envoi">
+								<svg class="olymp-camera-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
+							</a>
+						</div>
+						<span class="material-input"></span><span class="material-input"></span></div>
+					</form>
+				</div>
+			</div>
+			<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 
 
 
-				<!-- Window-popup Event Private Public -->
-				<div class="modal fade show" id="askforhelp">
-					<div class="modal-dialog ui-block window-popup event-private-public private-event">
-						<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
-							<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
-						</a>
-						<div class="ui-block-content">
-							<form class="form-group label-floating is-empty help form-reset">
-								<div class="form-group is-empty label-floating ">
-									<select name="type">
-										<option value="0">Choisir une catégorie</option>
-										<option value="1">Graph</option>
-										<option value="2">SEO</option>
-									</select>
-								</div>
-								<div class="form-group is-empty label-floating ">
-									<label class="control-label">Numéro client</label>
-									<input class="form-control numclient" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Adresse CMS</label>
-									<input class="form-control adressecms" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Titre du problème</label>
-									<input class="form-control titre_probleme" placeholder="" value="" type="text">
-								</div>
-								<div class="form-group label-floating is-empty">
-									<label class="control-label">Description du problème</label>
-									<textarea name="description" id="description" cols="30" rows="10"></textarea>
-									<p><span class="count">0</span> / 140 caractères</p>
-								</div>
-							</form>
+			<!-- Window-popup Event Private Public -->
+			<div class="modal fade show" id="askforhelp">
+				<div class="modal-dialog ui-block window-popup event-private-public private-event">
+					<a href="#" class="close icon-close" data-dismiss="modal" aria-label="Close">
+						<svg class="olymp-close-icon"><use xlink:href="icons/icons.svg#olymp-close-icon"></use></svg>
+					</a>
+					<div class="ui-block-content">
+						<form class="form-group label-floating is-empty help form-reset">
+							<div class="form-group is-empty label-floating ">
+								<select name="type">
+									<option value="0">Choisir une catégorie</option>
+									<option value="1">Graph</option>
+									<option value="2">SEO</option>
+								</select>
+							</div>
+							<div class="form-group is-empty label-floating ">
+								<label class="control-label">Numéro client</label>
+								<input class="form-control numclient" placeholder="" value="" type="text">
+							</div>
 							<div class="form-group label-floating is-empty">
-								<form class="upload_veille">
-									<input type="file" id="file-select" name="photos" required="required">
-								</form>
+								<label class="control-label">Adresse CMS</label>
+								<input class="form-control adressecms" placeholder="" value="" type="text">
 							</div>
-							<div class="row whitecolor">
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
-								</div>
-								<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-									Valider la demande</a>
-								</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Titre du problème</label>
+								<input class="form-control titre_probleme" placeholder="" value="" type="text">
+							</div>
+							<div class="form-group label-floating is-empty">
+								<label class="control-label">Description du problème</label>
+								<textarea name="description" id="description" cols="30" rows="10"></textarea>
+								<p><span class="count">0</span> / 140 caractères</p>
+							</div>
+						</form>
+						<div class="form-group label-floating is-empty">
+							<form class="upload_veille">
+								<input type="file" id="file-select" name="photos" required="required">
+							</form>
+						</div>
+						<div class="row whitecolor">
+							<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<a class="btn btn-secondary btn-lg full-width reset">Renitialiser</a>
+							</div>
+							<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<a class="btn btn-green btn-lg full-width btn-icon-left valider_aide"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+								Valider la demande</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- ... end Window-popup Create Friends Group Add Friends -->
+			</div>
+			<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 
 
-				<div class="btn-fixed" data-toggle="modal" data-target="#askforhelp"><p>+</p></div>
+			<div class="btn-fixed" data-toggle="modal" data-target="#askforhelp"><p>+</p></div>
 
-				<!-- jQuery first, then Other JS. -->
-				<script src="js/jquery-3.2.0.min.js"></script>
-				<!-- Js effects for material design. + Tooltips -->
-				<script src="js/material.min.js"></script>
-				<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-				<script src="js/theme-plugins.js"></script>
-				<!-- Init functions -->
-				<script src="js/main.js"></script>
-				<script src="js/alterclass.js"></script>
-				<!-- Select / Sorting script -->
-				<script src="js/selectize.min.js"></script>
+			<!-- jQuery first, then Other JS. -->
+			<script src="js/jquery-3.2.0.min.js"></script>
+			<!-- Js effects for material design. + Tooltips -->
+			<script src="js/material.min.js"></script>
+			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+			<script src="js/theme-plugins.js"></script>
+			<!-- Init functions -->
+			<script src="js/main.js"></script>
+			<script src="js/alterclass.js"></script>
+			<!-- Select / Sorting script -->
+			<script src="js/selectize.min.js"></script>
 
-				<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-				<script src="js/mediaelement-and-player.min.js"></script>
-				<script src="js/mediaelement-playlist-plugin.min.js"></script>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-				<script src="js/simpleUpload.min.js"></script>
-				<script src="js/charte.js"></script>
-				<script src="js/jquery.fancybox.min.js"></script>
-					<!-- <?php 
-					if($_SESSION['id_statut']==1) {
+			<script src="js/mediaelement-and-player.min.js"></script>
+			<script src="js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+			<script src="js/simpleUpload.min.js"></script>
+			<script src="js/charte.js"></script>
+			<script src="js/jquery.fancybox.min.js"></script>
+			<?php 
+			if($_SESSION['id_statut']==1) {
 						//page graphistes 
-						?><script src="js/notifications.js"></script><?php
-					}elseif  ($_SESSION['id_statut']==2){
+				?><script src="js/notifications.js"></script><?php
+			}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-						?><script src="js/notifications_redac.js"></script><?php
-					}
-					elseif ($_SESSION['id_statut']==3) {
-						//page leader
-						?><script src="js/notifications_leader.js"></script><?php
-					}elseif ($_SESSION['id_statut']==4) {
-						//page controleur
-						?><script src="js/notifications_controleur.js"></script><?php
-					}elseif($_SESSION['id_statut']==5){
-						//page admin
-						?><script src="js/notifications_admin.js"></script><?php
-					}
-					?> -->
-					<script>
-						$('.search').keyup(function(){
-							var search = $(this).val();
-							if(search.length >= 3){
-								$.ajax({
-									url: 'formulaire.php',
-									type: 'POST',
-									data: {search: search},
-								})
-								.done(function(data) {
-									console.log(data);
-									$('table.event-item-table').html('');
-									$(data).appendTo('table.event-item-table');
-								})
-							}else{
-								$.ajax({
-									url: 'formulaire.php',
-									type: 'POST',
-									data: {search_empty: search},
-								})
-								.done(function(data) {
-									console.log(data);
-									$('table.event-item-table').html('');
-									$(data).appendTo('table.event-item-table');
-								})
-							}
-						});
-
-						
-
-					</script>
-				</body>
-				</html>
-				<?php }else{
-					header('Location: help_admin.php');
-				}
-			}else{
-				header('Location: login.php');
+				?><script src="js/notifications_redac.js"></script><?php
 			}
-			?>
+			elseif ($_SESSION['id_statut']==3) {
+						//page leader
+				?><script src="js/notifications_leader.js"></script><?php
+			}elseif ($_SESSION['id_statut']==4) {
+						//page controleur
+				?><script src="js/notifications_controleur.js"></script><?php
+			}elseif($_SESSION['id_statut']==5){
+						//page admin
+				?><script src="js/notifications_admin.js"></script><?php
+			}
+			?> 
+			<script>
+				$('.search').keyup(function(){
+					var search = $(this).val();
+					if(search.length >= 3){
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {search: search},
+						})
+						.done(function(data) {
+							console.log(data);
+							$('table.event-item-table').html('');
+							$(data).appendTo('table.event-item-table');
+						})
+					}else{
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {search_empty: search},
+						})
+						.done(function(data) {
+							console.log(data);
+							$('table.event-item-table').html('');
+							$(data).appendTo('table.event-item-table');
+						})
+					}
+				});
+
+
+
+			</script>
+		</body>
+		</html>
+		<?php }else{
+			header('Location: help_admin.php');
+		}
+	}else{
+		header('Location: login.php');
+	}
+	?>

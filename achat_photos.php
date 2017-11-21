@@ -3,6 +3,35 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+function time_elapsed_string($datetime, $full = false) {
+	$now = new DateTime;
+	$ago = new DateTime($datetime);
+	$diff = $now->diff($ago);
+
+	$diff->w = floor($diff->d / 7);
+	$diff->d -= $diff->w * 7;
+
+	$string = array(
+		'y' => 'an',
+		'm' => 'mois',
+		'w' => 'semaine',
+		'd' => 'jour',
+		'h' => 'heure',
+		'i' => 'minute',
+		's' => 'seconde',
+	);
+	foreach ($string as $k => &$v) {
+		if ($diff->$k) {
+			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+		} else {
+			unset($string[$k]);
+		}
+	}
+
+	if (!$full) $string = array_slice($string, 0, 1);
+	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
+}
+
 $id_graph=$_SESSION['id_graph'];
 
 if (isset($_SESSION['id_statut'])) {
@@ -22,10 +51,11 @@ if (isset($_SESSION['id_statut'])) {
 		$query_inser_code->execute();
 		?>
 		<!DOCTYPE html>
-		<html lang="en">
+		<html lang="fr">
 		<head>
 
 			<title>Achat photos</title>
+			<meta http-equiv="refresh" content="120">
 
 			<!-- Required meta tags always come first -->
 			<meta charset="utf-8">
@@ -189,9 +219,6 @@ if (isset($_SESSION['id_statut'])) {
 											</td>
 											<td class="author">
 												<div class="event-author inline-items">
-													<div class="author-thumb">
-														<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
-													</div>
 													<div class="author-date">
 														<a class="author-name h6"><?php echo $value['id_client'];?></a>
 													</div>

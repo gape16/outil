@@ -34,7 +34,6 @@
       <li>
         <a href="microdata.php">
           <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-          <span class="left-menu-title">Générateur de microdata </span>
         </a>
       </li>
       <li>
@@ -58,6 +57,11 @@
        </a>
      </li>
      <li>
+      <a href="tuto.php">
+        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-checked-calendar-icon"></use></svg>
+      </a>
+    </li>
+    <li>
       <a href="stats.php">
         <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
       </a>
@@ -140,6 +144,12 @@
        </a>
      </li>
      <li>
+      <a href="tuto.php">
+        <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-checked-calendar-icon"></use></svg>
+        <span class="left-menu-title">Les tutos</span>
+      </a>
+    </li>
+    <li>
       <a href="stats.php">
         <svg class="olymp-stats-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-stats-icon"></use></svg>
         <span class="left-menu-title">Les stats</span>

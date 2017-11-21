@@ -14,6 +14,7 @@ if (isset($_SESSION['id_statut'])) {
 	<head>
 
 		<title>Les anniversaires</title>
+		<meta http-equiv="refresh" content="120">
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">

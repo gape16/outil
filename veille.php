@@ -169,15 +169,14 @@ if (isset($_SESSION['id_statut'])) {
 							<div class="ui-block">
 								<article class="hentry blog-post">
 									<div class="post-thumb">
-										<img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo">
+										<a href="<?php echo($value['lien']) ?>"><img src="uploads/veille/<?php echo($value['file']) ?>" alt="photo"></a>
 									</div>
 									<div class="post-content">
-										<a href="#" class="h4 post-title"><?php echo($value['titre']) ?></a>
-										<p><?php echo($value['description']) ?>											</p>
-
+										<a href="<?php echo($value['lien']) ?>" class="h4 post-title"><?php echo($value['titre']) ?></a>
+										<p><?php echo($value['description']) ?></p>
 										<div class="author-date not-uppercase">
 											<div class="post__date">
-												<time class="published" datetime="2017-03-24T18:18">
+												<time class="published">
 													<?php echo($value['date_veille']) ?>
 												</time>
 											</div>

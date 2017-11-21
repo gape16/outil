@@ -756,7 +756,7 @@ if(isset($_POST['note'])){
 	$requete_accept->execute();
 }
 if(isset($_POST['search'])){
-	$search = $_POST['search'];
+	$search = utf8_decode($_POST['search']);
 	$varsearch = "%" . $search . "%";
 	$requete_search = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide WHERE titre LIKE ? or description LIKE ? or id_client LIKE ? order by date_aide DESC");
 	$requete_search->bindParam(1, $varsearch);
@@ -792,7 +792,7 @@ if(isset($_POST['search'])){
 				<td class="author">
 					<div class="event-author inline-items">
 						<div class="author-thumb">
-							<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
+							<img src="<?php echo $value['photo_avatar'];?>" alt="author">
 						</div>
 						<div class="author-date">
 							<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
@@ -841,7 +841,7 @@ if(isset($_POST['search_empty'])){
 			<td class="author">
 				<div class="event-author inline-items">
 					<div class="author-thumb">
-						<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
+						<img src="<?php echo $value['photo_avatar'];?>" alt="author">
 					</div>
 					<div class="author-date">
 						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
@@ -905,7 +905,7 @@ if(isset($_POST['admin_search'])){
 		}
 
 		?>
-		<div class="col-xl-2 col-lg-6 col-md-6 col-sm-6 col-xs-6 change_card projet_<?php echo $value['id_client'];?> qualif_<?php echo $value['id_etat'];?>">
+		<div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-6 change_card projet_<?php echo $value['id_client'];?> qualif_<?php echo $value['id_etat'];?>">
 			<div class="ui-block hauteur-card" data-mh="friend-groups-item">
 				<div class="friend-item friend-groups  <?php echo $class_etat;?>">
 					<div class="friend-item-content">
@@ -1893,6 +1893,66 @@ if(isset($_POST['stat_controleur'])){
 		echo $query->rowCount();
 	}
 
+
+	if(isset($_POST['remontees_search'])){
+		$search = utf8_decode($_POST['remontees_search']);
+		$varsearch = "%" . $search . "%";
+		$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on remontees.accept_remontees = etat_remontees.id_etat_remontees WHERE titre LIKE ? or description LIKE ? order by date_remontees DESC");
+		$requete_search->bindParam(1, $varsearch);
+		$requete_search->bindParam(2, $varsearch);
+		$requete_search->execute();
+		$nb_result = $requete_search->rowCount();
+		$tab_search = array();
+		if ($nb_result == 0) {?>
+		<tr class="event-item">
+			<td class="upcoming">
+				<div class="date-event">
+					<h2>Aucun résultat n'a été trouvé</h2>
+				</div>
+			</td>
+		</tr>
+		<?php }else{
+			foreach ($requete_search as $key => $value) {
+				$date_tab=explode("-", $value['date_remontees']);
+				$jour_tab=explode(" ",$date_tab[2]);
+				$jour=$jour_tab[0];
+				$m=$date_tab[1];
+				$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+				?>
+				<tr class="event-item sorting-item categorie_<?php echo($value['id_categorie_remontees']) ?> etat_<?php echo($value['accept_remontees']) ?>">
+					<td class="upcoming">
+						<div class="date-event">
+							<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+							<span class="day"><?php echo $jour;?></span>
+							<span class="month"><?php echo $months[(int)$m]; ?></span>
+						</div>
+					</td>
+					<td class="author">
+						<div class="event-author inline-items">
+							<div class="author-date">
+								<a class="author-name h6 auteur"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
+							</div>
+						</div>
+					</td>
+					<td class="categorie">
+						<p class="categorie"><?php echo utf8_encode($value['categorie_remontees']);?></p>
+					</td>
+					<td class="users">
+						<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
+					</td>
+					<td class="add-event">
+						<a <?php if ($value['accept_remontees'] != 3) {?> data-toggle="modal" data-target="#modal_remontees" <?php }?> class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
+					</td>
+					<input type="hidden" class="description" value="<?php echo utf8_encode($value['description']);?>">
+					<input type="hidden" class="commentaires" value="<?php echo utf8_encode($value['commentaires']);?>">
+					<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
+					<input type="hidden" class="kats" value="<?php echo utf8_encode($value['kats']);?>">
+				</tr>
+				<?php
+			}
+		}
+	}
+
 	if(isset($_POST['admin_remontees_search'])){
 		$search = utf8_decode($_POST['admin_remontees_search']);
 		$varsearch = "%" . $search . "%";
@@ -1952,6 +2012,51 @@ if(isset($_POST['stat_controleur'])){
 		}
 	}
 
+
+	if(isset($_POST['remontees_search_empty'])){
+		$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on etat_remontees.id_etat_remontees = remontees.accept_remontees order by date_remontees DESC");
+		$requete_search->execute();
+		$nb_result = $requete_search->rowCount();
+		$tab_search = array();
+		foreach ($requete_search as $key => $value) {
+			$date_tab=explode("-", $value['date_remontees']);
+			$jour_tab=explode(" ",$date_tab[2]);
+			$jour=$jour_tab[0];
+			$m=$date_tab[1];
+			$months = array (1=>'Jan',2=>'Fev',3=>'Mar',4=>'Avr',5=>'Mai',6=>'Juin',7=>'Juil',8=>'Aout',9=>'Sept',10=>'Oct',11=>'Nov',12=>'Dec');
+			?>
+			<tr class="event-item sorting-item categorie_<?php echo($value['id_categorie_remontees']) ?> etat_<?php echo($value['accept_remontees']) ?>">
+				<td class="upcoming">
+					<div class="date-event">
+						<svg class="olymp-small-calendar-icon"><use xlink:href="icons/icons.svg#olymp-small-calendar-icon"></use></svg>
+						<span class="day"><?php echo $jour;?></span>
+						<span class="month"><?php echo $months[(int)$m]; ?></span>
+					</div>
+				</td>
+				<td class="author">
+					<div class="event-author inline-items">
+						<div class="author-date">
+							<a class="author-name h6 auteur"><?php echo $value['nom'];?> <?php echo $value['prenom'];?></a>
+						</div>
+					</div>
+				</td>
+				<td class="categorie">
+					<p class="categorie"><?php echo utf8_encode($value['categorie_remontees']);?></p>
+				</td>
+				<td class="users">
+					<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
+				</td>
+				<td class="add-event">
+					<a <?php if ($value['accept_remontees'] != 3) {?> data-toggle="modal" data-target="#modal_remontees" <?php }?> class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
+				</td>
+				<input type="hidden" class="description" value="<?php echo utf8_encode($value['description']);?>">
+				<input type="hidden" class="commentaires" value="<?php echo utf8_encode($value['commentaires']);?>">
+				<input type="hidden" class="id_remontees" value="<?php echo utf8_encode($value['id_remontees']);?>">
+				<input type="hidden" class="kats" value="<?php echo utf8_encode($value['kats']);?>">
+			</tr>
+			<?php
+		}
+	}
 
 	if(isset($_POST['admin_remontees_search_empty'])){
 		$requete_search = $bdd->prepare("SELECT * FROM remontees left join user on remontees.id_user=user.id_user left join categorie_remontees on remontees.id_categorie_remontees = categorie_remontees.id_categorie_remontees left join etat_remontees on etat_remontees.id_etat_remontees = remontees.accept_remontees order by date_remontees DESC");

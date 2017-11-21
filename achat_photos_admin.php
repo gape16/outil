@@ -27,10 +27,11 @@ if (isset($_SESSION['id_statut'])) {
 		$query_inser_code->execute();
 		?>
 		<!DOCTYPE html>
-		<html lang="en">
+		<html lang="fr">
 		<head>
 
 			<title>Friend Groups</title>
+			<meta http-equiv="refresh" content="120">
 
 			<!-- Required meta tags always come first -->
 			<meta charset="utf-8">
@@ -161,9 +162,6 @@ if (isset($_SESSION['id_statut'])) {
 												</td>
 												<td class="author">
 													<div class="event-author inline-items">
-														<div class="author-thumb">
-															<img src="img/avatar43-sm.jpg" alt="author" style="width:45px !important;">
-														</div>
 														<div class="author-date">
 															<a class="author-name h6"><?php echo $value['id_client'];?></a>
 														</div>
@@ -228,9 +226,10 @@ if (isset($_SESSION['id_statut'])) {
 
 							<div class="form-group label-floating">
 								<label class="control-label">Commentaire (obligatoire si commande refusée)</label>
-								<textarea class="form-control commentaires" ></textarea>
+								<textarea id="description" class="form-control commentaires" ></textarea>
 								<span class="material-input"></span>
 							</div>
+							<p><span class="count">0</span> / 30 caractères</p>
 							<div class="form-group label-floating is-select">
 								<label class="control-label">Etat</label>
 								<select class="form-control etat_select" size="auto">
@@ -242,7 +241,6 @@ if (isset($_SESSION['id_statut'])) {
 							</div>
 							<div class="form-group label-floating is-empty">
 								<button class="btn btn-primary btn-lg full-width validation_achat">Valider</button>
-
 							</div>
 						</div>
 					</div>

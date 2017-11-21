@@ -2,6 +2,37 @@
 
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
+
+function time_elapsed_string($datetime, $full = false) {
+	$now = new DateTime;
+	$ago = new DateTime($datetime);
+	$diff = $now->diff($ago);
+
+	$diff->w = floor($diff->d / 7);
+	$diff->d -= $diff->w * 7;
+
+	$string = array(
+		'y' => 'an',
+		'm' => 'mois',
+		'w' => 'semaine',
+		'd' => 'jour',
+		'h' => 'heure',
+		'i' => 'minute',
+		's' => 'seconde',
+	);
+	foreach ($string as $k => &$v) {
+		if ($diff->$k) {
+			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+		} else {
+			unset($string[$k]);
+		}
+	}
+
+	if (!$full) $string = array_slice($string, 0, 1);
+	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
+}
+
+
 $id_graph=$_SESSION['id_graph'];
 
 if (isset($_SESSION['id_statut'])) {
@@ -25,6 +56,7 @@ if (isset($_SESSION['id_statut'])) {
 	<head>
 
 		<title>Découvre le code des autres</title>
+		<meta http-equiv="refresh" content="120">
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -63,6 +95,19 @@ if (isset($_SESSION['id_statut'])) {
 		<style>
 		.align-center {
 			width: 100%;
+		}
+		#veille_code p.post-category.bg-blue-light {
+			width: 100%;
+			border-radius: inherit;
+			padding: 10px;
+			text-align: center;
+			font-size: 1rem;
+			float: left;
+			color: white;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.23);
+		}
+		#veille_code h4 {
+			font-weight: inherit;
 		}
 	</style>
 </head>
@@ -156,8 +201,8 @@ if (isset($_SESSION['id_statut'])) {
 									<div class="ui-block">
 										<article class="hentry blog-post">
 											<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
+												<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 												<div class="post-content">
-													<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 													<h4><?php echo utf8_encode($value['titre']);?></h4>
 													<p><?php echo utf8_encode($value['description']);?></p>
 
@@ -165,7 +210,7 @@ if (isset($_SESSION['id_statut'])) {
 														<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
 														<div class="post__date">
 															<time class="published">
-																<?php echo utf8_encode($value['date_code']);?>
+																<?php echo time_elapsed_string($value['date_code']);?>
 															</time>
 														</div>
 													</div>

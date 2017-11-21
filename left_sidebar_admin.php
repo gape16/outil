@@ -35,7 +35,6 @@
       <li>
         <a href="microdata.php">
           <svg class="olymp-happy-faces-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-          <span class="left-menu-title">Générateur de microdata </span>
         </a>
       </li>
       <li>
@@ -46,6 +45,11 @@
       <li>
         <a href="remontees_admin.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
+        </a>
+      </li>
+      <li>
+        <a href="tuto.php">
+          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-checked-calendar-icon"></use></svg>
         </a>
       </li>
       <li>
@@ -116,6 +120,12 @@
         <a href="remontees_admin.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-share-post-icon"></use></svg>
           <span class="left-menu-title">Les remontées</span>
+        </a>
+      </li>
+      <li>
+        <a href="tuto.php">
+          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-checked-calendar-icon"></use></svg>
+          <span class="left-menu-title">Les tutos</span>
         </a>
       </li>
       <li>

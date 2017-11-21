@@ -23,6 +23,7 @@ if (isset($_SESSION['id_statut'])) {
 	<head>
 
 		<title>Les remontées</title>
+		<meta http-equiv="refresh" content="120">
 
 		<!-- Required meta tags always come first -->
 		<meta charset="utf-8">
@@ -212,12 +213,17 @@ if (isset($_SESSION['id_statut'])) {
 		</div>
 	</div>
 	<!-- ... end Main Content Groups -->
+
 	<div class="container">
 		<div class="row">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="ui-block">
 					<div class="ui-block-title ui-block-title-small">
 						<h6 class="title">Historique des remontées</h6>
+						<div class="form-group label-floating is-empty">
+							<label class="control-label">Recherche</label>
+							<input class="form-control search" placeholder="" value="" type="text">
+						</div>
 					</div>
 					<table class="event-item-table">
 						<tbody>
@@ -324,103 +330,129 @@ if (isset($_SESSION['id_statut'])) {
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 		<script src="js/charte.js"></script>
-<!-- 			<?php 
-			if($_SESSION['id_statut']==1) {
+		<?php 
+		if($_SESSION['id_statut']==1) {
 						//page graphistes 
-				?><script src="js/notifications.js"></script><?php
-			}elseif  ($_SESSION['id_statut']==2){
+			?><script src="js/notifications.js"></script><?php
+		}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-				?><script src="js/notifications_redac.js"></script><?php
-			}
-			elseif ($_SESSION['id_statut']==3) {
+			?><script src="js/notifications_redac.js"></script><?php
+		}
+		elseif ($_SESSION['id_statut']==3) {
 						//page leader
-				?><script src="js/notifications_leader.js"></script><?php
-			}elseif ($_SESSION['id_statut']==4) {
+			?><script src="js/notifications_leader.js"></script><?php
+		}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-				?><script src="js/notifications_controleur.js"></script><?php
-			}elseif($_SESSION['id_statut']==5){
+			?><script src="js/notifications_controleur.js"></script><?php
+		}elseif($_SESSION['id_statut']==5){
 						//page admin
-				?><script src="js/notifications_admin.js"></script><?php
-			}
-			?> -->
-			<script>
-				$(function(){
+			?><script src="js/notifications_admin.js"></script><?php
+		}
+		?>
+		<script>
+			$(function(){
 
-					$('.open_modal').click(function(){
-						var titre = $(this).parent().parent().find('.titre').html();
-						var description = $(this).parent().parent().find('.description').val();
-						var commentaires = $(this).parent().parent().find('.commentaires').val();
-						var categorie = $(this).parent().parent().find('p.categorie').html();
-						var auteur = $(this).parent().parent().find('.auteur').html();
-						var day = $(this).parent().parent().find('.day').html();
-						var month = $(this).parent().parent().find('.month').html();
-						$('#modal_remontees .author').html('');
-						$('#modal_remontees .titre').html('');
-						$('#modal_remontees .description').html('');
-						$('#modal_remontees .categorie').html('');
-						$('#modal_remontees .day').html('');
-						$('#modal_remontees .month').html('');
-						$('#modal_remontees .author').append(auteur);
-						$('#modal_remontees .titre').append(titre);
-						$('#modal_remontees .description').append(description);
-						$('#modal_remontees .categorie').append(categorie);
-						$('#modal_remontees .day').append(day);
-						$('#modal_remontees .month').append(month);
-						$('#modal_remontees .commentaires').append(commentaires);
-					})
+				$('.open_modal').click(function(){
+					var titre = $(this).parent().parent().find('.titre').html();
+					var description = $(this).parent().parent().find('.description').val();
+					var commentaires = $(this).parent().parent().find('.commentaires').val();
+					var categorie = $(this).parent().parent().find('p.categorie').html();
+					var auteur = $(this).parent().parent().find('.auteur').html();
+					var day = $(this).parent().parent().find('.day').html();
+					var month = $(this).parent().parent().find('.month').html();
+					$('#modal_remontees .author').html('');
+					$('#modal_remontees .titre').html('');
+					$('#modal_remontees .description').html('');
+					$('#modal_remontees .categorie').html('');
+					$('#modal_remontees .day').html('');
+					$('#modal_remontees .month').html('');
+					$('#modal_remontees .author').append(auteur);
+					$('#modal_remontees .titre').append(titre);
+					$('#modal_remontees .description').append(description);
+					$('#modal_remontees .categorie').append(categorie);
+					$('#modal_remontees .day').append(day);
+					$('#modal_remontees .month').append(month);
+					$('#modal_remontees .commentaires').append(commentaires);
+				})
 
 
-					$('.valider_remontee').on('click', function(){
-						var categorie = $('select.categorie').val();
-						var titre = $('.titre').val();
-						var description = $('#description').val();
-						if (categorie != 0) {
-							$('.categorie').removeClass('empty');
-							if (titre.length >= 5) {
-								$('.titre').removeClass('empty');
-								if (description.length >= 30) {
-									$('#description').removeClass('empty');
-									$.ajax({
-										url: 'formulaire.php',
-										type: 'POST',
-										data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
-									})
-									.done(function(data) {
-										swal(
-											'Remontée effectuée',
-											'Votre remontée sera étudiée sous peu',
-											'success'
-											)
-										setTimeout(function(){
+				$('.valider_remontee').on('click', function(){
+					var categorie = $('select.categorie').val();
+					var titre = $('.titre').val();
+					var description = $('#description').val();
+					if (categorie != 0) {
+						$('.categorie').removeClass('empty');
+						if (titre.length >= 5) {
+							$('.titre').removeClass('empty');
+							if (description.length >= 30) {
+								$('#description').removeClass('empty');
+								$.ajax({
+									url: 'formulaire.php',
+									type: 'POST',
+									data: {categorie_remontees: categorie, titre_remontees: titre, description_remontees: description},
+								})
+								.done(function(data) {
+									swal(
+										'Remontée effectuée',
+										'Votre remontée sera étudiée sous peu',
+										'success'
+										).then(function(){
 											location.reload();
-										},1000);
+										})			
 									})
-								}else{
-									$('#description').addClass('empty');
-									$('#description').prev().html('30 caractères minimum requis');
-								}
 							}else{
-								$('.titre').addClass('empty');
-								$('.titre').prev().html('5 caractères minimum requis');
+								$('#description').addClass('empty');
+								$('#description').prev().html('30 caractères minimum requis');
 							}
 						}else{
-							$('.categorie').addClass('empty');
-							$('.categorie').prev().html('Une catégorie est requise');
+							$('.titre').addClass('empty');
+							$('.titre').prev().html('5 caractères minimum requis');
 						}
-					})
-
-					$('.reni').on('click', function(){
-						$('select.categorie').val(0);
-						$('.titre').val('');
-						$('#description').val('');
-					})
+					}else{
+						$('.categorie').addClass('empty');
+						$('.categorie').prev().html('Une catégorie est requise');
+					}
 				})
-			</script>
-		</body>
-		</html>
-		<?php
 
-	}else{
-		header('Location: login.php');
-	}
-	?>
+				$('.reni').on('click', function(){
+					$('select.categorie').val(0);
+					$('.titre').val('');
+					$('#description').val('');
+				})
+
+
+				$('.search').keyup(function(){
+					var search = $(this).val();
+					if(search.length >= 3){
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {remontees_search: search},
+						})
+						.done(function(data) {
+							$('table.event-item-table tbody').html('');
+							$(data).appendTo('table.event-item-table tbody');
+						})
+					}else{
+						$.ajax({
+							url: 'formulaire.php',
+							type: 'POST',
+							data: {remontees_search_empty: search},
+						})
+						.done(function(data) {
+							$('table.event-item-table tbody').html('');
+							$(data).appendTo('table.event-item-table tbody');
+						})
+					}
+				});
+
+			})
+		</script>
+	</body>
+	</html>
+	<?php
+
+}else{
+	header('Location: login.php');
+}
+?>

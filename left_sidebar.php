@@ -52,6 +52,11 @@
         </a>
       </li>
       <li>
+        <a href="tuto.php">
+          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-checked-calendar-icon"></use></svg>
+        </a>
+      </li>
+      <li>
         <a href="badges.php">
           <svg class="olymp-badge-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-badge-icon"></use></svg>
         </a>
@@ -140,6 +145,12 @@
         <a href="template.php">
           <svg class="olymp-calendar-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-status-icon"></use></svg>
           <span class="left-menu-title">Les templates</span>
+        </a>
+      </li>
+      <li>
+        <a href="tuto.php">
+          <svg class="olymp-newsfeed-icon left-menu-icon" data-toggle="tooltip" data-placement="right"   ><use xlink:href="icons/icons.svg#olymp-checked-calendar-icon"></use></svg>
+          <span class="left-menu-title">Les tutos</span>
         </a>
       </li>
       <li>

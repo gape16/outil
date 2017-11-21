@@ -22,6 +22,7 @@ if (isset($_SESSION['id_statut'])) {
 		<head>
 
 			<title>Les remontées</title>
+			<meta http-equiv="refresh" content="120">
 
 			<!-- Required meta tags always come first -->
 			<meta charset="utf-8">
@@ -58,9 +59,6 @@ if (isset($_SESSION['id_statut'])) {
 			<style>
 			.refuser_remontees {
 				background: tomato;
-			}
-			.etat_1 .open_modal, .etat_3 .open_modal {
-				cursor: initial;
 			}
 			.open_modal {
 				cursor: pointer;
@@ -158,7 +156,7 @@ if (isset($_SESSION['id_statut'])) {
 												<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
 											</td>
 											<td class="add-event">
-												<a <?php if ($value['accept_remontees'] != 3) {?> data-toggle="modal" data-target="#modal_remontees" <?php }?> class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
+												<a data-toggle="modal" data-target="#modal_remontees" class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>
 											</td>
 											<input type="hidden" class="description" value="<?php echo utf8_encode($value['description']);?>">
 											<input type="hidden" class="commentaires" value="<?php echo utf8_encode($value['commentaires']);?>">

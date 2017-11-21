@@ -2,73 +2,75 @@
 
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
-$id_graph=$_SESSION['id_graph'];
 
-$query_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code  WHERE accept_code = 1 order by date_code DESC");
-$query_code->execute();
+if (isset($_SESSION['id_statut'])) {
 
-$query_notif_code=$bdd->prepare("SELECT * FROM code where accept_code = 1 order by id_code DESC limit 1");
-$query_notif_code->execute();
-$result_notif_code=$query_notif_code->fetch();
-$dernier=$result_notif_code['id_code'];
-$query_inser_code=$bdd->prepare("UPDATE notifications set notif_A = ? where id_user = ?");
-$query_inser_code->bindParam(1, $dernier);
-$query_inser_code->bindParam(2, $id_graph);
-$query_inser_code->execute();
+	$id_graph=$_SESSION['id_graph'];
+	$query_code = $bdd->prepare("SELECT * FROM code inner join user on code.id_user = user.id_user inner join categorie_code on code.categorie_code = categorie_code.id_categorie_code  WHERE accept_code = 1 order by date_code DESC");
+	$query_code->execute();
 
-?>
+	$query_notif_code=$bdd->prepare("SELECT * FROM code where accept_code = 1 order by id_code DESC limit 1");
+	$query_notif_code->execute();
+	$result_notif_code=$query_notif_code->fetch();
+	$dernier=$result_notif_code['id_code'];
+	$query_inser_code=$bdd->prepare("UPDATE notifications set notif_A = ? where id_user = ?");
+	$query_inser_code->bindParam(1, $dernier);
+	$query_inser_code->bindParam(2, $id_graph);
+	$query_inser_code->execute();
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
+	?>
 
-	<title>Découvre le code des autres</title>
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
 
-	<!-- Required meta tags always come first -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title>Découvre le code des autres</title>
 
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
+		<!-- Required meta tags always come first -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
 
-	<!-- Theme Styles CSS -->
-	<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
-	<link rel="stylesheet" type="text/css" href="css/blocks.css">
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
+
+		<!-- Theme Styles CSS -->
+		<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
+		<link rel="stylesheet" type="text/css" href="css/blocks.css">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
 
 
-	<!-- Main Font -->
-	<script src="js/webfontloader.min.js"></script>
-	<script>
-		WebFont.load({
-			google: {
-				families: ['Roboto:300,400,500,700:latin']
-			}
-		});
-	</script>
+		<!-- Main Font -->
+		<script src="js/webfontloader.min.js"></script>
+		<script>
+			WebFont.load({
+				google: {
+					families: ['Roboto:300,400,500,700:latin']
+				}
+			});
+		</script>
 
-	<link rel="stylesheet" type="text/css" href="css/fonts.css">
+		<link rel="stylesheet" type="text/css" href="css/fonts.css">
 
-	<!-- Styles for plugins -->
-	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
-	<!-- Custom CSS -->
-	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/jquery.fancybox.min.css">
-	<style>
-	.align-center {
-		width: 100%;
-	}
-	input, textarea, select{
-		background: white !important;
-	}
-	textarea.json{
-		min-height: 400px;
-	}
-</style>
+		<!-- Styles for plugins -->
+		<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/jquery.fancybox.min.css">
+		<style>
+		.align-center {
+			width: 100%;
+		}
+		input, textarea, select{
+			background: white !important;
+		}
+		textarea.json{
+			min-height: 400px;
+		}
+	</style>
 </head>
 
 <body>
@@ -673,3 +675,6 @@ $query_inser_code->execute();
 						<script src="js/sur-microdata.js"></script>
 					</body>
 					</html>
+					<?php }else{
+						header('Location: login.php');
+					}
