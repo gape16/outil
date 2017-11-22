@@ -3,8 +3,37 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+function time_elapsed_string($datetime, $full = false) {
+	$now = new DateTime;
+	$ago = new DateTime($datetime);
+	$diff = $now->diff($ago);
+
+	$diff->w = floor($diff->d / 7);
+	$diff->d -= $diff->w * 7;
+
+	$string = array(
+		'y' => 'an',
+		'm' => 'mois',
+		'w' => 'semaine',
+		'd' => 'jour',
+		'h' => 'heure',
+		'i' => 'minute',
+		's' => 'seconde',
+	);
+	foreach ($string as $k => &$v) {
+		if ($diff->$k) {
+			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+		} else {
+			unset($string[$k]);
+		}
+	}
+
+	if (!$full) $string = array_slice($string, 0, 1);
+	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
+}
+
 if (isset($_SESSION['id_statut'])) {
-	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 2 || $_SESSION['id_statut'] == 3) {
+	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 2 || $_SESSION['id_statut'] == 3 || $_SESSION['id_statut'] == 4) {
 		$query_select_template = $bdd->prepare("SELECT * FROM template left join user on template.id_user=user.id_user left join categorie_template on template.categorie=categorie_template.id_categorie_template WHERE accept_template = 1 order by date_template DESC");
 		$query_select_template->execute();
 
@@ -109,9 +138,6 @@ if (isset($_SESSION['id_statut'])) {
 			div#shortcode_modal code u {
 				text-decoration: inherit;
 			}
-			textarea#tt {
-				display: none;
-			}
 			.modal-dialog {
 				margin: 200px auto 0;
 			}
@@ -120,6 +146,9 @@ if (isset($_SESSION['id_statut'])) {
 			}
 			.hide-input input{
 				display: none;
+			}
+			#tt{
+				opacity: 0;
 			}
 			img.trigger-input {
 				display: block;
@@ -242,7 +271,7 @@ if (isset($_SESSION['id_statut'])) {
 											<p class="h6 post__author-name fn"><?php echo utf8_encode($value['nom']);?></p>
 											<div class="post__date">
 												<time class="published">
-													<?php echo utf8_encode($value['date_template']);?>
+													<?php echo time_elapsed_string($value['date_template']);?>
 												</time>
 											</div>
 										</div>
@@ -283,7 +312,7 @@ if (isset($_SESSION['id_statut'])) {
 						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 							<div class="event-description">
 								<h6 class="event-description-title">Fichiers pratique</h6><br>
-								<a class="copy" onclick="CopyClipboard();">Copier le shortcode</a>
+								<a class="copy">Copier le shortcode</a>
 								<a href="uploads/template/betheme/" class="img_betheme" download>Fichier BeTheme</a>
 								<a href="uploads/template/slider/" class="slider-rev" download>Zip Slider</a>
 								<a class="fancy-img" href="uploads/template/previsualisation/" data-fancybox>
@@ -294,7 +323,7 @@ if (isset($_SESSION['id_statut'])) {
 					</div>
 				</article>
 			</div>
-			<textarea id="tt" style="opacity:0;"></textarea> 
+			<textarea id="tt"></textarea> 
 		</div>
 
 		<!-- Window-popup Event Private Public -->
@@ -338,7 +367,7 @@ if (isset($_SESSION['id_statut'])) {
 													<p class="need">Fichier BeTheme</p>
 												</a>
 												<form class="upload_betheme">
-													<input type="file" id="betheme" name="photos" required="required">
+													<input type="file" id="betheme" name="photos" required="required" accept=".txt">
 												</form>
 											</div>
 										</div>
@@ -349,7 +378,7 @@ if (isset($_SESSION['id_statut'])) {
 													<p class="need">Image du template</p>
 												</a>
 												<form class="upload_template">
-													<input type="file" id="previsualisation" name="photos" required="required">
+													<input type="file" id="previsualisation" name="photos" required="required" accept="image/*">
 												</form>
 											</div>
 										</div>
@@ -360,7 +389,7 @@ if (isset($_SESSION['id_statut'])) {
 													<p class="need">Fichier ZIP du slider</p>
 												</a>
 												<form class="upload_template">
-													<input type="file" id="slider" name="photos" required="required">
+													<input type="file" id="slider" name="zip" required="required" accept=".zip">
 												</form>
 											</div>
 										</div>
@@ -429,6 +458,8 @@ if (isset($_SESSION['id_statut'])) {
 					<script>
 						$(function(){
 
+
+
 							//BIND LES IMAGES AVEC LES INPUTS
 							$('a.lien-betheme').on('click', function(e){
 								e.preventDefault();
@@ -494,11 +525,18 @@ if (isset($_SESSION['id_statut'])) {
 
 								$('#template .title').html(titre);
 								$('#template .shortcode code').html(shortcode);
+								$('#tt').val(shortcode);
 								$('#template a.img_betheme').attr('href', 'uploads/template/betheme/' + betheme);
 								$('#template .fancy-img').attr('href', 'uploads/template/previsualisation/' + image);
 								$('#template .fancy-img img').attr('src', 'uploads/template/previsualisation/' + image);
 								$('#template .slider-rev').attr('href', 'uploads/template/slider/' + slider);
+
 							})
+
+							$("a.copy").on('click', function(){
+								$('#tt').select();
+								document.execCommand('copy');
+							});
 
 							$('.valider_template').on('click', function(e){
 								e.preventDefault();
@@ -509,7 +547,6 @@ if (isset($_SESSION['id_statut'])) {
 								var slider = $('#slider').val();
 								var previsualisation = $('#previsualisation').val();
 								var betheme = $('#betheme').val();
-								//var betheme = $("#betheme").prop("files");
 
 								var file_betheme = $("#betheme").prop("files");
 								var names_betheme = $.map(file_betheme, function (val) { return val.name; });
@@ -643,7 +680,7 @@ if (isset($_SESSION['id_statut'])) {
 				</body>
 				</html>
 				<?php }else{
-					header('Location: help_admin.php');
+					header('Location: template_admin.php');
 				}
 			}else{
 				header('Location: login.php');

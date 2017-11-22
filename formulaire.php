@@ -270,7 +270,7 @@ if(isset($_POST['popup_aide'])){
 		$tab[$key]['adresse_cms'] = $value['adresse_cms'];
 		$tab[$key]['titre'] = utf8_encode($value['titre']);
 		$tab[$key]['description'] = utf8_encode($value['description']);
-		$tab[$key]['date_aide'] = $value['date_aide'];
+		$tab[$key]['date_aide'] = time_elapsed_string($value['date_aide']);
 		$tab[$key]['capture'] = utf8_encode($value['capture']);
 		$tab[$key]['nom'] = utf8_encode($value['nom']);
 		$tab[$key]['prenom'] = utf8_encode($value['prenom']);
@@ -286,7 +286,7 @@ if(isset($_POST['popup_aide'])){
 	{
 		$tab[$key_com+1]['nom_commentaire'] = utf8_encode($value_com['prenom']." ".$value_com['nom']);
 		$tab[$key_com+1]['commentaire'] = utf8_encode($value_com['commentaire']);
-		$tab[$key_com+1]['date_commentaire'] = $value_com['date_commentaire'];
+		$tab[$key_com+1]['date_commentaire'] = time_elapsed_string($value_com['date_commentaire']);
 		$tab[$key_com+1]['id_commentaires_aide'] = $value_com['id_commentaires_aide'];
 		$tab[$key_com+1]['photo_avatar'] = $value_com['photo_avatar'];
 		$tab[$key_com+1]['like'] = $value_com['like_com'];
@@ -791,28 +791,24 @@ if(isset($_POST['search'])){
 				</td>
 				<td class="author">
 					<div class="event-author inline-items">
-						<div class="author-thumb">
-							<img src="<?php echo $value['photo_avatar'];?>" alt="author">
-						</div>
 						<div class="author-date">
 							<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-							<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
 						</div>
+
 					</div>
 				</td>
 				<td class="location">
 					<div class="place inline-items">
 						<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-						<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+						<a target="_blank"><?php echo $value['id_client'];?></a>
 					</div>
 				</td>
 				<td class="description">
-					<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+					<p class="description"><strong>Description</strong>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 				</td>
 				<td class="add-event">
 					<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
 				</td>
-
 			</tr>
 			<?php
 		}
@@ -840,28 +836,24 @@ if(isset($_POST['search_empty'])){
 			</td>
 			<td class="author">
 				<div class="event-author inline-items">
-					<div class="author-thumb">
-						<img src="<?php echo $value['photo_avatar'];?>" alt="author">
-					</div>
 					<div class="author-date">
 						<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
-						<time class="published"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></time>
 					</div>
+
 				</div>
 			</td>
 			<td class="location">
 				<div class="place inline-items">
 					<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-					<a target="_blank" style="color:inherit;"><?php echo $value['id_client'];?></a>
+					<a target="_blank"><?php echo $value['id_client'];?></a>
 				</div>
 			</td>
 			<td class="description">
-				<p class="description"><span style="font-weight: bold;">Description</span>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
+				<p class="description"><strong>Description</strong>: <?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 			</td>
 			<td class="add-event">
 				<a class="btn btn-breez btn-sm moproblem" data-toggle="modal" data-user="<?php echo utf8_encode($value['prenom'].' '.$value['nom']);?>" data-id="<?php echo utf8_encode($value['id_aide']);?>" data-target="#problemos" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_aide']);?></a>
 			</td>
-
 		</tr>
 		<?php
 	}
@@ -1131,8 +1123,8 @@ if(isset($_POST['search_code'])){
 				<div class="ui-block">
 					<article class="hentry blog-post">
 						<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
+							<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 							<div class="post-content">
-								<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 								<h4><?php echo utf8_encode($value['titre']);?></h4>
 								<p><?php echo utf8_encode($value['description']);?></p>
 
@@ -1140,7 +1132,7 @@ if(isset($_POST['search_code'])){
 									<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
 									<div class="post__date">
 										<time class="published">
-											<?php echo utf8_encode($value['date_code']);?>
+											<?php echo time_elapsed_string($value['date_code']);?>
 										</time>
 									</div>
 								</div>
@@ -1149,6 +1141,7 @@ if(isset($_POST['search_code'])){
 						</a>
 					</article>
 				</div>
+
 			</div>
 			<?php
 		}
@@ -1170,8 +1163,8 @@ if(isset($_POST['search_code_empty'])){
 			<div class="ui-block">
 				<article class="hentry blog-post">
 					<a class="opencode" target="_blank" href="code.php?id_code=<?php echo utf8_encode($value['id_code']);?>">
+						<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 						<div class="post-content">
-							<p class="post-category bg-blue-light"><?php echo utf8_encode($value['categorie_code']);?></p>
 							<h4><?php echo utf8_encode($value['titre']);?></h4>
 							<p><?php echo utf8_encode($value['description']);?></p>
 
@@ -1179,7 +1172,7 @@ if(isset($_POST['search_code_empty'])){
 								<p class="h6 post__author-name fn"><?php echo utf8_encode($value['prenom']);?> <?php echo utf8_encode($value['nom']);?></p>
 								<div class="post__date">
 									<time class="published">
-										<?php echo utf8_encode($value['date_code']);?>
+										<?php echo time_elapsed_string($value['date_code']);?>
 									</time>
 								</div>
 							</div>
@@ -1188,6 +1181,7 @@ if(isset($_POST['search_code_empty'])){
 					</a>
 				</article>
 			</div>
+
 		</div>
 		<?php
 	}
@@ -2503,7 +2497,7 @@ if(isset($_POST['stat_controleur'])){
 					<div class="post__author author vcard inline-items">
 						<img src="img/author-page.jpg" alt="author">
 						<div class="form-group with-icon-right ">
-							<textarea class="form-control" placeholder=""  ></textarea>
+							<textarea class="form-control" placeholder=""  class="text_news"></textarea>
 							<div class="add-options-message">
 								<a href="#" class="options-message">
 									<svg class="olymp-chat---messages-icon"><use xlink:href="icons/icons.svg#olymp-chat---messages-icon"></use></svg>
@@ -2520,118 +2514,231 @@ if(isset($_POST['stat_controleur'])){
 
 		if(isset($_POST['id_comment_news'])){
 			$id=$_POST['id_comment_news'];
+			$id_graph=$_SESSION['id_graph'];
 			$com_news=$bdd->prepare("SELECT * FROM commentaires_news inner join user on commentaires_news.id_user=user.id_user where id_news = ?");
 			$com_news->bindParam(1, $id);
 			$com_news->execute();
-			foreach ($com_news as $key => $value) {?>
-			<li>
-				<div class="post__author author vcard inline-items">
-					<img src="img/author-page.jpg" alt="author">
-
-					<div class="author-date">
-						<a class="h6 post__author-name fn" href="#"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></a>
-						<div class="post__date">
-							<time class="published" datetime="2004-07-24T18:18">
-								<?php echo time_elapsed_string($value['date_commentaire']);?>
-							</time>
-						</div>
-					</div>
-
-					<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-
-				</div>
-
-				<p><?php echo utf8_encode($value['commentaire']);?></p>
-
-				<a href="#" class="post-add-icon inline-items">
-					<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
-					<span><?php echo $value['like_com'];?></span>
-				</a>
-			</li>
-			<?php }
-		}
-
-		if (isset($_POST['description_date'])) {
-			$titre_event=$_POST['titre_event'];
-			$lieu_event=$_POST['lieu_event'];
-			$heure_event=$_POST['heure_event'];
-			$description_date=$_POST['description_date'];
-			$date_event=$_POST['date_event']." ".$heure_event.":00";
-			$id_graph=$_SESSION['id_graph'];
-			$date_creation=date("Y-m-d H:i:s");
-			$event=$bdd->prepare("INSERT INTO calendrier (id_user, date_event, date_creation, titre, description, lieu) VALUES (?,?,?,?,?,?)");
-			$event->bindParam(1, $id_graph);
-			$event->bindParam(2, $date_event);
-			$event->bindParam(3, $date_creation);
-			$event->bindParam(4, $titre_event);
-			$event->bindParam(5, $description_date);
-			$event->bindParam(6, $lieu_event);
-			$event->execute();
-			$list=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? group by CAST(date_event AS DATE)");
-			$list->bindParam(1, $id_graph);
-			$list->execute();
-			foreach ($list as $key => $value) {
-				$heure_temp=explode(" ", $value['date_event']);
-				$heure=substr($heure_temp[1],0,5);
-				$toto="%".$heure_temp[0]."%";
-				$date_temp=explode("-", $heure_temp[0]);
-				$year=$date_temp[0];
-				$mois=$date_temp[1];
-				$jour=$date_temp[2];
-				if($jour<10){
-					$jour = substr($jour, 1);
-				}
+			foreach ($com_news as $key => $value) {
+				$lecom=$value['id_commentaires_news'];
+				$com_news_test=$bdd->prepare("SELECT * FROM like_com_news where id_com = ? and id_graph = ?");
+				$com_news_test->bindParam(1, $lecom);
+				$com_news_test->bindParam(2, $id_graph);
+				$com_news_test->execute();
+				$nb_l=$com_news_test->rowCount();
 				?>
+				<li class="liste_com com_like_<?php echo $value['id_commentaires_news'];?>">
+					<div class="post__author author vcard inline-items">
+						<img src="<?php echo $value['photo_avatar'];?>" alt="author">
 
-				<div role="tablist" aria-multiselectable="true" class="day-event" date-month="<?php echo $mois;?>" date-day="<?php echo $jour;?>">
-					<div class="ui-block-title ui-block-title-small">
-						<h6 class="title"><?php echo utf8_encode($value['titre']);?></h6>
-					</div>
-					<?php
-					$list_bis=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? and date_event like ?");
-					$list_bis->bindParam(1, $id_graph);
-					$list_bis->bindParam(2, $toto);
-					$list_bis->execute();
-					foreach ($list_bis as $key => $value_bis) {
-						$heure_temp_bis=explode(" ", $value_bis['date_event']);
-						$heure_bis=substr($heure_temp_bis[1],0,5);
-						?>
-						<div class="card">
-							<div class="card-header" role="tab" id="headingOne-1">
-								<div class="event-time">
-									<span class="circle"></span>
-									<time datetime="2004-07-24T18:18"><?php echo $heure_bis;?></time>
-									<a href="#" class="more"><svg class="olymp-three-dots-icon"><use xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg></a>
-								</div>
-								<h5 class="mb-0">
-									<a <?php if($value_bis['description']!=""){?> data-toggle="collapse" data-parent="#accordion" href="#collapseOne-1" aria-expanded="true" aria-controls="collapseOne-1" <?php }?>>
-										<?php echo utf8_encode($value_bis['titre']);?><?php if($value_bis['description']!=""){?><svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg><?php }?>
-									</a>
-								</h5>
-							</div>
-
-							<div id="collapseOne-1" class="collapse" role="tabpanel" >
-								<div class="card-body">
-									<?php echo utf8_encode($value_bis['description']);?>
-								</div>
-								<div class="place inline-items">
-									<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
-									<span><?php echo utf8_encode($value_bis['lieu']);?></span>
-								</div>
+						<div class="author-date">
+							<a class="h6 post__author-name fn" href="#"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></a>
+							<div class="post__date">
+								<time class="published" datetime="2004-07-24T18:18">
+									<?php echo time_elapsed_string($value['date_commentaire']);?>
+								</time>
 							</div>
 						</div>
 
-						<?php }?>
-						<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
 					</div>
-					<?php }?>
-					<div role="tablist" aria-multiselectable="true" class="day-event vide">
+
+					<p><?php echo utf8_encode($value['commentaire']);?></p>
+
+					<a class="post-add-icon inline-items liker_com_news">
+						<svg class="olymp-heart-icon" <?php if($nb_l != "0"){echo "style='fill: #ff5e3a;color: #ff5e3a;'";}?>><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+						<span <?php if($nb_l != "0"){echo "style='color:#ff5e3a;'";}?>><?php echo $value['like_com'];?></span>
+					</a>
+				</li>
+				<?php }
+			}
+
+			if (isset($_POST['description_date'])) {
+				$titre_event=utf8_decode($_POST['titre_event']);
+				$lieu_event=utf8_decode($_POST['lieu_event']);
+				$heure_event=$_POST['heure_event'];
+				$description_date=utf8_decode($_POST['description_date']);
+				$date_event=$_POST['date_event']." ".$heure_event.":00";
+				$id_graph=$_SESSION['id_graph'];
+				$date_creation=date("Y-m-d H:i:s");
+				$event=$bdd->prepare("INSERT INTO calendrier (id_user, date_event, date_creation, titre, description, lieu) VALUES (?,?,?,?,?,?)");
+				$event->bindParam(1, $id_graph);
+				$event->bindParam(2, $date_event);
+				$event->bindParam(3, $date_creation);
+				$event->bindParam(4, $titre_event);
+				$event->bindParam(5, $description_date);
+				$event->bindParam(6, $lieu_event);
+				$event->execute();
+				$list=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? group by CAST(date_event AS DATE)");
+				$list->bindParam(1, $id_graph);
+				$list->execute();
+				$i=0;
+				foreach ($list as $key => $value) {
+					$heure_temp=explode(" ", $value['date_event']);
+					$heure=substr($heure_temp[1],0,5);
+					$toto="%".$heure_temp[0]."%";
+					$date_temp=explode("-", $heure_temp[0]);
+					$year=$date_temp[0];
+					$mois=$date_temp[1];
+					$jour=$date_temp[2];
+					if($jour<10){
+						$jour = substr($jour, 1);
+					}
+					?>
+
+					<div role="tablist" aria-multiselectable="true" class="day-event" date-month="<?php echo $mois;?>" date-day="<?php echo $jour;?>">
 						<div class="ui-block-title ui-block-title-small">
-							<h6 class="title">TODAY’S EVENTS</h6>
+							<h6 class="title"><?php echo utf8_encode($value['titre']);?></h6>
 						</div>
-						<div class="card">
-						</div>
+						<?php
+						$list_bis=$bdd->prepare("SELECT *  FROM calendrier where id_user = ? and date_event like ?");
+						$list_bis->bindParam(1, $id_graph);
+						$list_bis->bindParam(2, $toto);
+						$list_bis->execute();
+						foreach ($list_bis as $key => $value_bis) {
+							$i++;
+							$heure_temp_bis=explode(" ", $value_bis['date_event']);
+							$heure_bis=substr($heure_temp_bis[1],0,5);
+							?>
+							<div class="card delete_<?php echo $value_bis['id_calendrier'];?>">
+								<div class="card-header" role="tab" id="headingOne-1">
+									<div class="event-time">
+										<span class="circle"></span>
+										<time datetime="2004-07-24T18:18"><?php echo $heure_bis;?></time>
+										<div class="more" style="float: right;">
+											<svg class="olymp-three-dots-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-three-dots-icon"></use></svg>
+											<ul class="more-dropdown">
+												<li>
+													<a class="delete" href="#">Supprimer la carte</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<h5 class="mb-0">
+										<a <?php if($value_bis['description']!=""){?> data-toggle="collapse" data-parent="#accordion" href="#collapseOne-<?php echo $i;?>" aria-expanded="true" aria-controls="collapseOne-<?php echo $i;?>" <?php }?>>
+											<?php echo utf8_encode($value_bis['titre']);?><?php if($value_bis['description']!=""){?><svg class="olymp-dropdown-arrow-icon"><use xlink:href="icons/icons.svg#olymp-dropdown-arrow-icon"></use></svg><?php }?>
+										</a>
+									</h5>
+								</div>
 
-						<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
-					</div>
-					<?php }
+								<div id="collapseOne-<?php echo $i;?>" class="collapse" role="tabpanel" >
+									<div class="card-body">
+										<?php echo utf8_encode($value_bis['description']);?>
+									</div>
+									<div class="place inline-items">
+										<svg class="olymp-add-a-place-icon"><use xlink:href="icons/icons.svg#olymp-add-a-place-icon"></use></svg>
+										<span><?php echo utf8_encode($value_bis['lieu']);?></span>
+									</div>
+								</div>
+							</div>
+
+							<?php }?>
+							<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
+						</div>
+						<?php }?>
+						<div role="tablist" aria-multiselectable="true" class="day-event vide">
+							<div class="ui-block-title ui-block-title-small">
+								<h6 class="title">TODAY’S EVENTS</h6>
+							</div>
+							<div class="card">
+							</div>
+
+							<a href="#" class="check-all" data-toggle="modal" data-target="#event_cre">Créer un évenement</a>
+						</div>
+						<?php }
+
+						if (isset($_POST['suppression_event'])) {
+							$suppression_event=$_POST['suppression_event'];
+							$suppress=$bdd->prepare("DELETE FROM calendrier where id_calendrier = ?");
+							$suppress->bindParam(1, $suppression_event);
+							$suppress->execute();
+						}
+
+						if(isset($_POST['liker_news'])){
+							$liker_news=$_POST['liker_news'];
+							$id_graph=$_SESSION['id_graph'];
+							$date_news=date("Y-m-d H:i:s");
+							$lik_news=$bdd->prepare("SELECT id_like FROM like_news where id_graph = ? and id_news = ?");
+							$lik_news->bindParam(1, $id_graph);
+							$lik_news->bindParam(2, $liker_news);
+							$lik_news->execute();
+							$nb_like=$lik_news->rowCount();
+							if($nb_like==0){
+								$lik_news_ins=$bdd->prepare("INSERT INTO like_news (id_graph, id_news, date_like_news) VALUES (?,?,?)");
+								$lik_news_ins->bindParam(1, $id_graph);
+								$lik_news_ins->bindParam(2, $liker_news);
+								$lik_news_ins->bindParam(3, $date_news);
+								$lik_news_ins->execute();
+								echo "ok";
+							}
+						}
+
+						if(isset($_POST['liker_news_com'])){
+							$liker_news=$_POST['liker_news_com'];
+							$id_graph=$_SESSION['id_graph'];
+							$date_news=date("Y-m-d H:i:s");
+							$lik_news=$bdd->prepare("SELECT id_like FROM like_com_news where id_graph = ? and id_com = ?");
+							$lik_news->bindParam(1, $id_graph);
+							$lik_news->bindParam(2, $liker_news);
+							$lik_news->execute();
+							$lik_news_c=$bdd->prepare("SELECT like_com FROM commentaires_news where id_commentaires_news = ?");
+							$lik_news_c->bindParam(1, $liker_news);
+							$lik_news_c->execute();
+							$result_com=$lik_news_c->fetch();
+							$nb=$result_com['like_com']*1 + 1*1;
+							$nb_like=$lik_news->rowCount();
+							if($nb_like==0){
+								$lik_news_ins=$bdd->prepare("INSERT INTO like_com_news (id_graph, id_com, date_like_com) VALUES (?,?,?)");
+								$lik_news_ins->bindParam(1, $id_graph);
+								$lik_news_ins->bindParam(2, $liker_news);
+								$lik_news_ins->bindParam(3, $date_news);
+								$lik_news_ins->execute();
+								$lik_news_up=$bdd->prepare("UPDATE commentaires_news SET like_com = ? where id_commentaires_news=?");
+								$lik_news_up->bindParam(1, $nb);
+								$lik_news_up->bindParam(2, $liker_news);
+								$lik_news_up->execute();
+								echo "ok";
+							}
+						}
+
+						if(isset($_POST['text_ajout_news'])){
+							$texte=$_POST['text_ajout_news'];
+							$id=$_POST['id_text_news'];
+							$id_graph=$_SESSION['id_graph'];
+							$now_news=date("Y-m-d H:i:s");
+							$like=0;
+							$lik_com_news_ins=$bdd->prepare("INSERT INTO commentaires_news (id_news, commentaire, id_user, date_commentaire, like_com) VALUES (?,?,?,?,?)");
+							$lik_com_news_ins->bindParam(1, $id);
+							$lik_com_news_ins->bindParam(2, $texte);
+							$lik_com_news_ins->bindParam(3, $id_graph);
+							$lik_com_news_ins->bindParam(4, $now_news);
+							$lik_com_news_ins->bindParam(5, $like);
+							$lik_com_news_ins->execute();
+
+							$sel_com=$bdd->prepare("SELECT * FROM commentaires_news inner join user on commentaires_news.id_user = user.id_user where id_news = ? and commentaires_news.id_user = ? order by id_commentaires_news DESC limit 1");
+							$sel_com->bindParam(1, $id);
+							$sel_com->bindParam(2, $id_graph);
+							$sel_com->execute();
+							foreach ($sel_com as $key => $value) {
+								?>
+								<li class="liste_com com_like_<?php echo $value['id_commentaires_news'];?>">
+									<div class="post__author author vcard inline-items">
+										<img src="<?php echo $value['photo_avatar'];?>" alt="author">
+
+										<div class="author-date">
+											<a class="h6 post__author-name fn" href="#"><?php echo utf8_encode($value['prenom']." ".$value['nom']);?></a>
+											<div class="post__date">
+												<time class="published" datetime="2004-07-24T18:18">
+													<?php echo time_elapsed_string($value['date_commentaire']);?>
+												</time>
+											</div>
+										</div>
+									</div>
+
+									<p><?php echo utf8_encode($value['commentaire']);?></p>
+
+									<a class="post-add-icon inline-items liker_com_news">
+										<svg class="olymp-heart-icon"><use xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>
+										<span><?php echo $value['like_com'];?></span>
+									</a>
+								</li>
+								<?php }
+							}

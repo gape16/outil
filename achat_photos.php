@@ -32,6 +32,21 @@ function time_elapsed_string($datetime, $full = false) {
 	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
 }
 
+// truncate string at word
+function shapeSpace_truncate_string_at_word($string, $limit, $break = " ", $pad = "...") {  
+	
+	if (strlen($string) <= $limit) return $string;
+	
+	if (false !== ($max = strpos($string, $break, $limit))) {
+
+		if ($max < strlen($string) - 1) {
+			
+			$string = substr($string, 0, $max) . $pad;
+		}
+	}
+	return $string;
+}
+
 $id_graph=$_SESSION['id_graph'];
 
 if (isset($_SESSION['id_statut'])) {
@@ -235,76 +250,72 @@ if (isset($_SESSION['id_statut'])) {
 											</td>
 											<?php if(!empty($value['commentaire_controleur'])){?>
 											<td class="description">
-												<p class="description"><span style="font-weight: bold;">Commentaire contrôleur</span>: <?php echo utf8_encode($value['commentaire_controleur']);?></p>
-											</td>
-											<?php }else{?>
-											<td class="description"></td>
+												<p class="description"><span style="font-weight: bold;">Commentaire contrôleur</span>: 
+													<?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['commentaire_controleur']),50);?></p>
+												</td>
+												<?php }else{?>
+												<td class="description"></td>
+												<?php }?>
+												<td class="add-event">
+													<a <?php if($value['id_etat_achat']==3){echo "href='".$value['lien_we']."' target='_blank'";}?> class="btn btn-breez btn-sm" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat']);?></a>
+												</td>
+											</tr>
 											<?php }?>
-											<td class="add-event">
-												<a <?php if($value['id_etat_achat']==3){echo "href='".$value['lien_we']."' target='_blank'";}?> class="btn btn-breez btn-sm" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat']);?></a>
-											</td>
-
-										</tr>
-										<?php }?>
-									</tbody>
-								</table>
-
-
-
-
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- ... end Window-popup Create Friends Group Add Friends -->
-
-
-				<!-- jQuery first, then Other JS. -->
-				<script src="js/jquery-3.2.0.min.js"></script>
-				<!-- Js effects for material design. + Tooltips -->
-				<script src="js/material.min.js"></script>
-				<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-				<script src="js/theme-plugins.js"></script>
-				<!-- Init functions -->
-				<script src="js/main.js"></script>
-				<script src="js/alterclass.js"></script>
-				<!-- Select / Sorting script -->
-				<script src="js/selectize.min.js"></script>
-				<script src="js/charte.js"></script>
-
-				<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+					<!-- ... end Window-popup Create Friends Group Add Friends -->
 
 
-				<script src="js/mediaelement-and-player.min.js"></script>
-				<script src="js/mediaelement-playlist-plugin.min.js"></script>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-				<?php 
-				if($_SESSION['id_statut']==1) {
+					<!-- jQuery first, then Other JS. -->
+					<script src="js/jquery-3.2.0.min.js"></script>
+					<!-- Js effects for material design. + Tooltips -->
+					<script src="js/material.min.js"></script>
+					<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+					<script src="js/theme-plugins.js"></script>
+					<!-- Init functions -->
+					<script src="js/main.js"></script>
+					<script src="js/alterclass.js"></script>
+					<!-- Select / Sorting script -->
+					<script src="js/selectize.min.js"></script>
+					<script src="js/charte.js"></script>
+
+					<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+
+
+					<script src="js/mediaelement-and-player.min.js"></script>
+					<script src="js/mediaelement-playlist-plugin.min.js"></script>
+					<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+					<?php 
+					if($_SESSION['id_statut']==1) {
 						//page graphistes 
-					?><script src="js/notifications.js"></script><?php
-				}elseif  ($_SESSION['id_statut']==2){
+						?><script src="js/notifications.js"></script><?php
+					}elseif  ($_SESSION['id_statut']==2){
 						//page  redacteurs
-					?><script src="js/notifications_redac.js"></script><?php
-				}
-				elseif ($_SESSION['id_statut']==3) {
+						?><script src="js/notifications_redac.js"></script><?php
+					}
+					elseif ($_SESSION['id_statut']==3) {
 						//page leader
-					?><script src="js/notifications_leader.js"></script><?php
-				}elseif ($_SESSION['id_statut']==4) {
+						?><script src="js/notifications_leader.js"></script><?php
+					}elseif ($_SESSION['id_statut']==4) {
 						//page controleur
-					?><script src="js/notifications_controleur.js"></script><?php
-				}elseif($_SESSION['id_statut']==5){
+						?><script src="js/notifications_controleur.js"></script><?php
+					}elseif($_SESSION['id_statut']==5){
 						//page admin
-					?><script src="js/notifications_admin.js"></script><?php
-				}
-				?>
+						?><script src="js/notifications_admin.js"></script><?php
+					}
+					?>
 
-			</body>
-			</html>
-			<?php }else{
-				header('Location: achat_photos_admin.php');
+				</body>
+				</html>
+				<?php }else{
+					header('Location: achat_photos_admin.php');
+				}
+			}else{
+				header('Location: login.php');
 			}
-		}else{
-			header('Location: login.php');
-		}
-		?>
+			?>

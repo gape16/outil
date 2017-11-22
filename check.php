@@ -198,6 +198,11 @@ if (isset($_SESSION['id_statut'])) {
 												<div class="ui-block">
 													<div class="ui-block-title">
 														<h3 class="title"><?php echo  $value['nom_categorie']; ?></h3>
+														<div class="legend">
+															<p class="legend"><span class="legend-level"></span>Important</p>
+															<p class="legend"><span class="legend-level"></span>Moyen</p>
+															<p class="legend"><span class="legend-level"></span>Faible</p>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -205,13 +210,13 @@ if (isset($_SESSION['id_statut'])) {
 												<div class="row">
 													<?php foreach ($content as $card){ ?>
 													<!-- point check -->
-													<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  $card['id_check']; ?>">
+													<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_check card_<?php echo  $card['id_check']; ?>">
 														<div class="flip-container">
 															<div class="ui-block box-diagonal front <?php if ($etat_test['id_etat'] == 2 || $etat_test['id_etat'] == 5) { if($card['commentaire_graph'] != ""){echo 'box-orange';}}else{ if(isset($card['commentaire_controleur'])){if($card['commentaire_controleur']!=''){echo 'box-orange';}}} ?>">
 																<div class="available-widget">
 																	<div>
 																		<div class="infos-check">
-																			<h4 class="title"><?php echo  $card['titre']; ?></h4>
+																			<h4 class="title"><span class="level"><?php echo $card['importance']; ?></span><?php echo  $card['titre']; ?></h4>
 																			<img alt="" class="illu" src="<?php echo  $card['picto']; ?>">
 																			<p class="desc"><?php echo $card['description'];?></p>
 																		</div>
@@ -287,7 +292,7 @@ if (isset($_SESSION['id_statut'])) {
 															<div class="row">
 																<?php foreach ($content_fin as $card){ ?>
 																<!-- point check -->
-																<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_<?php echo  $card['id_check']; ?>">
+																<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 card_check card_<?php echo  $card['id_check']; ?>">
 																	<div class="flip-container">
 																		<div class="ui-block box-diagonal front <?php if(isset($card['commentaire_controleur'])){if($card['commentaire_controleur']!=''){echo 'box-orange';}} ?>">
 																			<div class="available-widget">
@@ -728,6 +733,21 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	$('.card_check').each(function(){
+		var level = $(this).find('.level').html();
+		if (level == "high") {
+			$(this).find('.level').css('background-color', 'tomato');
+		}
+		if (level == "medium") {
+			$(this).find('.level').css('background-color', '#ffb547');
+		}
+		if (level == "low") {
+			$(this).find('.level').css('background-color', '#1ed760');
+		}
+		//console.log(level);
+	})
+
 });
 </script>
 </body>

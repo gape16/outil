@@ -70,6 +70,10 @@ if (isset($_SESSION['id_statut'])) {
 		textarea.json{
 			min-height: 400px;
 		}
+		button.btn.copy {
+			float: right;
+			background: #1ed760;
+		}
 	</style>
 </head>
 
@@ -616,6 +620,7 @@ if (isset($_SESSION['id_statut'])) {
 															<button class="btn btn-warning" id="reset">
 																Renitialiser
 															</button>
+															<button class="btn copy">Copier les microdatas</button>
 														</div>
 													</div>
 												</div>
@@ -652,6 +657,13 @@ if (isset($_SESSION['id_statut'])) {
 						<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
 
 						<script src="js/charte.js"></script>
+
+						<script>
+							$("button.copy").click(function(){
+								$("textarea.json.form-control").select();
+								document.execCommand('copy');
+							});
+						</script>
 						<?php 
 						if($_SESSION['id_statut']==1) {
 						//page graphistes 

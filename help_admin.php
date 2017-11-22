@@ -5,7 +5,7 @@ include('connexion_session.php');
 
 
 // truncate string at word
-function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad = "...") {  
+function shapeSpace_truncate_string_at_word($string, $limit, $break = " ", $pad = "...") {  
 	
 	if (strlen($string) <= $limit) return $string;
 	
@@ -242,12 +242,12 @@ if (isset($_SESSION['id_statut'])) {
 							<div class="row">
 								<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
 									<div class="post__author author vcard inline-items">
-										<img src="img/author-page.jpg" alt="author">
+										<img src="<?php echo $value['photo_avatar']?>" alt="author">
 
 										<div class="author-date">
 											<a class="h6 post__author-name fn user_popup" href="#">USER</a>
 											<div class="post__date date_popup">
-												<time class="published" datetime="2017-03-24T18:18">
+												<time class="published">
 													DATE
 												</time>
 											</div>

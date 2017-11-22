@@ -86,16 +86,15 @@ p.description {
 }
 .btn-fixed {
 	position: fixed;
-	right: 20px;
-	bottom: 20px;
-	height: 50px;
-	width: 50px;
+	right: 0;
+	bottom: 0;
+	padding: 0;
+	width: 200px;
 	background: #ff5e3a;
 	background: -webkit-linear-gradient(#ff5e3a, #ff5e3a);
 	background: linear-gradient(#ff5e3a, #ff5e3a);
-	border-radius: 50px;
+	border-radius: 5px 0 0;
 	box-shadow: 3px 3px #cccccc;
-	padding: 20px;
 	color: #ffffff;
 	display: inline-block;
 	font-size: 24px;
@@ -106,6 +105,45 @@ p.description {
 	margin: auto;
 	color: white;
 	cursor: pointer;
+	padding: 15px;
+	text-transform: uppercase;
+}
+span.level {
+	color: transparent;
+	font-size: 0.7rem;
+	background: black;
+	width: 20px;
+	height: 20px;
+	border-radius: 20px;
+	text-align: center;
+	margin-right: 5px;
+}
+span.legend-level {
+	font-size: 0.7rem;
+	background: black;
+	width: 20px;
+	height: 20px;
+	border-radius: 20px;
+	display: block;
+	margin-right: 5px;
+	float: left;
+}
+.legend {
+	width: 5vw;
+}
+p.legend:first-child span.legend-level{
+	background-color: tomato;
+}
+p.legend:nth-child(2) span.legend-level{
+	background-color: #ffb547;
+}
+p.legend:last-child span.legend-level {
+	background-color: #1ed760;
+}
+p.legend {
+	height: 20px;
+	line-height: 20px;
+	margin: 5px 0;
 }
 .lien_cms {
 	margin-bottom: 0 !important;

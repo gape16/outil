@@ -3,6 +3,24 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+// truncate string at word
+function shapeSpace_truncate_string_at_word($string, $limit, $break = " ", $pad = "...") {  
+	
+	if (strlen($string) <= $limit) return $string;
+	
+	if (false !== ($max = strpos($string, $break, $limit))) {
+
+		if ($max < strlen($string) - 1) {
+			
+			$string = substr($string, 0, $max) . $pad;
+			
+		}
+		
+	}
+	
+	return $string;
+	
+}
 
 if (isset($_SESSION['id_statut'])) {
 	if ($_SESSION['id_statut'] == 4 || $_SESSION['id_statut'] == 5) {
@@ -154,6 +172,9 @@ if (isset($_SESSION['id_statut'])) {
 											</td>
 											<td class="users">
 												<p class="titre"><?php echo utf8_encode($value['titre']);?></p>
+											</td>
+											<td class="users description">
+												<p class="description"><?php echo shapeSpace_truncate_string_at_word(utf8_encode($value['description']),50);?></p>
 											</td>
 											<td class="add-event">
 												<a data-toggle="modal" data-target="#modal_remontees" class="btn btn-breez btn-sm open_modal" style="background:<?php echo $value['couleur'];?>;color:white;"><?php echo utf8_encode($value['etat_remontees']);?></a>

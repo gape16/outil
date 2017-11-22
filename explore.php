@@ -272,8 +272,7 @@ if (isset($_SESSION['id_statut'])) {
 						//page admin
 			?><script src="js/notifications_admin.js"></script><?php
 		}
-		?>
-
+		?> 
 		<script>
 
 			$('.sorting-item').each(function(){
@@ -286,7 +285,6 @@ if (isset($_SESSION['id_statut'])) {
 					})
 				}
 			});
-
 			$('.search').keyup(function(){
 				var search = $(this).val();
 				$('.sorting-menu').css('display', 'none');

@@ -34,7 +34,7 @@ function time_elapsed_string($datetime, $full = false) {
 }
 
 // truncate string at word
-function shapeSpace_truncate_string_at_word($string, $limit, $break = ".", $pad = "...") {  
+function shapeSpace_truncate_string_at_word($string, $limit, $break = " ", $pad = "...") {  
 	
 	if (strlen($string) <= $limit) return $string;
 	
@@ -219,9 +219,6 @@ if (isset($_SESSION['id_statut'])) {
 										</td>
 										<td class="author">
 											<div class="event-author inline-items">
-												<div class="author-thumb">
-													<img src="<?php echo $value['photo_avatar'];?>" alt="author" style="width:45px !important;">
-												</div>
 												<div class="author-date">
 													<a class="author-name h6"><?php echo utf8_encode($value['titre']);?></a>
 												</div>

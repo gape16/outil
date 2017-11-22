@@ -3,8 +3,37 @@
 // Connexion à la base de donnée et insertion de session_start
 include('connexion_session.php');
 
+function time_elapsed_string($datetime, $full = false) {
+	$now = new DateTime;
+	$ago = new DateTime($datetime);
+	$diff = $now->diff($ago);
+
+	$diff->w = floor($diff->d / 7);
+	$diff->d -= $diff->w * 7;
+
+	$string = array(
+		'y' => 'an',
+		'm' => 'mois',
+		'w' => 'semaine',
+		'd' => 'jour',
+		'h' => 'heure',
+		'i' => 'minute',
+		's' => 'seconde',
+	);
+	foreach ($string as $k => &$v) {
+		if ($diff->$k) {
+			$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+		} else {
+			unset($string[$k]);
+		}
+	}
+
+	if (!$full) $string = array_slice($string, 0, 1);
+	return $string ? ' Il y a ' .implode(', ', $string) : 'maintenant';
+}
+
 if (isset($_SESSION['id_statut'])) {
-	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 5) {
+	if ($_SESSION['id_statut'] == 4 || $_SESSION['id_statut'] == 5) {
 		$query_select_template = $bdd->prepare("SELECT * FROM template left join user on template.id_user=user.id_user left join categorie_template on template.categorie=categorie_template.id_categorie_template WHERE accept_template = 0 order by date_template DESC");
 		$query_select_template->execute();
 		?>
@@ -113,6 +142,15 @@ if (isset($_SESSION['id_statut'])) {
 			.slider-rev {
 				background: #9a9fbf;
 			}
+			.ui-block-title.custom .title {
+				border-radius: 5px 5px 0 0;
+				padding: 20px 15px;
+				margin-bottom: 20px;
+				background: white;
+			}
+			.ui-block-title.custom {
+				padding: 15px;
+			}
 		</style>
 	</head>
 
@@ -175,6 +213,9 @@ if (isset($_SESSION['id_statut'])) {
 
 		<div class="container">
 			<div class="row">
+				<div class="ui-block-title custom">
+					<h6 class="title">Templates à modérer</h6>
+				</div>
 				<?php foreach ($query_select_template as $key => $value): ?>	
 					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 sorting-item <?php echo $value['categorie_template'];?>">
 						<div class="ui-block bloc_template">
@@ -188,7 +229,7 @@ if (isset($_SESSION['id_statut'])) {
 											<p class="h6 post__author-name fn"><?php echo utf8_encode($value['nom']);?></p>
 											<div class="post__date">
 												<time class="published">
-													<?php echo utf8_encode($value['date_template']);?>
+													<?php echo time_elapsed_string($value['date_template']);?>
 												</time>
 											</div>
 										</div>
