@@ -1,0 +1,19 @@
+git add .
+git commit -m "msg"
+git push origin master
+
+
+
+
+si je veux pull
+git add .
+git commit -m "msg"
+git pull origin master
+
+
+
+var nbAppleProduct = 30
+$('#jojol').each(function(){
+for(i = 0, i==
+});
+

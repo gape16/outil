@@ -16,7 +16,7 @@
 		<li>Le Responsive peut être envisagé après la conception initiale du site (même si ce n'est pas l'idéal)</li>
 	</ul>
 	<p>L'un des avantages indéniables depuis quelques temps est que Google met en avant les sites "adaptés au mobile" au sein de ses résultats de recherche :</p>
-	<img src="img/tuto/site_mobile_badge.png" class="img-typo mb">
+	<img src="../img/tuto/site_mobile_badge.png" class="img-typo mb">
 
 	<h5 class="title">Les inconvénients ne sont cependant pas nuls :</h5>
 	<ul>
@@ -31,7 +31,7 @@
 
 		Le site <a href="https://mediaqueri.es/">mediaqueri.es</a> est une excellente ressource pour découvrir d'autres sites web responsive à travers un annuaire.
 	</p>
-	<img src="img/tuto/multiscreen2.png" class="img-typo mb">
+	<img src="../img/tuto/multiscreen2.png" class="img-typo mb">
 
 	<h4 class="title">Responsive, Adaptatif ou Fluide ?</h4>
 	<p>En France, et selon Wikipedia, le Responsive Web Design est un synonyme de "site web adaptatif".
@@ -70,13 +70,7 @@
 	<p>Au final, le Responsive Web design, <a href="https://www.alsacreations.com/article/lire/1559-responsive-web-design-present-futur-adaptation-mobile.html">c'est pas si facile !</a></p>
 
 	<h4 class="title">Le récapitulatif en une image ? </h4>
-	<img src="img/tuto/recap_responsive.png" class="img-typo mb">
+	<img src="../img/tuto/recap_responsive.png" class="img-typo mb">
 
-	<div class="user-raiting-choice">
-		Ce topic vous a t-il <b> aidé ?</b>
-		<a href="#">
-			<img src="img/icon-chat27.png" alt="icon">
-		</a>
-		<span>93% of users found this helpful</span>
-	</div>
+	 
 </div>

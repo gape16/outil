@@ -5,6 +5,17 @@ $(function() {
 		return pattern.test(emailAddress);
 	};
 
+	function makeid() {
+		var text = "";
+		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+		for (var i = 0; i < 5; i++)
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		text += '-';
+
+		return text;
+	}
+
 //CONNEXION
 $(".connec_first").on('click', function(e) {
 	e.preventDefault();
@@ -21,7 +32,7 @@ $(".connec_first").on('click', function(e) {
 			$('.connexion_first .email').addClass('empty');
 		} else {
 			$.ajax({
-				url: 'formulaire.php',
+				url: '../formulaire.php',
 				type: 'POST',
 				data: {email_first: emailAddress, token_first:token_first}
 			})
@@ -67,7 +78,7 @@ $("body").on('click', '.validation_mdp', function(e){
 				$('.connexion_first .email').addClass('empty');
 			} else {
 				$.ajax({
-					url: 'formulaire.php',
+					url: '../formulaire.php',
 					type: 'POST',
 					data: {email_first_mdp: emailAddress, token_first:token_first, mdp2:mdp2 , mdp1:mdp1}
 				})
@@ -155,7 +166,7 @@ $('.submit').on('click', function() {
 	// console.log(poste);
 	var code = $('.code').val();
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {
 			codeInput: code,
@@ -183,6 +194,7 @@ $('a.forgot').on('click', function(){
 
 //GET PASSWORD
 $('.getpassword').on('click', function(){
+	$(".no").remove();
 	var emailforgot = $('input.forgotemail').val();
 	if (!isValidEmailAddress(emailforgot)) {
 		$('.forgotemail').addClass('empty');
@@ -190,12 +202,13 @@ $('.getpassword').on('click', function(){
 		console.log('mail valide');
 		$('.forgotemail').css('display', 'none');
 		$.ajax({
-			url: 'formulaire.php',
+			url: '../formulaire.php',
 			type: 'POST',
 			data: {
 				idForgot : emailforgot,
 			}
 		}).done(function(data) {
+			if(data != ""){
 			// console.log(data);
 			$(".changement").html('Entrer le token');
 			$('.token').css('display', 'block');
@@ -203,16 +216,20 @@ $('.getpassword').on('click', function(){
 			// console.log($('.token').val());
 			$('.getpassword').css('display', 'none');
 			$('.newpassword').css('display', 'block');
-		})
+		}else{
+			$('.forgotemail').css('display', 'block');
+			$('.forgotemail').after("<p class='no' style='color:red;'>L'email n'est pas enregistré !</p>");
+		}
+	})
 	}
-	// console.log(emailforgot);
 })
 
 //NEW PW
 $('.newpassword').on('click', function(){
 	data = $('.hidden').val();
 	var emailforgot = $('input.forgotemail').val();
-	if(data == $('.token').val()){
+	new_d=$('.token').val().replace(' ','');;
+	if(data == new_d){
 		// console.log('condition marche');
 		$('.token').remove();
 		$('<input type="text" placeholder="Ton nouveau mot de passe" class="password"> <input type="text" placeholder="Verifie ton nouveau mot de passe" class="passwordverify">').insertBefore('.getpassword')
@@ -224,7 +241,7 @@ $('.newpassword').on('click', function(){
 			var passwordverify = $('.passwordverify').val();	
 			if(password == passwordverify){
 				$.ajax({
-					url: 'formulaire.php',
+					url: '../formulaire.php',
 					type: 'POST',
 					data: {
 						newPassword : password,
@@ -244,28 +261,37 @@ $('.btn-addclient').on('click', function(){
 	var numClient = $('.numclient').val();
 	var raisonSociale = $('.raisonsociale').val();
 	var adresseCms = $('.adressecms').val();
+	var soprod = $('.soprod').val();
 	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
+	var splitAdresseSoprod = 'http://soprod3.pjms.intra/';
 
 	if(numClient.length == 8 && $.isNumeric(numClient)){
 		$('.numclient').removeClass('empty');
 		if(adresseCms.indexOf(splitAdresseCms) != -1){
 			$('.adressecms').removeClass('empty');
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {numClient : numClient,
-					raisonSociale : raisonSociale,
-					adresseCms : adresseCms
-				},
-			})
-			.done(function(data) {
-				if(data == "existant"){
-					alert('Ce projet existe déjà');
-				}else{
-					$('div#create-friend-group-1').modal('hide');
-					$('.container.cards .row').append(data);
-				}
-			})
+			if (soprod.indexOf(splitAdresseSoprod) != -1) {
+				$('.soprod').removeClass('empty');
+				$.ajax({
+					url: '../formulaire.php',
+					type: 'POST',
+					data: {numClient : numClient,
+						raisonSociale : raisonSociale,
+						adresseCms : adresseCms,
+						soprod: soprod
+					},
+				})
+				.done(function(data) {
+					if(data == "existant"){
+						alert('Ce projet existe déjà');
+					}else{
+						$('div#create-friend-group-1').modal('hide');
+						$('.container.cards .row').append(data);
+					}
+				})
+			}else{
+				$('.soprod').addClass('empty');
+				$('.soprod').prev().html('L\'adresse n\'est pas valide');
+			}
 		}else{
 			$('.adressecms').addClass('empty');
 			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
@@ -278,9 +304,6 @@ $('.btn-addclient').on('click', function(){
 		$('.numclient').prev().html('Le numéro client n\'est pas valide');
 	}
 
-
-
-
 });
 
 	//BIND ENTER TO LOG
@@ -290,11 +313,11 @@ $('.btn-addclient').on('click', function(){
 		}
 	})
 	//BIND ENTER COMMENTAIRE
-	$("textarea.form-control.envoi_message_aide").keypress(function(e) {
-		if(e.which == 13) {
-			$(".aide_envoi").trigger( "click" );
-		}
-	}); 
+	// $("textarea.form-control.envoi_message_aide").keypress(function(e) {
+	// 	if(e.which == 13) {
+	// 		$(".aide_envoi").trigger( "click" );
+	// 	}
+	// }); 
 	$("textarea.form-control.envoi_message_anniversaire").keypress(function(e) {
 		if(e.which == 13) {
 			$(".anniversaire_envoi").trigger( "click" );
@@ -327,11 +350,24 @@ $(".reset").on('click', function(){
 	$(".help").find('.form-control').val('');
 })
 
+//RESET
+$(".reset_new_help").on('click', function(){
+	$("select.categorie").val(0);
+	$(".numclient").val('');
+	$(".titre_probleme").val('');
+	$(".adressecms").val('');
+	$("#description").val('');
+	$("#code").val('');
+	$("input#file-select").val('');
+	$('.form-group').removeClass('is-focused');
+	$('.form-group').addClass('is-empty');
+})
+
 //ACHAT PHOTOS
 $('.valider_achat').click(function(){
 	var numClient = $('.numclient').val();
 	var adresseGetty = $('.liengetty').val();
-	var splitAdresseGetty = 'http://www.gettyimages.fr/collaboration/boards/';
+	var splitAdresseGetty = 'https://www.gettyimages.fr/collaboration/boards/';
 	var descriptionProblem = $('textarea#description').val();
 
 	var categorie = $('.categorie').val();
@@ -348,7 +384,7 @@ $('.valider_achat').click(function(){
 				$('.liengetty').removeClass('empty');
 				$('.liengetty').prev().html('Lien du tableau getty');
 				$.ajax({
-					url: 'formulaire.php',
+					url: '../formulaire.php',
 					type: 'POST',
 					data: {categorie: categorie,
 						lien: lien,
@@ -379,82 +415,6 @@ $('.valider_achat').click(function(){
 })
 
 
-//HELP
-$('.valider_aide').click(function(e){
-	e.preventDefault();
-	var file = $("#file-select").prop("files");
-	console.log(file);
-	var names = $.map(file, function (val) { return val.name; });
-	$('#file-select').simpleUpload("upload_help.php", {
-
-		start: function(file){
-						//upload started
-					},
-					progress: function(progress){
-						//received progress
-					},
-					success: function(data){
-					},
-					error: function(error){
-						//upload failed
-					}
-
-				});
-	var numClient = $('.numclient').val();
-	var titre = $('.titre_probleme').val();
-	var adresseCms = $('.adressecms').val();
-	var splitAdresseCms = 'cms.site-privilege.pagesjaunes.fr/workflow/service/';
-	var descriptionProblem = $('textarea#description').val().replace(/\n/gi,'<br />');
-
-	if(numClient.length == 8 && $.isNumeric(numClient)){
-		$('.numclient').removeClass('empty');
-		$('.numclient').prev().html('Numéro client');
-		if(adresseCms.indexOf(splitAdresseCms) != -1){
-			$('.adressecms').removeClass('empty');
-			$('.adressecms').prev().html('Adresse CMS');
-			if (titre.length >= 5) {
-				$('.titre_probleme').removeClass('empty');
-				$('.titre_probleme').prev().html('Titre du problème');
-				if(descriptionProblem.length >= 140){
-					$('textarea#description').removeClass('empty');
-					$('textarea#description').prev().html('Description du problème');
-					$.ajax({
-						url: 'formulaire.php',
-						type: 'POST',
-						data: {aide: numClient,
-							adresse_aide: adresseCms,
-							descriptionProblem: descriptionProblem,
-							capture: names,
-							titre: titre
-						}
-					})
-					.done(function(data) {
-						console.log(data);
-						swal(
-							'Demande validée!',
-							'Votre demande va être prise en compte!',
-							'success'
-							).then(function () {
-								location.reload();
-							})
-						})
-				}else{
-					$('textarea#description').addClass('empty');
-					$('textarea#description').prev().html('Il faut 140 caractères minimum dans votre déscription');
-				}
-			}else{
-				$('.titre_probleme').addClass('empty');
-				$('.titre_probleme').prev().html('5 caractères requis minimum');
-			}
-		}else{
-			$('.adressecms').addClass('empty');
-			$('.adressecms').prev().html('L\'adresse n\'est pas valide');
-		}
-	}else{
-		$('.numclient').addClass('empty');
-		$('.numclient').prev().html('Le numéro client n\'est pas valide');
-	}
-})
 
 //VALIDER ACHAT
 $(".valider_achat_admin").on('click', function(){	
@@ -475,17 +435,15 @@ $(".validation_achat").on('click', function(e){
 	commentaires=$(".commentaires").val();
 	etat_select=$(".etat_select").val();
 	id_achat=$(".id_achat").val();		
-	if(lien_we.length != 0){
-		$('.lien_we').removeClass('empty');
-		$('.lien_we').prev().html('Lien weTransfer');
 
-		if (etat_select == 0) {
-			$('.etat_select').addClass('empty');
-			$('.etat_select').prev().html('Un état est requis');
-		}else{
-			$('.etat_select').removeClass('empty');
-			$('.etat_select').prev().html('Etat');
-		}
+
+	if (etat_select == 0) {
+		$('.etat_select').addClass('empty');
+		$('.etat_select').prev().html('Un état est requis');
+	}else{
+		$('.etat_select').removeClass('empty');
+		$('.etat_select').prev().html('Etat');
+	}
 
 		//SI REFUSE
 		if (etat_select == 2) {
@@ -493,7 +451,7 @@ $(".validation_achat").on('click', function(e){
 				$('.commentaires').removeClass('empty');
 				$('.commentaires').prev().html('Commentaire (obligatoire si commande refusée)');
 				$.ajax({
-					url: 'formulaire.php',
+					url: '../formulaire.php',
 					type: 'POST',
 					data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
 				})
@@ -515,31 +473,32 @@ $(".validation_achat").on('click', function(e){
 		if (etat_select == 3) {
 			$('.commentaires').removeClass('empty');
 			$('.commentaires').prev().html('Commentaire (obligatoire si commande refusée)');
-			$.ajax({
-				url: 'formulaire.php',
-				type: 'POST',
-				data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
-			})
-			.done(function(data) {
-				swal(
-					'Validation transmise!',
-					'Le graphiste va reçevoir votre validation!',
-					'success'
-					).then(function () {
-						location.reload();
-					})
+			if(lien_we.length != 0){
+				$('.lien_we').removeClass('empty');
+				$('.lien_we').prev().html('Lien weTransfer');
+				$.ajax({
+					url: '../formulaire.php',
+					type: 'POST',
+					data: {achat_client: id_client, lien_wetrans: lien_we, commentaire_achat:commentaires, etat_achat: etat_select, achat : id_achat}
 				})
+				.done(function(data) {
+					swal(
+						'Validation transmise!',
+						'Le graphiste va reçevoir votre validation!',
+						'success'
+						).then(function () {
+							location.reload();
+						})
+					})
+			}else{
+				$('.lien_we').addClass('empty');
+				$('.lien_we').prev().html('Le lien n\'est pas valide');
+			}
 		}else{
 			$('.commentaires').addClass('empty');
 			$('.commentaires').prev().html('30 caractères minimum requis');
-		}
-	}else{
-		$('.lien_we').addClass('empty');
-		$('.lien_we').prev().html('Le lien n\'est pas valide');
-	}				
-
-
-})
+		}				
+	})
 
 //COUNT TEXTAREA
 var text_min = 0;
@@ -559,7 +518,7 @@ $("body").on('click', ".moproblem", function(e){
 	$("#problemos").addClass('dial_'+id_aide);
 	charger_commentaires();
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {popup_aide: id_aide}
 	})
@@ -569,11 +528,12 @@ $("body").on('click', ".moproblem", function(e){
 		// console.log(infos.length);
 		// console.log(data);
 		$(".user_popup").html(infos[0]['prenom']+" "+infos[0]['nom']);
+		$(".author").html(infos[0]['image_avatar']);
 		$(".date_popup").html(infos[0]['date_aide']);
 		$(".titreproblemos").html(infos[0]['titre']);
 		$(".descproblemos").html(infos[0]['description']);
 		$(".lien_cms").attr("href",infos[0]['adresse_cms']);
-		$(".imgg").html("<a class='fancy-img' href='uploads/help/"+infos[0]['capture']+"' data-fancybox><img src='uploads/help/"+infos[0]['capture']+"'></a>");
+		$(".imgg").html("<a class='fancy-img' href='../uploads/help/"+infos[0]['capture']+"' data-fancybox><img src='../uploads/help/"+infos[0]['capture']+"'></a>");
 		$(".etat").html(infos[0]['etat_aide']);
 		$(".etat").css("background",infos[0]['couleur']);
 		$(".etat").css("color","white");
@@ -582,7 +542,7 @@ $("body").on('click', ".moproblem", function(e){
 		for (var i = 1; i <= total; i++) {
 			liste+='<li id="'+infos[i]['id_commentaires_aide']+'">';
 			liste+='<div class="post__author author vcard inline-items">';
-			liste+='<a class="fancy-img" href="uploads/template/previsualisation/" data-fancybox>';
+			liste+='<a class="fancy-img" href="../uploads/template/previsualisation/" data-fancybox>';
 			liste+='<img src="'+infos[i]['photo_avatar']+'" alt="author">';
 			liste+='</a>';
 			liste+='<div class="author-date">';
@@ -595,7 +555,7 @@ $("body").on('click', ".moproblem", function(e){
 			liste+='</div>';
 			liste+='<p>'+infos[i]['commentaire']+'</p>';
 			liste+='<a class="post-add-icon inline-items com like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
-			liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
+			liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../icons/icons.svg#olymp-heart-icon"></use></svg>';
 			liste+='<span>'+infos[i]['like']+'</span>';
 			liste+='</a>';
 			liste+='</li>';
@@ -607,32 +567,16 @@ $("body").on('click', ".moproblem", function(e){
 })
 
 
-$(".aide_envoi").on('click', function(e){
-	e.preventDefault();
-	var mess = $(".envoi_message_aide").val();
-	var id_aide_com = $(".id_aide").val();
-	$.ajax({
-		url: 'formulaire.php',
-		type: 'POST',
-		data: {envoi_com_aide: mess, id_aide_com:id_aide_com}
-	})
-	.done(function(data) {
-		$(".envoi_message_aide").val('');
-		$(".envoi_message_aide").html('');
-		
-	})
-})
 
 $('a.logout').on('click', function(){
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {logOut: '1'},
 	})
 	.done(function() {
-		$(location).attr('href', 'login.php');
+		$(location).attr('href', '../login.php');
 	})
-	
 })
 
 
@@ -697,31 +641,7 @@ $('body').on('click', '.togglebutton .notifAccount', function(){
 
 
 
-$("body").on('click', "*[class*='like_commentaire_']", function(e){
-	var check="like_commentaire_";
-	var nb_like = $(this).find("span").html();
-	var cls = $(this).attr('class').split(' ');
-	for (var i = 0; i < cls.length; i++) {
-		if (cls[i].indexOf(check) > -1) {
-			var id_emet = cls[i].slice(check.length, cls[i].length);
-		}
-	}
-	$.ajax({
-		url: "formulaire.php",
-		type: 'POST',
-		context: this,
-		data: {likelecommentaire:id_emet, nb_like:nb_like}
-	})
-	.done(function(data) {
-		console.log(data);
-		if (data == "ok") {
-			$(this).css("fill", "#ff5e3a");
-			$(this).css("color", "#ff5e3a");
-			var valeur = $(this).find("span").html();
-			$(this).find("span").html(valeur * 1 + 1 *1);
-		}
-	})
-})
+
 
 $("body").on('click', "*[class*='like_veille_']", function(e){
 	var check="like_veille_";
@@ -733,7 +653,7 @@ $("body").on('click', "*[class*='like_veille_']", function(e){
 		}
 	}
 	$.ajax({
-		url: "formulaire.php",
+		url: "../formulaire.php",
 		type: 'POST',
 		context: this,
 		data: {likelaveille:id_emet, nb_like_veille:nb_like}
@@ -768,7 +688,7 @@ function charger_commentaires(){
 				id_commentair=0;
 			}
 			$.ajax({
-				url: 'formulaire.php',
+				url: '../formulaire.php',
 				type: 'POST',
 				data: {id_timer_aide: id_emet, id_timer_com:id_commentair},
 			})
@@ -790,7 +710,7 @@ function charger_commentaires(){
 					liste+='</div>';
 					liste+='<p>'+infos[i]['commentaire']+'</p>';
 					liste+='<a class="post-add-icon inline-items com like_commentaire_'+infos[i]['id_commentaires_aide']+'" '+infos[i]['like_test']+'>';
-					liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="icons/icons.svg#olymp-heart-icon"></use></svg>';
+					liste+='<svg class="olymp-heart-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../icons/icons.svg#olymp-heart-icon"></use></svg>';
 					liste+='<span>'+infos[i]['like']+'</span>';
 					liste+='</a>';
 					liste+='</li>';
@@ -814,7 +734,7 @@ $(".validation_aide_ok").on('click', function(e){
 		}
 	}
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {changement_etat_id_ok: id_emet}
 	})
@@ -839,7 +759,7 @@ $(".validation_aide_cours").on('click', function(e){
 		}
 	}
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {changement_etat_id_cours: id_emet}
 	})
@@ -864,7 +784,7 @@ $(".validation_aide_non").on('click', function(e){
 		}
 	}
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {changement_etat_id_non: id_emet}
 	})
@@ -885,7 +805,7 @@ var jour = $('.date-j').val();
 
 if (jour >= 20) {
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {mois_rappel: 'value'},
 	})
@@ -921,12 +841,11 @@ function charger_commentaires_anniversaire(){
 				id_commentair=0;
 			}
 			$.ajax({
-				url: 'formulaire.php',
+				url: '../formulaire.php',
 				type: 'POST',
 				data: {id_timer_anniversaire: id_emet, id_timer_com:id_commentair},
 			})
 			.done(function(data) {
-				console.log(data);
 				var liste = "";
 				var infos = JSON.parse(data);
 				for (var i = 0; i <= infos.length - 1; i++) {
@@ -967,7 +886,7 @@ $("body").on('click', ".participer", function(e){
 
 	charger_commentaires_anniversaire();
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {popup_anniversaire: id_anniversaire}
 	})
@@ -1001,7 +920,7 @@ $(".anniversaire_envoi").on('click', function(e){
 	var mess = $(".envoi_message_anniversaire").val();
 	var id_anniversaire_com = $(".id_anniversaire").val();
 	$.ajax({
-		url: 'formulaire.php',
+		url: '../formulaire.php',
 		type: 'POST',
 		data: {envoi_com_anniversaire: mess, id_anniversaire_com:id_anniversaire_com}
 	})
@@ -1011,20 +930,18 @@ $(".anniversaire_envoi").on('click', function(e){
 	})
 })
 
-$("input").on('keyup', function(){
+$("input, textarea").on('keyup', function(){
 	if($(this).html()!=""){
 		$(this).parent().addClass('is-focused');
 	}
 }) 
 
-$("input").on('blur', function(){
+$("input, textarea").on('blur', function(){
 	if($(this).html()!=""){
 		$(this).parent().addClass('is-focused');
 	}
 }) 
 
-$('input.form-control').on('change', function(){
+$('input.form-control, textarea').on('change', function(){
 	$(this).removeClass('empty');
 })
-
-

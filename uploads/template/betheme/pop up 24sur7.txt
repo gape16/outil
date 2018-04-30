@@ -1,0 +1,48 @@
+jQuery(function($){
+
+$("#Footer").after('<div class="urgences"><div class="urgences-icon"></div><a href="tel:0659250402"><span class="text">Intervention 24h/24</span><span class="number">06 59 25 04 02</span></a></div>');
+
+$('.urgences-icon').toggle(function(event){
+    event.preventDefault();
+    $('.urgences').animate({right: '-1px'}, 'slow');
+},function(event){  
+    event.preventDefault();    
+    $('.urgences').animate({right: '-300px'}, 'slow'); 
+});
+}) ;
+
+.urgences {
+display:block;
+width:400px;
+height:100px;
+position:fixed;
+bottom:200px;
+right:-300px;
+box-shadow:1px 4px 10px #ccc;
+background:#fff;
+border:1px solid #ccc;
+}
+.urgences-icon {
+width:100px;
+height:100px;
+background:url(/wp-content/uploads/sites/423/2016/01/ugences.png) no-repeat #fff;
+cursor:pointer;
+float:left;
+}
+.urgences .number, .urgences .text {
+height:30px;
+line-height:40px;
+width:300px;
+font-size:24pt;
+font-weight:bold;
+float:left;
+text-align:center;
+margin-top:10px;
+}
+.urgences a:hover {
+text-decoration:none;
+color:#1698bf;
+}
+.urgences .text {
+font-size:18pt;
+}

@@ -41,19 +41,13 @@
 			<p>Pour ce genre de menu, la chose à ne surtout pas oublier est l’<b>option «scrollable»</b> auquel il faut penser si jamais il y a trop d’onglet sur le menu au point de ne pas pouvoir tous les mettre sur la hauteur (cf mauvais exemple de menu)</p>
 
 
-			<img class="help-image" src="img/tuto/options-scrollable.png" alt="screen">
+			<img class="help-image" src="../img/tuto/options-scrollable.png" alt="screen">
 
 			<h2 class="title" >Menu overlay</h3>
 				<p>Pour bien paramétrer le menu, il suffit juste de vérifier si les liens sont bien <b>visibles</b> par rapport au fond et mettre une couleur sur le burger menu. Si jamais votre site comporte des grands background images, il faut penser à mettre un <b>fond moins transparent</b> sur le menu.</p>
 
-				<img class="help-image" src="img/tuto/menu-overlay.png" alt="screen">
-				<div class="user-raiting-choice">
-					Ce topic vous a t-il <b> aidé ?</b>
-					<a href="#">
-						<img src="img/icon-chat27.png" alt="icon">
-					</a>
-					<span>93% of users found this helpful</span>
-				</div>
+				<img class="help-image" src="../img/tuto/menu-overlay.png" alt="screen">
+	
 
 				<div class="socials-shared">
 					<a href="#" class="social-item bg-facebook">

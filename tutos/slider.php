@@ -20,34 +20,28 @@
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="main-header-content">
 				<h4 class="title">Collage</h4>
-				<img class="help-image img-margin" src="img/tuto/collage.jpg" alt="screen">
+				<img class="help-image img-margin" src="../img/tuto/collage.jpg" alt="screen">
 			</div>
 		</div>
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="main-header-content">
 				<h4 class="title">Etapes</h4>
-				<img class="help-image img-margin" src="img/tuto/etapes.png" alt="screen">
+				<img class="help-image img-margin" src="../img/tuto/etapes.png" alt="screen">
 			</div>
 		</div>
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="main-header-content">
 				<h4 class="title">CTA/Image de fond</h4>
-				<img class="help-image img-margin" src="img/tuto/cta-imagefond.jpg" alt="screen">
+				<img class="help-image img-margin" src="../img/tuto/cta-imagefond.jpg" alt="screen">
 			</div>
 		</div>
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<div class="main-header-content">
 				<h4 class="title">Formulaire</h4>
-				<img class="help-image img-margin" src="img/tuto/slider-form.jpg" alt="screen">
+				<img class="help-image img-margin" src="../img/tuto/slider-form.jpg" alt="screen">
 			</div>
 		</div>
 	</div>
 
-	<div class="user-raiting-choice">
-		Ce topic vous a t-il <b> aidé ?</b>
-		<a href="#">
-			<img src="img/icon-chat27.png" alt="icon">
-		</a>
-		<span>93% of users found this helpful</span>
-	</div>
+	 
 </div>

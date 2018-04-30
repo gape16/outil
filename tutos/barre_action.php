@@ -9,14 +9,8 @@
 	</ul>
 
 
-	<img class="help-image" src="img/tuto/actionbar1.jpg" alt="screen">
-	<img class="help-image" src="img/tuto/actionbar2.jpg" alt="screen">
+	<img class="help-image" src="../img/tuto/actionbar1.jpg" alt="screen">
+	<img class="help-image" src="../img/tuto/actionbar2.jpg" alt="screen">
 
-	<div class="user-raiting-choice">
-		Ce topic vous a t-il <b> aidé ?</b>
-		<a href="#">
-			<img src="img/icon-chat27.png" alt="icon">
-		</a>
-		<span>93% of users found this helpful</span>
-	</div>
+	 
 </div>

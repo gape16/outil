@@ -1,7 +1,7 @@
 <?php
 
 // Connexion à la base de donnée et insertion de session_start
-include('connexion_session.php');
+include('../connexion_session.php');
 
 
 function time_elapsed_string($datetime, $full = false) {
@@ -49,12 +49,12 @@ function shapeSpace_truncate_string_at_word($string, $limit, $break = " ", $pad 
 	return $string;
 }
 
-if (isset($_SESSION['id_statut'])) {
-	if ($_SESSION['id_statut'] == 1 || $_SESSION['id_statut'] == 2 || $_SESSION['id_statut'] == 3) {
+if (isset($_COOKIE['id_statut'])) {
+	if ($_COOKIE['id_statut'] == 1 || $_COOKIE['id_statut'] == 2 || $_COOKIE['id_statut'] == 3) {
 
 		$query_select_aide = $bdd->prepare("SELECT * FROM aide inner join user on aide.id_user=user.id_user inner join etat_aide on aide.id_etat_aide = etat_aide.id_etat_aide order by date_aide DESC");
 		$query_select_aide->execute();
-		$id_graph=$_SESSION['id_graph'];
+		$id_graph=$_COOKIE['id_graph'];
 		$query_notif_code=$bdd->prepare("SELECT * FROM aide order by id_aide DESC limit 1");
 		$query_notif_code->execute();
 		$result_notif_code=$query_notif_code->fetch();
@@ -66,29 +66,30 @@ if (isset($_SESSION['id_statut'])) {
 		?>
 
 		<!DOCTYPE html>
-		<html lang="en">
+		<html lang="fr">
 		<head>
 
 			<title>Demande d'aide</title>
-			<meta http-equiv="refresh" content="120">
 
 			<!-- Required meta tags always come first -->
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<meta http-equiv="x-ua-compatible" content="ie=edge">
 
+			<link rel="icon" type="image/png" href="img/favicon.png" />
+
 			<!-- Bootstrap CSS -->
-			<link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.css">
-			<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-			<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.css">
+			<link rel="stylesheet" type="text/css" href="../css/bootstrap-reboot.css">
+			<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+			<link rel="stylesheet" type="text/css" href="../css/bootstrap-grid.css">
 
 			<!-- Theme Styles CSS -->
-			<link rel="stylesheet" type="text/css" href="css/theme-styles.css">
-			<link rel="stylesheet" type="text/css" href="css/blocks.css">
+			<link rel="stylesheet" type="text/css" href="../css/theme-styles.css">
+			<link rel="stylesheet" type="text/css" href="../css/blocks.css">
 			<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.css">
 
 			<!-- Main Font -->
-			<script src="js/webfontloader.min.js"></script>
+			<script src="../js/webfontloader.min.js"></script>
 			<script>
 				WebFont.load({
 					google: {
@@ -97,75 +98,27 @@ if (isset($_SESSION['id_statut'])) {
 				});
 			</script>
 
-			<link rel="stylesheet" type="text/css" href="css/fonts.css">
+			<link rel="stylesheet" type="text/css" href="../css/fonts.css">
 
 			<!-- Styles for plugins -->
-			<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
+			<link rel="stylesheet" type="text/css" href="../css/jquery.mCustomScrollbar.min.css">
 			<!-- Custom CSS -->
-			<link rel="stylesheet" href="css/main.css">
-			<link rel="stylesheet" href="css/jquery.fancybox.min.css">
+			<link rel="stylesheet" href="../css/main.css">
+			<link rel="stylesheet" href="../css/jquery.fancybox.min.css">
 			<style>
-			.comments-list li:first-child > a::after {
-				content: "";
-				display: block;
-				width: 25px;
-				height: 25px;
-				background: url(img/check.svg);
-				background-repeat: no-repeat;
-				background-size: 25px 25px;
-				position: absolute;
-				bottom: 22px;
-				left: 75px;
-			}
-			.imgg img {
-				margin-bottom: 20px;
-				max-height: 10vh;
-			}
-			#askforhelp .modal-dialog {
-				max-width: 60vw;
-			}
-			#askforhelp .modal-dialog {
-				max-width: 60vw;
-				margin-top: 100px;
-			}
+			
 		</style>
 	</head>
 
 	<body>
 
+		<!-- NAV + HEADER -->
 		<?php 
-		if($_SESSION['id_statut']==1) {
-			//page graphistes 
-			include('left_sidebar.php');
-			include('header.php');
-		}elseif  ($_SESSION['id_statut']==2){
-			//page  redacteurs
-			include('left_sidebar_redac.php');
-			include('header_redac.php');
-		}
-		elseif ($_SESSION['id_statut']==3) {
-			//page leader
-			include('left_sidebar_leader.php');
-			include('header_leader.php');
-		}elseif ($_SESSION['id_statut']==4) {
-			//page controleur
-			include('left_sidebar_controleur.php');
-			include('header_controleur.php');
-		}elseif($_SESSION['id_statut']==5){
-			//page admin
-			include('left_sidebar_admin.php');
-			include('header_admin.php');
-		}
+		include('../includes/left_sidebar.php');
+		include('../includes/header.php');
+		include('../includes/responsive_header.php');
 		?>
-
-
-		<!-- Responsive Header -->
-
-		<?php include('responsive_header.php');?>
-
-		<!-- ... end Responsive Header -->
-
-
+		<!-- ... end NAV + HEADER -->
 
 		<div class="header-spacer header-spacer-small"></div>
 
@@ -194,6 +147,7 @@ if (isset($_SESSION['id_statut'])) {
 					<div class="ui-block">
 						<div class="ui-block-title">
 							<h6 class="title">Historique des demandes d'aide</h6> 
+							<a class="btn-fixed" data-toggle="modal" data-target="#askforhelp">Demander de l'aide</a>
 							<div class="form-group label-floating is-empty">
 								<label class="control-label">Recherche</label>
 								<input class="form-control search" placeholder="" value="" type="text">
@@ -285,7 +239,6 @@ if (isset($_SESSION['id_statut'])) {
 								</div>
 								<div class="hax imgg"></div>
 								<a class="btn btn-green btn-sm full-width etat">Demande d'aide traitée</a>
-
 							</div>
 						</div>
 					</div>
@@ -369,85 +322,55 @@ if (isset($_SESSION['id_statut'])) {
 
 
 
-			<div class="btn-fixed" data-toggle="modal" data-target="#askforhelp"><p>+</p></div>
+
 
 			<!-- jQuery first, then Other JS. -->
-			<script src="js/jquery-3.2.0.min.js"></script>
+			<script src="../js/jquery-3.2.0.min.js"></script>
 			<!-- Js effects for material design. + Tooltips -->
-			<script src="js/material.min.js"></script>
+			<script src="../js/material.min.js"></script>
 			<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
-			<script src="js/theme-plugins.js"></script>
+			<script src="../js/theme-plugins.js"></script>
 			<!-- Init functions -->
-			<script src="js/main.js"></script>
-			<script src="js/alterclass.js"></script>
+			<script src="../js/main.js"></script>
+			<script src="../js/alterclass.js"></script>
 			<!-- Select / Sorting script -->
-			<script src="js/selectize.min.js"></script>
+			<script src="../js/selectize.min.js"></script>
 
-			<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+			<link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css">
 
 
-			<script src="js/mediaelement-and-player.min.js"></script>
-			<script src="js/mediaelement-playlist-plugin.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
-			<script src="js/simpleUpload.min.js"></script>
-			<script src="js/charte.js"></script>
-			<script src="js/jquery.fancybox.min.js"></script>
+			<script src="../js/mediaelement-and-player.min.js"></script>
+			<script src="../js/mediaelement-playlist-plugin.min.js"></script>
+			<script src="../https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+			<script src="../js/simpleUpload.min.js"></script>
+			<script src="../js/pages/help.js"></script>
+			<script src="../js/charte.js"></script>
+			<script src="../js/jquery.fancybox.min.js"></script>
 			<?php 
-			if($_SESSION['id_statut']==1) {
+			if($_COOKIE['id_statut']==1) {
 						//page graphistes 
-				?><script src="js/notifications.js"></script><?php
-			}elseif  ($_SESSION['id_statut']==2){
+				?><script src="../js/notifications.js"></script><?php
+			}elseif  ($_COOKIE['id_statut']==2){
 						//page  redacteurs
-				?><script src="js/notifications_redac.js"></script><?php
+				?><script src="../js/notifications_redac.js"></script><?php
 			}
-			elseif ($_SESSION['id_statut']==3) {
+			elseif ($_COOKIE['id_statut']==3) {
 						//page leader
-				?><script src="js/notifications_leader.js"></script><?php
-			}elseif ($_SESSION['id_statut']==4) {
+				?><script src="../js/notifications_leader.js"></script><?php
+			}elseif ($_COOKIE['id_statut']==4) {
 						//page controleur
-				?><script src="js/notifications_controleur.js"></script><?php
-			}elseif($_SESSION['id_statut']==5){
+				?><script src="../js/notifications_controleur.js"></script><?php
+			}elseif($_COOKIE['id_statut']==5){
 						//page admin
-				?><script src="js/notifications_admin.js"></script><?php
+				?><script src="../js/notifications_admin.js"></script><?php
 			}
 			?> 
-			<script>
-				$('.search').keyup(function(){
-					var search = $(this).val();
-					if(search.length >= 3){
-						$.ajax({
-							url: 'formulaire.php',
-							type: 'POST',
-							data: {search: search},
-						})
-						.done(function(data) {
-							console.log(data);
-							$('table.event-item-table').html('');
-							$(data).appendTo('table.event-item-table');
-						})
-					}else{
-						$.ajax({
-							url: 'formulaire.php',
-							type: 'POST',
-							data: {search_empty: search},
-						})
-						.done(function(data) {
-							console.log(data);
-							$('table.event-item-table').html('');
-							$(data).appendTo('table.event-item-table');
-						})
-					}
-				});
-
-
-
-			</script>
 		</body>
 		</html>
 		<?php }else{
 			header('Location: help_admin.php');
 		}
 	}else{
-		header('Location: login.php');
+		header('Location: ../login.php');
 	}
 	?>

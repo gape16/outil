@@ -1,0 +1,149 @@
+jQuery(function($) {
+
+
+    /* ADDCLASS */
+
+    $('#Content .vc_row, #Footer .vc_row').not('.vc_inner, .no-onecol-1239').addClass('onecol-1239');
+    $('.col-txt1').addClass('p50-tb p5vw-lr p10vw-lr-1239');
+    $('.col-bg1').addClass('minh1 filter2');
+    $('.txt-style1').addClass('typo1 fs30 lh08 up c-white');
+
+    /* ADDCLASS - ANIMATION VISUEL COMPOSER */
+
+    $('h2, h3').not('.alt').addClass('wpb_animate_when_almost_visible wpb_fadeInDown fadeInDown');
+    $('[class*="my-sep"]').addClass('wpb_animate_when_almost_visible wpb_zoomIn zoomIn');
+    $('.vc_btn3').addClass('wpb_animate_when_almost_visible wpb_bounceInUp bounceInUp');
+
+    //$('.wpb_single_image').not('.no-anim').addClass('wpb_animate_when_almost_visible wpb_zoomIn zoomIn');
+    //$('[class*="accroche"]').addClass('wpb_animate_when_almost_visible wpb_bounceIn bounceIn');
+
+    /* ADDCLASS - ANIMATION HOVER.CSS */
+
+    //$('[class*="my-btn"] a').addClass('hvr-wobble-horizontal');
+    //$('.vc_btn3').not('.no-anim').addClass('hvr-wobble-vertical');
+    //$('input[type="submit"], input.gform_button_select_files').addClass('hvr-shrink');
+
+    /* HOVER.CSS */
+
+    $('.img-hvr-grow img').addClass('hvr-grow');
+    $('.img-hvr-shrink img').addClass('hvr-shrink');
+    $('.img-hvr-pulse img').addClass('hvr-pulse');
+    $('.img-hvr-pulse-grow img').addClass('hvr-pulse-grow');
+    $('.img-hvr-pulse-shrink img').addClass('hvr-pulse-shrink');
+    $('.img-hvr-push img').addClass('hvr-push');
+    $('.img-hvr-pop img').addClass('hvr-pop');
+    $('.img-hvr-bounce-in img').addClass('hvr-bounce-in');
+    $('.img-hvr-bounce-out img').addClass('hvr-bounce-out');
+    $('.img-hvr-rotate img').addClass('hvr-rotate');
+    $('.img-hvr-grow-rotate img').addClass('hvr-grow-rotate');
+    $('.img-hvr-float img').addClass('hvr-float');
+    $('.img-hvr-sink img').addClass('hvr-sink');
+    $('.img-hvr-bob img').addClass('hvr-bob');
+    $('.img-hvr-hang img').addClass('hvr-hang');
+    $('.img-hvr-skew img').addClass('hvr-skew');
+    $('.img-hvr-skew-forward img').addClass('hvr-skew-forward');
+    $('.img-hvr-skew-backward img').addClass('hvr-skew-backward');
+    $('.img-hvr-wobble-horizontal img').addClass('hvr-wobble-horizontal');
+    $('.img-hvr-wobble-vertical img').addClass('hvr-wobble-vertical');
+    $('.img-hvr-wobble-to-bottom-right img').addClass('hvr-wobble-to-bottom-right');
+    $('.img-hvr-wobble-to-top-right img').addClass('hvr-wobble-to-top-right');
+    $('.img-hvr-wobble-top img').addClass('hvr-wobble-top');
+    $('.img-hvr-wobble-bottom img').addClass('hvr-wobble-bottom');
+    $('.img-hvr-wobble-skew img').addClass('hvr-wobble-skew');
+    $('.img-hvr-buzz img').addClass('hvr-buzz');
+    $('.img-hvr-buzz-out img').addClass('hvr-buzz-out');
+    $('.img-hvr-forward img').addClass('hvr-forward');
+    $('.img-hvr-backward img').addClass('hvr-backward');
+
+    /* TOGGLE */
+
+    $('.btn-toggle img').click(function() {
+        $(this).parents('.wpb_column').find('.txt-toggle').slideToggle();
+        $(this).toggleClass('hover-btn-toggle');
+    });
+
+    /* ANIMATION ÉLÉMENTS ON SCROLL */
+
+    $(".element-scroll").addClass("dn-1239");
+    $(".element-scroll").css({
+        "transform": "translateY(0px)",
+        "position": "absolute",
+        "top": "-50px",
+        "left": "-300px",
+        "width": "500px"
+    });
+
+    $(window).scroll(function() {
+        var hScroll = $(this).scrollTop() / 2.5;
+        $(".element-scroll").css("transform", "translateY(" + hScroll + "px)");
+    });
+
+    /* SMOOTH SCROLL */
+
+    $('a[href*="#"]:not([href="#"])').click(function() {
+        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+            if (target.length) {
+                $('html, body').animate({
+                    scrollTop: target.offset().top - 60
+                }, 1000);
+                return false;
+            }
+        }
+    });
+
+    /* TS PRESQUE TOUT SLIDER - SLICK SLIDER */
+
+    var widthImage = $('.slick-carousel .slick-slider img').attr('width');
+    $('.slick-carousel-one-slide').css('max-width', widthImage + 'px');
+
+    /* ACTUALITÉS RÉCENTES */
+
+    $('h2.widgettitle').remove();
+
+    /* AVIS FORMULAIRE */
+
+    $('#reply-title').remove();
+
+    if ($('.pj-reviewslist').children().length === 0) {
+        $('.avis-formulaire').css({
+            'width': '100%',
+            'margin-left': 'auto',
+            'margin-right': 'auto'
+        });
+        $('.avis-tous').css('display', 'none');
+    }
+
+    /* MAPPY */
+
+    $('.vc_mappy-map').parent().addClass('click-mappy');
+    $('.wpb_wrapper').on('click', function() {
+        $('.wpb_wrapper .click-mappy').removeClass('click-mappy');
+    });
+    $('.vc_mappy-map').mouseleave(function() {
+        $('.vc_mappy-map').parent().addClass('click-mappy');
+    });
+
+    /* FACEBOOK */
+
+    $('#Footer .social .facebook a i').removeClass('icon-facebook').addClass('icon-facebook-squared');
+
+    /* IMG */
+
+    $('img').removeAttr('title');
+
+    /* MENTIONS LÉGALES */
+
+    $('.pj-reviews-form, .gform_wrapper').append('<p style="text-align:justify;font-size:1em;font-weight:bold;padding-top:35px;"><span style="color:#790000;">*</span> Mentions obligatoires</p><p style="text-align:justify;font-size:.9em;line-height:1.7em;margin-bottom:0;">« Conformément à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez de droits d\'accès, de modification et d\'opposition aux données qui vous concernent. Vous pouvez exercer ces droits à tout moment sous réserve de justifier de votre identité par courrier électronique à l\’adresse email revettp[at]orange.fr ou par voie postale à l\’adresse 80 rue du Général de Gaulle, Bâtiment 14, BP 70307, 80610 Saint-Ouen. »</p>');
+
+    /* FOOTER */
+
+    $('p:empty').remove();
+
+    /* LOGO */
+
+    $('#logo[title]').removeAttr('title');
+    $('#logo img').attr('alt', 'Logo REVET TP');
+
+});

@@ -5,8 +5,8 @@
 	Les icônes servent le même but psychologique que les pauses de paragraphe: elles divisent visuellement le contenu, le rendant moins intimidant. Une page bien formatée, avec du texte divisé en paragraphes facilement accessibles et accentués par des icônes, est facile à lire et suffisamment visuelle pour soutenir l’attention de l’utilisateur.	</p>
 
 	<h4 class="title">Exemples réussis</h4>
-	<img src="img/tuto/picto2.jpg">
-	<img src="img/tuto/picto3.png">
+	<img src="../img/tuto/picto2.jpg">
+	<img src="../img/tuto/picto3.png">
 
 
 	<h4 class="title">Cohérence graphique</h4>
@@ -27,19 +27,11 @@
 		</div>
 
 		<h4 class="title">Bons exemples : </h4>
-		<img src="img/tuto/picto5.png" class="mb">
-		<img src="img/tuto/picto6.png" class="mb">
+		<img src="../img/tuto/picto5.png" class="mb">
+		<img src="../img/tuto/picto6.png" class="mb">
 
 		<h4 class="title">Mauvais exemples : </h4>
-		<img src="img/tuto/picto7.png" class="mb">
-		<img src="img/tuto/picto8.png" class="mb">
+		<img src="../img/tuto/picto7.png" class="mb">
+		<img src="../img/tuto/picto8.png" class="mb">
 
-
-		<div class="user-raiting-choice">
-			Ce topic vous a t-il <b> aidé ?</b>
-			<a href="#">
-				<img src="img/icon-chat27.png" alt="icon">
-			</a>
-			<span>93% of users found this helpful</span>
-		</div>
 	</div>

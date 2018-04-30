@@ -18,18 +18,12 @@
 	</ul>
 
 	<h4 class="title">Bons exemples : </h4>
-	<img src="img/tuto/cta1.jpg" class="mb third">
-	<img src="img/tuto/cta2.jpg" class="mb third">
-	<img src="img/tuto/cta3.jpg" class="mb third">
-	<img src="img/tuto/cta4.jpg">
+	<img src="../img/tuto/cta1.jpg" class="mb third">
+	<img src="../img/tuto/cta2.jpg" class="mb third">
+	<img src="../img/tuto/cta3.jpg" class="mb third">
+	<img src="../img/tuto/cta4.jpg">
 
 
 
-	<div class="user-raiting-choice">
-		Ce topic vous a t-il <b> aidé ?</b>
-		<a href="#">
-			<img src="img/icon-chat27.png" alt="icon">
-		</a>
-		<span>93% of users found this helpful</span>
-	</div>
+	 
 </div>

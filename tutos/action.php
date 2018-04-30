@@ -15,7 +15,7 @@
 		totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
 		dicta sunt explicabo.
 	</p>
-	<img class="help-image" src="img/help1.jpg" alt="screen">
+	<img class="help-image" src="../img/help1.jpg" alt="screen">
 	<p>Labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud tation ullamco laboris nisi
 		ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
@@ -23,16 +23,6 @@
 		veritatis  quasi architecto.
 	</p>
 
-	<div class="user-raiting-choice">
-		Was this topic <b> helpful?</b>
-		<a href="#">
-			<img src="img/icon-chat27.png" alt="icon">
-		</a>
-		<a href="#">
-			<img src="img/icon-chat29.png" alt="icon">
-		</a>
-		<span>93% of users found this helpful</span>
-	</div>
 
 	<div class="socials-shared">
 		<a href="#" class="social-item bg-facebook">
